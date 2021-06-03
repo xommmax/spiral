@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "428199076323",
+    "project_id": "dairo-4593a",
+    "storage_bucket": "dairo-4593a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428199076323:android:5d9a0e49522438e139c0d6",
+        "android_client_info": {
+          "package_name": "com.dairo.dairo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428199076323-7vp37jv9f4b156k570bbjg94m2165v62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5RGgX_r98WKeyV1EezJ9LUPdBibaXcdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428199076323-7vp37jv9f4b156k570bbjg94m2165v62.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

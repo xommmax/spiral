@@ -1,4 +1,4 @@
-package com.example.dairo
+package com.dairo.dairo
 
 import io.flutter.embedding.android.FlutterActivity
 
