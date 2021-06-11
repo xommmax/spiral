@@ -9,12 +9,15 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/splash/splash_view.dart';
 
 class Routes {
   static const String splashView = '/';
+  static const String authView = '/auth-view';
   static const all = <String>{
     splashView,
+    authView,
   };
 }
 
@@ -23,6 +26,7 @@ class StackedRouter extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.splashView, page: SplashView),
+    RouteDef(Routes.authView, page: AuthView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -30,6 +34,12 @@ class StackedRouter extends RouterBase {
     SplashView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SplashView(),
+        settings: data,
+      );
+    },
+    AuthView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AuthView(),
         settings: data,
       );
     },
