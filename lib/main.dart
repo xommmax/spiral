@@ -1,3 +1,4 @@
+import 'package:country_codes/country_codes.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,6 +11,7 @@ import 'app/router.router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
+  await CountryCodes.init();
   runApp(
     DairoApp(),
   );

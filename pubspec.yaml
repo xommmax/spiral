@@ -48,6 +48,18 @@ dependencies:
 
   # firebase
   firebase_core:
+  firebase_auth:
+  cloud_firestore:
+
+  # json serializing
+  json_annotation:
+
+  # widget verification code
+  pin_code_fields:
+
+  # country codes tools
+  country_codes:
+  country_code_picker:
 
 dev_dependencies:
   flutter_test:
@@ -59,5 +71,6 @@ dev_dependencies:
   floor_generator:
   stacked_generator:
 flutter:
-
+  assets:
+    - lib/presentation/res/drawable/
   uses-material-design: true

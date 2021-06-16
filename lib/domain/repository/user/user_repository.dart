@@ -1,9 +1,12 @@
-
-import 'package:dairo/domain/model/user.dart';
+import 'package:dairo/domain/model/base/result.dart';
+import 'package:dairo/domain/model/user/user.dart';
 
 abstract class UserRepository {
+  Future<Result<User?>> getUser();
 
-  Stream<User?> getUser();
+  Stream<Result<User?>> getUserStream();
 
-  void refreshUser();
+  void updateUser(User user);
+
+  void deleteUser();
 }
