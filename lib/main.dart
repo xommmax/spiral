@@ -1,6 +1,5 @@
 import 'package:country_codes/country_codes.dart';
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -35,7 +34,7 @@ class _DairoAppState extends State<DairoApp> {
   Widget build(BuildContext context) {
     // Show a loader until FlutterFire is initialized
     if (!_initialized) {
-      return ProgressBar();
+      return SizedBox.shrink();
     }
     return MaterialApp(
       onGenerateRoute: StackedRouter().onGenerateRoute,

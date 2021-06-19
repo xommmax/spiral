@@ -8,7 +8,7 @@ class ButtonSignUp extends ViewModelWidget<AuthViewModel> {
   @override
   Widget build(BuildContext context, AuthViewModel viewModel) =>
       GestureDetector(
-        onTap: viewModel.onSignUpClicked,
+        onTap: viewModel.onPhoneSignUpClicked,
         behavior: HitTestBehavior.translucent,
         child: Container(
           height: 36,
