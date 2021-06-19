@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.3
+  cupertino_icons:
 
   # state management (MVVM)
   stacked:
@@ -29,13 +29,11 @@ dependencies:
 
   # local database
   floor:
+  sqflite:
 
   # http managers
   logger:
   http:
-
-  # storage
-  shared_preferences:
 
   # svg assets supporting
   flutter_svg:
@@ -60,6 +58,19 @@ dependencies:
   # country codes tools
   country_codes:
   country_code_picker:
+
+  # google auth
+  google_sign_in:
+
+  # facebook auth
+  flutter_facebook_auth:
+
+  # apple auth
+  sign_in_with_apple:
+  crypto:
+
+  # sign in buttons
+  flutter_signin_button:
 
 dev_dependencies:
   flutter_test:

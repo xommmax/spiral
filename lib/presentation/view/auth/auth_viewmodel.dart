@@ -2,76 +2,25 @@ import 'dart:async';
 
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
+import 'package:dairo/domain/model/user/social_auth_exception.dart';
+import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/auth/auth_viewdata.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart'
-    show
-        FirebaseAuth,
-        FirebaseAuthException,
-        PhoneAuthCredential,
-        PhoneAuthProvider;
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class AuthViewModel extends StreamViewModel<User?> {
   final UserRepository _userRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final FirebaseAuth _firebaseAuth = locator<FirebaseAuth>();
   final AuthViewData viewData = AuthViewData();
 
   @override
   void initialise() {
-    _listenUserChanges();
+    _userRepository.subscribeToFirebaseUserChanges();
     super.initialise();
-  }
-
-  Future<void> _sendVerificationCode(PhoneAuthCredential credential) =>
-      _firebaseAuth.signInWithCredential(credential).catchError((error) {
-        AppSnackBar.showSnackBarError(Strings.wrongVerificationCode);
-      });
-
-  Future<void> _verifyPhoneNumber(String number) =>
-      FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: number,
-        verificationCompleted: (PhoneAuthCredential credential) {
-          setBusy(false);
-          _firebaseAuth.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          setBusy(false);
-          AppSnackBar.showSnackBarError(
-              Strings.errorWhilePhoneNumberVerification);
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          setBusy(false);
-          viewData.verificationId = verificationId;
-          viewData.isCodeSent = true;
-          notifyListeners();
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          setBusy(false);
-          viewData.verificationId = verificationId;
-        },
-      );
-
-  StreamSubscription? _firebaseUserChangedSubscription;
-
-  _listenUserChanges() {
-    _firebaseUserChangedSubscription =
-        _firebaseAuth.userChanges().listen((user) {
-      if (user != null && !user.isAnonymous) {
-        User domainUser = User(
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          phoneNumber: user.phoneNumber,
-        );
-        _userRepository.updateUser(domainUser);
-      }
-    });
   }
 
   @override
@@ -91,9 +40,7 @@ class AuthViewModel extends StreamViewModel<User?> {
     super.onData(data);
   }
 
-  onCountryCodeChanged(String? countryCode) => viewData.phoneCode = countryCode;
-
-  void onSignUpClicked() async {
+  onPhoneSignUpClicked() async {
     if (viewData.phoneCode?.isEmpty ?? true) {
       AppSnackBar.showSnackBarError(Strings.unableToGetPhoneCountryCode);
       return;
@@ -108,24 +55,60 @@ class AuthViewModel extends StreamViewModel<User?> {
       return;
     }
     String fullNumber = viewData.phoneCode! + number;
-    setBusy(true);
-    await _verifyPhoneNumber(fullNumber);
+    await _onTryToRegisterCalled(
+            SocialAuthRequest(data: fullNumber, type: SocialAuthType.Phone))
+        .then(
+      (_) {
+        viewData.isCodeSent = true;
+        notifyListeners();
+      },
+    );
   }
 
-  void onCodeVerificationRetrieved(String code) {
-    if (viewData.verificationId != null) {
-      _sendVerificationCode(
-        PhoneAuthProvider.credential(
-          verificationId: viewData.verificationId!,
-          smsCode: code,
-        ),
-      );
+  onGoogleSignUpClicked() =>
+      _onTryToRegisterCalled(SocialAuthRequest(type: SocialAuthType.Google));
+
+  onFacebookSignUpClocked() =>
+      _onTryToRegisterCalled(SocialAuthRequest(type: SocialAuthType.Facebook));
+
+  onAppleSignUpClicked() =>
+      _onTryToRegisterCalled(SocialAuthRequest(type: SocialAuthType.Apple));
+
+  onCountryCodeChanged(String? countryCode) => viewData.phoneCode = countryCode;
+
+  onCodeVerificationRetrieved(String code) {
+    try {
+      _userRepository.onVerificationCodeProvided(code);
+    } catch (e) {
+      if (e is SocialAuthException) {
+        AppSnackBar.showSnackBarError(e.message);
+      } else {
+        AppSnackBar.showSnackBarError(Strings.somethingWentWrong);
+      }
     }
+  }
+
+  Future<void> _onTryToRegisterCalled(SocialAuthRequest request) async {
+    if (request.type == SocialAuthType.Phone) {
+      setBusy(true);
+    }
+    try {
+      await _userRepository.tryToRegister(
+        request,
+      );
+    } catch (e) {
+      if (e is SocialAuthException) {
+        AppSnackBar.showSnackBarError(e.message);
+      } else {
+        AppSnackBar.showSnackBarError(Strings.somethingWentWrong);
+      }
+    }
+    setBusy(false);
   }
 
   @override
   void dispose() {
-    _firebaseUserChangedSubscription?.cancel();
+    _userRepository.dispose();
     super.dispose();
   }
 }

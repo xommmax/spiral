@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dairo</string>
+    <string name="facebook_app_id">184149730187909</string>
+    <string name="fb_login_protocol_scheme">fb184149730187909</string>
+</resources> 

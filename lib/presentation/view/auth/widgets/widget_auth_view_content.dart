@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/auth/auth_viewmodel.dart';
 import 'package:dairo/presentation/view/auth/widgets/widget_phone_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:stacked/stacked.dart';
 
 class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
@@ -18,7 +22,11 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                     'lib/presentation/res/drawable/ic_auth_background.png'),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 71),
+                    padding: const EdgeInsets.only(
+                      left: 71,
+                      right: 71,
+                      bottom: 71,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -55,38 +63,21 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 36,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: AppColors.black,
-                          ),
-                          child: Center(
-                            child: Text(
-                              Strings.loginWithGoogle,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.white,
+                        Platform.isAndroid
+                            ? SignInButton(
+                                Buttons.Google,
+                                onPressed: viewModel.onGoogleSignUpClicked,
+                                text: Strings.loginWithGoogle,
+                              )
+                            : SignInButton(
+                                Buttons.Apple,
+                                onPressed: viewModel.onAppleSignUpClicked,
+                                text: Strings.loginWithApple,
                               ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 22.0),
-                          height: 36,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: AppColors.black,
-                          ),
-                          child: Center(
-                            child: Text(
-                              Strings.loginWithFacebook,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.white,
-                              ),
-                            ),
-                          ),
+                        SignInButton(
+                          Buttons.Facebook,
+                          onPressed: viewModel.onFacebookSignUpClocked,
+                          text: Strings.loginWithFacebook,
                         ),
                       ],
                     ),

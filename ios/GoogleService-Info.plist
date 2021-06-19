@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>428199076323-7tooprafgqdh9u3ipeiiaiqfo1dfs9et.apps.googleusercontent.com</string>
+	<string>428199076323-hr04c5u6lcfvhn0snhe08defcnbks7ob.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.428199076323-7tooprafgqdh9u3ipeiiaiqfo1dfs9et</string>
+	<string>com.googleusercontent.apps.428199076323-hr04c5u6lcfvhn0snhe08defcnbks7ob</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>428199076323-7mddvotp1pola58i4rodrrql01i0d56t.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyC5HLCrZ8oJBB256FyFckPXv6VGQReHHhU</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.dairo.dairo</string>
+	<string>com.dairo.team.id</string>
 	<key>PROJECT_ID</key>
 	<string>dairo-4593a</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:428199076323:ios:d0aeb80229147a7f39c0d6</string>
+	<string>1:428199076323:ios:024889712a03fcad39c0d6</string>
 </dict>
 </plist>

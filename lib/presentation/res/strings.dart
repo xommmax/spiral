@@ -5,6 +5,7 @@ class Strings {
   static const getStarted = 'Get started';
   static const loginWithGoogle = 'Login with Google';
   static const loginWithFacebook = 'Login with Facebook';
+  static const loginWithApple = 'Login with Apple';
   static const signup = 'Sign Up';
   static const phoneNumberIsEmpty = 'Phone number is empty';
   static const invalidPhoneNumber = 'Invalid phone number';
@@ -19,4 +20,15 @@ class Strings {
   static const unableToGetCurrentUser =
       'Unable to get current user, please contact us';
   static const somethingWentWrong = 'Something went wrong, please contact us';
+  static const googleAuthError =
+      'Google Authorization error, please contact us';
+  static const unableToFindGoogleUser =
+      'Unable to find user from Google, please contact us';
+  static const facebookAuthError =
+      'Facebook Authorization error, please contact us';
+  static const appleAuthError = 'Apple Authorization error, please contact us';
+  static const phoneNumberAuthError =
+      'Phone Number Authorization error, please contact us';
+  static const unableToGetCredentialsFromFacebook =
+      'Unable to get credentials from Facebook, please contact us';
 }

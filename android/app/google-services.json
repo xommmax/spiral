@@ -7,12 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:428199076323:android:5d9a0e49522438e139c0d6",
+        "mobilesdk_app_id": "1:428199076323:android:6ffd28d76abc956939c0d6",
         "android_client_info": {
-          "package_name": "com.dairo.dairo"
+          "package_name": "com.dairo.team.id"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "428199076323-7mddvotp1pola58i4rodrrql01i0d56t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dairo.team.id",
+            "certificate_hash": "15e6757b0983d6f42f2c9fcf3f2de302286ff728"
+          }
+        },
+        {
+          "client_id": "428199076323-hf6h2qjovnfaebucfu9f6kvgfook6vvh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dairo.team.id",
+            "certificate_hash": "fb7b8f5c75c60960091497f079089b1970829b8b"
+          }
+        },
         {
           "client_id": "428199076323-7vp37jv9f4b156k570bbjg94m2165v62.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +45,13 @@
             {
               "client_id": "428199076323-7vp37jv9f4b156k570bbjg94m2165v62.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "428199076323-7tooprafgqdh9u3ipeiiaiqfo1dfs9et.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dairo.dairo"
+              }
             }
           ]
         }
