@@ -25,7 +25,7 @@ class SplashViewModel extends FutureViewModel<SplashViewData> {
 
   Future<User?> _getUser() =>
       _userRepository.getUser().then((result) => result.getException != null
-          ? AppSnackBar.showSnackBarError(Strings.unableToGetCurrentUser)
+          ? AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser)
           : result.data);
 
   @override
@@ -39,7 +39,7 @@ class SplashViewModel extends FutureViewModel<SplashViewData> {
   @override
   void onError(error) {
     print(error);
-    AppSnackBar.showSnackBarError(Strings.somethingWentWrong);
+    AppSnackBar.showSnackBarError(Strings.errorSomethingWentWrong);
   }
 
   onResetUserClicked() async {
