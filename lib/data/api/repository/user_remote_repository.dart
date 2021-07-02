@@ -60,7 +60,7 @@ class UserRemoteRepository {
   onVerificationCodeProvided(String code) {
     try {
       if (codeVerificationId == null) {
-        throw SocialAuthException(message: Strings.verificationCodeIsInvalid);
+        throw SocialAuthException(message: Strings.errorVerificationCodeIsInvalid);
       }
       _signInWithCredentials(
         PhoneAuthProvider.credential(
@@ -71,14 +71,14 @@ class UserRemoteRepository {
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
-      throw SocialAuthException(message: Strings.verificationCodeIsInvalid);
+      throw SocialAuthException(message: Strings.errorVerificationCodeIsInvalid);
     }
   }
 
   _onGoogleAuthRequested() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) throw Exception(Strings.unableToFindGoogleUser);
+      if (googleUser == null) throw Exception(Strings.errorUnableToFindGoogleUser);
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -90,7 +90,7 @@ class UserRemoteRepository {
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
-      throw SocialAuthException(message: Strings.googleAuthError);
+      throw SocialAuthException(message: Strings.errorGoogleAuthError);
     }
   }
 
@@ -105,12 +105,12 @@ class UserRemoteRepository {
         await _signInWithCredentials(credential);
       } else {
         throw SocialAuthException(
-            message: Strings.unableToGetCredentialsFromFacebook);
+            message: Strings.errorUnableToGetCredentialsFromFacebook);
       }
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
-      throw SocialAuthException(message: Strings.facebookAuthError);
+      throw SocialAuthException(message: Strings.errorFacebookAuthError);
     }
   }
 
@@ -136,7 +136,7 @@ class UserRemoteRepository {
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
-      throw SocialAuthException(message: Strings.appleAuthError);
+      throw SocialAuthException(message: Strings.errorAppleAuthError);
     }
   }
 
@@ -148,7 +148,7 @@ class UserRemoteRepository {
           verificationFailed: (FirebaseAuthException e) =>
               throw SocialAuthException(
             message:
-                e.message != null ? e.message! : Strings.phoneNumberAuthError,
+                e.message != null ? e.message! : Strings.errorPhoneNumberAuthError,
           ),
           codeSent: (String verificationId, int? resendToken) =>
               codeVerificationId = verificationId,
@@ -156,7 +156,7 @@ class UserRemoteRepository {
               codeVerificationId = verificationId,
         )
       : throw SocialAuthException(
-          message: Strings.phoneNumberIsEmpty,
+          message: Strings.errorPhoneNumberIsEmpty,
         );
 
   _signInWithCredentials(AuthCredential credentials) =>

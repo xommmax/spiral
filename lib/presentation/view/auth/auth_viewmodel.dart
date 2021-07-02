@@ -26,7 +26,7 @@ class AuthViewModel extends StreamViewModel<User?> {
   @override
   Stream<User?> get stream => _userRepository.getUserStream().map(
         (event) => event.getException != null
-            ? AppSnackBar.showSnackBarError(Strings.unableToGetCurrentUser)
+            ? AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser)
             : event.data,
       );
 
@@ -42,16 +42,16 @@ class AuthViewModel extends StreamViewModel<User?> {
 
   onPhoneSignUpClicked() async {
     if (viewData.phoneCode?.isEmpty ?? true) {
-      AppSnackBar.showSnackBarError(Strings.unableToGetPhoneCountryCode);
+      AppSnackBar.showSnackBarError(Strings.errorUnableToGetPhoneCountryCode);
       return;
     }
     String number = viewData.phoneNumberController.text;
     if (number.isEmpty) {
-      AppSnackBar.showSnackBarError(Strings.phoneNumberIsEmpty);
+      AppSnackBar.showSnackBarError(Strings.errorPhoneNumberIsEmpty);
       return;
     }
     if (number.length > 14 || number.length < 8) {
-      AppSnackBar.showSnackBarError(Strings.invalidPhoneNumber);
+      AppSnackBar.showSnackBarError(Strings.errorInvalidPhoneNumber);
       return;
     }
     String fullNumber = viewData.phoneCode! + number;
@@ -83,7 +83,7 @@ class AuthViewModel extends StreamViewModel<User?> {
       if (e is SocialAuthException) {
         AppSnackBar.showSnackBarError(e.message);
       } else {
-        AppSnackBar.showSnackBarError(Strings.somethingWentWrong);
+        AppSnackBar.showSnackBarError(Strings.errorSomethingWentWrong);
       }
     }
   }
@@ -100,7 +100,7 @@ class AuthViewModel extends StreamViewModel<User?> {
       if (e is SocialAuthException) {
         AppSnackBar.showSnackBarError(e.message);
       } else {
-        AppSnackBar.showSnackBarError(Strings.somethingWentWrong);
+        AppSnackBar.showSnackBarError(Strings.errorSomethingWentWrong);
       }
     }
     setBusy(false);

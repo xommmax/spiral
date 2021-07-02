@@ -1,34 +1,47 @@
 class Strings {
+
+  /* General */
   static const dairo = 'Dairo';
-  static const welcomeToDairo = 'Welcome to Dairo';
   static const or = 'or';
+  static const clear = 'Clear';
+  static const verifyCode = 'Verify';
+
+  /* Auth */
+  static const welcomeToDairo = 'Welcome to Dairo';
   static const getStarted = 'Get started';
   static const loginWithGoogle = 'Login with Google';
   static const loginWithFacebook = 'Login with Facebook';
   static const loginWithApple = 'Login with Apple';
   static const signup = 'Sign Up';
-  static const phoneNumberIsEmpty = 'Phone number is empty';
-  static const invalidPhoneNumber = 'Invalid phone number';
-  static const clear = 'Clear';
-  static const verifyCode = 'Verify';
+
+  /* Errors */
+  static const errorSomethingWentWrong =
+      'Something went wrong, please contact us';
   static const errorWhilePhoneNumberVerification =
       'Unable to verify your phone number';
-  static const verificationCodeIsInvalid = 'Verification code is invalid';
-  static const wrongVerificationCode = 'Wrong verification code';
-  static const unableToGetPhoneCountryCode =
+  static const errorWrongVerificationCode = 'Wrong verification code';
+  static const errorInvalidPhoneNumber = 'Invalid phone number';
+  static const errorPhoneNumberIsEmpty = 'Phone number is empty';
+  static const errorVerificationCodeIsInvalid = 'Verification code is invalid';
+  static const errorUnableToGetPhoneCountryCode =
       'Unable to get phone country code, please select one';
-  static const unableToGetCurrentUser =
+  static const errorUnableToGetCurrentUser =
       'Unable to get current user, please contact us';
-  static const somethingWentWrong = 'Something went wrong, please contact us';
-  static const googleAuthError =
+  static const errorGoogleAuthError =
       'Google Authorization error, please contact us';
-  static const unableToFindGoogleUser =
+  static const errorUnableToFindGoogleUser =
       'Unable to find user from Google, please contact us';
-  static const facebookAuthError =
+  static const errorFacebookAuthError =
       'Facebook Authorization error, please contact us';
-  static const appleAuthError = 'Apple Authorization error, please contact us';
-  static const phoneNumberAuthError =
+  static const errorAppleAuthError =
+      'Apple Authorization error, please contact us';
+  static const errorPhoneNumberAuthError =
       'Phone Number Authorization error, please contact us';
-  static const unableToGetCredentialsFromFacebook =
+  static const errorUnableToGetCredentialsFromFacebook =
       'Unable to get credentials from Facebook, please contact us';
+
+  /* New publication */
+  static const newPublication = 'New publication';
+  static const whatsNew = 'What\'s new?';
+  /* Uncategorized */
 }
