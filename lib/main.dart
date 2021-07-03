@@ -55,7 +55,7 @@ class _DairoAppState extends State<DairoApp> {
   }
 
   ThemeData _getAppTheme() => ThemeData(
-        primaryColor: AppColors.white,
+        primaryColor: AppColors.primaryColor,
         backgroundColor: AppColors.baseBackgroundColor,
       );
 }
