@@ -35,7 +35,7 @@ class AuthViewModel extends StreamViewModel<User?> {
     if (data != null) {
       AppSnackBar.showSnackBarSuccess('User successfully retrieved');
       await Future.delayed(Duration(seconds: 1));
-      _navigationService.clearStackAndShow(Routes.splashView);
+      _navigationService.clearStackAndShow(Routes.mainView);
     }
     super.onData(data);
   }

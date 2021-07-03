@@ -1,5 +1,4 @@
 class Strings {
-
   /* General */
   static const dairo = 'Dairo';
   static const or = 'or';
@@ -43,5 +42,11 @@ class Strings {
   /* New publication */
   static const newPublication = 'New publication';
   static const whatsNew = 'What\'s new?';
+
+  /* Main */
+  static const home = 'Home';
+  static const explore = 'Explore';
+
   /* Uncategorized */
+
 }
