@@ -1,4 +1,3 @@
-import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/widget_attachments_panel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_images_list.dart';
@@ -40,10 +39,10 @@ class WidgetNewPublicationContent
                     ),
                   ),
                 ),
-              ),
+                WidgetAttachmentsPanel(),
+              ],
             ),
-            WidgetAttachmentsPanel(),
-          ],
+          ),
         ),
       );
 }
