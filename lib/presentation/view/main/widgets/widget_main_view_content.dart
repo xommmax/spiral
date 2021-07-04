@@ -1,5 +1,6 @@
+import 'package:dairo/domain/model/main/main_tab.dart';
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/view/explore/explore_view.dart';
 import 'package:dairo/presentation/view/home/home_view.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,10 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
   @override
   Widget build(BuildContext context, MainViewModel viewModel) => Scaffold(
         extendBody: true,
+        appBar: AppBar(
+          title: Text(mainTabs[viewModel.currentIndex].title),
+          backgroundColor: AppColors.primaryColor,
+        ),
         body: SafeArea(
           child: IndexedStack(
             index: viewModel.currentIndex,
@@ -19,28 +24,22 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
           bottom: false,
         ),
         bottomNavigationBar: BottomAppBar(
-          shape: CircularNotchedRectangle(),
-          elevation: 0,
-          color: AppColors.primaryColor,
-          child: BottomNavigationBar(
-            elevation: 0,
-            backgroundColor: AppColors.primaryColor.withAlpha(0),
-            currentIndex: viewModel.currentIndex,
-            onTap: viewModel.setIndex,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            unselectedItemColor: AppColors.gray,
-            selectedItemColor: AppColors.white,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: Strings.home,
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.explore), label: Strings.explore),
-            ],
-          ),
-        ),
+            notchMargin: 6,
+            shape: CircularNotchedRectangle(),
+            color: AppColors.primaryColor,
+            child: Container(
+                height: Dimens.bottomBarHeight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: mainTabs
+                      .map<Widget>((tab) => IconButton(
+                          icon: Icon(tab.icon),
+                          color: AppColors.white,
+                          iconSize: 30,
+                          onPressed: () => viewModel.setIndex(tab.index)))
+                      .toList()
+                        ..insert((mainTabs.length ~/ 2), SizedBox(width: 50)),
+                ))),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: viewModel.onFabPressed,

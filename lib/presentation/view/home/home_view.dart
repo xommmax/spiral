@@ -5,8 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'home_viewmodel.dart';
 
 class HomeView extends StandardBaseView<HomeViewModel> {
-  HomeView() : super(HomeViewModel());
-
   @override
   Widget getContent(BuildContext context) => WidgetHomeViewContent();
+
+  @override
+  getViewModel() => HomeViewModel();
 }

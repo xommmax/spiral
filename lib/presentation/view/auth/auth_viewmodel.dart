@@ -9,6 +9,7 @@ import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/auth/auth_viewdata.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
+import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -16,6 +17,7 @@ class AuthViewModel extends StreamViewModel<User?> {
   final UserRepository _userRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
   final AuthViewData viewData = AuthViewData();
+  final TextEditingController phoneNumberController = TextEditingController();
 
   @override
   void initialise() {
@@ -45,7 +47,7 @@ class AuthViewModel extends StreamViewModel<User?> {
       AppSnackBar.showSnackBarError(Strings.errorUnableToGetPhoneCountryCode);
       return;
     }
-    String number = viewData.phoneNumberController.text;
+    String number = phoneNumberController.text;
     if (number.isEmpty) {
       AppSnackBar.showSnackBarError(Strings.errorPhoneNumberIsEmpty);
       return;
@@ -109,6 +111,7 @@ class AuthViewModel extends StreamViewModel<User?> {
   @override
   void dispose() {
     _userRepository.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
 }
