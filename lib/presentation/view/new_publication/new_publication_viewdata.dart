@@ -1,3 +1,6 @@
+import 'package:dairo/domain/model/publication/publication.dart';
+import 'package:flutter/cupertino.dart';
+
 class NewPublicationViewData {
-  var imagesList = <String>[];
+  final Publication publication = Publication();
 }

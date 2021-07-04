@@ -75,6 +75,9 @@ dependencies:
   # picker:
   image_picker: ^0.8.1+2
 
+  # video player widget
+  video_player: ^2.1.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

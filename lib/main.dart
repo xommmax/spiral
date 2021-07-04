@@ -32,7 +32,6 @@ class _DairoAppState extends State<DairoApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Show a loader until FlutterFire is initialized
     if (!_initialized) {
       return SizedBox.shrink();
     }
@@ -40,7 +39,6 @@ class _DairoAppState extends State<DairoApp> {
       onGenerateRoute: StackedRouter().onGenerateRoute,
       theme: _getAppTheme(),
       navigatorKey: StackedService.navigatorKey,
-      debugShowCheckedModeBanner: false,
     );
   }
 

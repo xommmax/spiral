@@ -1,4 +1,5 @@
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/domain/model/publication/media.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
@@ -17,31 +18,83 @@ class NewPublicationViewModel extends BaseViewModel {
     //TODO: Implement data sending into Firestore
   }
 
-  onGallerySelected() => _openPicker(ImageSource.gallery);
+  onGallerySelected() =>
+      _openMediaFile(RetrieveType.image, ImageSource.gallery);
 
-  onCameraSelected() => _openPicker(ImageSource.camera);
+  onCameraSelected() => _openMediaFile(RetrieveType.image, ImageSource.camera);
 
-  onItemRemoveClicked(int position) {
-    viewData.imagesList.removeAt(position);
+  onVideoCameraSelected() =>
+      _openMediaFile(RetrieveType.video, ImageSource.camera);
+
+  onVideoGallerySelected() =>
+      _openMediaFile(RetrieveType.video, ImageSource.gallery);
+
+  onMediaItemRemoveClicked(int position) {
+    viewData.publication.mediaFiles.removeAt(position);
     notifyListeners();
   }
 
-  _openPicker(ImageSource source) async {
+  _openMediaFile(RetrieveType type, ImageSource source) async {
+    switch (type) {
+      case RetrieveType.image:
+        {
+          await _getImage(source);
+          break;
+        }
+      case RetrieveType.video:
+        {
+          await _getVideo(source);
+          break;
+        }
+    }
+    notifyListeners();
+  }
+
+  _getImage(ImageSource source) async {
     if (source == ImageSource.camera) {
       await _picker
           .getImage(
-            source: source,
-          )
-          .then((result) =>
-              viewData.imagesList += result != null ? [result.path] : []);
-    } else {
-      await _picker.getMultiImage().then(
-            (result) => viewData.imagesList +=
-                result?.map((file) => file.path).toList() ?? [],
+        source: source,
+      )
+          .then((result) {
+        if (result != null) {
+          viewData.publication.mediaFiles.add(
+            MediaFile(
+              path: result.path,
+              type: MediaType.image,
+            ),
           );
+        }
+      });
+    } else {
+      await _picker.getMultiImage().then((result) {
+        if (result != null) {
+          viewData.publication.mediaFiles += result
+              .map((file) => MediaFile(
+                    path: file.path,
+                    type: MediaType.image,
+                  ))
+              .toList();
+        }
+      });
     }
-    notifyListeners();
-    _navigationService.back();
+  }
+
+  _getVideo(ImageSource source) async {
+    await _picker
+        .getVideo(
+      source: source,
+    )
+        .then((result) {
+      if (result != null) {
+        viewData.publication.mediaFiles.add(
+          MediaFile(
+            path: result.path,
+            type: MediaType.video,
+          ),
+        );
+      }
+    });
   }
 
   @override
