@@ -5,32 +5,15 @@ import 'package:stacked/stacked.dart';
 
 abstract class StandardBaseView<T extends BaseViewModel>
     extends StatelessWidget {
-  final T viewModel;
-  final Color? backgroundColor;
-
-  StandardBaseView(this.viewModel, {this.backgroundColor});
+  StandardBaseView();
 
   Widget getContent(BuildContext context);
 
-  PreferredSizeWidget? getAppBar(BuildContext context) => null;
+  T getViewModel();
 
   @override
   Widget build(BuildContext context) => ViewModelBuilder.nonReactive(
-        builder: (context, viewModel, child) => _getTheme(context),
-        viewModelBuilder: () => viewModel,
+        builder: (context, viewModel, child) => getContent(context),
+        viewModelBuilder: getViewModel,
       );
-
-  Widget _getTheme(BuildContext context) => Theme(
-        data: Theme.of(context),
-        child: _getScaffold(context),
-      );
-
-  Widget _getScaffold(BuildContext context) => Scaffold(
-        appBar: getAppBar(context),
-        body: getContent(context),
-        backgroundColor: _getThemeColor(context),
-      );
-
-  Color _getThemeColor(BuildContext context) =>
-      backgroundColor ?? Theme.of(context).backgroundColor;
 }

@@ -15,7 +15,7 @@ class WidgetPhoneAuth extends ViewModelWidget<AuthViewModel> {
           !viewModel.viewData.isCodeSent
               ? WidgetPhoneNumberInputField(
                   onCountryCodeChanged: viewModel.onCountryCodeChanged,
-                  controller: viewModel.viewData.phoneNumberController,
+                  controller: viewModel.phoneNumberController,
                 )
               : WidgetInputVerificationCode(),
           !viewModel.isBusy

@@ -1,4 +1,5 @@
 import 'package:dairo/app/locator.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -8,7 +9,8 @@ import 'new_publication_viewdata.dart';
 class NewPublicationViewModel extends BaseViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final NewPublicationViewData viewData = NewPublicationViewData();
-
+  final TextEditingController publicationTextController =
+      TextEditingController();
   final _picker = ImagePicker();
 
   onDonePressed() {
@@ -40,5 +42,11 @@ class NewPublicationViewModel extends BaseViewModel {
     }
     notifyListeners();
     _navigationService.back();
+  }
+
+  @override
+  void dispose() {
+    publicationTextController.dispose();
+    super.dispose();
   }
 }

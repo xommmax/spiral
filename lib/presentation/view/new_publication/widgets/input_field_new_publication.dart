@@ -10,7 +10,7 @@ class InputFieldNewPublication
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
       TextField(
-        controller: viewModel.viewData.publicationTextController,
+        controller: viewModel.publicationTextController,
         decoration: InputDecoration(
           hintText: Strings.whatsNew,
           border: InputBorder.none,

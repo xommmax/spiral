@@ -5,8 +5,9 @@ import 'main_viewmodel.dart';
 import 'widgets/widget_main_view_content.dart';
 
 class MainView extends StandardBaseView<MainViewModel> {
-  MainView() : super(MainViewModel());
-
   @override
   Widget getContent(BuildContext context) => WidgetMainViewContent();
+
+  @override
+  getViewModel() => MainViewModel();
 }
