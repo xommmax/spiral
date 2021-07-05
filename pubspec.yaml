@@ -74,6 +74,8 @@ dependencies:
 
   # picker:
   image_picker: ^0.8.1+2
+  # cropper
+  image_cropper: ^1.4.1
 
   # video player widget
   video_player: ^2.1.6
