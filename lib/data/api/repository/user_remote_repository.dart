@@ -60,7 +60,8 @@ class UserRemoteRepository {
   onVerificationCodeProvided(String code) {
     try {
       if (codeVerificationId == null) {
-        throw SocialAuthException(message: Strings.errorVerificationCodeIsInvalid);
+        throw SocialAuthException(
+            message: Strings.errorVerificationCodeIsInvalid);
       }
       _signInWithCredentials(
         PhoneAuthProvider.credential(
@@ -71,14 +72,16 @@ class UserRemoteRepository {
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
-      throw SocialAuthException(message: Strings.errorVerificationCodeIsInvalid);
+      throw SocialAuthException(
+          message: Strings.errorVerificationCodeIsInvalid);
     }
   }
 
   _onGoogleAuthRequested() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) throw Exception(Strings.errorUnableToFindGoogleUser);
+      if (googleUser == null)
+        throw Exception(Strings.errorUnableToFindGoogleUser);
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -141,14 +144,15 @@ class UserRemoteRepository {
   }
 
   _onPhoneAuthRequested(String? number) => number != null
-      ? FirebaseAuth.instance.verifyPhoneNumber(
+      ? _firebaseAuth.verifyPhoneNumber(
           phoneNumber: number,
           verificationCompleted: (PhoneAuthCredential credential) =>
               _signInWithCredentials(credential),
           verificationFailed: (FirebaseAuthException e) =>
               throw SocialAuthException(
-            message:
-                e.message != null ? e.message! : Strings.errorPhoneNumberAuthError,
+            message: e.message != null
+                ? e.message!
+                : Strings.errorPhoneNumberAuthError,
           ),
           codeSent: (String verificationId, int? resendToken) =>
               codeVerificationId = verificationId,
