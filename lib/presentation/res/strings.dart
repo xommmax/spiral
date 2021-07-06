@@ -38,6 +38,8 @@ class Strings {
       'Phone Number Authorization error, please contact us';
   static const errorUnableToGetCredentialsFromFacebook =
       'Unable to get credentials from Facebook, please contact us';
+  static const errorPublicationCannotBeEmpty = 'Publication cannot be empty';
+  static const errorSomethingWentWrongWhileSendingPublication = 'Something went wrong while sending publication';
 
   /* New publication */
   static const newPublication = 'New publication';
