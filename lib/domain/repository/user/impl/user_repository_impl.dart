@@ -17,13 +17,12 @@ import 'package:injectable/injectable.dart';
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteRepository _remote = locator<UserRemoteRepository>();
   final UserLocalRepository _local = locator<UserLocalRepository>();
-  final FirebaseAuth _firebaseAuth = locator<FirebaseAuth>();
 
   StreamSubscription? _streamSubscription;
 
   @override
   subscribeToFirebaseUserChanges() {
-    _streamSubscription = _firebaseAuth.userChanges().listen((user) {
+    _streamSubscription = FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null && !user.isAnonymous) {
         User domainUser = User(
           uid: user.uid,

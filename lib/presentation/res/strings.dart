@@ -42,6 +42,8 @@ class Strings {
   static const errorHubPictureMustBeSpecified = "Hub picture must be specified";
   static const errorHubDescMustBeSpecified =
       "Hub description must be specified";
+  static const errorPublicationCannotBeEmpty = 'Publication cannot be empty';
+  static const errorSomethingWentWrongWhileSendingPublication = 'Something went wrong while sending publication';
 
   /* New publication */
   static const newPublication = 'New publication';
