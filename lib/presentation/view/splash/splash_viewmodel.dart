@@ -14,7 +14,6 @@ import 'package:stacked_services/stacked_services.dart';
 class SplashViewModel extends FutureViewModel<SplashViewData> {
   final UserRepository _userRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final FirebaseAuth _firebaseAuth = locator<FirebaseAuth>();
 
   @override
   Future<SplashViewData> futureToRun() async {
@@ -43,7 +42,7 @@ class SplashViewModel extends FutureViewModel<SplashViewData> {
   }
 
   onResetUserClicked() async {
-    await _firebaseAuth.signOut();
+    await FirebaseAuth.instance.signOut();
     _userRepository.deleteUser();
     initialise();
   }

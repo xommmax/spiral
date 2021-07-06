@@ -38,6 +38,10 @@ class Strings {
       'Phone Number Authorization error, please contact us';
   static const errorUnableToGetCredentialsFromFacebook =
       'Unable to get credentials from Facebook, please contact us';
+  static const errorHubNameMustBeSpecified = "Hub name must be specified";
+  static const errorHubPictureMustBeSpecified = "Hub picture must be specified";
+  static const errorHubDescMustBeSpecified =
+      "Hub description must be specified";
   static const errorPublicationCannotBeEmpty = 'Publication cannot be empty';
   static const errorSomethingWentWrongWhileSendingPublication = 'Something went wrong while sending publication';
 

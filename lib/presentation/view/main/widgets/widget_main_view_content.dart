@@ -15,6 +15,10 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
         appBar: AppBar(
           title: Text(mainTabs[viewModel.currentIndex].title),
           backgroundColor: AppColors.primaryColor,
+          actions: [
+            IconButton(
+                onPressed: viewModel.showAccountPage, icon: Icon(Icons.person))
+          ],
         ),
         body: SafeArea(
           child: IndexedStack(
