@@ -31,7 +31,7 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   final apiModule = _$ApiModule();
   final databaseModule = _$DatabaseModule();
   final navigationModule = _$NavigationModule();
-  gh.lazySingleton<_i3.DairoApi>(() => apiModule.bubblesApi);
+  gh.lazySingleton<_i3.DairoApi>(() => apiModule.dairoApi);
   await gh.factoryAsync<_i4.DairoDatabase>(() => databaseModule.database,
       preResolve: true);
   gh.lazySingleton<_i5.NavigationService>(
