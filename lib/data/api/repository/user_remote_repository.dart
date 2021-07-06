@@ -141,7 +141,7 @@ class UserRemoteRepository {
   }
 
   _onPhoneAuthRequested(String? number) => number != null
-      ? _firebaseAuth.verifyPhoneNumber(
+      ? FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: number,
           verificationCompleted: (PhoneAuthCredential credential) =>
               _signInWithCredentials(credential),
