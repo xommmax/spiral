@@ -1,5 +1,8 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/domain/repository/publication/publication_repository.dart';
+import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
@@ -9,13 +12,28 @@ import 'new_publication_viewdata.dart';
 
 class NewPublicationViewModel extends BaseViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
+  final PublicationRepository _publicationRepository =
+      locator<PublicationRepository>();
+
   final NewPublicationViewData viewData = NewPublicationViewData();
   final TextEditingController publicationTextController =
       TextEditingController();
   final _picker = ImagePicker();
 
-  onDonePressed() {
-    //TODO: Implement data sending into Firestore
+  onDonePressed() async {
+    if (publicationTextController.text.isEmpty &&
+        viewData.publication.mediaFiles.isEmpty) {
+      AppSnackBar.showSnackBarError(Strings.errorPublicationCannotBeEmpty);
+      return;
+    }
+    viewData.publication.inputText = publicationTextController.text;
+    try {
+      await _publicationRepository.sendPublication(viewData.publication);
+      _navigationService.back(result: true);
+    } catch (e) {
+      AppSnackBar.showSnackBarError(
+          Strings.errorSomethingWentWrongWhileSendingPublication);
+    }
   }
 
   onGallerySelected() =>

@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
-import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/model/request/user_request.dart';
 import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/domain/model/user/social_auth_exception.dart';
@@ -17,11 +16,9 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 @lazySingleton
 class UserRemoteRepository {
-  final FirebaseFirestore _remote = locator<FirebaseFirestore>();
-  final FirebaseAuth _firebaseAuth = locator<FirebaseAuth>();
   String? codeVerificationId;
 
-  Future<UserResponse?> fetchUser(String userUid) => _remote
+  Future<UserResponse?> fetchUser(String userUid) => FirebaseFirestore.instance
       .doc('/users/$userUid')
       .get()
       .catchError((error) =>
@@ -32,7 +29,7 @@ class UserRemoteRepository {
             : null,
       );
 
-  Future<void> updateUser(UserRequest request) => _remote
+  Future<void> updateUser(UserRequest request) => FirebaseFirestore.instance
       .collection('/users')
       .doc('${request.uid}')
       .set(
@@ -60,7 +57,8 @@ class UserRemoteRepository {
   onVerificationCodeProvided(String code) {
     try {
       if (codeVerificationId == null) {
-        throw SocialAuthException(message: Strings.errorVerificationCodeIsInvalid);
+        throw SocialAuthException(
+            message: Strings.errorVerificationCodeIsInvalid);
       }
       _signInWithCredentials(
         PhoneAuthProvider.credential(
@@ -71,14 +69,16 @@ class UserRemoteRepository {
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
-      throw SocialAuthException(message: Strings.errorVerificationCodeIsInvalid);
+      throw SocialAuthException(
+          message: Strings.errorVerificationCodeIsInvalid);
     }
   }
 
   _onGoogleAuthRequested() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) throw Exception(Strings.errorUnableToFindGoogleUser);
+      if (googleUser == null)
+        throw Exception(Strings.errorUnableToFindGoogleUser);
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -147,8 +147,9 @@ class UserRemoteRepository {
               _signInWithCredentials(credential),
           verificationFailed: (FirebaseAuthException e) =>
               throw SocialAuthException(
-            message:
-                e.message != null ? e.message! : Strings.errorPhoneNumberAuthError,
+            message: e.message != null
+                ? e.message!
+                : Strings.errorPhoneNumberAuthError,
           ),
           codeSent: (String verificationId, int? resendToken) =>
               codeVerificationId = verificationId,
@@ -160,7 +161,7 @@ class UserRemoteRepository {
         );
 
   _signInWithCredentials(AuthCredential credentials) =>
-      _firebaseAuth.signInWithCredential(credentials);
+      FirebaseAuth.instance.signInWithCredential(credentials);
 
   String _generateNonce([int length = 32]) {
     final charset =
