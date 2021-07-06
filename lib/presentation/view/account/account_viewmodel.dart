@@ -3,14 +3,8 @@ import 'package:dairo/app/router.router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class MainViewModel extends IndexTrackingViewModel {
+class AccountViewModel extends BaseViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
-  showAccountPage() {
-    _navigationService.navigateTo(Routes.accountView);
-  }
-
-  onFabPressed() {
-    _navigationService.navigateTo(Routes.newPublicationView);
-  }
+  createHub() => _navigationService.navigateTo(Routes.hubCreationView);
 }
