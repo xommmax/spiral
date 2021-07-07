@@ -9,16 +9,16 @@ part of 'user_request.dart';
 UserRequest _$UserRequestFromJson(Map<String, dynamic> json) {
   return UserRequest(
     uid: json['uid'] as String,
-    displayName: json['display_name'] as String?,
+    displayName: json['displayName'] as String?,
     email: json['email'] as String?,
-    phoneNumber: json['phone_number'] as String?,
+    phoneNumber: json['phoneNumber'] as String?,
   );
 }
 
 Map<String, dynamic> _$UserRequestToJson(UserRequest instance) =>
     <String, dynamic>{
       'uid': instance.uid,
-      'display_name': instance.displayName,
+      'displayName': instance.displayName,
       'email': instance.email,
-      'phone_number': instance.phoneNumber,
+      'phoneNumber': instance.phoneNumber,
     };

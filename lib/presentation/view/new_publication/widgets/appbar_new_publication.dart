@@ -1,6 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
       AppBar(
         title: Text(
           Strings.newPublication,
-          style: TextStyles.robotoBlackBold22,
+          style: TextStyles.robotoWhiteBold22,
         ),
         centerTitle: false,
         automaticallyImplyLeading: true,
@@ -27,7 +28,7 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
                 padding: const EdgeInsets.all(16.0),
                 child: Icon(
                   Icons.check,
-                  color: AppColors.black,
+                  color: AppColors.white,
                 ),
               ),
             ),

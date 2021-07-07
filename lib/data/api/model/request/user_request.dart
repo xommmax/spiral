@@ -6,10 +6,8 @@ part 'user_request.g.dart';
 @JsonSerializable()
 class UserRequest {
   final String uid;
-  @JsonKey(name: 'display_name')
   final String? displayName;
   final String? email;
-  @JsonKey(name: 'phone_number')
   final String? phoneNumber;
 
   const UserRequest({

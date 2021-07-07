@@ -81,7 +81,7 @@ class _$DairoDatabase extends DairoDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`uid` TEXT NOT NULL, `display_name` TEXT, `email` TEXT, `phone_number` TEXT, PRIMARY KEY (`uid`))');
+            'CREATE TABLE IF NOT EXISTS `user` (`uid` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, PRIMARY KEY (`uid`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -103,9 +103,9 @@ class _$UserDao extends UserDao {
             'user',
             (UserItemData item) => <String, Object?>{
                   'uid': item.uid,
-                  'display_name': item.displayName,
+                  'displayName': item.displayName,
                   'email': item.email,
-                  'phone_number': item.phoneNumber
+                  'phoneNumber': item.phoneNumber
                 },
             changeListener);
 
@@ -122,9 +122,9 @@ class _$UserDao extends UserDao {
     return _queryAdapter.queryStream('SELECT * FROM user',
         mapper: (Map<String, Object?> row) => UserItemData(
             uid: row['uid'] as String,
-            displayName: row['display_name'] as String?,
+            displayName: row['displayName'] as String?,
             email: row['email'] as String?,
-            phoneNumber: row['phone_number'] as String?),
+            phoneNumber: row['phoneNumber'] as String?),
         queryableName: 'user',
         isView: false);
   }
@@ -134,9 +134,9 @@ class _$UserDao extends UserDao {
     return _queryAdapter.query('SELECT * FROM user',
         mapper: (Map<String, Object?> row) => UserItemData(
             uid: row['uid'] as String,
-            displayName: row['display_name'] as String?,
+            displayName: row['displayName'] as String?,
             email: row['email'] as String?,
-            phoneNumber: row['phone_number'] as String?));
+            phoneNumber: row['phoneNumber'] as String?));
   }
 
   @override
