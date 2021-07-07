@@ -23,7 +23,7 @@ class SplashViewModel extends FutureViewModel<SplashViewData> {
   }
 
   Future<User?> _getUser() =>
-      _userRepository.getUser().then((result) => result.getException != null
+      _userRepository.getUser().then((result) => result.error != null
           ? AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser)
           : result.data);
 

@@ -62,6 +62,8 @@ class _$DairoDatabase extends DairoDatabase {
 
   UserDao? _userDaoInstance;
 
+  HubDao? _hubDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -81,7 +83,9 @@ class _$DairoDatabase extends DairoDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`uid` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, PRIMARY KEY (`uid`))');
+            'CREATE TABLE IF NOT EXISTS `user` (`uid` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`uid`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -92,6 +96,11 @@ class _$DairoDatabase extends DairoDatabase {
   @override
   UserDao get userDao {
     return _userDaoInstance ??= _$UserDao(database, changeListener);
+  }
+
+  @override
+  HubDao get hubDao {
+    return _hubDaoInstance ??= _$HubDao(database, changeListener);
   }
 }
 
@@ -105,7 +114,8 @@ class _$UserDao extends UserDao {
                   'uid': item.uid,
                   'displayName': item.displayName,
                   'email': item.email,
-                  'phoneNumber': item.phoneNumber
+                  'phoneNumber': item.phoneNumber,
+                  'photoURL': item.photoURL
                 },
             changeListener);
 
@@ -124,7 +134,8 @@ class _$UserDao extends UserDao {
             uid: row['uid'] as String,
             displayName: row['displayName'] as String?,
             email: row['email'] as String?,
-            phoneNumber: row['phoneNumber'] as String?),
+            phoneNumber: row['phoneNumber'] as String?,
+            photoURL: row['photoURL'] as String?),
         queryableName: 'user',
         isView: false);
   }
@@ -136,7 +147,8 @@ class _$UserDao extends UserDao {
             uid: row['uid'] as String,
             displayName: row['displayName'] as String?,
             email: row['email'] as String?,
-            phoneNumber: row['phoneNumber'] as String?));
+            phoneNumber: row['phoneNumber'] as String?,
+            photoURL: row['photoURL'] as String?));
   }
 
   @override
@@ -161,5 +173,45 @@ class _$UserDao extends UserDao {
         await transactionDatabase.userDao.updateUser(user);
       });
     }
+  }
+}
+
+class _$HubDao extends HubDao {
+  _$HubDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _hubItemDataInsertionAdapter = InsertionAdapter(
+            database,
+            'hub',
+            (HubItemData item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'pictureUrl': item.pictureUrl,
+                  'description': item.description
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
+
+  @override
+  Stream<HubItemData?> getHubCreationStream() {
+    return _queryAdapter.queryStream('SELECT * FROM hub',
+        mapper: (Map<String, Object?> row) => HubItemData(
+            id: row['id'] as String,
+            name: row['name'] as String,
+            pictureUrl: row['pictureUrl'] as String,
+            description: row['description'] as String),
+        queryableName: 'hub',
+        isView: false);
+  }
+
+  @override
+  Future<void> insertHub(HubItemData hub) async {
+    await _hubItemDataInsertionAdapter.insert(hub, OnConflictStrategy.abort);
   }
 }

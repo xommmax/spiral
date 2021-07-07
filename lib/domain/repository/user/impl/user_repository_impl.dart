@@ -29,6 +29,7 @@ class UserRepositoryImpl implements UserRepository {
           displayName: user.displayName,
           email: user.email,
           phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
         );
         print('Firebase User retrieved: ${domainUser.toString()}');
         updateUser(domainUser);
@@ -44,18 +45,18 @@ class UserRepositoryImpl implements UserRepository {
   Future<Result<User?>> getUser() async {
     UserItemData? itemData = await _local.getUser();
     if (itemData != null) {
-      return Result()..data = User.fromItemData(itemData);
+      return Result.success(User.fromItemData(itemData));
     }
-    return Result();
+    return Result.error(Error());
   }
 
   @override
   Stream<Result<User?>> getUserStream() =>
       _local.getUserStream().map((itemData) {
         if (itemData != null) {
-          return Result()..data = User.fromItemData(itemData);
+          return Result.success(User.fromItemData(itemData));
         }
-        return Result();
+        return Result.error(Error());
       });
 
   @override

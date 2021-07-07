@@ -30,7 +30,7 @@ class WidgetHubCreationViewContent
                         color: AppColors.lightGray,
                       )
                     : Image.file(
-                        File(viewModel.viewData.picture!.path),
+                        viewModel.viewData.picture!,
                       ),
               ),
             ),
