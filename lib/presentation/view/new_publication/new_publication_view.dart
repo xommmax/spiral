@@ -5,9 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'new_publication_viewmodel.dart';
 
 class NewPublicationView extends StandardBaseView<NewPublicationViewModel> {
+  final String hubId;
+
+  NewPublicationView(this.hubId);
+
   @override
   Widget getContent(BuildContext context) => WidgetNewPublicationContent();
 
   @override
-  getViewModel() => NewPublicationViewModel();
+  getViewModel() => NewPublicationViewModel(hubId);
 }

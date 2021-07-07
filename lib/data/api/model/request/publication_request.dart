@@ -1,20 +1,24 @@
-import 'dart:io';
-
 import 'package:dairo/domain/model/publication/publication.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'publication_request.g.dart';
+
+@JsonSerializable()
 class PublicationRequest {
+  final String? hubId;
   final String? text;
-  final List<File> mediaFiles;
+  List<String>? downloadedUrls;
 
-  const PublicationRequest({
+  PublicationRequest({
+    required this.hubId,
     this.text,
-    required this.mediaFiles,
   });
 
   factory PublicationRequest.fromDomain(Publication publication) =>
       PublicationRequest(
+        hubId: publication.hubId,
         text: publication.inputText,
-        mediaFiles:
-            publication.mediaFiles.map((media) => File(media.path)).toList(),
       );
+
+  Map<String, dynamic> toJson() => _$PublicationRequestToJson(this);
 }

@@ -1,12 +1,8 @@
-
-
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:flutter/cupertino.dart';
 
 class TextStyles {
-  static const robotoBlack14 = TextStyle(
-    color: AppColors.black
-  );
+  static const robotoBlack14 = TextStyle(color: AppColors.black);
 
   static const robotoBlack16 = TextStyle(
     color: AppColors.black,
@@ -38,23 +34,20 @@ class TextStyles {
     color: AppColors.textGray,
   );
 
-  static const robotoGray16 = TextStyle(
-    color: AppColors.textGray,
-    fontSize: 16
-  );
+  static const robotoGray16 =
+      TextStyle(color: AppColors.textGray, fontSize: 16);
 
-  static const robotoGray18 = TextStyle(
-    color: AppColors.textGray,
-    fontSize: 18
-  );
+  static const robotoGray18 =
+      TextStyle(color: AppColors.textGray, fontSize: 18);
 
-  static const robotoGray20 = TextStyle(
-    color: AppColors.textGray,
-    fontSize: 20
-  );
+  static const robotoGray20 =
+      TextStyle(color: AppColors.textGray, fontSize: 20);
 
-  static const robotoGray22 = TextStyle(
-    color: AppColors.textGray,
-    fontSize: 22
+  static const robotoGray22 =
+      TextStyle(color: AppColors.textGray, fontSize: 22);
+
+  static const robotoWhiteBold22 = TextStyle(
+    color: AppColors.white,
+    fontSize: 22,
   );
 }

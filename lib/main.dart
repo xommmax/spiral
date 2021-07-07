@@ -1,17 +1,16 @@
 import 'dart:async';
 
-import 'package:ansicolor/ansicolor.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app/locator.dart';
 import 'app/router.router.dart';
 
 void main() async {
-  ansiColorDisabled = false;
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
   await CountryCodes.init();
@@ -67,5 +66,8 @@ class _DairoAppState extends State<DairoApp> {
   ThemeData _getAppTheme() => ThemeData(
         primaryColor: AppColors.primaryColor,
         backgroundColor: AppColors.baseBackgroundColor,
+        appBarTheme: AppBarTheme(
+          brightness: SchedulerBinding.instance?.window.platformBrightness
+        ),
       );
 }

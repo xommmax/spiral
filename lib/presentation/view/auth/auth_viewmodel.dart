@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/user/social_auth_exception.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
@@ -35,9 +34,7 @@ class AuthViewModel extends StreamViewModel<User?> {
   @override
   void onData(User? data) async {
     if (data != null) {
-      AppSnackBar.showSnackBarSuccess('User successfully retrieved');
-      await Future.delayed(Duration(seconds: 1));
-      _navigationService.clearStackAndShow(Routes.mainView);
+      _navigationService.back(result: true);
     }
     super.onData(data);
   }
