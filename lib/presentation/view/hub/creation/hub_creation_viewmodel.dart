@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
+import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
@@ -15,6 +16,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'hub_creation_viewdata.dart';
 
 class HubCreationViewModel extends BaseViewModel {
+  final HubRepository _hubRepository = locator<HubRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -27,6 +29,8 @@ class HubCreationViewModel extends BaseViewModel {
 
     if (!_allDetailsSpecified()) return;
 
+    Hub hub = Hub(viewData.name!, viewData.pictureUrl!, viewData.description!);
+    _hubRepository.createHub(hub);
     _navigationService.back();
   }
 
@@ -35,7 +39,7 @@ class HubCreationViewModel extends BaseViewModel {
       AppSnackBar.showSnackBarError(Strings.errorHubNameMustBeSpecified);
       return false;
     }
-    if (viewData.picture == null) {
+    if (viewData.pictureUrl == null) {
       AppSnackBar.showSnackBarError(Strings.errorHubPictureMustBeSpecified);
       return false;
     }
@@ -52,10 +56,7 @@ class HubCreationViewModel extends BaseViewModel {
     File? croppedImage = await _cropImage(pickedImage.path);
     if (croppedImage == null) return;
 
-    viewData.picture = MediaFile(
-      path: croppedImage.path,
-      type: MediaType.image,
-    );
+    viewData.pictureUrl = croppedImage.path;
     notifyListeners();
   }
 

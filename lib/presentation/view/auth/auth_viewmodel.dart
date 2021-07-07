@@ -27,7 +27,7 @@ class AuthViewModel extends StreamViewModel<User?> {
 
   @override
   Stream<User?> get stream => _userRepository.getUserStream().map(
-        (event) => event.getException != null
+        (event) => event.error != null
             ? AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser)
             : event.data,
       );

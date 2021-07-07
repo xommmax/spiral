@@ -44,18 +44,18 @@ class UserRepositoryImpl implements UserRepository {
   Future<Result<User?>> getUser() async {
     UserItemData? itemData = await _local.getUser();
     if (itemData != null) {
-      return Result()..data = User.fromItemData(itemData);
+      return Result.success(User.fromItemData(itemData));
     }
-    return Result();
+    return Result.error(Error());
   }
 
   @override
   Stream<Result<User?>> getUserStream() =>
       _local.getUserStream().map((itemData) {
         if (itemData != null) {
-          return Result()..data = User.fromItemData(itemData);
+          return Result.success(User.fromItemData(itemData));
         }
-        return Result();
+        return Result.error(Error());
       });
 
   @override
