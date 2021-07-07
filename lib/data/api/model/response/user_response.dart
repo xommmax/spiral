@@ -5,17 +5,17 @@ part 'user_response.g.dart';
 @JsonSerializable()
 class UserResponse {
   final String uid;
-  @JsonKey(name: 'display_name')
   final String? displayName;
   final String? email;
-  @JsonKey(name: 'phone_number',)
   final String? phoneNumber;
+  final String? photoURL;
 
   const UserResponse({
     required this.uid,
     required this.displayName,
     required this.email,
     required this.phoneNumber,
+    required this.photoURL,
   });
 
   factory UserResponse.fromJson(Map<String, dynamic> json) =>

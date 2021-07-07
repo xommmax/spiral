@@ -7,7 +7,12 @@ import '../account_viewmodel.dart';
 class WidgetAccountViewContent extends ViewModelWidget<AccountViewModel> {
   @override
   Widget build(BuildContext context, AccountViewModel viewModel) => Scaffold(
-        body: SafeArea(child: Container()),
+        body: SafeArea(
+            child: Column(
+          children: (viewModel.user != null)
+              ? [Image.network(viewModel.user!.photoURL!)]
+              : [Container()],
+        )),
         floatingActionButton: FloatingActionButton(
           onPressed: viewModel.createHub,
           child: Icon(Icons.add),

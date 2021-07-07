@@ -29,7 +29,10 @@ class HubCreationViewModel extends BaseViewModel {
 
     if (!_allDetailsSpecified()) return;
 
-    Hub hub = Hub(viewData.name!, viewData.picture!, viewData.description!);
+    Hub hub = Hub(
+        name: viewData.name!,
+        picture: viewData.picture!,
+        description: viewData.description!);
     _hubRepository.createHub(hub);
     _navigationService.back();
   }

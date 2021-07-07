@@ -21,11 +21,15 @@ class HubRemoteRepository {
             [hubPicture], FirebaseStorageFolders.hubPictures);
     hubRequest.pictureUrl = uploadedUrls[0];
 
-    await FirebaseFirestore.instance
+    var documentReference = await FirebaseFirestore.instance
         .collection(FirebaseCollections.userHubs)
-        .doc()
-        .set(hubRequest.toJson());
+        .add(hubRequest.toJson());
+    var documentSnapshot = await documentReference.get();
 
-    return HubResponse.fromJson(hubRequest.toJson());
+    if (documentSnapshot.exists) {
+      return HubResponse.fromJson(documentSnapshot.data()!);
+    } else {
+      return throw FirebaseException(plugin: "Firebase Storage");
+    }
   }
 }
