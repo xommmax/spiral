@@ -29,6 +29,7 @@ class UserRepositoryImpl implements UserRepository {
           displayName: user.displayName,
           email: user.email,
           phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
         );
         print('Firebase User retrieved: ${domainUser.toString()}');
         updateUser(domainUser);
