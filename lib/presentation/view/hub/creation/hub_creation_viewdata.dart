@@ -1,5 +1,7 @@
+import 'dart:io';
+
 class HubCreationViewData {
   String? name;
-  String? pictureUrl;
+  File? picture;
   String? description;
 }

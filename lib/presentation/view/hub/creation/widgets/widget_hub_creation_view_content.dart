@@ -21,7 +21,7 @@ class WidgetHubCreationViewContent
               aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
               child: InkWell(
                 onTap: viewModel.onHubPictureSelected,
-                child: viewModel.viewData.pictureUrl == null
+                child: viewModel.viewData.picture == null
                     ? Container(
                         child: Icon(
                           Icons.add_a_photo_outlined,
@@ -30,7 +30,7 @@ class WidgetHubCreationViewContent
                         color: AppColors.lightGray,
                       )
                     : Image.file(
-                        File(viewModel.viewData.pictureUrl!),
+                        viewModel.viewData.picture!,
                       ),
               ),
             ),

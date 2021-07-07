@@ -8,15 +8,17 @@ part of 'hub_response.dart';
 
 HubResponse _$HubResponseFromJson(Map<String, dynamic> json) {
   return HubResponse(
+    id: json['id'] as String,
     name: json['name'] as String,
-    pictureUrl: json['picture_url'] as String,
+    pictureUrl: json['pictureUrl'] as String,
     description: json['description'] as String,
   );
 }
 
 Map<String, dynamic> _$HubResponseToJson(HubResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
-      'picture_url': instance.pictureUrl,
+      'pictureUrl': instance.pictureUrl,
       'description': instance.description,
     };
