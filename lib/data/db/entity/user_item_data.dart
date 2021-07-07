@@ -5,10 +5,8 @@ import 'package:floor/floor.dart';
 class UserItemData {
   @primaryKey
   final String uid;
-  @ColumnInfo(name: 'display_name')
   final String? displayName;
   final String? email;
-  @ColumnInfo(name: 'phone_number')
   final String? phoneNumber;
 
   const UserItemData({

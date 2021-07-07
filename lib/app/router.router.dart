@@ -66,8 +66,9 @@ class StackedRouter extends RouterBase {
       );
     },
     NewPublicationView: (data) {
+      var args = data.getArgs<NewPublicationViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => NewPublicationView(),
+        builder: (context) => NewPublicationView(args.hubId),
         settings: data,
       );
     },
@@ -84,4 +85,14 @@ class StackedRouter extends RouterBase {
       );
     },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// NewPublicationView arguments holder class
+class NewPublicationViewArguments {
+  final String hubId;
+  NewPublicationViewArguments({required this.hubId});
 }

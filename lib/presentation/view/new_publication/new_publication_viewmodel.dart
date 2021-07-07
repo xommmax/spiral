@@ -11,6 +11,10 @@ import 'package:stacked_services/stacked_services.dart';
 import 'new_publication_viewdata.dart';
 
 class NewPublicationViewModel extends BaseViewModel {
+  final String hubId;
+
+  NewPublicationViewModel(this.hubId);
+
   final NavigationService _navigationService = locator<NavigationService>();
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
@@ -21,19 +25,24 @@ class NewPublicationViewModel extends BaseViewModel {
   final _picker = ImagePicker();
 
   onDonePressed() async {
+    setBusy(true);
     if (publicationTextController.text.isEmpty &&
         viewData.publication.mediaFiles.isEmpty) {
       AppSnackBar.showSnackBarError(Strings.errorPublicationCannotBeEmpty);
+      setBusy(false);
       return;
     }
     viewData.publication.inputText = publicationTextController.text;
+    viewData.publication.hubId = hubId;
     try {
       await _publicationRepository.sendPublication(viewData.publication);
+      setBusy(false);
       _navigationService.back(result: true);
     } catch (e) {
       AppSnackBar.showSnackBarError(
           Strings.errorSomethingWentWrongWhileSendingPublication);
     }
+    setBusy(false);
   }
 
   onGallerySelected() =>

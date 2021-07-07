@@ -81,14 +81,8 @@ dependencies:
   # video player widget
   video_player: ^2.1.6
 
-  # http requests tool
-  retrofit: ^2.0.0
-
-  # logs customisation
-  ansicolor: ^2.0.1
-
-  # http manager
-  dio: ^4.0.0
+  # tool to work with files
+  path: ^1.8.0
 
 dev_dependencies:
   flutter_test:

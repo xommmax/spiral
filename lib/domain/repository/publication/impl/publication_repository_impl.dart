@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/model/request/publication_request.dart';
 import 'package:dairo/data/api/repository/publication_remote_repository.dart';
@@ -12,5 +14,8 @@ class PublicationRepositoryImpl implements PublicationRepository {
 
   @override
   Future<void> sendPublication(Publication publication) =>
-      _remote.sendPublication(PublicationRequest.fromDomain(publication));
+      _remote.sendPublication(
+        PublicationRequest.fromDomain(publication),
+        publication.mediaFiles.map((media) => File(media.path)).toList(),
+      );
 }

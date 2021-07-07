@@ -8,7 +8,6 @@ class WidgetAttachmentsPanel extends ViewModelWidget<NewPublicationViewModel> {
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
       Container(
-        height: 70,
         width: double.maxFinite,
         color: AppColors.white,
         child: Row(

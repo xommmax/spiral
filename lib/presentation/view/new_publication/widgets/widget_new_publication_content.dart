@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/widget_attachments_panel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_images_list.dart';
@@ -15,6 +16,7 @@ class WidgetNewPublicationContent
       Scaffold(
         appBar: AppBarNewPublication(),
         body: SafeArea(
+          bottom: false,
           child: SizedBox(
             height: MediaQuery.of(context).size.height -
                 MediaQuery.of(context).padding.top,
@@ -40,6 +42,10 @@ class WidgetNewPublicationContent
                   ),
                 ),
                 WidgetAttachmentsPanel(),
+                Container(
+                  height: MediaQuery.of(context).padding.bottom,
+                  color: AppColors.white,
+                ),
               ],
             ),
           ),
