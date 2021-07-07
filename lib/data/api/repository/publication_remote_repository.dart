@@ -17,7 +17,7 @@ class PublicationRemoteRepository {
       PublicationRequest request, List<File> mediaFiles) async {
     List<String> uploadedUrls = [];
     if (mediaFiles.isNotEmpty) {
-      uploadedUrls = await _firebaseStorageRepository.uploadFiles(
+      uploadedUrls = await _firebaseStorageRepository.uploadFilesToUserFolder(
           mediaFiles, FirebaseStorageFolders.hubPublications);
     }
     if (uploadedUrls.isNotEmpty) {

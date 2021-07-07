@@ -8,7 +8,7 @@ part of 'publication_request.dart';
 
 PublicationRequest _$PublicationRequestFromJson(Map<String, dynamic> json) {
   return PublicationRequest(
-    hubId: json['hubId'] as String,
+    hubId: json['hubId'] as String?,
     text: json['text'] as String?,
   )..downloadedUrls = (json['downloadedUrls'] as List<dynamic>?)
       ?.map((e) => e as String)

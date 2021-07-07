@@ -1,7 +1,7 @@
-import 'package:dairo/domain/model/publication/media.dart';
+import 'dart:io';
 
 class HubCreationViewData {
   String? name;
-  MediaFile? picture;
+  File? picture;
   String? description;
 }

@@ -9,12 +9,14 @@ class UserRequest {
   final String? displayName;
   final String? email;
   final String? phoneNumber;
+  final String? photoURL;
 
   const UserRequest({
     required this.uid,
     required this.displayName,
     required this.email,
     required this.phoneNumber,
+    required this.photoURL,
   });
 
   factory UserRequest.fromDomain(User user) => UserRequest(
@@ -22,6 +24,7 @@ class UserRequest {
         displayName: user.displayName,
         email: user.email,
         phoneNumber: user.phoneNumber,
+        photoURL: user.photoURL,
       );
 
   Map<String, dynamic> toJson() => _$UserRequestToJson(this);

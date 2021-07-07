@@ -1,17 +1,8 @@
 class Result<T> {
-
-  Error? _error;
+  Error? error;
   T? data;
 
-  setException(Error error) {
-    _error = error;
-  }
+  Result.error(this.error);
 
-  setData(T data) {
-    this.data = data;
-  }
-
-  get getException {
-    return _error;
-  }
+  Result.success(this.data);
 }
