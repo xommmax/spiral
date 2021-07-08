@@ -23,12 +23,9 @@ class HubRepositoryImpl implements HubRepository {
     final String? userId = _auth.currentUser?.uid;
     if (userId == null) throw UnauthorizedException();
 
-    HubRequest request = hub.toRequest(userId);
-    HubResponse response = await _remote.createHub(request, hub.picture);
+    HubResponse response =
+        await _remote.createHub(hub.toRequest(userId), hub.picture);
     HubItemData itemData = HubItemData.fromResponse(response);
     _local.addHub(itemData);
   }
-
-  @override
-  dispose() {}
 }

@@ -9,8 +9,11 @@ class HubRequest {
   String? pictureUrl;
   final String description;
 
-  HubRequest(
-      {required this.userId, required this.name, required this.description});
+  HubRequest({
+    required this.userId,
+    required this.name,
+    required this.description,
+  });
 
   Map<String, dynamic> toJson() => _$HubRequestToJson(this);
 }
