@@ -13,7 +13,7 @@ import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/hub/creation/hub_creation_view.dart';
 import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
-import '../presentation/view/profile/base/profile_view.dart';
+import '../presentation/view/profile/current_user/current_user_profile_view.dart';
 import '../presentation/view/splash/splash_view.dart';
 
 class Routes {
@@ -21,14 +21,14 @@ class Routes {
   static const String authView = '/auth-view';
   static const String mainView = '/';
   static const String newPublicationView = '/new-publication-view';
-  static const String profileView = '/profile-view';
+  static const String currentUserProfileView = '/current-user-profile-view';
   static const String hubCreationView = '/hub-creation-view';
   static const all = <String>{
     splashView,
     authView,
     mainView,
     newPublicationView,
-    profileView,
+    currentUserProfileView,
     hubCreationView,
   };
 }
@@ -41,7 +41,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.authView, page: AuthView),
     RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
-    RouteDef(Routes.profileView, page: ProfileView),
+    RouteDef(Routes.currentUserProfileView, page: CurrentUserProfileView),
     RouteDef(Routes.hubCreationView, page: HubCreationView),
   ];
   @override
@@ -72,9 +72,9 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    ProfileView: (data) {
+    CurrentUserProfileView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ProfileView(),
+        builder: (context) => CurrentUserProfileView(),
         settings: data,
       );
     },

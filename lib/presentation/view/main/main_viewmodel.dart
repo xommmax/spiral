@@ -11,11 +11,11 @@ class MainViewModel extends IndexTrackingViewModel {
   showAccountPage() async {
     bool isCurrentUserExists = await _isCurrentUserExist();
     if (isCurrentUserExists) {
-      _navigationService.navigateTo(Routes.profileView);
+      _navigationService.navigateTo(Routes.currentUserProfileView);
     } else {
       _navigationService.navigateTo(Routes.authView)?.then((result) {
         if (result != null && result is bool && result) {
-          _navigationService.navigateTo(Routes.profileView);
+          _navigationService.navigateTo(Routes.currentUserProfileView);
         }
       });
     }
