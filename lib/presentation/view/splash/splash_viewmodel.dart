@@ -7,7 +7,6 @@ import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/splash/splash_viewdata.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -22,10 +21,7 @@ class SplashViewModel extends FutureViewModel<SplashViewData> {
     return viewData;
   }
 
-  Future<User?> _getUser() =>
-      _userRepository.getUser().then((result) => result.error != null
-          ? AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser)
-          : result.data);
+  Future<User?> _getUser() => _userRepository.getUser();
 
   @override
   void onData(SplashViewData? data) {
@@ -42,8 +38,7 @@ class SplashViewModel extends FutureViewModel<SplashViewData> {
   }
 
   onResetUserClicked() async {
-    await FirebaseAuth.instance.signOut();
-    _userRepository.deleteUser();
+    await _userRepository.logoutUser();
     initialise();
   }
 

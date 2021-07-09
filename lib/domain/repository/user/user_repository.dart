@@ -1,4 +1,3 @@
-import 'package:dairo/domain/model/base/result.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
 
@@ -7,15 +6,17 @@ abstract class UserRepository {
 
   Future<void> tryToRegister(SocialAuthRequest request);
 
-  Future<Result<User?>> getUser();
+  Future<User?> getUser({String? userId});
 
-  Stream<Result<User?>> getUserStream();
+  Future<bool> isUserExist({String? userId});
+
+  Stream<User?> getUserStream({String? userId});
 
   void updateUser(User user);
 
   void onVerificationCodeProvided(String code);
 
-  void deleteUser();
+  Future<void> logoutUser();
 
   dispose();
 }

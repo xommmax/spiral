@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/data/api/model/request/hub_request.dart';
 import 'package:dairo/data/api/model/response/hub_response.dart';
 import 'package:dairo/data/api/repository/hub_remote_repository.dart';
 import 'package:dairo/data/db/entity/hub_item_data.dart';
@@ -23,12 +22,17 @@ class HubRepositoryImpl implements HubRepository {
     final String? userId = _auth.currentUser?.uid;
     if (userId == null) throw UnauthorizedException();
 
-    HubRequest request = hub.toRequest(userId);
-    HubResponse response = await _remote.createHub(request, hub.picture);
+    HubResponse response =
+        await _remote.createHub(hub.toRequest(userId), File(hub.pictureUrl));
     HubItemData itemData = HubItemData.fromResponse(response);
     _local.addHub(itemData);
   }
 
   @override
-  dispose() {}
+  Stream<List<Hub>> getUserHubListStream({String? userId}) {
+    return _local.getUserHubListStream(userId ?? _auth.currentUser!.uid).map(
+        (itemDataList) => itemDataList
+            .map((itemData) => Hub.fromItemData(itemData))
+            .toList());
+  }
 }

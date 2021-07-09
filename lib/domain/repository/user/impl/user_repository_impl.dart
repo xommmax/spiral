@@ -6,17 +6,18 @@ import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
 import 'package:dairo/data/db/entity/user_item_data.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
-import 'package:dairo/domain/model/base/result.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: UserRepository)
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteRepository _remote = locator<UserRemoteRepository>();
   final UserLocalRepository _local = locator<UserLocalRepository>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   StreamSubscription? _streamSubscription;
 
@@ -25,7 +26,7 @@ class UserRepositoryImpl implements UserRepository {
     _streamSubscription = FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null && !user.isAnonymous) {
         User domainUser = User(
-          uid: user.uid,
+          id: user.uid,
           displayName: user.displayName,
           email: user.email,
           phoneNumber: user.phoneNumber,
@@ -42,28 +43,30 @@ class UserRepositoryImpl implements UserRepository {
       _remote.tryToRegister(request);
 
   @override
-  Future<Result<User?>> getUser() async {
-    UserItemData? itemData = await _local.getUser();
-    if (itemData != null) {
-      return Result.success(User.fromItemData(itemData));
-    }
-    return Result.error(Error());
+  Future<User?> getUser({String? userId}) async {
+    UserItemData? itemData = await _local.getUser(_checkUserId(userId));
+    if (itemData == null) return null;
+    return User.fromItemData(itemData);
   }
 
   @override
-  Stream<Result<User?>> getUserStream() =>
-      _local.getUserStream().map((itemData) {
-        if (itemData != null) {
-          return Result.success(User.fromItemData(itemData));
-        }
-        return Result.error(Error());
+  Future<bool> isUserExist({String? userId}) async {
+    if (_auth.currentUser == null) return false;
+    return (await getUser(userId: _checkUserId(userId))) != null;
+  }
+
+  @override
+  Stream<User?> getUserStream({String? userId}) =>
+      _local.getUserStream(_checkUserId(userId)).map((itemData) {
+        if (itemData == null) return null;
+        return User.fromItemData(itemData);
       });
 
   @override
   Future<void> updateUser(User user) async {
     try {
       await _remote.updateUser(UserRequest.fromDomain(user));
-      UserResponse? response = await _remote.fetchUser(user.uid);
+      UserResponse? response = await _remote.fetchUser(user.id);
       if (response != null) {
         _local.updateUser(UserItemData.fromResponse(response));
       }
@@ -74,7 +77,10 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  void deleteUser() => _local.deleteUser();
+  Future<void> logoutUser() async {
+    await _auth.signOut();
+    _local.deleteUser();
+  }
 
   @override
   void onVerificationCodeProvided(String code) =>
@@ -84,4 +90,6 @@ class UserRepositoryImpl implements UserRepository {
   dispose() {
     _streamSubscription?.cancel();
   }
+
+  String _checkUserId(String? userId) => userId ?? _auth.currentUser!.uid;
 }
