@@ -16,6 +16,8 @@ class HubResponse {
     required this.description,
   });
 
-  factory HubResponse.fromJson(Map<String, dynamic> json) =>
-      _$HubResponseFromJson(json);
+  factory HubResponse.fromJson(String id, Map<String, dynamic> json) {
+    json['id'] = id;
+    return _$HubResponseFromJson(json);
+  }
 }

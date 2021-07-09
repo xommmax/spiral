@@ -7,5 +7,5 @@ abstract class HubDao {
   Future<void> insertHub(HubItemData hub);
 
   @Query('SELECT * FROM hub')
-  Stream<HubItemData?> getHubCreationStream();
+  Stream<List<HubItemData>> getAccountHubListStream();
 }

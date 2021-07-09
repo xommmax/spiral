@@ -25,11 +25,13 @@ class MainViewModel extends IndexTrackingViewModel {
     } else {
       _navigationService.navigateTo(Routes.authView)?.then((result) {
         if (result != null && result is bool && result && _isUserExist()) {
-          _navigationService.navigateTo(Routes.newPublicationView, arguments: NewPublicationViewArguments(hubId: '1'));
+          _navigationService.navigateTo(Routes.newPublicationView,
+              arguments: NewPublicationViewArguments(hubId: '1'));
         }
       });
     }
   }
 
+  // move this check to user repository
   bool _isUserExist() => FirebaseAuth.instance.currentUser?.uid != null;
 }

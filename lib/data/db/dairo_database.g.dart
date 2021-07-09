@@ -199,8 +199,8 @@ class _$HubDao extends HubDao {
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
 
   @override
-  Stream<HubItemData?> getHubCreationStream() {
-    return _queryAdapter.queryStream('SELECT * FROM hub',
+  Stream<List<HubItemData>> getAccountHubListStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM hub',
         mapper: (Map<String, Object?> row) => HubItemData(
             id: row['id'] as String,
             name: row['name'] as String,

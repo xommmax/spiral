@@ -77,6 +77,8 @@ dependencies:
   image_picker: ^0.8.1+2
   # cropper
   image_cropper: ^1.4.1
+  # image downloader with cache
+  cached_network_image: ^3.0.0
 
   # video player widget
   video_player: ^2.1.6

@@ -27,7 +27,8 @@ class HubRemoteRepository {
     var documentSnapshot = await documentReference.get();
 
     if (documentSnapshot.exists) {
-      return HubResponse.fromJson(documentSnapshot.data()!);
+      return HubResponse.fromJson(
+          documentSnapshot.id, documentSnapshot.data()!);
     } else {
       return throw FirebaseException(plugin: "Firebase Storage");
     }
