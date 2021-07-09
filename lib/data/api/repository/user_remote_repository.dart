@@ -25,13 +25,13 @@ class UserRemoteRepository {
           throw Exception('Error while getting user from Firestore: $error'))
       .then(
         (snapshot) => snapshot.exists && snapshot.data() != null
-            ? UserResponse.fromJson(snapshot.data()!)
+            ? UserResponse.fromJson(snapshot.id, snapshot.data()!)
             : null,
       );
 
   Future<void> updateUser(UserRequest request) => FirebaseFirestore.instance
       .collection('/users')
-      .doc('${request.uid}')
+      .doc('${request.id}')
       .set(
         request.toJson(),
       )

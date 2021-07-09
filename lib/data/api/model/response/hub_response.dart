@@ -8,13 +8,18 @@ class HubResponse {
   final String name;
   final String pictureUrl;
   final String description;
+  final String userId;
 
-  const HubResponse(
-      {required this.id,
-      required this.name,
-      required this.pictureUrl,
-      required this.description});
+  const HubResponse({
+    required this.id,
+    required this.name,
+    required this.pictureUrl,
+    required this.description,
+    required this.userId,
+  });
 
-  factory HubResponse.fromJson(Map<String, dynamic> json) =>
-      _$HubResponseFromJson(json);
+  factory HubResponse.fromJson(String id, Map<String, dynamic> json) {
+    json['id'] = id;
+    return _$HubResponseFromJson(json);
+  }
 }

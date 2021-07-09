@@ -1,14 +1,14 @@
 import 'package:dairo/data/db/entity/user_item_data.dart';
 
 class User {
-  final String uid;
+  final String id;
   final String? displayName;
   final String? email;
   final String? phoneNumber;
   final String? photoURL;
 
   const User({
-    required this.uid,
+    required this.id,
     required this.displayName,
     required this.email,
     required this.phoneNumber,
@@ -16,7 +16,7 @@ class User {
   });
 
   factory User.fromItemData(UserItemData itemData) => User(
-        uid: itemData.uid,
+        id: itemData.id,
         displayName: itemData.displayName,
         email: itemData.email,
         phoneNumber: itemData.phoneNumber,
@@ -25,7 +25,7 @@ class User {
 
   @override
   String toString() {
-    return 'User{uid: $uid, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+    return 'User{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
   }
 
   @override
@@ -33,7 +33,7 @@ class User {
       identical(this, other) ||
       other is User &&
           runtimeType == other.runtimeType &&
-          uid == other.uid &&
+          id == other.id &&
           displayName == other.displayName &&
           email == other.email &&
           phoneNumber == other.phoneNumber &&
@@ -41,7 +41,7 @@ class User {
 
   @override
   int get hashCode =>
-      uid.hashCode ^
+      id.hashCode ^
       displayName.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^

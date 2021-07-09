@@ -83,9 +83,9 @@ class _$DairoDatabase extends DairoDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`uid` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`uid`))');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `description` TEXT NOT NULL, `userId` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -111,7 +111,7 @@ class _$UserDao extends UserDao {
             database,
             'user',
             (UserItemData item) => <String, Object?>{
-                  'uid': item.uid,
+                  'id': item.id,
                   'displayName': item.displayName,
                   'email': item.email,
                   'phoneNumber': item.phoneNumber,
@@ -128,27 +128,29 @@ class _$UserDao extends UserDao {
   final InsertionAdapter<UserItemData> _userItemDataInsertionAdapter;
 
   @override
-  Stream<UserItemData?> getUserStream() {
-    return _queryAdapter.queryStream('SELECT * FROM user',
+  Stream<UserItemData?> getUserStream(String userId) {
+    return _queryAdapter.queryStream('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => UserItemData(
-            uid: row['uid'] as String,
+            id: row['id'] as String,
             displayName: row['displayName'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
             photoURL: row['photoURL'] as String?),
+        arguments: [userId],
         queryableName: 'user',
         isView: false);
   }
 
   @override
-  Future<UserItemData?> getUser() async {
-    return _queryAdapter.query('SELECT * FROM user',
+  Future<UserItemData?> getUser(String userId) async {
+    return _queryAdapter.query('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => UserItemData(
-            uid: row['uid'] as String,
+            id: row['id'] as String,
             displayName: row['displayName'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
-            photoURL: row['photoURL'] as String?));
+            photoURL: row['photoURL'] as String?),
+        arguments: [userId]);
   }
 
   @override
@@ -186,7 +188,8 @@ class _$HubDao extends HubDao {
                   'id': item.id,
                   'name': item.name,
                   'pictureUrl': item.pictureUrl,
-                  'description': item.description
+                  'description': item.description,
+                  'userId': item.userId
                 },
             changeListener);
 
@@ -199,13 +202,15 @@ class _$HubDao extends HubDao {
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
 
   @override
-  Stream<HubItemData?> getHubCreationStream() {
-    return _queryAdapter.queryStream('SELECT * FROM hub',
+  Stream<List<HubItemData>> getUserHubListStream(String userId) {
+    return _queryAdapter.queryListStream('SELECT * FROM hub WHERE userId = ?1',
         mapper: (Map<String, Object?> row) => HubItemData(
             id: row['id'] as String,
             name: row['name'] as String,
             pictureUrl: row['pictureUrl'] as String,
-            description: row['description'] as String),
+            description: row['description'] as String,
+            userId: row['userId'] as String),
+        arguments: [userId],
         queryableName: 'hub',
         isView: false);
   }

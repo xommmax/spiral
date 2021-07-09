@@ -5,14 +5,14 @@ part 'user_request.g.dart';
 
 @JsonSerializable()
 class UserRequest {
-  final String uid;
+  final String id;
   final String? displayName;
   final String? email;
   final String? phoneNumber;
   final String? photoURL;
 
   const UserRequest({
-    required this.uid,
+    required this.id,
     required this.displayName,
     required this.email,
     required this.phoneNumber,
@@ -20,7 +20,7 @@ class UserRequest {
   });
 
   factory UserRequest.fromDomain(User user) => UserRequest(
-        uid: user.uid,
+        id: user.id,
         displayName: user.displayName,
         email: user.email,
         phoneNumber: user.phoneNumber,

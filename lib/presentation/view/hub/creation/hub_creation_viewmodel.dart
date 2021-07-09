@@ -31,7 +31,7 @@ class HubCreationViewModel extends BaseViewModel {
 
     Hub hub = Hub(
         name: viewData.name!,
-        picture: viewData.picture!,
+        pictureUrl: viewData.pictureUrl!,
         description: viewData.description!);
     _hubRepository.createHub(hub);
     _navigationService.back();
@@ -42,7 +42,7 @@ class HubCreationViewModel extends BaseViewModel {
       AppSnackBar.showSnackBarError(Strings.errorHubNameMustBeSpecified);
       return false;
     }
-    if (viewData.picture == null) {
+    if (viewData.pictureUrl == null) {
       AppSnackBar.showSnackBarError(Strings.errorHubPictureMustBeSpecified);
       return false;
     }
@@ -59,7 +59,7 @@ class HubCreationViewModel extends BaseViewModel {
     File? croppedImage = await _cropImage(pickedImage.path);
     if (croppedImage == null) return;
 
-    viewData.picture = File(croppedImage.path);
+    viewData.pictureUrl = croppedImage.path;
     notifyListeners();
   }
 

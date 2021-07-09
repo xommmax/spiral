@@ -6,11 +6,11 @@ abstract class UserDao {
   @insert
   Future<void> insertUser(UserItemData user);
 
-  @Query('SELECT * FROM user')
-  Stream<UserItemData?> getUserStream();
+  @Query('SELECT * FROM user WHERE id = :userId')
+  Stream<UserItemData?> getUserStream(String userId);
 
-  @Query('SELECT * FROM user')
-  Future<UserItemData?> getUser();
+  @Query('SELECT * FROM user WHERE id = :userId')
+  Future<UserItemData?> getUser(String userId);
 
   @Query('DELETE FROM user')
   Future<void> deleteUser();

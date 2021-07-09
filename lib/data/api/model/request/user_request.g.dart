@@ -8,7 +8,7 @@ part of 'user_request.dart';
 
 UserRequest _$UserRequestFromJson(Map<String, dynamic> json) {
   return UserRequest(
-    uid: json['uid'] as String,
+    id: json['id'] as String,
     displayName: json['displayName'] as String?,
     email: json['email'] as String?,
     phoneNumber: json['phoneNumber'] as String?,
@@ -18,7 +18,7 @@ UserRequest _$UserRequestFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$UserRequestToJson(UserRequest instance) =>
     <String, dynamic>{
-      'uid': instance.uid,
+      'id': instance.id,
       'displayName': instance.displayName,
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,

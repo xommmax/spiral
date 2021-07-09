@@ -1,35 +1,39 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class MainViewModel extends IndexTrackingViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
+  final UserRepository userRepository = locator<UserRepository>();
 
-  showAccountPage() {
-    if (_isUserExist()) {
-      _navigationService.navigateTo(Routes.accountView);
+  showAccountPage() async {
+    bool isCurrentUserExists = await _isCurrentUserExist();
+    if (isCurrentUserExists) {
+      _navigationService.navigateTo(Routes.profileView);
     } else {
       _navigationService.navigateTo(Routes.authView)?.then((result) {
-        if (result != null && result is bool && result && _isUserExist()) {
-          _navigationService.navigateTo(Routes.accountView);
+        if (result != null && result is bool && result && isCurrentUserExists) {
+          _navigationService.navigateTo(Routes.profileView);
         }
       });
     }
   }
 
-  onFabPressed() {
-    if (_isUserExist()) {
+  onFabPressed() async {
+    bool isCurrentUserExists = await _isCurrentUserExist();
+    if (isCurrentUserExists) {
       _navigationService.navigateTo(Routes.newPublicationView);
     } else {
       _navigationService.navigateTo(Routes.authView)?.then((result) {
-        if (result != null && result is bool && result && _isUserExist()) {
-          _navigationService.navigateTo(Routes.newPublicationView, arguments: NewPublicationViewArguments(hubId: '1'));
+        if (result != null && result is bool && result && isCurrentUserExists) {
+          _navigationService.navigateTo(Routes.newPublicationView,
+              arguments: NewPublicationViewArguments(hubId: '1'));
         }
       });
     }
   }
 
-  bool _isUserExist() => FirebaseAuth.instance.currentUser?.uid != null;
+  Future<bool> _isCurrentUserExist() => userRepository.isUserExist();
 }

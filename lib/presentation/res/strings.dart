@@ -43,7 +43,8 @@ class Strings {
   static const errorHubDescMustBeSpecified =
       "Hub description must be specified";
   static const errorPublicationCannotBeEmpty = 'Publication cannot be empty';
-  static const errorSomethingWentWrongWhileSendingPublication = 'Something went wrong while sending publication';
+  static const errorSomethingWentWrongWhileSendingPublication =
+      'Something went wrong while sending publication';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -54,5 +55,5 @@ class Strings {
   static const explore = 'Explore';
 
   /* Uncategorized */
-
+  static const no_hubs = 'No hubs';
 }
