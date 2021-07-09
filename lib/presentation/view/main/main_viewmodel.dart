@@ -14,7 +14,7 @@ class MainViewModel extends IndexTrackingViewModel {
       _navigationService.navigateTo(Routes.profileView);
     } else {
       _navigationService.navigateTo(Routes.authView)?.then((result) {
-        if (result != null && result is bool && result && isCurrentUserExists) {
+        if (result != null && result is bool && result) {
           _navigationService.navigateTo(Routes.profileView);
         }
       });
@@ -24,10 +24,11 @@ class MainViewModel extends IndexTrackingViewModel {
   onFabPressed() async {
     bool isCurrentUserExists = await _isCurrentUserExist();
     if (isCurrentUserExists) {
-      _navigationService.navigateTo(Routes.newPublicationView);
+      _navigationService.navigateTo(Routes.newPublicationView,
+          arguments: NewPublicationViewArguments(hubId: '1'));
     } else {
       _navigationService.navigateTo(Routes.authView)?.then((result) {
-        if (result != null && result is bool && result && isCurrentUserExists) {
+        if (result != null && result is bool && result) {
           _navigationService.navigateTo(Routes.newPublicationView,
               arguments: NewPublicationViewArguments(hubId: '1'));
         }
@@ -35,5 +36,5 @@ class MainViewModel extends IndexTrackingViewModel {
     }
   }
 
-  Future<bool> _isCurrentUserExist() => userRepository.isUserExist();
+  Future<bool> _isCurrentUserExist() => userRepository.isCurrentUserExist();
 }

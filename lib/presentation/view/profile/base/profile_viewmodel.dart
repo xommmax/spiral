@@ -23,7 +23,7 @@ class ProfileViewModel extends MultipleStreamViewModel {
             StreamData<List<Hub>?>(hubListStream(), onData: _obHubListData),
       };
 
-  Stream<User?> userStream() => _userRepository.getUserStream();
+  Stream<User?> userStream() => _userRepository.getCurrentUserStream();
 
   Stream<List<Hub>> hubListStream() => _hubRepository.getUserHubListStream();
 
