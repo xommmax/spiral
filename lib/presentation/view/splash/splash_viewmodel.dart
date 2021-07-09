@@ -21,7 +21,7 @@ class SplashViewModel extends FutureViewModel<SplashViewData> {
     return viewData;
   }
 
-  Future<User?> _getUser() => _userRepository.getUser();
+  Future<User?> _getUser() => _userRepository.getCurrentUser();
 
   @override
   void onData(SplashViewData? data) {

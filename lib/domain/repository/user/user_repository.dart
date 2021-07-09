@@ -2,21 +2,21 @@ import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
 
 abstract class UserRepository {
-  subscribeToFirebaseUserChanges();
+  Future<dynamic> register(SocialAuthRequest request);
 
-  Future<void> tryToRegister(SocialAuthRequest request);
+  Future<User?> getUser(String userId);
 
-  Future<User?> getUser({String? userId});
+  Future<User?> getCurrentUser();
 
-  Future<bool> isUserExist({String? userId});
+  Stream<User?> getCurrentUserStream();
 
-  Stream<User?> getUserStream({String? userId});
+  Future<bool> isUserExist(String userId);
+
+  Future<bool> isCurrentUserExist();
 
   void updateUser(User user);
 
-  void onVerificationCodeProvided(String code);
+  Future<dynamic> onVerificationCodeProvided(String code);
 
   Future<void> logoutUser();
-
-  dispose();
 }
