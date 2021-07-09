@@ -10,6 +10,6 @@ class HubLocalRepository {
 
   Future<void> addHub(HubItemData hub) => _database.hubDao.insertHub(hub);
 
-  Stream<List<HubItemData>> getAccountHubListStream() =>
-      _database.hubDao.getAccountHubListStream();
+  Stream<List<HubItemData>> getUserHubListStream(String userId) =>
+      _database.hubDao.getUserHubListStream(userId);
 }

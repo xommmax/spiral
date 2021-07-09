@@ -4,12 +4,10 @@ import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
-import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class AccountViewModel extends MultipleStreamViewModel {
+class ProfileViewModel extends MultipleStreamViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final UserRepository _userRepository = locator<UserRepository>();
   final HubRepository _hubRepository = locator<HubRepository>();
@@ -25,13 +23,9 @@ class AccountViewModel extends MultipleStreamViewModel {
             StreamData<List<Hub>?>(hubListStream(), onData: _obHubListData),
       };
 
-  Stream<User?> userStream() => _userRepository.getUserStream().map(
-        (event) => event.error != null
-            ? AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser)
-            : event.data,
-      );
+  Stream<User?> userStream() => _userRepository.getUserStream();
 
-  Stream<List<Hub>> hubListStream() => _hubRepository.getAccountHubListStream();
+  Stream<List<Hub>> hubListStream() => _hubRepository.getUserHubListStream();
 
   _onUserData(User? data) {
     if (data != null) {

@@ -29,7 +29,10 @@ class HubRepositoryImpl implements HubRepository {
   }
 
   @override
-  Stream<List<Hub>> getAccountHubListStream() =>
-      _local.getAccountHubListStream().map((itemDataList) =>
-          itemDataList.map((itemData) => Hub.fromItemData(itemData)).toList());
+  Stream<List<Hub>> getUserHubListStream({String? userId}) {
+    return _local.getUserHubListStream(userId ?? _auth.currentUser!.uid).map(
+        (itemDataList) => itemDataList
+            .map((itemData) => Hub.fromItemData(itemData))
+            .toList());
+  }
 }
