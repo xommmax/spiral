@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/domain/model/user/social_auth_exception.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
-import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/auth/auth_viewdata.dart';
@@ -12,28 +11,11 @@ import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class AuthViewModel extends StreamViewModel<User?> {
+class AuthViewModel extends BaseViewModel {
   final UserRepository _userRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
   final AuthViewData viewData = AuthViewData();
   final TextEditingController phoneNumberController = TextEditingController();
-
-  @override
-  void initialise() {
-    _userRepository.subscribeToFirebaseUserChanges();
-    super.initialise();
-  }
-
-  @override
-  Stream<User?> get stream => _userRepository.getUserStream();
-
-  @override
-  void onData(User? data) async {
-    if (data != null) {
-      _navigationService.back(result: true);
-    }
-    super.onData(data);
-  }
 
   onPhoneSignUpClicked() async {
     if (viewData.phoneCode?.isEmpty ?? true) {
@@ -71,9 +53,12 @@ class AuthViewModel extends StreamViewModel<User?> {
 
   onCountryCodeChanged(String? countryCode) => viewData.phoneCode = countryCode;
 
-  onCodeVerificationRetrieved(String code) {
+  onCodeVerificationRetrieved(String code) async {
     try {
-      _userRepository.onVerificationCodeProvided(code);
+      final result = await _userRepository.onVerificationCodeProvided(code);
+      if (result != null) {
+        _navigationService.back(result: true);
+      }
     } catch (e) {
       if (e is SocialAuthException) {
         AppSnackBar.showSnackBarError(e.message);
@@ -88,9 +73,13 @@ class AuthViewModel extends StreamViewModel<User?> {
       setBusy(true);
     }
     try {
-      await _userRepository.tryToRegister(
+      final result = await _userRepository.register(
         request,
       );
+
+      if (result != null) {
+        _navigationService.back(result: true);
+      }
     } catch (e) {
       if (e is SocialAuthException) {
         AppSnackBar.showSnackBarError(e.message);
@@ -103,7 +92,6 @@ class AuthViewModel extends StreamViewModel<User?> {
 
   @override
   void dispose() {
-    _userRepository.dispose();
     phoneNumberController.dispose();
     super.dispose();
   }

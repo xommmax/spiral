@@ -38,7 +38,7 @@ class UserRemoteRepository {
       .catchError((error) =>
           throw Exception('Error while updating user from Firestore: $error'));
 
-  Future<void> tryToRegister(SocialAuthRequest request) async {
+  Future register(SocialAuthRequest request) async {
     switch (request.type) {
       case SocialAuthType.Phone:
         return _onPhoneAuthRequested(request.data);
@@ -54,13 +54,13 @@ class UserRemoteRepository {
     }
   }
 
-  onVerificationCodeProvided(String code) {
+  Future<UserCredential> onVerificationCodeProvided(String code) {
     try {
       if (codeVerificationId == null) {
         throw SocialAuthException(
             message: Strings.errorVerificationCodeIsInvalid);
       }
-      _signInWithCredentials(
+      return _signInWithCredentials(
         PhoneAuthProvider.credential(
           verificationId: codeVerificationId!,
           smsCode: code,
@@ -74,7 +74,7 @@ class UserRemoteRepository {
     }
   }
 
-  _onGoogleAuthRequested() async {
+  Future<UserCredential> _onGoogleAuthRequested() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null)
@@ -86,7 +86,7 @@ class UserRemoteRepository {
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
-      return await _signInWithCredentials(credential);
+      return _signInWithCredentials(credential);
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
@@ -94,15 +94,16 @@ class UserRemoteRepository {
     }
   }
 
-  _onFacebookAuthRequested() async {
+  Future<UserCredential> _onFacebookAuthRequested() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
       if (result.status == LoginStatus.success) {
         final String? token = result.accessToken?.token;
-        if (token == null) return;
+        if (token == null)
+          throw SocialAuthException(message: Strings.errorFacebookAuthError);
         final OAuthCredential credential =
             FacebookAuthProvider.credential(token);
-        await _signInWithCredentials(credential);
+        return _signInWithCredentials(credential);
       } else {
         throw SocialAuthException(
             message: Strings.errorUnableToGetCredentialsFromFacebook);
@@ -114,7 +115,7 @@ class UserRemoteRepository {
     }
   }
 
-  _onAppleAuthRequested() async {
+  Future<UserCredential> _onAppleAuthRequested() async {
     try {
       final rawNonce = _generateNonce();
       final nonce = _sha256ofString(rawNonce);
@@ -132,7 +133,7 @@ class UserRemoteRepository {
         rawNonce: rawNonce,
       );
 
-      return await _signInWithCredentials(oauthCredential);
+      return _signInWithCredentials(oauthCredential);
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
@@ -140,27 +141,29 @@ class UserRemoteRepository {
     }
   }
 
-  _onPhoneAuthRequested(String? number) => number != null
-      ? FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: number,
-          verificationCompleted: (PhoneAuthCredential credential) =>
-              _signInWithCredentials(credential),
-          verificationFailed: (FirebaseAuthException e) =>
-              throw SocialAuthException(
-            message: e.message != null
-                ? e.message!
-                : Strings.errorPhoneNumberAuthError,
-          ),
-          codeSent: (String verificationId, int? resendToken) =>
-              codeVerificationId = verificationId,
-          codeAutoRetrievalTimeout: (String verificationId) =>
-              codeVerificationId = verificationId,
-        )
-      : throw SocialAuthException(
-          message: Strings.errorPhoneNumberIsEmpty,
-        );
+  Future<void> _onPhoneAuthRequested(String? number) {
+    if (number == null) {
+      throw SocialAuthException(
+        message: Strings.errorPhoneNumberIsEmpty,
+      );
+    }
+    return FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: number,
+      verificationCompleted: (PhoneAuthCredential credential) =>
+          _signInWithCredentials(credential),
+      verificationFailed: (FirebaseAuthException e) =>
+          throw SocialAuthException(
+        message:
+            e.message != null ? e.message! : Strings.errorPhoneNumberAuthError,
+      ),
+      codeSent: (String verificationId, int? resendToken) =>
+          codeVerificationId = verificationId,
+      codeAutoRetrievalTimeout: (String verificationId) =>
+          codeVerificationId = verificationId,
+    );
+  }
 
-  _signInWithCredentials(AuthCredential credentials) =>
+  Future<UserCredential> _signInWithCredentials(AuthCredential credentials) =>
       FirebaseAuth.instance.signInWithCredential(credentials);
 
   String _generateNonce([int length = 32]) {

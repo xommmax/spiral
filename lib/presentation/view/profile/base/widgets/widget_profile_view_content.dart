@@ -10,7 +10,7 @@ class WidgetProfileViewContent extends ViewModelWidget<ProfileViewModel> {
         body: SafeArea(
             child: Column(
           children: [
-            if (viewModel.user != null)
+            if (viewModel.user?.photoURL != null)
               Image.network(viewModel.user!.photoURL!),
             WidgetProfileHubGrid()
           ],
