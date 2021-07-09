@@ -14,6 +14,7 @@ import 'firebase_storage_repository.dart';
 class HubRemoteRepository {
   final FirebaseStorageRepository _firebaseStorageRepository =
       locator<FirebaseStorageRepository>();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<HubResponse> createHub(HubRequest hubRequest, File hubPicture) async {
     List<String> uploadedUrls = await _firebaseStorageRepository
@@ -21,16 +22,18 @@ class HubRemoteRepository {
             [hubPicture], FirebaseStorageFolders.hubPictures);
     hubRequest.pictureUrl = uploadedUrls[0];
 
-    var documentReference = await FirebaseFirestore.instance
+    var documentReference = await _firestore
         .collection(FirebaseCollections.userHubs)
         .add(hubRequest.toJson());
     var documentSnapshot = await documentReference.get();
-
-    if (documentSnapshot.exists) {
-      return HubResponse.fromJson(
-          documentSnapshot.id, documentSnapshot.data()!);
-    } else {
-      return throw FirebaseException(plugin: "Firebase Storage");
-    }
+    return HubResponse.fromJson(documentSnapshot.id, documentSnapshot.data()!);
   }
+
+  Future<List<HubResponse>> getHubs(String userId) => _firestore
+      .collection(FirebaseCollections.userHubs)
+      .where("userId", isEqualTo: userId)
+      .get()
+      .then((snapshots) => snapshots.docs
+          .map((doc) => HubResponse.fromJson(doc.id, doc.data()))
+          .toList());
 }

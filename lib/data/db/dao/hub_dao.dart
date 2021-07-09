@@ -6,6 +6,18 @@ abstract class HubDao {
   @insert
   Future<void> insertHub(HubItemData hub);
 
+  @insert
+  Future<void> insertHubs(List<HubItemData> hubs);
+
+  @Query("DELETE FROM hub WHERE userId = :userId")
+  Future<void> deleteUserHubs(String userId);
+
   @Query('SELECT * FROM hub WHERE userId = :userId')
   Stream<List<HubItemData>> getUserHubListStream(String userId);
+
+  @transaction
+  Future<void> updateUserHubs(String userId, List<HubItemData> hubs) async {
+    await deleteUserHubs(userId);
+    await insertHubs(hubs);
+  }
 }

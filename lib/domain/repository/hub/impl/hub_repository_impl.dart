@@ -30,9 +30,16 @@ class HubRepositoryImpl implements HubRepository {
 
   @override
   Stream<List<Hub>> getUserHubListStream({String? userId}) {
-    return _local.getUserHubListStream(userId ?? _auth.currentUser!.uid).map(
-        (itemDataList) => itemDataList
-            .map((itemData) => Hub.fromItemData(itemData))
-            .toList());
+    userId = userId ?? _auth.currentUser!.uid;
+
+    _remote.getHubs(userId).then((hubResponses) {
+      var hubItemData = hubResponses
+          .map((hubResponse) => HubItemData.fromResponse(hubResponse))
+          .toList();
+      _local.updateUserHubs(_auth.currentUser!.uid, hubItemData);
+    });
+
+    return _local.getUserHubListStream(userId).map((itemDataList) =>
+        itemDataList.map((itemData) => Hub.fromItemData(itemData)).toList());
   }
 }
