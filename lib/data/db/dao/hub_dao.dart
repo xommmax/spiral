@@ -3,9 +3,12 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class HubDao {
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHub(HubItemData hub);
 
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insertHubs(List<HubItemData> hubs);
+
   @Query('SELECT * FROM hub WHERE userId = :userId')
-  Stream<List<HubItemData>> getUserHubListStream(String userId);
+  Stream<List<HubItemData>> getUserHubsStream(String userId);
 }

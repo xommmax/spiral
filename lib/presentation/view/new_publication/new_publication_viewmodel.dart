@@ -32,10 +32,10 @@ class NewPublicationViewModel extends BaseViewModel {
       setBusy(false);
       return;
     }
-    viewData.publication.inputText = publicationTextController.text;
+    viewData.publication.text = publicationTextController.text;
     viewData.publication.hubId = hubId;
     try {
-      await _publicationRepository.sendPublication(viewData.publication);
+      await _publicationRepository.createPublication(viewData.publication);
       setBusy(false);
       _navigationService.back(result: true);
     } catch (e) {

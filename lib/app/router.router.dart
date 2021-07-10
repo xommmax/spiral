@@ -10,8 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../presentation/view/auth/auth_view.dart';
-import '../presentation/view/hub/creation/hub_creation_view.dart';
+import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/main/main_view.dart';
+import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
 import '../presentation/view/profile/base/profile_view.dart';
 import '../presentation/view/splash/splash_view.dart';
@@ -23,6 +24,7 @@ class Routes {
   static const String newPublicationView = '/new-publication-view';
   static const String profileView = '/profile-view';
   static const String hubCreationView = '/hub-creation-view';
+  static const String hubView = '/hub-view';
   static const all = <String>{
     splashView,
     authView,
@@ -30,6 +32,7 @@ class Routes {
     newPublicationView,
     profileView,
     hubCreationView,
+    hubView,
   };
 }
 
@@ -43,6 +46,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
     RouteDef(Routes.profileView, page: ProfileView),
     RouteDef(Routes.hubCreationView, page: HubCreationView),
+    RouteDef(Routes.hubView, page: HubView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -84,6 +88,13 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    HubView: (data) {
+      var args = data.getArgs<HubViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => HubView(hubId: args.hubId),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -95,4 +106,10 @@ class StackedRouter extends RouterBase {
 class NewPublicationViewArguments {
   final String hubId;
   NewPublicationViewArguments({required this.hubId});
+}
+
+/// HubView arguments holder class
+class HubViewArguments {
+  final String hubId;
+  HubViewArguments({required this.hubId});
 }
