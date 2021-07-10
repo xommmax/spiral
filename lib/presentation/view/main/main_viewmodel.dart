@@ -6,20 +6,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 class MainViewModel extends IndexTrackingViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
-  final UserRepository userRepository = locator<UserRepository>();
-
-  showAccountPage() async {
-    bool isCurrentUserExists = await _isCurrentUserExist();
-    if (isCurrentUserExists) {
-      _navigationService.navigateTo(Routes.profileView);
-    } else {
-      _navigationService.navigateTo(Routes.authView)?.then((result) {
-        if (result != null && result is bool && result) {
-          _navigationService.navigateTo(Routes.profileView);
-        }
-      });
-    }
-  }
+  final UserRepository _userRepository = locator<UserRepository>();
 
   onFabPressed() async {
     bool isCurrentUserExists = await _isCurrentUserExist();
@@ -36,5 +23,5 @@ class MainViewModel extends IndexTrackingViewModel {
     }
   }
 
-  Future<bool> _isCurrentUserExist() => userRepository.isCurrentUserExist();
+  Future<bool> _isCurrentUserExist() => _userRepository.isCurrentUserExist();
 }

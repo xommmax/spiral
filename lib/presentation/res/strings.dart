@@ -45,6 +45,10 @@ class Strings {
   static const errorPublicationCannotBeEmpty = 'Publication cannot be empty';
   static const errorSomethingWentWrongWhileSendingPublication =
       'Something went wrong while sending publication';
+  static const cannotOpenHubPleaseContactUs =
+      'Cannot open this hub, please contact us';
+  static const unableToGetHubsList = 'Cannot get hubs, please contact us';
+  static const unableToGetPublications = 'Cannot get publications, please contact us';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -54,6 +58,9 @@ class Strings {
   static const home = 'Home';
   static const explore = 'Explore';
 
-  /* Uncategorized */
+  /* Hubs*/
   static const no_hubs = 'No hubs';
+
+/* Uncategorized */
+
 }

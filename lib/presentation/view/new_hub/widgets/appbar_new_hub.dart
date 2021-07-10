@@ -1,13 +1,13 @@
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/view/hub/creation/hub_creation_viewmodel.dart';
+import 'package:dairo/presentation/view/new_hub/new_hub_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class AppBarHubCreation extends ViewModelWidget<HubCreationViewModel>
+class AppBarNewHub extends ViewModelWidget<NewHubViewModel>
     implements ObstructingPreferredSizeWidget {
   @override
-  Widget build(BuildContext context, HubCreationViewModel viewModel) => AppBar(
+  Widget build(BuildContext context, NewHubViewModel viewModel) => AppBar(
         title: TextField(
           style: TextStyle(
               color: AppColors.white,
@@ -18,22 +18,6 @@ class AppBarHubCreation extends ViewModelWidget<HubCreationViewModel>
               hintText: 'Enter Hubname',
               hintStyle: TextStyle(color: AppColors.gray)),
         ),
-        actions: [
-          Visibility(
-            visible: !viewModel.isBusy,
-            child: GestureDetector(
-              onTap: viewModel.onDonePressed,
-              behavior: HitTestBehavior.translucent,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Icon(
-                  Icons.check,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
       );
 
   @override
