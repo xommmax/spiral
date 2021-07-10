@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:dairo/domain/model/hub/hub.dart';
 
 abstract class HubRepository {
-
-  void refreshHubs({String? userId});
+  StreamSubscription subscribeToCurrentUserHubs();
 
   Future<void> createHub(Hub hub);
 

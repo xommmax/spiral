@@ -212,6 +212,12 @@ class _$HubDao extends HubDao {
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
 
   @override
+  Future<void> deleteUserHubs(String userId) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM hub WHERE userId = ?1',
+        arguments: [userId]);
+  }
+
+  @override
   Stream<List<HubItemData>> getUserHubsStream(String userId) {
     return _queryAdapter.queryListStream('SELECT * FROM hub WHERE userId = ?1',
         mapper: (Map<String, Object?> row) => HubItemData(
@@ -234,6 +240,20 @@ class _$HubDao extends HubDao {
   Future<void> insertHubs(List<HubItemData> hubs) async {
     await _hubItemDataInsertionAdapter.insertList(
         hubs, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateUserHubs(String userId, List<HubItemData> hubs) async {
+    if (database is sqflite.Transaction) {
+      await super.updateUserHubs(userId, hubs);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.hubDao.updateUserHubs(userId, hubs);
+      });
+    }
   }
 }
 

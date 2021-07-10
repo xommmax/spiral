@@ -8,12 +8,10 @@ import 'package:stacked/stacked.dart';
 import '../new_hub_viewmodel.dart';
 import 'appbar_new_hub.dart';
 
-class WidgetHubCreationViewContent
-    extends ViewModelWidget<HubCreationViewModel> {
+class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
   @override
-  Widget build(BuildContext context, HubCreationViewModel viewModel) =>
-      Scaffold(
-        appBar: AppBarHubCreation(),
+  Widget build(BuildContext context, NewHubViewModel viewModel) => Scaffold(
+        appBar: AppBarNewHub(),
         body: SafeArea(
           child: Column(
             children: [
@@ -47,6 +45,14 @@ class WidgetHubCreationViewContent
               ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: viewModel.onDonePressed,
+          child: Icon(
+            viewModel.isBusy ? Icons.file_upload : Icons.check,
+            color: AppColors.white,
+          ),
+          backgroundColor: AppColors.primaryColor,
         ),
       );
 }

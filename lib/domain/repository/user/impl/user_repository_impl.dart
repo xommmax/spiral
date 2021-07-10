@@ -8,6 +8,7 @@ import 'package:dairo/data/db/entity/user_item_data.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
+import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
@@ -18,14 +19,24 @@ class UserRepositoryImpl implements UserRepository {
   final UserRemoteRepository _remote = locator<UserRemoteRepository>();
   final UserLocalRepository _local = locator<UserLocalRepository>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final List<StreamSubscription> currentUserSubscriptions = [];
+  final HubRepository _hubRepository = locator<HubRepository>();
 
   UserRepositoryImpl() {
     _auth.userChanges().listen((firebaseUser) {
       if (firebaseUser != null && !firebaseUser.isAnonymous) {
         updateUser(User.fromFirebase(firebaseUser));
-
+        initializeCurrentUserSubscriptions();
       }
     });
+  }
+
+  initializeCurrentUserSubscriptions() async {
+    await Future.wait(currentUserSubscriptions
+        .map((StreamSubscription subscription) => subscription.cancel()));
+    currentUserSubscriptions.clear();
+
+    currentUserSubscriptions.add(_hubRepository.subscribeToCurrentUserHubs());
   }
 
   @override

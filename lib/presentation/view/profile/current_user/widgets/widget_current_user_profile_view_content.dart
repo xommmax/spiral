@@ -13,7 +13,7 @@ class WidgetCurrentUserProfileViewContent
           child: WidgetBaseProfileView<CurrentUserProfileViewModel>(),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.createHub,
+          onPressed: viewModel.onCreateHubClicked,
           child: Icon(Icons.add),
           backgroundColor: AppColors.primaryColor,
         ),

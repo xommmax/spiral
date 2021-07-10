@@ -25,7 +25,7 @@ class WidgetBaseProfileView<T extends BaseProfileViewModel>
             ),
           ),
           Text(
-            viewModel.user?.displayName ?? '',
+            viewModel.viewData.user?.displayName ?? '',
             style: TextStyles.robotoBlack18,
           ),
           SizedBox(

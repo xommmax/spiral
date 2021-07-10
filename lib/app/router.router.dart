@@ -23,7 +23,7 @@ class Routes {
   static const String mainView = '/';
   static const String newPublicationView = '/new-publication-view';
   static const String currentUserProfileView = '/current-user-profile-view';
-  static const String hubCreationView = '/hub-creation-view';
+  static const String newHubView = '/new-hub-view';
   static const String hubView = '/hub-view';
   static const all = <String>{
     splashView,
@@ -31,7 +31,7 @@ class Routes {
     mainView,
     newPublicationView,
     currentUserProfileView,
-    hubCreationView,
+    newHubView,
     hubView,
   };
 }
@@ -45,7 +45,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
     RouteDef(Routes.currentUserProfileView, page: CurrentUserProfileView),
-    RouteDef(Routes.hubCreationView, page: HubCreationView),
+    RouteDef(Routes.newHubView, page: NewHubView),
     RouteDef(Routes.hubView, page: HubView),
   ];
   @override
@@ -82,9 +82,9 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    HubCreationView: (data) {
+    NewHubView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => HubCreationView(),
+        builder: (context) => NewHubView(),
         settings: data,
       );
     },

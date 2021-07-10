@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
@@ -17,24 +18,25 @@ class HubRepositoryImpl implements HubRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Future<void> createHub(Hub hub) async {
+  Future<void> createHub(Hub hub) {
     final String? userId = _auth.currentUser?.uid;
     if (userId == null) throw UnauthorizedException();
-
-    await _remote.createHub(hub.toRequest(userId), File(hub.pictureUrl));
+    return _remote.createHub(hub.toRequest(userId), File(hub.pictureUrl));
   }
 
   @override
-  void refreshHubs({String? userId}) => _remote.listenRemoteHubs(userId ?? _auth.currentUser!.uid).listen(
-        (remoteHubs) => _local.addHubs(remoteHubs
-        .map((response) => HubItemData.fromResponse(response))
-        .toList()),
-  );
+  StreamSubscription subscribeToCurrentUserHubs() =>
+      _remote.listenRemoteHubs(_auth.currentUser!.uid).listen(
+            (remoteHubs) => _local.updateUserHubs(
+                _auth.currentUser!.uid,
+                remoteHubs
+                    .map((response) => HubItemData.fromResponse(response))
+                    .toList()),
+          );
 
   @override
   Stream<List<Hub>> getUserHubsStream({String? userId}) => _local
       .getUserHubsStream(userId ?? _auth.currentUser!.uid)
       .map((itemDataList) =>
-      itemDataList.map((itemData) => Hub.fromItemData(itemData)).toList());
-
+          itemDataList.map((itemData) => Hub.fromItemData(itemData)).toList());
 }

@@ -15,5 +15,4 @@ class HubLocalRepository {
 
   Future<void> updateUserHubs(String userId, List<HubItemData> hubs) =>
       _database.hubDao.updateUserHubs(userId, hubs);
-
 }

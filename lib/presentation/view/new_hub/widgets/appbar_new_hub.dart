@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class AppBarHubCreation extends ViewModelWidget<HubCreationViewModel>
+class AppBarNewHub extends ViewModelWidget<NewHubViewModel>
     implements ObstructingPreferredSizeWidget {
   @override
-  Widget build(BuildContext context, HubCreationViewModel viewModel) => AppBar(
+  Widget build(BuildContext context, NewHubViewModel viewModel) => AppBar(
         title: TextField(
           style: TextStyle(
               color: AppColors.white,

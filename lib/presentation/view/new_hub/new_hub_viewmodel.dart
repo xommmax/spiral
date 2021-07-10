@@ -15,13 +15,13 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'new_hub_viewdata.dart';
 
-class HubCreationViewModel extends BaseViewModel {
+class NewHubViewModel extends BaseViewModel {
   final HubRepository _hubRepository = locator<HubRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final _picker = ImagePicker();
-  final HubCreationViewData viewData = HubCreationViewData();
+  final NewHubViewData viewData = NewHubViewData();
 
   void onDonePressed() {
     viewData.name = nameController.text;

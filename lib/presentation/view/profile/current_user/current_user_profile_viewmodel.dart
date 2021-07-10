@@ -6,5 +6,5 @@ import 'package:stacked_services/stacked_services.dart';
 class CurrentUserProfileViewModel extends BaseProfileViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
-  createHub() => _navigationService.navigateTo(Routes.hubCreationView);
+  onCreateHubClicked() => _navigationService.navigateTo(Routes.newHubView);
 }

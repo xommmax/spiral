@@ -1,7 +1,7 @@
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/user/user.dart';
 
-class ProfileViewData {
+class BaseProfileViewData {
   User? user;
-  List<Hub> hubList = [];
+  List<Hub> hubs = [];
 }
