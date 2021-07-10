@@ -11,7 +11,7 @@ class WidgetAttachmentsPanel extends ViewModelWidget<NewPublicationViewModel> {
         width: double.maxFinite,
         color: AppColors.white,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             GestureDetector(
               onTap: viewModel.onVideoGallerySelected,

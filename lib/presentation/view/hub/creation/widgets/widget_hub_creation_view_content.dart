@@ -47,5 +47,13 @@ class WidgetHubCreationViewContent
             ),
           ],
         )),
+        floatingActionButton: FloatingActionButton(
+          onPressed: viewModel.onDonePressed,
+          child: Icon(
+            viewModel.isBusy ? Icons.file_upload : Icons.check,
+            color: AppColors.white,
+          ),
+          backgroundColor: AppColors.primaryColor,
+        ),
       );
 }

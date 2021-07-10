@@ -1,5 +1,6 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,7 +16,10 @@ class WidgetExploreViewContent extends ViewModelWidget<ExploreViewModel> {
         body: SafeArea(
           child: Container(
             alignment: Alignment.center,
-            child: Text("Explore tab"),
+            child: Text(
+              "Explore",
+              style: TextStyles.robotoBlack22,
+            ),
           ),
         ),
       );

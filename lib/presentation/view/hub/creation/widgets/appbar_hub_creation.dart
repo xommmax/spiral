@@ -18,22 +18,6 @@ class AppBarHubCreation extends ViewModelWidget<HubCreationViewModel>
               hintText: 'Enter Hubname',
               hintStyle: TextStyle(color: AppColors.gray)),
         ),
-        actions: [
-          Visibility(
-            visible: !viewModel.isBusy,
-            child: GestureDetector(
-              onTap: viewModel.onDonePressed,
-              behavior: HitTestBehavior.translucent,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Icon(
-                  Icons.check,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
       );
 
   @override
