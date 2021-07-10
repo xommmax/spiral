@@ -64,6 +64,8 @@ class _$DairoDatabase extends DairoDatabase {
 
   HubDao? _hubDaoInstance;
 
+  PublicationDao? _publicationDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -86,6 +88,8 @@ class _$DairoDatabase extends DairoDatabase {
             'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `description` TEXT NOT NULL, `userId` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT NOT NULL, `mediaUrls` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -101,6 +105,12 @@ class _$DairoDatabase extends DairoDatabase {
   @override
   HubDao get hubDao {
     return _hubDaoInstance ??= _$HubDao(database, changeListener);
+  }
+
+  @override
+  PublicationDao get publicationDao {
+    return _publicationDaoInstance ??=
+        _$PublicationDao(database, changeListener);
   }
 }
 
@@ -202,13 +212,7 @@ class _$HubDao extends HubDao {
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
 
   @override
-  Future<void> deleteUserHubs(String userId) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM hub WHERE userId = ?1',
-        arguments: [userId]);
-  }
-
-  @override
-  Stream<List<HubItemData>> getUserHubListStream(String userId) {
+  Stream<List<HubItemData>> getUserHubsStream(String userId) {
     return _queryAdapter.queryListStream('SELECT * FROM hub WHERE userId = ?1',
         mapper: (Map<String, Object?> row) => HubItemData(
             id: row['id'] as String,
@@ -223,26 +227,62 @@ class _$HubDao extends HubDao {
 
   @override
   Future<void> insertHub(HubItemData hub) async {
-    await _hubItemDataInsertionAdapter.insert(hub, OnConflictStrategy.abort);
+    await _hubItemDataInsertionAdapter.insert(hub, OnConflictStrategy.replace);
   }
 
   @override
   Future<void> insertHubs(List<HubItemData> hubs) async {
     await _hubItemDataInsertionAdapter.insertList(
-        hubs, OnConflictStrategy.abort);
+        hubs, OnConflictStrategy.replace);
+  }
+}
+
+class _$PublicationDao extends PublicationDao {
+  _$PublicationDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _publicationItemDataInsertionAdapter = InsertionAdapter(
+            database,
+            'publication',
+            (PublicationItemData item) => <String, Object?>{
+                  'id': item.id,
+                  'hubId': item.hubId,
+                  'text': item.text,
+                  'mediaUrls': item.mediaUrls
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<PublicationItemData>
+      _publicationItemDataInsertionAdapter;
+
+  @override
+  Stream<List<PublicationItemData>> getUserPublicationsStream(String hubId) {
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM publication WHERE hubId = ?1',
+        mapper: (Map<String, Object?> row) => PublicationItemData(
+            id: row['id'] as String,
+            hubId: row['hubId'] as String,
+            text: row['text'] as String,
+            mediaUrls: row['mediaUrls'] as String?),
+        arguments: [hubId],
+        queryableName: 'publication',
+        isView: false);
   }
 
   @override
-  Future<void> updateUserHubs(String userId, List<HubItemData> hubs) async {
-    if (database is sqflite.Transaction) {
-      await super.updateUserHubs(userId, hubs);
-    } else {
-      await (database as sqflite.Database)
-          .transaction<void>((transaction) async {
-        final transactionDatabase = _$DairoDatabase(changeListener)
-          ..database = transaction;
-        await transactionDatabase.hubDao.updateUserHubs(userId, hubs);
-      });
-    }
+  Future<void> insertPublication(PublicationItemData publication) async {
+    await _publicationItemDataInsertionAdapter.insert(
+        publication, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertPublications(List<PublicationItemData> publication) async {
+    await _publicationItemDataInsertionAdapter.insertList(
+        publication, OnConflictStrategy.replace);
   }
 }

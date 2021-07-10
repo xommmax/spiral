@@ -18,12 +18,12 @@ class UserRepositoryImpl implements UserRepository {
   final UserRemoteRepository _remote = locator<UserRemoteRepository>();
   final UserLocalRepository _local = locator<UserLocalRepository>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  StreamSubscription? _firebaseUserSubscription;
 
   UserRepositoryImpl() {
-    _firebaseUserSubscription = _auth.userChanges().listen((firebaseUser) {
+    _auth.userChanges().listen((firebaseUser) {
       if (firebaseUser != null && !firebaseUser.isAnonymous) {
         updateUser(User.fromFirebase(firebaseUser));
+
       }
     });
   }

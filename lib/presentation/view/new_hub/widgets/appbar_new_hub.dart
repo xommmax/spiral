@@ -1,5 +1,5 @@
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/view/hub/creation/hub_creation_viewmodel.dart';
+import 'package:dairo/presentation/view/new_hub/new_hub_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';

@@ -34,6 +34,17 @@ class HubRemoteRepository {
       .where("userId", isEqualTo: userId)
       .get()
       .then((snapshots) => snapshots.docs
-          .map((doc) => HubResponse.fromJson(doc.id, doc.data()))
-          .toList());
+      .map((doc) => HubResponse.fromJson(doc.id, doc.data()))
+      .toList());
+
+  Stream<List<HubResponse>> listenRemoteHubs(String userId) => _remote
+      .collection(FirebaseCollections.userHubs)
+      .where('userId', isEqualTo: userId)
+      .snapshots()
+      .map(
+        (snapshot) => snapshot.docs
+        .map((document) =>
+        HubResponse.fromJson(document.id, document.data()))
+        .toList(),
+  );
 }

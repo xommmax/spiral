@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../hub_page_viewmodel.dart';
+import '../hub_viewmodel.dart';
 
 class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
   @override

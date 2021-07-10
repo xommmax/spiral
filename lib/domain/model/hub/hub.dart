@@ -2,11 +2,13 @@ import 'package:dairo/data/api/model/request/hub_request.dart';
 import 'package:dairo/data/db/entity/hub_item_data.dart';
 
 class Hub {
-  String name;
-  String pictureUrl;
-  String description;
+  final String? id;
+  final String name;
+  final String pictureUrl;
+  final String description;
 
   Hub({
+    this.id,
     required this.name,
     required this.pictureUrl,
     required this.description,
@@ -19,26 +21,28 @@ class Hub {
       );
 
   factory Hub.fromItemData(HubItemData itemData) => Hub(
+        id: itemData.id,
         name: itemData.name,
         pictureUrl: itemData.pictureUrl,
         description: itemData.description,
       );
 
   @override
-  String toString() =>
-      'Hub(name: $name, pictureUrl: $pictureUrl, description: $description)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Hub &&
-        other.name == name &&
-        other.pictureUrl == pictureUrl &&
-        other.description == description;
+  String toString() {
+    return 'Hub{id: $id, name: $name, pictureUrl: $pictureUrl, description: $description}';
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Hub &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          pictureUrl == other.pictureUrl &&
+          description == other.description;
+
+  @override
   int get hashCode =>
-      name.hashCode ^ pictureUrl.hashCode ^ description.hashCode;
+      id.hashCode ^ name.hashCode ^ pictureUrl.hashCode ^ description.hashCode;
 }
