@@ -62,7 +62,9 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Stream<User?> getCurrentUserStream() {
     final currentUser = _auth.currentUser;
-    if (currentUser == null) throw UnauthorizedException();
+    if (currentUser == null)
+      // TODO: wait for user auth instead of error throw
+      throw UnauthorizedException();
     return _local.getUserStream(currentUser.uid).map((itemData) {
       if (itemData == null) return null;
       return User.fromItemData(itemData);
@@ -92,4 +94,11 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<dynamic> onVerificationCodeProvided(String code) =>
       _remote.onVerificationCodeProvided(code);
+
+  @override
+  String? getCurrentUserPhotoUrl() {
+    final currentUser = _auth.currentUser;
+    if (currentUser == null) return null;
+    return currentUser.photoURL;
+  }
 }

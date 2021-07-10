@@ -19,4 +19,6 @@ abstract class UserRepository {
   Future<dynamic> onVerificationCodeProvided(String code);
 
   Future<void> logoutUser();
+
+  String? getCurrentUserPhotoUrl();
 }

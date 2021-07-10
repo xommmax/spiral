@@ -25,6 +25,8 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
   _onUserData(User? data) => user = data;
 
   _obHubListData(List<Hub> data) => hubList = data;
+
+  String? getPhotoUrl() => _userRepository.getCurrentUserPhotoUrl();
 }
 
 const String _UserStreamKey = 'userStream';
