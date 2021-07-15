@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
@@ -23,12 +24,12 @@ class PublicationRepositoryImpl implements PublicationRepository {
       );
 
   @override
-  void refreshPublications(String hubId) =>
+  StreamSubscription subscribeToCurrentUserHubPublications(String hubId) =>
       _remote.listenRemotePublications(hubId).listen(
             (remotePublications) => _local.addPublications(remotePublications
-                .map((response) => PublicationItemData.fromResponse(response))
-                .toList()),
-          );
+            .map((response) => PublicationItemData.fromResponse(response))
+            .toList()),
+      );
 
   @override
   Stream<List<Publication>> getUserPublicationsStream(String hubId) => _local

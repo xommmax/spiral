@@ -22,7 +22,6 @@ class WidgetHubPreview extends StatelessWidget {
           ),
           child: CachedNetworkImage(
             imageUrl: _hub.pictureUrl,
-            placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),

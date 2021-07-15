@@ -9,6 +9,8 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../domain/model/hub/hub.dart';
+import '../domain/model/user/user.dart';
 import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/main/main_view.dart';
@@ -91,7 +93,10 @@ class StackedRouter extends RouterBase {
     HubView: (data) {
       var args = data.getArgs<HubViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => HubView(hubId: args.hubId),
+        builder: (context) => HubView(
+          hub: args.hub,
+          user: args.user,
+        ),
         settings: data,
       );
     },
@@ -110,6 +115,7 @@ class NewPublicationViewArguments {
 
 /// HubView arguments holder class
 class HubViewArguments {
-  final String hubId;
-  HubViewArguments({required this.hubId});
+  final Hub hub;
+  final User user;
+  HubViewArguments({required this.hub, required this.user});
 }

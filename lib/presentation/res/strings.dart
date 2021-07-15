@@ -61,6 +61,9 @@ class Strings {
   /* Hubs*/
   static const no_hubs = 'No hubs';
 
-/* Uncategorized */
+  /* Hub */
+  static const deleteHub = 'Delete hub';
+
+  /* Uncategorized */
 
 }

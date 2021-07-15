@@ -6,9 +6,11 @@ import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
 import 'package:dairo/data/db/entity/user_item_data.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
+import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
@@ -21,22 +23,38 @@ class UserRepositoryImpl implements UserRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final List<StreamSubscription> currentUserSubscriptions = [];
   final HubRepository _hubRepository = locator<HubRepository>();
+  final PublicationRepository _publicationRepository =
+      locator<PublicationRepository>();
 
   UserRepositoryImpl() {
     _auth.userChanges().listen((firebaseUser) {
       if (firebaseUser != null && !firebaseUser.isAnonymous) {
         updateUser(User.fromFirebase(firebaseUser));
-        initializeCurrentUserSubscriptions();
+        _initializeCurrentUserSubscriptions();
       }
     });
   }
 
-  initializeCurrentUserSubscriptions() async {
+  Future<void> _initializeCurrentUserSubscriptions() async {
     await Future.wait(currentUserSubscriptions
         .map((StreamSubscription subscription) => subscription.cancel()));
     currentUserSubscriptions.clear();
 
     currentUserSubscriptions.add(_hubRepository.subscribeToCurrentUserHubs());
+    _subscribeToCurrentUserPublicationChanges();
+  }
+
+  Future<void> _subscribeToCurrentUserPublicationChanges() async {
+    await _hubRepository.refreshUserHubs(userId: _auth.currentUser!.uid);
+    List<Hub> hubs = await _hubRepository
+        .getUserHubsStream(userId: _auth.currentUser!.uid)
+        .first;
+    for (Hub hub in hubs) {
+      if (hub.id != null) {
+        currentUserSubscriptions.add(_publicationRepository
+            .subscribeToCurrentUserHubPublications(hub.id!));
+      }
+    }
   }
 
   @override

@@ -9,7 +9,7 @@ class Publication {
   String? hubId;
   String? text;
   List<MediaFile> mediaFiles = [];
-  List<String>? mediaUrls;
+  List<String>? mediaUrls = [];
 
   Publication();
 
@@ -30,7 +30,8 @@ class Publication {
         id: itemData.id,
         hubId: itemData.hubId,
         text: itemData.text,
-        mediaUrls:
-            itemData.mediaUrls != null ? jsonDecode(itemData.mediaUrls!) : null,
+        mediaUrls: itemData.mediaUrls != null
+            ? (jsonDecode(itemData.mediaUrls!))?.cast<String>()
+            : [],
       );
 }
