@@ -25,6 +25,15 @@ class HubRepositoryImpl implements HubRepository {
   }
 
   @override
+  Future<void> refreshUserHubs({String? userId}) => _remote
+      .getHubs(userId ?? _auth.currentUser!.uid)
+      .then((remoteHubs) => _local.updateUserHubs(
+          userId ?? _auth.currentUser!.uid,
+          remoteHubs
+              .map((response) => HubItemData.fromResponse(response))
+              .toList()));
+
+  @override
   StreamSubscription subscribeToCurrentUserHubs() =>
       _remote.listenRemoteHubs(_auth.currentUser!.uid).listen(
             (remoteHubs) => _local.updateUserHubs(

@@ -1,5 +1,5 @@
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/hub/widgets/widget_hub_preview.dart';
+import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_preview.dart';
 import 'package:dairo/presentation/view/profile/base/base_profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -20,7 +20,7 @@ class WidgetHubGrid<T extends BaseProfileViewModel> extends ViewModelWidget<T> {
           children: viewModel.viewData.hubs
               .map(
                 (hub) => InkWell(
-                  onTap: () => viewModel.onHubClicked(hub.id),
+                  onTap: () => viewModel.onHubClicked(hub),
                   child: WidgetHubPreview(hub),
                 ),
               )

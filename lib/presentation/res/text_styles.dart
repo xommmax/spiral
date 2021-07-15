@@ -2,7 +2,15 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:flutter/cupertino.dart';
 
 class TextStyles {
-  static const robotoBlack14 = TextStyle(color: AppColors.black);
+
+  static const robotoBlack12 = TextStyle(
+    color: AppColors.black,
+    fontSize: 12,
+  );
+
+  static const robotoBlack14 = TextStyle(
+    color: AppColors.black,
+  );
 
   static const robotoBlack16 = TextStyle(
     color: AppColors.black,

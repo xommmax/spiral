@@ -1,7 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/widget_attachments_panel.dart';
-import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_images_list.dart';
+import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_medias_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -34,7 +34,7 @@ class WidgetNewPublicationContent
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             InputFieldNewPublication(),
-                            WidgetNewPublicationImagesList()
+                            WidgetNewPublicationMediasList()
                           ],
                         ),
                       ),

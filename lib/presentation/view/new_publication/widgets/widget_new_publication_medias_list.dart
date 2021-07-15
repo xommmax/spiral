@@ -6,7 +6,7 @@ import 'package:dairo/presentation/view/new_publication/widgets/widget_video_pre
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
-class WidgetNewPublicationImagesList
+class WidgetNewPublicationMediasList
     extends ViewModelWidget<NewPublicationViewModel> {
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
@@ -38,7 +38,7 @@ class WidgetNewPublicationImagesList
                     File(file.path),
                     fit: BoxFit.cover,
                   )
-                : WidgetVideoPreview(file.path),
+                : WidgetVideoPreview(filePath: file.path),
           ),
         ),
       );

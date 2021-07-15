@@ -49,16 +49,10 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
     AppSnackBar.showSnackBarError(Strings.unableToGetHubsList);
   }
 
-  void onHubClicked(String? hubId) {
-    if (hubId == null) {
-      AppSnackBar.showSnackBarError(Strings.cannotOpenHubPleaseContactUs);
-      return;
-    }
-    _navigationService.navigateTo(
-      Routes.hubView,
-      arguments: HubViewArguments(hubId: hubId),
-    );
-  }
+  void onHubClicked(Hub hub) => _navigationService.navigateTo(
+        Routes.hubView,
+        arguments: HubViewArguments(hub: hub, user: viewData.user!),
+      );
 
   void onSettingsClicked() {}
 

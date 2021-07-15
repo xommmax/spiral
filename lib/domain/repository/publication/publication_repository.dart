@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dairo/domain/model/publication/publication.dart';
 
 abstract class PublicationRepository {
@@ -5,5 +7,5 @@ abstract class PublicationRepository {
 
   Stream<List<Publication>> getUserPublicationsStream(String hubId);
 
-  void refreshPublications(String hubId);
+  StreamSubscription subscribeToCurrentUserHubPublications(String hubId);
 }
