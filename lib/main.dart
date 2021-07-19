@@ -43,8 +43,6 @@ class _DairoAppState extends State<DairoApp> {
 
   @override
   Widget build(BuildContext context) {
-    PaintingBinding.instance?.imageCache?.maximumSizeBytes = 1000 << 20;
-
     if (!_initialized) {
       return SizedBox.shrink();
     }

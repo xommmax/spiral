@@ -24,25 +24,17 @@ class NewPublicationViewModel extends BaseViewModel {
       TextEditingController();
   final _picker = ImagePicker();
 
-  onDonePressed() async {
-    setBusy(true);
-    if (publicationTextController.text.isEmpty &&
-        viewData.publication.mediaFiles.isEmpty) {
+  onDonePressed() {
+    if (publicationTextController.text.isEmpty && viewData.mediaFiles.isEmpty) {
       AppSnackBar.showSnackBarError(Strings.errorPublicationCannotBeEmpty);
-      setBusy(false);
       return;
     }
-    viewData.publication.text = publicationTextController.text;
-    viewData.publication.hubId = hubId;
-    try {
-      await _publicationRepository.createPublication(viewData.publication);
-      setBusy(false);
-      _navigationService.back(result: true);
-    } catch (e) {
-      AppSnackBar.showSnackBarError(
-          Strings.errorSomethingWentWrongWhileSendingPublication);
-    }
-    setBusy(false);
+    _publicationRepository.createPublication(
+      hubId: hubId,
+      text: publicationTextController.text,
+      mediaFiles: viewData.mediaFiles,
+    );
+    _navigationService.back(result: true);
   }
 
   onGallerySelected() =>
@@ -57,7 +49,7 @@ class NewPublicationViewModel extends BaseViewModel {
       _openMediaFile(RetrieveType.video, ImageSource.gallery);
 
   onMediaItemRemoveClicked(int position) {
-    viewData.publication.mediaFiles.removeAt(position);
+    viewData.mediaFiles.removeAt(position);
     notifyListeners();
   }
 
@@ -85,7 +77,7 @@ class NewPublicationViewModel extends BaseViewModel {
       )
           .then((result) {
         if (result != null) {
-          viewData.publication.mediaFiles.add(
+          viewData.mediaFiles.add(
             MediaFile(
               path: result.path,
               type: MediaType.image,
@@ -96,7 +88,7 @@ class NewPublicationViewModel extends BaseViewModel {
     } else {
       await _picker.getMultiImage().then((result) {
         if (result != null) {
-          viewData.publication.mediaFiles += result
+          viewData.mediaFiles += result
               .map((file) => MediaFile(
                     path: file.path,
                     type: MediaType.image,
@@ -114,7 +106,7 @@ class NewPublicationViewModel extends BaseViewModel {
     )
         .then((result) {
       if (result != null) {
-        viewData.publication.mediaFiles.add(
+        viewData.mediaFiles.add(
           MediaFile(
             path: result.path,
             type: MediaType.video,

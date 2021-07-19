@@ -10,7 +10,7 @@ PublicationResponse _$PublicationResponseFromJson(Map<String, dynamic> json) {
   return PublicationResponse(
     id: json['id'] as String,
     hubId: json['hubId'] as String,
-    text: json['text'] as String,
+    text: json['text'] as String?,
     mediaUrls:
         (json['mediaUrls'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );

@@ -10,7 +10,7 @@ class UserResponse {
   final String? phoneNumber;
   final String? photoURL;
 
-  const UserResponse({
+  UserResponse({
     required this.id,
     required this.displayName,
     required this.email,
@@ -18,8 +18,33 @@ class UserResponse {
     required this.photoURL,
   });
 
-  factory UserResponse.fromJson(String id, Map<String, dynamic> json) {
+  factory UserResponse.fromJson(String id, Map<String, dynamic>? json) {
+    json = json ?? {};
     json['id'] = id;
     return _$UserResponseFromJson(json);
   }
+
+  @override
+  String toString() {
+    return 'UserResponse{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserResponse &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          displayName == other.displayName &&
+          email == other.email &&
+          phoneNumber == other.phoneNumber &&
+          photoURL == other.photoURL;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      displayName.hashCode ^
+      email.hashCode ^
+      phoneNumber.hashCode ^
+      photoURL.hashCode;
 }

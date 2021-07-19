@@ -28,7 +28,7 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
 
   @override
   Stream<List<Publication>> get stream =>
-      _publicationRepository.getUserPublicationsStream(hub.id!);
+      _publicationRepository.getHubPublications(hub.id);
 
   @override
   void onData(List<Publication>? data) => _onPublicationsRetrieved(data);
@@ -45,7 +45,7 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
 
   void onCreatePublicationClicked() => _navigationService.navigateTo(
         Routes.newPublicationView,
-        arguments: NewPublicationViewArguments(hubId: hub.id!),
+        arguments: NewPublicationViewArguments(hubId: hub.id),
       );
 
   void onMenuItemClicked(HubMenuItem? item) {}

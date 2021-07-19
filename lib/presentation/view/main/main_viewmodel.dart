@@ -9,8 +9,7 @@ class MainViewModel extends IndexTrackingViewModel {
   final UserRepository _userRepository = locator<UserRepository>();
 
   onFabPressed() async {
-    bool isCurrentUserExists = await _isCurrentUserExist();
-    if (isCurrentUserExists) {
+    if (_userRepository.isCurrentUserExist()) {
       _navigationService.navigateTo(Routes.newPublicationView,
           arguments: NewPublicationViewArguments(hubId: '1'));
     } else {
@@ -22,6 +21,4 @@ class MainViewModel extends IndexTrackingViewModel {
       });
     }
   }
-
-  Future<bool> _isCurrentUserExist() => _userRepository.isCurrentUserExist();
 }

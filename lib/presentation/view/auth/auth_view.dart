@@ -5,9 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'auth_viewmodel.dart';
 
 class AuthView extends StandardBaseView<AuthViewModel> {
-  @override
-  Widget getContent(BuildContext context) => WidgetAuthViewContent();
+  AuthView() : super(AuthViewModel());
 
   @override
-  getViewModel() => AuthViewModel();
+  Widget getContent(BuildContext context) => WidgetAuthViewContent();
 }

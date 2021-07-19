@@ -18,10 +18,10 @@ class AppBarHome extends ViewModelWidget<HomeViewModel>
         ),
         actions: [
           IconButton(
-            onPressed: viewModel.showAccountPage,
+            onPressed: viewModel.onAccountIconClicked,
             icon: Hero(
               tag: 'profilePhoto',
-              child: WidgetProfilePhoto(photoUrl: viewModel.getPhotoUrl()),
+              child: WidgetProfilePhoto(photoUrl: viewModel.user?.photoURL),
             ),
           ),
         ],

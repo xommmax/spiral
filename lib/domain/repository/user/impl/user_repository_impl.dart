@@ -6,13 +6,10 @@ import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
 import 'package:dairo/data/db/entity/user_item_data.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
-import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
-import 'package:dairo/domain/repository/hub/hub_repository.dart';
-import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:injectable/injectable.dart';
 
@@ -20,114 +17,56 @@ import 'package:injectable/injectable.dart';
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteRepository _remote = locator<UserRemoteRepository>();
   final UserLocalRepository _local = locator<UserLocalRepository>();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final List<StreamSubscription> currentUserSubscriptions = [];
-  final HubRepository _hubRepository = locator<HubRepository>();
-  final PublicationRepository _publicationRepository =
-      locator<PublicationRepository>();
+  final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
 
-  UserRepositoryImpl() {
-    _auth.userChanges().listen((firebaseUser) {
-      if (firebaseUser != null && !firebaseUser.isAnonymous) {
-        updateUser(User.fromFirebase(firebaseUser));
-        _initializeCurrentUserSubscriptions();
-      }
-    });
-  }
-
-  Future<void> _initializeCurrentUserSubscriptions() async {
-    await Future.wait(currentUserSubscriptions
-        .map((StreamSubscription subscription) => subscription.cancel()));
-    currentUserSubscriptions.clear();
-
-    currentUserSubscriptions.add(_hubRepository.subscribeToCurrentUserHubs());
-    _subscribeToCurrentUserPublicationChanges();
-  }
-
-  Future<void> _subscribeToCurrentUserPublicationChanges() async {
-    await _hubRepository.refreshUserHubs(userId: _auth.currentUser!.uid);
-    List<Hub> hubs = await _hubRepository
-        .getUserHubsStream(userId: _auth.currentUser!.uid)
-        .first;
-    for (Hub hub in hubs) {
-      if (hub.id != null) {
-        currentUserSubscriptions.add(_publicationRepository
-            .subscribeToCurrentUserHubPublications(hub.id!));
-      }
-    }
+  @override
+  Future<void> loginWithSocial(SocialAuthRequest socialAuthRequest) async {
+    UserRequest request = await _remote.loginWithSocial(socialAuthRequest);
+    UserResponse response = await _remote.saveUser(request);
+    await _local.addUser(UserItemData.fromResponse(response));
   }
 
   @override
-  Future<dynamic> register(SocialAuthRequest request) =>
-      _remote.register(request);
+  Future<void> registerWithPhone(String phoneNumber) =>
+      _remote.registerWithPhone(phoneNumber);
 
   @override
-  Future<User?> getUser(String userId) async {
-    UserItemData? itemData = await _local.getUser(userId);
-    if (itemData == null) return null;
-    return User.fromItemData(itemData);
+  Future<void> verifySmsCode(String code) async {
+    UserRequest request = await _remote.verifySmsCode(code);
+    UserResponse response = await _remote.saveUser(request);
+    await _local.addUser(UserItemData.fromResponse(response));
   }
 
   @override
-  Future<User?> getCurrentUser() async {
-    final currentUser = _auth.currentUser;
-    if (currentUser == null) return null;
-    return getUser(currentUser.uid);
-  }
+  Stream<User?> getCurrentUser() => getUser(checkAndGetCurrentUserId());
 
   @override
-  Future<bool> isUserExist(String userId) async {
-    final localUser = await getUser(userId);
-    return localUser != null;
-  }
-
-  @override
-  Future<bool> isCurrentUserExist() async {
-    final currentUser = _auth.currentUser;
-    if (currentUser == null) return false;
-    return isUserExist(currentUser.uid);
-  }
-
-  @override
-  Stream<User?> getCurrentUserStream() {
-    final currentUser = _auth.currentUser;
-    if (currentUser == null)
-      // TODO: wait for user auth instead of error throw
-      throw UnauthorizedException();
-    return _local.getUserStream(currentUser.uid).map((itemData) {
+  Stream<User?> getUser(String userId) {
+    var stream = _local.getUser(userId).map((itemData) {
       if (itemData == null) return null;
       return User.fromItemData(itemData);
     });
+
+    _remote.fetchUser(userId).then(
+        (response) => _local.addUser(UserItemData.fromResponse(response)));
+
+    return stream;
   }
 
   @override
-  Future<void> updateUser(User user) async {
-    try {
-      await _remote.updateUser(UserRequest.fromDomain(user));
-      UserResponse? response = await _remote.fetchUser(user.id);
-      if (response != null) {
-        _local.updateUser(UserItemData.fromResponse(response));
-      }
-    } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
-    }
-  }
+  bool isCurrentUserExist() => _auth.currentUser?.uid != null;
 
   @override
   Future<void> logoutUser() async {
+    final currentUserId = checkAndGetCurrentUserId();
     await _auth.signOut();
-    _local.deleteUser();
+    await _local.deleteUserById(currentUserId);
   }
 
   @override
-  Future<dynamic> onVerificationCodeProvided(String code) =>
-      _remote.onVerificationCodeProvided(code);
-
-  @override
-  String? getCurrentUserPhotoUrl() {
-    final currentUser = _auth.currentUser;
-    if (currentUser == null) return null;
-    return currentUser.photoURL;
+  String checkAndGetCurrentUserId() {
+    final currentUserId = _auth.currentUser?.uid;
+    if (currentUserId == null) throw UnauthorizedException();
+    return currentUserId;
   }
 }

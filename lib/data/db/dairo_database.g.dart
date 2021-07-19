@@ -87,9 +87,9 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `description` TEXT NOT NULL, `userId` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT NOT NULL, `mediaUrls` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -127,6 +127,18 @@ class _$UserDao extends UserDao {
                   'phoneNumber': item.phoneNumber,
                   'photoURL': item.photoURL
                 },
+            changeListener),
+        _userItemDataDeletionAdapter = DeletionAdapter(
+            database,
+            'user',
+            ['id'],
+            (UserItemData item) => <String, Object?>{
+                  'id': item.id,
+                  'displayName': item.displayName,
+                  'email': item.email,
+                  'phoneNumber': item.phoneNumber,
+                  'photoURL': item.photoURL
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -136,6 +148,8 @@ class _$UserDao extends UserDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<UserItemData> _userItemDataInsertionAdapter;
+
+  final DeletionAdapter<UserItemData> _userItemDataDeletionAdapter;
 
   @override
   Stream<UserItemData?> getUserStream(String userId) {
@@ -164,27 +178,14 @@ class _$UserDao extends UserDao {
   }
 
   @override
-  Future<void> deleteUser() async {
-    await _queryAdapter.queryNoReturn('DELETE FROM user');
-  }
-
-  @override
   Future<void> insertUser(UserItemData user) async {
-    await _userItemDataInsertionAdapter.insert(user, OnConflictStrategy.abort);
+    await _userItemDataInsertionAdapter.insert(
+        user, OnConflictStrategy.replace);
   }
 
   @override
-  Future<void> updateUser(UserItemData user) async {
-    if (database is sqflite.Transaction) {
-      await super.updateUser(user);
-    } else {
-      await (database as sqflite.Database)
-          .transaction<void>((transaction) async {
-        final transactionDatabase = _$DairoDatabase(changeListener)
-          ..database = transaction;
-        await transactionDatabase.userDao.updateUser(user);
-      });
-    }
+  Future<void> deleteUser(UserItemData user) async {
+    await _userItemDataDeletionAdapter.delete(user);
   }
 }
 
@@ -196,10 +197,22 @@ class _$HubDao extends HubDao {
             'hub',
             (HubItemData item) => <String, Object?>{
                   'id': item.id,
+                  'userId': item.userId,
                   'name': item.name,
-                  'pictureUrl': item.pictureUrl,
                   'description': item.description,
-                  'userId': item.userId
+                  'pictureUrl': item.pictureUrl
+                },
+            changeListener),
+        _hubItemDataDeletionAdapter = DeletionAdapter(
+            database,
+            'hub',
+            ['id'],
+            (HubItemData item) => <String, Object?>{
+                  'id': item.id,
+                  'userId': item.userId,
+                  'name': item.name,
+                  'description': item.description,
+                  'pictureUrl': item.pictureUrl
                 },
             changeListener);
 
@@ -211,21 +224,17 @@ class _$HubDao extends HubDao {
 
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
 
-  @override
-  Future<void> deleteUserHubs(String userId) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM hub WHERE userId = ?1',
-        arguments: [userId]);
-  }
+  final DeletionAdapter<HubItemData> _hubItemDataDeletionAdapter;
 
   @override
   Stream<List<HubItemData>> getUserHubsStream(String userId) {
     return _queryAdapter.queryListStream('SELECT * FROM hub WHERE userId = ?1',
         mapper: (Map<String, Object?> row) => HubItemData(
             id: row['id'] as String,
+            userId: row['userId'] as String,
             name: row['name'] as String,
-            pictureUrl: row['pictureUrl'] as String,
             description: row['description'] as String,
-            userId: row['userId'] as String),
+            pictureUrl: row['pictureUrl'] as String),
         arguments: [userId],
         queryableName: 'hub',
         isView: false);
@@ -243,17 +252,8 @@ class _$HubDao extends HubDao {
   }
 
   @override
-  Future<void> updateUserHubs(String userId, List<HubItemData> hubs) async {
-    if (database is sqflite.Transaction) {
-      await super.updateUserHubs(userId, hubs);
-    } else {
-      await (database as sqflite.Database)
-          .transaction<void>((transaction) async {
-        final transactionDatabase = _$DairoDatabase(changeListener)
-          ..database = transaction;
-        await transactionDatabase.hubDao.updateUserHubs(userId, hubs);
-      });
-    }
+  Future<void> deleteHub(HubItemData hub) async {
+    await _hubItemDataDeletionAdapter.delete(hub);
   }
 }
 
@@ -281,14 +281,14 @@ class _$PublicationDao extends PublicationDao {
       _publicationItemDataInsertionAdapter;
 
   @override
-  Stream<List<PublicationItemData>> getUserPublicationsStream(String hubId) {
+  Stream<List<PublicationItemData>> getHubPublicationsStream(String hubId) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM publication WHERE hubId = ?1',
         mapper: (Map<String, Object?> row) => PublicationItemData(
             id: row['id'] as String,
             hubId: row['hubId'] as String,
-            text: row['text'] as String,
-            mediaUrls: row['mediaUrls'] as String?),
+            text: row['text'] as String?,
+            mediaUrls: row['mediaUrls'] as String),
         arguments: [hubId],
         queryableName: 'publication',
         isView: false);
@@ -301,8 +301,9 @@ class _$PublicationDao extends PublicationDao {
   }
 
   @override
-  Future<void> insertPublications(List<PublicationItemData> publication) async {
+  Future<void> insertPublications(
+      List<PublicationItemData> publications) async {
     await _publicationItemDataInsertionAdapter.insertList(
-        publication, OnConflictStrategy.replace);
+        publications, OnConflictStrategy.replace);
   }
 }

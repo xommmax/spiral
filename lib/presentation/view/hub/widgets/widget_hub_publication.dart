@@ -54,18 +54,16 @@ class WidgetHubPublication extends StatelessWidget {
                     ),
                   )
                 : SizedBox.shrink(),
-            publication.mediaUrls != null
-                ? Expanded(
-                    child: WidgetHubPublicationMedia(publication.mediaUrls!),
-                  )
-                : SizedBox.shrink(),
+            Expanded(
+              child: WidgetHubPublicationMedia(publication.mediaUrls),
+            ),
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Row(
                 children: [
                   WidgetLike(
                     (isLiked) => onPublicationLikeClicked(
-                      publication.id!,
+                      publication.id,
                       isLiked,
                     ),
                     false,

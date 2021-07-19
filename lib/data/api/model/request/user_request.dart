@@ -1,4 +1,4 @@
-import 'package:dairo/domain/model/user/user.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_request.g.dart';
@@ -11,7 +11,7 @@ class UserRequest {
   final String? phoneNumber;
   final String? photoURL;
 
-  const UserRequest({
+  UserRequest({
     required this.id,
     required this.displayName,
     required this.email,
@@ -19,13 +19,37 @@ class UserRequest {
     required this.photoURL,
   });
 
-  factory UserRequest.fromDomain(User user) => UserRequest(
-        id: user.id,
-        displayName: user.displayName,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        photoURL: user.photoURL,
+  factory UserRequest.fromFirebase(firebase.User firebaseUser) => UserRequest(
+        id: firebaseUser.uid,
+        displayName: firebaseUser.displayName,
+        email: firebaseUser.email,
+        phoneNumber: firebaseUser.phoneNumber,
+        photoURL: firebaseUser.photoURL,
       );
 
   Map<String, dynamic> toJson() => _$UserRequestToJson(this);
+
+  @override
+  String toString() {
+    return 'UserRequest{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserRequest &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          displayName == other.displayName &&
+          email == other.email &&
+          phoneNumber == other.phoneNumber &&
+          photoURL == other.photoURL;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      displayName.hashCode ^
+      email.hashCode ^
+      phoneNumber.hashCode ^
+      photoURL.hashCode;
 }

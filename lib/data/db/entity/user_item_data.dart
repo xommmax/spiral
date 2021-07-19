@@ -10,7 +10,7 @@ class UserItemData {
   final String? phoneNumber;
   final String? photoURL;
 
-  const UserItemData({
+  UserItemData({
     required this.id,
     required this.displayName,
     required this.email,
@@ -25,4 +25,28 @@ class UserItemData {
         phoneNumber: response.phoneNumber,
         photoURL: response.photoURL,
       );
+
+  @override
+  String toString() {
+    return 'UserItemData{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserItemData &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          displayName == other.displayName &&
+          email == other.email &&
+          phoneNumber == other.phoneNumber &&
+          photoURL == other.photoURL;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      displayName.hashCode ^
+      email.hashCode ^
+      phoneNumber.hashCode ^
+      photoURL.hashCode;
 }

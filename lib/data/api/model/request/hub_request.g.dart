@@ -18,6 +18,6 @@ Map<String, dynamic> _$HubRequestToJson(HubRequest instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'name': instance.name,
-      'pictureUrl': instance.pictureUrl,
       'description': instance.description,
+      'pictureUrl': instance.pictureUrl,
     };

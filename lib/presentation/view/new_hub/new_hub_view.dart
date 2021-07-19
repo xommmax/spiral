@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'new_hub_viewmodel.dart';
 
 class NewHubView extends StandardBaseView<NewHubViewModel> {
-  @override
-  Widget getContent(BuildContext context) => WidgetNewHubViewContent();
+  NewHubView() : super(NewHubViewModel());
 
   @override
-  getViewModel() => NewHubViewModel();
+  Widget getContent(BuildContext context) => WidgetNewHubViewContent();
 }

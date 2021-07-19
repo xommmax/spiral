@@ -5,15 +5,15 @@ import 'package:stacked/stacked.dart';
 
 abstract class StandardBaseView<T extends BaseViewModel>
     extends StatelessWidget {
-  StandardBaseView();
+  final T viewModel;
+
+  StandardBaseView(this.viewModel);
 
   Widget getContent(BuildContext context);
-
-  T getViewModel();
 
   @override
   Widget build(BuildContext context) => ViewModelBuilder.nonReactive(
         builder: (context, viewModel, child) => getContent(context),
-        viewModelBuilder: getViewModel,
+        viewModelBuilder: () => viewModel,
       );
 }

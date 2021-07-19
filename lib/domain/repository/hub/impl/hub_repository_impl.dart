@@ -2,50 +2,52 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/data/api/model/request/hub_request.dart';
+import 'package:dairo/data/api/model/response/hub_response.dart';
 import 'package:dairo/data/api/repository/hub_remote_repository.dart';
 import 'package:dairo/data/db/entity/hub_item_data.dart';
 import 'package:dairo/data/db/repository/hub_local_repository.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
+import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
+import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: HubRepository)
 class HubRepositoryImpl implements HubRepository {
-  final HubRemoteRepository _remote = locator<HubRemoteRepository>();
   final HubLocalRepository _local = locator<HubLocalRepository>();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final HubRemoteRepository _remote = locator<HubRemoteRepository>();
+  final UserRepository _userRepository = locator<UserRepository>();
 
   @override
-  Future<void> createHub(Hub hub) {
-    final String? userId = _auth.currentUser?.uid;
-    if (userId == null) throw UnauthorizedException();
-    return _remote.createHub(hub.toRequest(userId), File(hub.pictureUrl));
+  Future<void> createHub({
+    required String name,
+    required String description,
+    required MediaFile picture,
+  }) async {
+    var currentUserId = _userRepository.checkAndGetCurrentUserId();
+    HubRequest request = HubRequest(
+      userId: currentUserId,
+      name: name,
+      description: description,
+    );
+
+    HubResponse response = await _remote.createHub(request, File(picture.path));
+    await _local.addHub(HubItemData.fromResponse(response));
   }
 
-  @override
-  Future<void> refreshUserHubs({String? userId}) => _remote
-      .getHubs(userId ?? _auth.currentUser!.uid)
-      .then((remoteHubs) => _local.updateUserHubs(
-          userId ?? _auth.currentUser!.uid,
-          remoteHubs
-              .map((response) => HubItemData.fromResponse(response))
-              .toList()));
+  Stream<List<Hub>> getCurrentUserHubs() =>
+      getUserHubs(_userRepository.checkAndGetCurrentUserId());
 
-  @override
-  StreamSubscription subscribeToCurrentUserHubs() =>
-      _remote.listenRemoteHubs(_auth.currentUser!.uid).listen(
-            (remoteHubs) => _local.updateUserHubs(
-                _auth.currentUser!.uid,
-                remoteHubs
-                    .map((response) => HubItemData.fromResponse(response))
-                    .toList()),
-          );
+  Stream<List<Hub>> getUserHubs(String userId) {
+    Stream<List<Hub>> stream = _local
+        .getUserHubs(userId)
+        .map((itemData) => itemData.map((e) => Hub.fromItemData(e)).toList());
 
-  @override
-  Stream<List<Hub>> getUserHubsStream({String? userId}) => _local
-      .getUserHubsStream(userId ?? _auth.currentUser!.uid)
-      .map((itemDataList) =>
-          itemDataList.map((itemData) => Hub.fromItemData(itemData)).toList());
+    _remote.fetchUserHubs(userId).then((response) {
+      var itemData = response.map((e) => HubItemData.fromResponse(e)).toList();
+      _local.addHubs(itemData);
+    });
+    return stream;
+  }
 }

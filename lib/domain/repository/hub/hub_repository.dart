@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:dairo/domain/model/hub/hub.dart';
+import 'package:dairo/domain/model/publication/media.dart';
 
 abstract class HubRepository {
-  StreamSubscription subscribeToCurrentUserHubs();
+  Future<void> createHub({
+    required String name,
+    required String description,
+    required MediaFile picture,
+  });
 
-  Future<void> refreshUserHubs({String? userId});
+  Stream<List<Hub>> getCurrentUserHubs();
 
-  Future<void> createHub(Hub hub);
-
-  Stream<List<Hub>> getUserHubsStream({String? userId});
+  Stream<List<Hub>> getUserHubs(String userId);
 }

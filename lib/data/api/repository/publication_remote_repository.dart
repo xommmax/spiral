@@ -13,32 +13,30 @@ import 'package:injectable/injectable.dart';
 class PublicationRemoteRepository {
   final FirebaseStorageRepository _firebaseStorageRepository =
       locator<FirebaseStorageRepository>();
-  final FirebaseFirestore _remote = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> sendPublication(
+  Future<PublicationResponse> createPublication(
       PublicationRequest request, List<File>? mediaFiles) async {
     List<String> uploadedUrls = [];
     if (mediaFiles != null && mediaFiles.isNotEmpty) {
       uploadedUrls = await _firebaseStorageRepository.uploadFilesToUserFolder(
           mediaFiles, FirebaseStorageFolders.hubPublications);
     }
-    if (uploadedUrls.isNotEmpty) {
-      request.mediaUrls = uploadedUrls;
-    }
-    await _remote
+    request.mediaUrls = uploadedUrls;
+    var snapshot = await _firestore
         .collection(FirebaseCollections.hubPublications)
-        .add(request.toJson());
+        .add(request.toJson())
+        .then((reference) => reference.get());
+    return PublicationResponse.fromJson(snapshot.id, snapshot.data());
   }
 
-  Stream<List<PublicationResponse>> listenRemotePublications(String hubId) =>
-      _remote
+  Future<List<PublicationResponse>> fetchHubPublications(
+          String hubId) =>
+      _firestore
           .collection(FirebaseCollections.hubPublications)
           .where('hubId', isEqualTo: hubId)
-          .snapshots()
-          .map(
-            (snapshot) => snapshot.docs
-                .map((document) =>
-                    PublicationResponse.fromJson(document.id, document.data()))
-                .toList(),
-          );
+          .get()
+          .then((snapshot) => snapshot.docs
+              .map((doc) => PublicationResponse.fromJson(doc.id, doc.data()))
+              .toList());
 }

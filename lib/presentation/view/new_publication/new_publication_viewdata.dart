@@ -1,5 +1,5 @@
-import 'package:dairo/domain/model/publication/publication.dart';
+import 'package:dairo/domain/model/publication/media.dart';
 
 class NewPublicationViewData {
-  Publication publication = Publication();
+  List<MediaFile> mediaFiles = [];
 }

@@ -8,10 +8,10 @@ class PublicationItemData {
   @primaryKey
   final String id;
   final String hubId;
-  final String text;
-  final String? mediaUrls;
+  final String? text;
+  final String mediaUrls;
 
-  const PublicationItemData({
+  PublicationItemData({
     required this.id,
     required this.hubId,
     required this.text,
@@ -25,4 +25,23 @@ class PublicationItemData {
         text: response.text,
         mediaUrls: jsonEncode(response.mediaUrls),
       );
+
+  @override
+  String toString() {
+    return 'PublicationItemData{id: $id, hubId: $hubId, text: $text, mediaUrls: $mediaUrls}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PublicationItemData &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          hubId == other.hubId &&
+          text == other.text &&
+          mediaUrls == other.mediaUrls;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^ hubId.hashCode ^ text.hashCode ^ mediaUrls.hashCode;
 }

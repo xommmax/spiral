@@ -7,20 +7,14 @@ import 'package:flutter/material.dart';
 import 'hub_viewmodel.dart';
 
 class HubView extends StandardBaseView<HubViewModel> {
-  final Hub hub;
-  final User user;
-
   HubView({
-    required this.hub,
-    required this.user,
-  });
+    required Hub hub,
+    required User user,
+  }) : super(HubViewModel(
+          hub: hub,
+          user: user,
+        ));
 
   @override
   Widget getContent(BuildContext context) => WidgetHubViewContent();
-
-  @override
-  getViewModel() => HubViewModel(
-        hub: hub,
-        user: user,
-      );
 }

@@ -2,23 +2,19 @@ import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
 
 abstract class UserRepository {
-  Future<dynamic> register(SocialAuthRequest request);
+  Future<void> loginWithSocial(SocialAuthRequest request);
 
-  Future<User?> getUser(String userId);
+  Future<void> registerWithPhone(String phoneNumber);
 
-  Future<User?> getCurrentUser();
+  Future<void> verifySmsCode(String code);
 
-  Stream<User?> getCurrentUserStream();
+  Stream<User?> getCurrentUser();
 
-  Future<bool> isUserExist(String userId);
+  Stream<User?> getUser(String userId);
 
-  Future<bool> isCurrentUserExist();
-
-  void updateUser(User user);
-
-  Future<dynamic> onVerificationCodeProvided(String code);
+  bool isCurrentUserExist();
 
   Future<void> logoutUser();
 
-  String? getCurrentUserPhotoUrl();
+  String checkAndGetCurrentUserId();
 }

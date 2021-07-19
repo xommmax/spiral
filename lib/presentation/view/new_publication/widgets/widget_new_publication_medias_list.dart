@@ -10,20 +10,16 @@ class WidgetNewPublicationMediasList
     extends ViewModelWidget<NewPublicationViewModel> {
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
-      viewModel.viewData.publication.mediaFiles.length != 0
-          ? GridView.count(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: viewModel.viewData.publication.mediaFiles
-                  .map((file) => _bindItem(
-                      viewModel,
-                      viewModel.viewData.publication.mediaFiles.indexOf(file),
-                      file))
-                  .toList(),
-              crossAxisCount: 4,
-            )
-          : SizedBox.shrink();
+      GridView.count(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: viewModel.viewData.mediaFiles
+            .map((file) => _bindItem(
+                viewModel, viewModel.viewData.mediaFiles.indexOf(file), file))
+            .toList(),
+        crossAxisCount: 4,
+      );
 
   Widget _bindItem(
           NewPublicationViewModel viewModel, int position, MediaFile file) =>

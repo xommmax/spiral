@@ -19,20 +19,10 @@ class FirebaseStorageRepository {
     final String? userId = _auth.currentUser?.uid;
     if (userId == null) throw UnauthorizedException();
 
-    final List<String> listOfUrls = [];
-    await Future.wait(
-      files
-          .map(
-            (file) => _storage
-                .ref(
-                    '${FirebaseStorageFolders.users}/$userId/$folder/${basename(file.path)}')
-                .putFile(file)
-                .then((snapshot) => snapshot.ref
-                    .getDownloadURL()
-                    .then((url) => listOfUrls.add(url))),
-          )
-          .toList(),
-    );
-    return listOfUrls;
+    return Future.wait(files.map((file) => _storage
+        .ref(
+            '${FirebaseStorageFolders.users}/$userId/$folder/${basename(file.path)}')
+        .putFile(file)
+        .then((snapshot) => snapshot.ref.getDownloadURL())));
   }
 }

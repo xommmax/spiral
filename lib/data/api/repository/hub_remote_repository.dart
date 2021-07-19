@@ -16,32 +16,25 @@ class HubRemoteRepository {
       locator<FirebaseStorageRepository>();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> createHub(HubRequest hubRequest, File hubPicture) async {
+  Future<HubResponse> createHub(HubRequest hubRequest, File hubPicture) async {
     List<String> uploadedUrls = await _firebaseStorageRepository
         .uploadFilesToUserFolder(
             [hubPicture], FirebaseStorageFolders.hubPictures);
     hubRequest.pictureUrl = uploadedUrls[0];
-    await _firestore
+
+    var snapshot = await _firestore
         .collection(FirebaseCollections.userHubs)
-        .add(hubRequest.toJson());
+        .add(hubRequest.toJson())
+        .then((reference) => reference.get());
+
+    return HubResponse.fromJson(snapshot.id, snapshot.data());
   }
 
-  Future<List<HubResponse>> getHubs(String userId) => _firestore
+  Future<List<HubResponse>> fetchUserHubs(String userId) => _firestore
       .collection(FirebaseCollections.userHubs)
       .where("userId", isEqualTo: userId)
       .get()
-      .then((snapshots) => snapshots.docs
+      .then((snapshot) => snapshot.docs
           .map((doc) => HubResponse.fromJson(doc.id, doc.data()))
           .toList());
-
-  Stream<List<HubResponse>> listenRemoteHubs(String userId) => _firestore
-      .collection(FirebaseCollections.userHubs)
-      .where('userId', isEqualTo: userId)
-      .snapshots()
-      .map(
-        (snapshot) => snapshot.docs
-            .map((document) =>
-                HubResponse.fromJson(document.id, document.data()))
-            .toList(),
-      );
 }

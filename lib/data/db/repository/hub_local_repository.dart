@@ -8,11 +8,11 @@ import '../dairo_database.dart';
 class HubLocalRepository {
   final DairoDatabase _database = locator<DairoDatabase>();
 
-  Future<void> addHub(HubItemData hub) => _database.hubDao.insertHub(hub);
-
-  Stream<List<HubItemData>> getUserHubsStream(String userId) =>
+  Stream<List<HubItemData>> getUserHubs(String userId) =>
       _database.hubDao.getUserHubsStream(userId);
 
-  Future<void> updateUserHubs(String userId, List<HubItemData> hubs) =>
-      _database.hubDao.updateUserHubs(userId, hubs);
+  Future<void> addHub(HubItemData hub) => _database.hubDao.insertHub(hub);
+
+  Future<void> addHubs(List<HubItemData> hubs) =>
+      _database.hubDao.insertHubs(hubs);
 }

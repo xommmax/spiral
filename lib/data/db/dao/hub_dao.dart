@@ -3,21 +3,15 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class HubDao {
+  @Query('SELECT * FROM hub WHERE userId = :userId')
+  Stream<List<HubItemData>> getUserHubsStream(String userId);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHub(HubItemData hub);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHubs(List<HubItemData> hubs);
 
-  @Query("DELETE FROM hub WHERE userId = :userId")
-  Future<void> deleteUserHubs(String userId);
-
-  @Query('SELECT * FROM hub WHERE userId = :userId')
-  Stream<List<HubItemData>> getUserHubsStream(String userId);
-
-  @transaction
-  Future<void> updateUserHubs(String userId, List<HubItemData> hubs) async {
-    await deleteUserHubs(userId);
-    await insertHubs(hubs);
-  }
+  @delete
+  Future<void> deleteHub(HubItemData hub);
 }

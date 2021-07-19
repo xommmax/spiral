@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/domain/model/user/social_auth_exception.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
@@ -16,6 +13,23 @@ class AuthViewModel extends BaseViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final AuthViewData viewData = AuthViewData();
   final TextEditingController phoneNumberController = TextEditingController();
+
+  onGoogleSignUpClicked() =>
+      _loginWithSocial(SocialAuthRequest(SocialAuthType.Google));
+
+  onFacebookSignUpClocked() =>
+      _loginWithSocial(SocialAuthRequest(SocialAuthType.Facebook));
+
+  onAppleSignUpClicked() =>
+      _loginWithSocial(SocialAuthRequest(SocialAuthType.Apple));
+
+  void _loginWithSocial(SocialAuthRequest request) {
+    _userRepository
+        .loginWithSocial(request)
+        .then((result) => _navigationService.back(result: true));
+  }
+
+  onCountryCodeChanged(String? countryCode) => viewData.phoneCode = countryCode;
 
   onPhoneSignUpClicked() async {
     if (viewData.phoneCode?.isEmpty ?? true) {
@@ -32,63 +46,18 @@ class AuthViewModel extends BaseViewModel {
       return;
     }
     String fullNumber = viewData.phoneCode! + number;
-    await _onTryToRegisterCalled(
-            SocialAuthRequest(data: fullNumber, type: SocialAuthType.Phone))
-        .then(
-      (_) {
-        viewData.isCodeSent = true;
-        notifyListeners();
-      },
-    );
-  }
 
-  onGoogleSignUpClicked() =>
-      _onTryToRegisterCalled(SocialAuthRequest(type: SocialAuthType.Google));
-
-  onFacebookSignUpClocked() =>
-      _onTryToRegisterCalled(SocialAuthRequest(type: SocialAuthType.Facebook));
-
-  onAppleSignUpClicked() =>
-      _onTryToRegisterCalled(SocialAuthRequest(type: SocialAuthType.Apple));
-
-  onCountryCodeChanged(String? countryCode) => viewData.phoneCode = countryCode;
-
-  onCodeVerificationRetrieved(String code) async {
-    try {
-      final result = await _userRepository.onVerificationCodeProvided(code);
-      if (result != null) {
-        _navigationService.back(result: true);
-      }
-    } catch (e) {
-      if (e is SocialAuthException) {
-        AppSnackBar.showSnackBarError(e.message);
-      } else {
-        AppSnackBar.showSnackBarError(Strings.errorSomethingWentWrong);
-      }
-    }
-  }
-
-  Future<void> _onTryToRegisterCalled(SocialAuthRequest request) async {
-    if (request.type == SocialAuthType.Phone) {
-      setBusy(true);
-    }
-    try {
-      final result = await _userRepository.register(
-        request,
-      );
-
-      if (result != null) {
-        _navigationService.back(result: true);
-      }
-    } catch (e) {
-      if (e is SocialAuthException) {
-        AppSnackBar.showSnackBarError(e.message);
-      } else {
-        AppSnackBar.showSnackBarError(Strings.errorSomethingWentWrong);
-      }
-    }
+    setBusy(true);
+    await _userRepository.registerWithPhone(fullNumber);
     setBusy(false);
+
+    viewData.isCodeSent = true;
+    notifyListeners();
   }
+
+  onCodeVerificationRetrieved(String code) => _userRepository
+      .verifySmsCode(code)
+      .then((result) => _navigationService.back(result: true));
 
   @override
   void dispose() {

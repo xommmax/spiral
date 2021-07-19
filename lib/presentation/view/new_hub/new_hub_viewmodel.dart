@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/domain/model/hub/hub.dart';
+import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
@@ -29,11 +29,10 @@ class NewHubViewModel extends BaseViewModel {
 
     if (!_allDetailsSpecified()) return;
 
-    Hub hub = Hub(
+    _hubRepository.createHub(
         name: viewData.name!,
-        pictureUrl: viewData.pictureUrl!,
-        description: viewData.description!);
-    _hubRepository.createHub(hub);
+        description: viewData.description!,
+        picture: MediaFile(path: viewData.pictureUrl!, type: MediaType.image));
     _navigationService.back();
   }
 

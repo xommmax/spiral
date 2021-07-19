@@ -11,41 +11,41 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 abstract class BaseProfileViewModel extends MultipleStreamViewModel {
-  static const String USER_STREAM_KEY = '_USER_STREAM_KEY';
-  static const String HUB_LIST_STREAM_KEY = '_HUB_LIST_STREAM_KEY';
+  static const String USER_STREAM_KEY = 'USER_STREAM_KEY';
+  static const String HUB_LIST_STREAM_KEY = 'HUB_LIST_STREAM_KEY';
 
   final NavigationService _navigationService = locator<NavigationService>();
-  final UserRepository _userRepository = locator<UserRepository>();
-  final HubRepository _hubRepository = locator<HubRepository>();
+  final UserRepository userRepository = locator<UserRepository>();
+  final HubRepository hubRepository = locator<HubRepository>();
   final BaseProfileViewData viewData = BaseProfileViewData();
 
   @override
   Map<String, StreamData> get streamsMap => {
         USER_STREAM_KEY: StreamData<User?>(
           userStream(),
-          onData: _onUserData,
-          onError: _onUserError,
+          onData: onUserData,
+          onError: onUserError,
         ),
         HUB_LIST_STREAM_KEY: StreamData<List<Hub>>(
           hubListStream(),
-          onData: _obHubsData,
-          onError: _onHubsError,
+          onData: obHubsData,
+          onError: onHubsError,
         ),
       };
 
-  Stream<User?> userStream() => _userRepository.getCurrentUserStream();
+  Stream<User?> userStream();
 
-  Stream<List<Hub>> hubListStream() => _hubRepository.getUserHubsStream();
+  Stream<List<Hub>> hubListStream();
 
-  void _onUserData(User? data) => viewData.user = data;
+  void onUserData(User? data) => viewData.user = data;
 
-  void _obHubsData(List<Hub> data) => viewData.hubs = data;
+  void obHubsData(List<Hub> data) => viewData.hubs = data;
 
-  void _onUserError(error) {
+  void onUserError(error) {
     AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser);
   }
 
-  void _onHubsError(error) {
+  void onHubsError(error) {
     AppSnackBar.showSnackBarError(Strings.unableToGetHubsList);
   }
 
@@ -56,5 +56,5 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
 
   void onSettingsClicked() {}
 
-  String? getPhotoUrl() => _userRepository.getCurrentUserPhotoUrl();
+  String? getPhotoUrl() => viewData.user?.photoURL;
 }

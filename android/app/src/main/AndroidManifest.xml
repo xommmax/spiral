@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="Dairo"
+        android:label="Spiral"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
 

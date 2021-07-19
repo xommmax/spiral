@@ -3,21 +3,21 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class UserDao {
-  @insert
-  Future<void> insertUser(UserItemData user);
-
   @Query('SELECT * FROM user WHERE id = :userId')
   Stream<UserItemData?> getUserStream(String userId);
 
   @Query('SELECT * FROM user WHERE id = :userId')
   Future<UserItemData?> getUser(String userId);
 
-  @Query('DELETE FROM user')
-  Future<void> deleteUser();
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insertUser(UserItemData user);
 
-  @transaction
-  Future<void> updateUser(UserItemData user) async {
-    await deleteUser();
-    await insertUser(user);
+  @delete
+  Future<void> deleteUser(UserItemData user);
+
+  Future<void> deleteUserById(String userId) {
+    return getUser(userId).then((user) {
+      if (user != null) deleteUser(user);
+    });
   }
 }

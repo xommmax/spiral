@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 
 abstract class PublicationRepository {
-  Future<void> createPublication(Publication publication);
+  Future<void> createPublication({
+    required String hubId,
+    String? text,
+    List<MediaFile>? mediaFiles,
+  });
 
-  Stream<List<Publication>> getUserPublicationsStream(String hubId);
-
-  StreamSubscription subscribeToCurrentUserHubPublications(String hubId);
+  Stream<List<Publication>> getHubPublications(String hubId);
 }

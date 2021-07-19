@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 
 class CurrentUserProfileView
     extends StandardBaseView<CurrentUserProfileViewModel> {
+  CurrentUserProfileView() : super(CurrentUserProfileViewModel());
+
   @override
   Widget getContent(BuildContext context) =>
       WidgetCurrentUserProfileViewContent();
-
-  @override
-  CurrentUserProfileViewModel getViewModel() => CurrentUserProfileViewModel();
 }

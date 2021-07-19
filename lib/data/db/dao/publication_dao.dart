@@ -3,14 +3,12 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class PublicationDao {
+  @Query('SELECT * FROM publication WHERE hubId = :hubId')
+  Stream<List<PublicationItemData>> getHubPublicationsStream(String hubId);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertPublication(PublicationItemData publication);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertPublications(List<PublicationItemData> publication);
-
-  @Query('SELECT * FROM publication WHERE hubId = :hubId')
-  Stream<List<PublicationItemData>> getUserPublicationsStream(
-    String hubId,
-  );
+  Future<void> insertPublications(List<PublicationItemData> publications);
 }

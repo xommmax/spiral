@@ -8,12 +8,12 @@ import '../dairo_database.dart';
 class PublicationLocalRepository {
   final DairoDatabase _database = locator<DairoDatabase>();
 
+  Stream<List<PublicationItemData>> getHubPublications(String hubId) =>
+      _database.publicationDao.getHubPublicationsStream(hubId);
+
   Future<void> addPublication(PublicationItemData publication) =>
       _database.publicationDao.insertPublication(publication);
 
   Future<void> addPublications(List<PublicationItemData> publications) =>
       _database.publicationDao.insertPublications(publications);
-
-  Stream<List<PublicationItemData>> getUserPublicationsStream(String hubId) =>
-      _database.publicationDao.getUserPublicationsStream(hubId);
 }

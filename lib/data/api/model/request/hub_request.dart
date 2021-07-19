@@ -6,8 +6,8 @@ part 'hub_request.g.dart';
 class HubRequest {
   final String userId;
   final String name;
-  String? pictureUrl;
   final String description;
+  String? pictureUrl;
 
   HubRequest({
     required this.userId,
@@ -16,4 +16,26 @@ class HubRequest {
   });
 
   Map<String, dynamic> toJson() => _$HubRequestToJson(this);
+
+  @override
+  String toString() {
+    return 'HubRequest{userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HubRequest &&
+          runtimeType == other.runtimeType &&
+          userId == other.userId &&
+          name == other.name &&
+          description == other.description &&
+          pictureUrl == other.pictureUrl;
+
+  @override
+  int get hashCode =>
+      userId.hashCode ^
+      name.hashCode ^
+      description.hashCode ^
+      pictureUrl.hashCode;
 }

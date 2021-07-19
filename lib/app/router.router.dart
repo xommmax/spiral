@@ -17,10 +17,8 @@ import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
 import '../presentation/view/profile/current_user/current_user_profile_view.dart';
-import '../presentation/view/splash/splash_view.dart';
 
 class Routes {
-  static const String splashView = '/splash-view';
   static const String authView = '/auth-view';
   static const String mainView = '/';
   static const String newPublicationView = '/new-publication-view';
@@ -28,7 +26,6 @@ class Routes {
   static const String newHubView = '/new-hub-view';
   static const String hubView = '/hub-view';
   static const all = <String>{
-    splashView,
     authView,
     mainView,
     newPublicationView,
@@ -42,7 +39,6 @@ class StackedRouter extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(Routes.splashView, page: SplashView),
     RouteDef(Routes.authView, page: AuthView),
     RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
@@ -53,12 +49,6 @@ class StackedRouter extends RouterBase {
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
-    SplashView: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => SplashView(),
-        settings: data,
-      );
-    },
     AuthView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => AuthView(),
@@ -74,7 +64,7 @@ class StackedRouter extends RouterBase {
     NewPublicationView: (data) {
       var args = data.getArgs<NewPublicationViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => NewPublicationView(args.hubId),
+        builder: (context) => NewPublicationView(hubId: args.hubId),
         settings: data,
       );
     },
