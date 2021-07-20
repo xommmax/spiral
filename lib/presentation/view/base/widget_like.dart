@@ -23,13 +23,14 @@ class _WidgetLikeState extends State<WidgetLike> {
   }
 
   @override
-  Widget build(BuildContext context) => InkWell(
-        onTap: () => _onLikeTap,
-        child: Icon(
-          _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-          color: AppColors.black,
-        ),
-      );
+  Widget build(BuildContext context) => IconButton(
+    iconSize: 24,
+    onPressed: _onLikeTap,
+    icon: Icon(
+      _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+      color: AppColors.black,
+    ),
+  );
 
   void _setIsLiked(bool isLiked) => setState(() => _isLiked = isLiked);
 

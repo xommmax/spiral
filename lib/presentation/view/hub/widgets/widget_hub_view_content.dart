@@ -14,11 +14,13 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
         body: SafeArea(
           bottom: false,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                WidgetHubHeader(),
-                WidgetHubPublications(),
-              ],
+            child: SizedBox(
+              child: Column(
+                children: [
+                  WidgetHubHeader(),
+                  WidgetHubPublications(),
+                ],
+              ),
             ),
           ),
         ),

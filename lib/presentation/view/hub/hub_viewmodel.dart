@@ -31,7 +31,7 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
       _publicationRepository.getHubPublications(hub.id);
 
   @override
-  void onData(List<Publication>? data) => _onPublicationsRetrieved(data);
+  void onData(List<Publication>? data) => _onPublicationsRetrieved(data ?? []);
 
   @override
   void onError(error) {
@@ -39,8 +39,8 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
     super.onError(error);
   }
 
-  void _onPublicationsRetrieved(List<Publication>? publications) {
-    viewData.publications = publications ?? [];
+  void _onPublicationsRetrieved(List<Publication> publications) {
+    viewData.publications = publications;
   }
 
   void onCreatePublicationClicked() => _navigationService.navigateTo(
