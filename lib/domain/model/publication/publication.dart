@@ -20,7 +20,7 @@ class Publication {
         id: itemData.id,
         hubId: itemData.hubId,
         text: itemData.text,
-        mediaUrls: jsonDecode(itemData.mediaUrls).cast<String>(),
+        mediaUrls: jsonDecode(itemData.mediaUrls)?.cast<String>() ?? [],
       );
 
   @override
