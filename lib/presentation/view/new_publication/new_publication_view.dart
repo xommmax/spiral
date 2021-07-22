@@ -5,8 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'new_publication_viewmodel.dart';
 
 class NewPublicationView extends StandardBaseView<NewPublicationViewModel> {
-  NewPublicationView({required String hubId})
-      : super(NewPublicationViewModel(hubId));
+  NewPublicationView({
+    String? hubId,
+  }) : super(NewPublicationViewModel(hubId));
 
   @override
   Widget getContent(BuildContext context) => WidgetNewPublicationContent();

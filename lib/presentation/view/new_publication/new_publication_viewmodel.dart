@@ -1,5 +1,7 @@
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
@@ -11,49 +13,73 @@ import 'package:stacked_services/stacked_services.dart';
 import 'new_publication_viewdata.dart';
 
 class NewPublicationViewModel extends BaseViewModel {
-  final String hubId;
+  String? hubId;
 
-  NewPublicationViewModel(this.hubId);
+  NewPublicationViewModel(this.hubId) {
+    if (hubId == null) {
+      _getHubs();
+    }
+  }
 
   final NavigationService _navigationService = locator<NavigationService>();
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
+  final HubRepository _hubRepository = locator<HubRepository>();
 
   final NewPublicationViewData viewData = NewPublicationViewData();
   final TextEditingController publicationTextController =
       TextEditingController();
   final _picker = ImagePicker();
 
-  onDonePressed() {
+  List<Hub> hubs = [];
+
+  Future<void> _getHubs() =>
+      _hubRepository.getCurrentUserHubs().first.then((hubs) {
+        this.hubs = hubs;
+        notifyListeners();
+      });
+
+  void onDonePressed() async {
     if (publicationTextController.text.isEmpty && viewData.mediaFiles.isEmpty) {
       AppSnackBar.showSnackBarError(Strings.errorPublicationCannotBeEmpty);
       return;
     }
+
     _publicationRepository.createPublication(
-      hubId: hubId,
+      hubId: hubId!,
       text: publicationTextController.text,
       mediaFiles: viewData.mediaFiles,
     );
-    _navigationService.back(result: true);
+
+    await Future.delayed(
+      Duration(seconds: 1),
+      () async => _navigationService.back(result: true),
+    );
   }
 
-  onGallerySelected() =>
+  void onHubSelected(String hubId) {
+    this.hubId = hubId;
+    onDonePressed();
+  }
+
+  void onGallerySelected() =>
       _openMediaFile(RetrieveType.image, ImageSource.gallery);
 
-  onCameraSelected() => _openMediaFile(RetrieveType.image, ImageSource.camera);
+  void onCameraSelected() =>
+      _openMediaFile(RetrieveType.image, ImageSource.camera);
 
-  onVideoCameraSelected() =>
+  void onVideoCameraSelected() =>
       _openMediaFile(RetrieveType.video, ImageSource.camera);
 
-  onVideoGallerySelected() =>
+  void onVideoGallerySelected() =>
       _openMediaFile(RetrieveType.video, ImageSource.gallery);
 
-  onMediaItemRemoveClicked(int position) {
+  void onMediaItemRemoveClicked(int position) {
     viewData.mediaFiles.removeAt(position);
     notifyListeners();
   }
 
-  _openMediaFile(RetrieveType type, ImageSource source) async {
+  void _openMediaFile(RetrieveType type, ImageSource source) async {
     switch (type) {
       case RetrieveType.image:
         {
@@ -75,27 +101,31 @@ class NewPublicationViewModel extends BaseViewModel {
           .getImage(
         source: source,
       )
-          .then((result) {
-        if (result != null) {
-          viewData.mediaFiles.add(
-            MediaFile(
-              path: result.path,
-              type: MediaType.image,
-            ),
-          );
-        }
-      });
+          .then(
+        (result) {
+          if (result != null) {
+            viewData.mediaFiles.add(
+              MediaFile(
+                path: result.path,
+                type: MediaType.image,
+              ),
+            );
+          }
+        },
+      );
     } else {
-      await _picker.getMultiImage().then((result) {
-        if (result != null) {
-          viewData.mediaFiles += result
-              .map((file) => MediaFile(
-                    path: file.path,
-                    type: MediaType.image,
-                  ))
-              .toList();
-        }
-      });
+      await _picker.getMultiImage().then(
+        (result) {
+          if (result != null) {
+            viewData.mediaFiles += result
+                .map((file) => MediaFile(
+                      path: file.path,
+                      type: MediaType.image,
+                    ))
+                .toList();
+          }
+        },
+      );
     }
   }
 

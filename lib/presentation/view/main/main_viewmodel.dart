@@ -10,13 +10,11 @@ class MainViewModel extends IndexTrackingViewModel {
 
   onFabPressed() async {
     if (_userRepository.isCurrentUserExist()) {
-      _navigationService.navigateTo(Routes.newPublicationView,
-          arguments: NewPublicationViewArguments(hubId: '1'));
+      _navigationService.navigateTo(Routes.newPublicationView);
     } else {
       _navigationService.navigateTo(Routes.authView)?.then((result) {
         if (result != null && result is bool && result) {
-          _navigationService.navigateTo(Routes.newPublicationView,
-              arguments: NewPublicationViewArguments(hubId: '1'));
+          _navigationService.navigateTo(Routes.newPublicationView);
         }
       });
     }
