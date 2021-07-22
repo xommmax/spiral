@@ -1,6 +1,6 @@
 class Strings {
   /* General */
-  static const dairo = 'Dairo';
+  static const appName = 'Spiral';
   static const or = 'or';
   static const clear = 'Clear';
   static const verifyCode = 'Verify';
@@ -48,7 +48,8 @@ class Strings {
   static const cannotOpenHubPleaseContactUs =
       'Cannot open this hub, please contact us';
   static const unableToGetHubsList = 'Cannot get hubs, please contact us';
-  static const unableToGetPublications = 'Cannot get publications, please contact us';
+  static const unableToGetPublications =
+      'Cannot get publications, please contact us';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -63,6 +64,12 @@ class Strings {
 
   /* Hub */
   static const deleteHub = 'Delete hub';
+
+  /* Search */
+  static const search = 'Search';
+  static const top = 'Top';
+  static const accounts = 'Accounts';
+  static const hubs = 'Hubs';
 
   /* Uncategorized */
 

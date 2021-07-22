@@ -4,13 +4,13 @@ import 'package:dairo/presentation/view/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import 'appbar_home.dart';
+import 'widget_toolbar_home.dart';
 
 class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
   @override
-  Widget build(BuildContext context, viewModel) => Scaffold(
-        appBar: AppBarHome(),
-        body: SafeArea(
+  Widget build(BuildContext context, viewModel) => Column(children: [
+        WidgetToolBarHome(),
+        Expanded(
           child: Container(
             alignment: Alignment.center,
             child: Text(
@@ -19,5 +19,5 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
             ),
           ),
         ),
-      );
+      ]);
 }

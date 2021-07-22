@@ -1,0 +1,3 @@
+class SearchViewData {
+  String searchQuery = '';
+}
