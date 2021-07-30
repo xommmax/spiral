@@ -50,5 +50,10 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
 
   void onMenuItemClicked(HubMenuItem? item) {}
 
-  void onPublicationLikeClicked(String publicationId, bool isLiked) {}
+  void onPublicationLikeClicked(String publicationId, bool isLiked) =>
+      _publicationRepository.sendLike(
+        publicationId: publicationId,
+        userId: user.id,
+        isLiked: isLiked,
+      );
 }

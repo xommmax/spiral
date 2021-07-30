@@ -10,12 +10,16 @@ class PublicationItemData {
   final String hubId;
   final String? text;
   final String mediaUrls;
+  final String usersLiked;
+  final int likesCount;
 
   PublicationItemData({
     required this.id,
     required this.hubId,
     required this.text,
     required this.mediaUrls,
+    required this.usersLiked,
+    required this.likesCount,
   });
 
   factory PublicationItemData.fromResponse(PublicationResponse response) =>
@@ -23,12 +27,14 @@ class PublicationItemData {
         id: response.id,
         hubId: response.hubId,
         text: response.text,
+        likesCount: response.likesCount,
         mediaUrls: jsonEncode(response.mediaUrls),
+        usersLiked: jsonEncode(response.usersLiked),
       );
 
   @override
   String toString() {
-    return 'PublicationItemData{id: $id, hubId: $hubId, text: $text, mediaUrls: $mediaUrls}';
+    return 'PublicationItemData{id: $id, hubId: $hubId, text: $text, mediaUrls: $mediaUrls, usersLiked: $usersLiked, likesCount: $likesCount}';
   }
 
   @override
@@ -39,9 +45,16 @@ class PublicationItemData {
           id == other.id &&
           hubId == other.hubId &&
           text == other.text &&
-          mediaUrls == other.mediaUrls;
+          mediaUrls == other.mediaUrls &&
+          usersLiked == other.usersLiked &&
+          likesCount == other.likesCount;
 
   @override
   int get hashCode =>
-      id.hashCode ^ hubId.hashCode ^ text.hashCode ^ mediaUrls.hashCode;
+      id.hashCode ^
+      hubId.hashCode ^
+      text.hashCode ^
+      mediaUrls.hashCode ^
+      usersLiked.hashCode ^
+      likesCount.hashCode;
 }

@@ -89,7 +89,7 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `usersLiked` TEXT NOT NULL, `likesCount` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -267,7 +267,9 @@ class _$PublicationDao extends PublicationDao {
                   'id': item.id,
                   'hubId': item.hubId,
                   'text': item.text,
-                  'mediaUrls': item.mediaUrls
+                  'mediaUrls': item.mediaUrls,
+                  'usersLiked': item.usersLiked,
+                  'likesCount': item.likesCount
                 },
             changeListener);
 
@@ -288,7 +290,9 @@ class _$PublicationDao extends PublicationDao {
             id: row['id'] as String,
             hubId: row['hubId'] as String,
             text: row['text'] as String?,
-            mediaUrls: row['mediaUrls'] as String),
+            mediaUrls: row['mediaUrls'] as String,
+            usersLiked: row['usersLiked'] as String,
+            likesCount: row['likesCount'] as int),
         arguments: [hubId],
         queryableName: 'publication',
         isView: false);
