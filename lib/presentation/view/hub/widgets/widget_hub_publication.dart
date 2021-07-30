@@ -38,6 +38,7 @@ class WidgetHubPublication extends StatelessWidget {
           ),
           _WidgetHubPublicationFooter(
             publication.id,
+            publication.usersLiked.contains(user.id),
             onPublicationLikeClicked,
             key: UniqueKey(),
           ),
@@ -83,9 +84,7 @@ class _WidgetHubPublicationText extends StatelessWidget {
   Widget build(BuildContext context) => text != null && text!.isNotEmpty
       ? Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(text!),
-          ),
+          child: Text(text!),
         )
       : SizedBox.shrink();
 }
@@ -108,9 +107,10 @@ class _WidgetHubPublicationMedia extends StatelessWidget {
 class _WidgetHubPublicationFooter extends StatelessWidget {
   final Function(String, bool) onPublicationLikeClicked;
   final String publicationId;
+  final bool isLiked;
 
   const _WidgetHubPublicationFooter(
-      this.publicationId, this.onPublicationLikeClicked,
+      this.publicationId, this.isLiked, this.onPublicationLikeClicked,
       {Key? key})
       : super(key: key);
 
@@ -124,7 +124,7 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
                 publicationId,
                 isLiked,
               ),
-              false,
+              isLiked,
             ),
             Padding(
               padding: EdgeInsets.only(left: 12),

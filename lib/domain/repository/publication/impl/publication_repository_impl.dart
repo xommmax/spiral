@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/data/api/model/request/like_publication_request.dart';
 import 'package:dairo/data/api/model/request/publication_request.dart';
 import 'package:dairo/data/api/model/response/publication_response.dart';
 import 'package:dairo/data/api/repository/publication_remote_repository.dart';
@@ -40,11 +41,31 @@ class PublicationRepositoryImpl implements PublicationRepository {
         (itemData) =>
             itemData.map((e) => Publication.fromItemData(e)).toList());
 
-    _remote.fetchHubPublications(hubId).then((response) {
+    _remote.fetchPublications(hubId).then((response) {
       var itemData =
           response.map((e) => PublicationItemData.fromResponse(e)).toList();
       _local.addPublications(itemData);
     });
     return stream;
   }
+
+  @override
+  Future<void> sendLike({
+    required String publicationId,
+    required String userId,
+    required bool isLiked,
+  }) =>
+      _remote
+          .sendLike(
+            LikePublicationRequest(
+              publicationId: publicationId,
+              userId: userId,
+              isLiked: isLiked,
+            ),
+          )
+          .then(
+            (PublicationResponse response) => _local.addPublication(
+              PublicationItemData.fromResponse(response),
+            ),
+          );
 }

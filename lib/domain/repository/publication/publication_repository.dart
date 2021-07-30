@@ -11,4 +11,10 @@ abstract class PublicationRepository {
   });
 
   Stream<List<Publication>> getHubPublications(String hubId);
+
+  Future<void> sendLike({
+    required String publicationId,
+    required String userId,
+    required bool isLiked,
+  });
 }

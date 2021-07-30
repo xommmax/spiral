@@ -1,16 +1,22 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import 'app/env.dart';
 import 'app/locator.dart';
 import 'app/router.router.dart';
 
 void main() async {
+  await $ENV.load();
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
   await CountryCodes.init();
@@ -56,10 +62,23 @@ class _DairoAppState extends State<DairoApp> {
   void initializeFlutterFire() async {
     try {
       await Firebase.initializeApp();
+      _setupLocalFirebaseEnvironment();
       setState(() => _initialized = true);
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
+    }
+  }
+
+  void _setupLocalFirebaseEnvironment() {
+    if (ENV.useFirebaseEmulator) {
+      FirebaseAuth.instance.useEmulator("http://localhost:9099");
+      FirebaseFunctions.instance.useFunctionsEmulator("http://localhost", 5001);
+      final host = defaultTargetPlatform == TargetPlatform.android
+          ? '10.0.2.2:8080'
+          : 'localhost:8080';
+      FirebaseFirestore.instance.settings =
+          Settings(host: host, sslEnabled: false, persistenceEnabled: false);
     }
   }
 

@@ -1,9 +1,17 @@
-import * as functions from "firebase-functions";
+import {isEmulator} from "./utils";
+import * as admin from "firebase-admin";
+import {sendLike} from "./like";
+import {fetchPublications} from "./publication";
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+export const appUrl = "https://us-central1-dairo-4593a.cloudfunctions.net";
+
+if (isEmulator) {
+  console.log("Running from emulator...");
+  admin.initializeApp();
+} else {
+  const serviceAccount: string = require(`${__dirname}/dairo.json`);
+  admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
+}
+
+exports.sendLike = sendLike;
+exports.fetchPublications = fetchPublications;
