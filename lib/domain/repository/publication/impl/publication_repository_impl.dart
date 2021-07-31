@@ -30,7 +30,11 @@ class PublicationRepositoryImpl implements PublicationRepository {
   }) async {
     _userRepository.checkAndGetCurrentUserId();
     var media = mediaFiles?.map((e) => File(e.path)).toList();
-    PublicationRequest request = PublicationRequest(hubId: hubId, text: text);
+    PublicationRequest request = PublicationRequest(
+      hubId: hubId,
+      text: text,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    );
     PublicationResponse response =
         await _remote.createPublication(request, media);
     await _local.addPublication(PublicationItemData.fromResponse(response));

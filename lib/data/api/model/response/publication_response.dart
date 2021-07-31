@@ -10,6 +10,7 @@ class PublicationResponse {
   final int likesCount;
   final List<String> usersLiked;
   final List<String> mediaUrls;
+  final int createdAt;
 
   PublicationResponse({
     required this.id,
@@ -18,6 +19,7 @@ class PublicationResponse {
     required this.likesCount,
     required this.usersLiked,
     required this.mediaUrls,
+    required this.createdAt,
   });
 
   factory PublicationResponse.fromJson(
@@ -34,7 +36,7 @@ class PublicationResponse {
 
   @override
   String toString() {
-    return 'PublicationResponse{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, usersLiked: $usersLiked, mediaUrls: $mediaUrls}';
+    return 'PublicationResponse{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, usersLiked: $usersLiked, mediaUrls: $mediaUrls, createdAt: $createdAt}';
   }
 
   @override
@@ -47,7 +49,8 @@ class PublicationResponse {
           text == other.text &&
           likesCount == other.likesCount &&
           usersLiked == other.usersLiked &&
-          mediaUrls == other.mediaUrls;
+          mediaUrls == other.mediaUrls &&
+          createdAt == other.createdAt;
 
   @override
   int get hashCode =>
@@ -56,5 +59,6 @@ class PublicationResponse {
       text.hashCode ^
       likesCount.hashCode ^
       usersLiked.hashCode ^
-      mediaUrls.hashCode;
+      mediaUrls.hashCode ^
+      createdAt.hashCode;
 }

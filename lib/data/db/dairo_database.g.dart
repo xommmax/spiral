@@ -87,9 +87,9 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `usersLiked` TEXT NOT NULL, `likesCount` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `usersLiked` TEXT NOT NULL, `likesCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -225,7 +225,8 @@ class _$HubDao extends HubDao {
                   'userId': item.userId,
                   'name': item.name,
                   'description': item.description,
-                  'pictureUrl': item.pictureUrl
+                  'pictureUrl': item.pictureUrl,
+                  'createdAt': item.createdAt
                 },
             changeListener),
         _hubItemDataDeletionAdapter = DeletionAdapter(
@@ -237,7 +238,8 @@ class _$HubDao extends HubDao {
                   'userId': item.userId,
                   'name': item.name,
                   'description': item.description,
-                  'pictureUrl': item.pictureUrl
+                  'pictureUrl': item.pictureUrl,
+                  'createdAt': item.createdAt
                 },
             changeListener);
 
@@ -253,13 +255,15 @@ class _$HubDao extends HubDao {
 
   @override
   Stream<List<HubItemData>> getUserHubsStream(String userId) {
-    return _queryAdapter.queryListStream('SELECT * FROM hub WHERE userId = ?1',
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM hub WHERE userId = ?1 ORDER BY createdAt DESC',
         mapper: (Map<String, Object?> row) => HubItemData(
             id: row['id'] as String,
             userId: row['userId'] as String,
             name: row['name'] as String,
             description: row['description'] as String,
-            pictureUrl: row['pictureUrl'] as String),
+            pictureUrl: row['pictureUrl'] as String,
+            createdAt: row['createdAt'] as int),
         arguments: [userId],
         queryableName: 'hub',
         isView: false);
@@ -294,7 +298,8 @@ class _$PublicationDao extends PublicationDao {
                   'text': item.text,
                   'mediaUrls': item.mediaUrls,
                   'usersLiked': item.usersLiked,
-                  'likesCount': item.likesCount
+                  'likesCount': item.likesCount,
+                  'createdAt': item.createdAt
                 },
             changeListener);
 
@@ -310,14 +315,15 @@ class _$PublicationDao extends PublicationDao {
   @override
   Stream<List<PublicationItemData>> getHubPublicationsStream(String hubId) {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM publication WHERE hubId = ?1',
+        'SELECT * FROM publication WHERE hubId = ?1 ORDER BY createdAt DESC',
         mapper: (Map<String, Object?> row) => PublicationItemData(
             id: row['id'] as String,
             hubId: row['hubId'] as String,
             text: row['text'] as String?,
             mediaUrls: row['mediaUrls'] as String,
             usersLiked: row['usersLiked'] as String,
-            likesCount: row['likesCount'] as int),
+            likesCount: row['likesCount'] as int,
+            createdAt: row['createdAt'] as int),
         arguments: [hubId],
         queryableName: 'publication',
         isView: false);
