@@ -12,12 +12,14 @@ class WidgetHubPublication extends StatelessWidget {
   final User user;
   final Publication publication;
   final Function(String publicationId, bool isLiked) onPublicationLikeClicked;
+  final Function(List<String> userIds) onUsersLikedScreenClicked;
 
   const WidgetHubPublication({
     Key? key,
     required this.user,
     required this.publication,
     required this.onPublicationLikeClicked,
+    required this.onUsersLikedScreenClicked,
   }) : super(key: key);
 
   @override
@@ -37,9 +39,12 @@ class WidgetHubPublication extends StatelessWidget {
             key: UniqueKey(),
           ),
           _WidgetHubPublicationFooter(
-            publication.id,
-            publication.usersLiked.contains(user.id),
-            onPublicationLikeClicked,
+            publicationId: publication.id,
+            isLiked: publication.usersLiked.contains(user.id),
+            likesCount: publication.likesCount,
+            onPublicationLikeClicked: onPublicationLikeClicked,
+            onUsersLikedScreenClicked: () =>
+                onUsersLikedScreenClicked(publication.usersLiked),
             key: UniqueKey(),
           ),
         ],
@@ -105,14 +110,20 @@ class _WidgetHubPublicationMedia extends StatelessWidget {
 }
 
 class _WidgetHubPublicationFooter extends StatelessWidget {
-  final Function(String, bool) onPublicationLikeClicked;
   final String publicationId;
   final bool isLiked;
+  final int likesCount;
+  final Function(String, bool) onPublicationLikeClicked;
+  final Function onUsersLikedScreenClicked;
 
-  const _WidgetHubPublicationFooter(
-      this.publicationId, this.isLiked, this.onPublicationLikeClicked,
-      {Key? key})
-      : super(key: key);
+  const _WidgetHubPublicationFooter({
+    required this.publicationId,
+    required this.isLiked,
+    required this.likesCount,
+    required this.onPublicationLikeClicked,
+    required this.onUsersLikedScreenClicked,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -120,17 +131,19 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
         child: Row(
           children: [
             WidgetLike(
-              (isLiked) => onPublicationLikeClicked(
+              isLiked,
+              likesCount,
+              onPublicationLikeClicked: (isLiked) => onPublicationLikeClicked(
                 publicationId,
                 isLiked,
               ),
-              isLiked,
+              onUsersLikedScreenClicked: onUsersLikedScreenClicked,
             ),
             Padding(
               padding: EdgeInsets.only(left: 12),
             ),
             Icon(
-              Icons.messenger,
+              Icons.messenger_outline,
               color: AppColors.black,
             )
           ],

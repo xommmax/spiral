@@ -17,6 +17,7 @@ import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
 import '../presentation/view/profile/current_user/current_user_profile_view.dart';
+import '../presentation/view/publication/users_liked/users_liked_view.dart';
 
 class Routes {
   static const String authView = '/auth-view';
@@ -25,6 +26,7 @@ class Routes {
   static const String currentUserProfileView = '/current-user-profile-view';
   static const String newHubView = '/new-hub-view';
   static const String hubView = '/hub-view';
+  static const String usersLikedView = '/users-liked-view';
   static const all = <String>{
     authView,
     mainView,
@@ -32,6 +34,7 @@ class Routes {
     currentUserProfileView,
     newHubView,
     hubView,
+    usersLikedView,
   };
 }
 
@@ -45,6 +48,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.currentUserProfileView, page: CurrentUserProfileView),
     RouteDef(Routes.newHubView, page: NewHubView),
     RouteDef(Routes.hubView, page: HubView),
+    RouteDef(Routes.usersLikedView, page: UsersLikedView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -92,6 +96,13 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    UsersLikedView: (data) {
+      var args = data.getArgs<UsersLikedViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => UsersLikedView(userIds: args.userIds),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -110,4 +121,10 @@ class HubViewArguments {
   final Hub hub;
   final User user;
   HubViewArguments({required this.hub, required this.user});
+}
+
+/// UsersLikedView arguments holder class
+class UsersLikedViewArguments {
+  final List<String> userIds;
+  UsersLikedViewArguments({required this.userIds});
 }

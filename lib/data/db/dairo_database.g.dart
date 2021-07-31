@@ -166,6 +166,25 @@ class _$UserDao extends UserDao {
   }
 
   @override
+  Stream<List<UserItemData>> getUsersStream(List<String> userIds) {
+    const offset = 1;
+    final _sqliteVariablesForUserIds =
+        Iterable<String>.generate(userIds.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM user WHERE id IN (' + _sqliteVariablesForUserIds + ')',
+        mapper: (Map<String, Object?> row) => UserItemData(
+            id: row['id'] as String,
+            displayName: row['displayName'] as String?,
+            email: row['email'] as String?,
+            phoneNumber: row['phoneNumber'] as String?,
+            photoURL: row['photoURL'] as String?),
+        arguments: [...userIds],
+        queryableName: 'user',
+        isView: false);
+  }
+
+  @override
   Future<UserItemData?> getUser(String userId) async {
     return _queryAdapter.query('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => UserItemData(
@@ -181,6 +200,12 @@ class _$UserDao extends UserDao {
   Future<void> insertUser(UserItemData user) async {
     await _userItemDataInsertionAdapter.insert(
         user, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertUsers(List<UserItemData> users) async {
+    await _userItemDataInsertionAdapter.insertList(
+        users, OnConflictStrategy.replace);
   }
 
   @override
