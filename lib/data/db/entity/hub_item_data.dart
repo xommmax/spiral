@@ -9,6 +9,7 @@ class HubItemData {
   final String name;
   final String description;
   final String pictureUrl;
+  final int createdAt;
 
   HubItemData({
     required this.id,
@@ -16,6 +17,7 @@ class HubItemData {
     required this.name,
     required this.description,
     required this.pictureUrl,
+    required this.createdAt,
   });
 
   factory HubItemData.fromResponse(HubResponse response) => HubItemData(
@@ -24,11 +26,12 @@ class HubItemData {
         name: response.name,
         description: response.description,
         pictureUrl: response.pictureUrl,
+        createdAt: response.createdAt,
       );
 
   @override
   String toString() {
-    return 'HubItemData{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl}';
+    return 'HubItemData{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, createdAt: $createdAt}';
   }
 
   @override
@@ -40,7 +43,8 @@ class HubItemData {
           userId == other.userId &&
           name == other.name &&
           description == other.description &&
-          pictureUrl == other.pictureUrl;
+          pictureUrl == other.pictureUrl &&
+          createdAt == other.createdAt;
 
   @override
   int get hashCode =>
@@ -48,5 +52,6 @@ class HubItemData {
       userId.hashCode ^
       name.hashCode ^
       description.hashCode ^
-      pictureUrl.hashCode;
+      pictureUrl.hashCode ^
+      createdAt.hashCode;
 }

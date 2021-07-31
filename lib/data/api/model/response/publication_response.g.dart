@@ -16,6 +16,7 @@ PublicationResponse _$PublicationResponseFromJson(Map<String, dynamic> json) {
         (json['usersLiked'] as List<dynamic>).map((e) => e as String).toList(),
     mediaUrls:
         (json['mediaUrls'] as List<dynamic>).map((e) => e as String).toList(),
+    createdAt: json['createdAt'] as int,
   );
 }
 
@@ -28,4 +29,5 @@ Map<String, dynamic> _$PublicationResponseToJson(
       'likesCount': instance.likesCount,
       'usersLiked': instance.usersLiked,
       'mediaUrls': instance.mediaUrls,
+      'createdAt': instance.createdAt,
     };

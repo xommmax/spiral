@@ -30,6 +30,7 @@ class HubRepositoryImpl implements HubRepository {
       userId: currentUserId,
       name: name,
       description: description,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
     );
 
     HubResponse response = await _remote.createHub(request, File(picture.path));

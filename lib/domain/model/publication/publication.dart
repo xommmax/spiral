@@ -9,6 +9,7 @@ class Publication {
   final int likesCount;
   final List<String> mediaUrls;
   final List<String> usersLiked;
+  final int createdAt;
 
   Publication._({
     required this.id,
@@ -17,6 +18,7 @@ class Publication {
     required this.likesCount,
     required this.mediaUrls,
     required this.usersLiked,
+    required this.createdAt,
   });
 
   factory Publication.fromItemData(PublicationItemData itemData) =>
@@ -27,11 +29,12 @@ class Publication {
         likesCount: itemData.likesCount,
         mediaUrls: jsonDecode(itemData.mediaUrls)?.cast<String>() ?? [],
         usersLiked: jsonDecode(itemData.usersLiked)?.cast<String>() ?? [],
+        createdAt: itemData.createdAt,
       );
 
   @override
   String toString() {
-    return 'Publication{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, mediaUrls: $mediaUrls, usersLiked: $usersLiked}';
+    return 'Publication{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, mediaUrls: $mediaUrls, usersLiked: $usersLiked, createdAt: $createdAt}';
   }
 
   @override
@@ -44,7 +47,8 @@ class Publication {
           text == other.text &&
           likesCount == other.likesCount &&
           mediaUrls == other.mediaUrls &&
-          usersLiked == other.usersLiked;
+          usersLiked == other.usersLiked &&
+          createdAt == other.createdAt;
 
   @override
   int get hashCode =>
@@ -53,5 +57,6 @@ class Publication {
       text.hashCode ^
       likesCount.hashCode ^
       mediaUrls.hashCode ^
-      usersLiked.hashCode;
+      usersLiked.hashCode ^
+      createdAt.hashCode;
 }

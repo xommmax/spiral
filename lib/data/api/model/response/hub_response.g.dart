@@ -13,6 +13,7 @@ HubResponse _$HubResponseFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     description: json['description'] as String,
     pictureUrl: json['pictureUrl'] as String,
+    createdAt: json['createdAt'] as int,
   );
 }
 
@@ -23,4 +24,5 @@ Map<String, dynamic> _$HubResponseToJson(HubResponse instance) =>
       'name': instance.name,
       'description': instance.description,
       'pictureUrl': instance.pictureUrl,
+      'createdAt': instance.createdAt,
     };
