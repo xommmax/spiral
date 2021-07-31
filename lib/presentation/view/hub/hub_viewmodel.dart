@@ -56,4 +56,10 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
         userId: user.id,
         isLiked: isLiked,
       );
+
+  void onUsersLikedScreenClicked(List<String> userIds) =>
+      _navigationService.navigateTo(
+        Routes.usersLikedView,
+        arguments: UsersLikedViewArguments(userIds: userIds),
+      );
 }

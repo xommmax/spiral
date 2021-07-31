@@ -49,6 +49,7 @@ class Strings {
       'Cannot open this hub, please contact us';
   static const unableToGetHubsList = 'Cannot get hubs, please contact us';
   static const unableToGetPublications = 'Cannot get publications, please contact us';
+  static const unableToGetUsers = 'Unable to get users, please contact us';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -64,6 +65,9 @@ class Strings {
   /* Hub */
   static const deleteHub = 'Delete hub';
 
-  /* Uncategorized */
+  /* Users liked */
+  static const likes = 'Likes';
+  static const unknown = 'Unknown';
 
+  /* Uncategorized */
 }

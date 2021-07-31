@@ -1,41 +1,74 @@
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class WidgetLike extends StatefulWidget {
-  final Function(bool) onLikeClicked;
-  final bool isLiked;
+  final bool _isLiked;
+  final int _likesCount;
+  final Function(bool) onPublicationLikeClicked;
+  final Function onUsersLikedScreenClicked;
 
-  const WidgetLike(this.onLikeClicked, this.isLiked, {Key? key})
-      : super(key: key);
+  const WidgetLike(
+    this._isLiked,
+    this._likesCount, {
+    required this.onPublicationLikeClicked,
+    required this.onUsersLikedScreenClicked,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _WidgetLikeState createState() => _WidgetLikeState();
+  _WidgetLikeState createState() => _WidgetLikeState(_likesCount, _isLiked);
 }
 
 class _WidgetLikeState extends State<WidgetLike> {
-  bool _isLiked = false;
+  bool _isLiked;
+  int _likesCount;
+
+  _WidgetLikeState(this._likesCount, this._isLiked);
 
   @override
-  void initState() {
-    _setIsLiked(widget.isLiked);
-    super.initState();
-  }
+  Widget build(BuildContext context) => GestureDetector(
+        onLongPressStart: _likesCount > 0
+            ? (details) {
+                HapticFeedback.heavyImpact();
+                widget.onUsersLikedScreenClicked();
+              }
+            : null,
+        child: Row(
+          children: [
+            IconButton(
+              iconSize: 24,
+              onPressed: _onLikeTap,
+              icon: Icon(
+                _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+                color: AppColors.black,
+              ),
+            ),
+            _likesCount != 0
+                ? Text(
+                    _likesCount.toString(),
+                    style: TextStyles.robotoBlack12,
+                  )
+                : SizedBox.shrink(),
+          ],
+        ),
+      );
 
-  @override
-  Widget build(BuildContext context) => IconButton(
-    iconSize: 24,
-    onPressed: _onLikeTap,
-    icon: Icon(
-      _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-      color: AppColors.black,
-    ),
-  );
-
-  void _setIsLiked(bool isLiked) => setState(() => _isLiked = isLiked);
+  void _setIsLiked(bool isLiked) => setState(() {
+        if (!isLiked) {
+          if (_likesCount > 0) {
+            _likesCount = _likesCount - 1;
+          }
+        } else {
+          _likesCount = _likesCount + 1;
+        }
+        _isLiked = isLiked;
+      });
 
   void _onLikeTap() {
     _setIsLiked(!_isLiked);
-    widget.onLikeClicked(_isLiked);
+    widget.onPublicationLikeClicked(_isLiked);
   }
 }

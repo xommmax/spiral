@@ -18,12 +18,21 @@ class UserRemoteRepository {
   String? codeVerificationId;
   ApiHelper apiHelper = locator<ApiHelper>();
 
-  Future<UserResponse> fetchUser(String userId) async => FirebaseFirestore
-      .instance
+  Future<UserResponse> fetchUser(String userId) => FirebaseFirestore.instance
       .collection(FirebaseCollections.users)
       .doc(userId)
       .get()
       .then((snapshot) => UserResponse.fromJson(snapshot.id, snapshot.data()));
+
+  Future<List<UserResponse>> fetchUsers(List<String> userIds) =>
+      FirebaseFirestore.instance
+          .collection(FirebaseCollections.users)
+          .where(FieldPath.documentId, whereIn: userIds)
+          .get()
+          .then((snapshots) => snapshots.docs
+              .map((snapshot) =>
+                  UserResponse.fromJson(snapshot.id, snapshot.data()))
+              .toList());
 
   Future<UserResponse> saveUser(UserRequest request) async {
     var reference = FirebaseFirestore.instance
