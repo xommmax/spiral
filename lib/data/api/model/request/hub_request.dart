@@ -7,19 +7,21 @@ class HubRequest {
   final String userId;
   final String name;
   final String description;
+  final int createdAt;
   String? pictureUrl;
 
   HubRequest({
     required this.userId,
     required this.name,
     required this.description,
+    required this.createdAt,
   });
 
   Map<String, dynamic> toJson() => _$HubRequestToJson(this);
 
   @override
   String toString() {
-    return 'HubRequest{userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl}';
+    return 'HubRequest{userId: $userId, name: $name, description: $description, createdAt: $createdAt, pictureUrl: $pictureUrl}';
   }
 
   @override
@@ -30,6 +32,7 @@ class HubRequest {
           userId == other.userId &&
           name == other.name &&
           description == other.description &&
+          createdAt == other.createdAt &&
           pictureUrl == other.pictureUrl;
 
   @override
@@ -37,5 +40,6 @@ class HubRequest {
       userId.hashCode ^
       name.hashCode ^
       description.hashCode ^
+      createdAt.hashCode ^
       pictureUrl.hashCode;
 }

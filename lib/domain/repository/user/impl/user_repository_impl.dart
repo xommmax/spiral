@@ -54,6 +54,21 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Stream<List<User>> getUsers(List<String> userIds) {
+    var stream = _local.getUsers(userIds).map((usersItemData) =>
+        usersItemData.map((itemData) => User.fromItemData(itemData)).toList());
+
+    _remote.fetchUsers(userIds).then(
+          (usersRemote) => _local.addUsers(
+            usersRemote
+                .map((userRemote) => UserItemData.fromResponse(userRemote))
+                .toList(),
+          ),
+        );
+    return stream;
+  }
+
+  @override
   bool isCurrentUserExist() => _auth.currentUser?.uid != null;
 
   @override

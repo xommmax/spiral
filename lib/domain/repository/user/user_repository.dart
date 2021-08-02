@@ -12,6 +12,8 @@ abstract class UserRepository {
 
   Stream<User?> getUser(String userId);
 
+  Stream<List<User>> getUsers(List<String> userIds);
+
   bool isCurrentUserExist();
 
   Future<void> logoutUser();

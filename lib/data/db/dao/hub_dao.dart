@@ -3,7 +3,7 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class HubDao {
-  @Query('SELECT * FROM hub WHERE userId = :userId')
+  @Query('SELECT * FROM hub WHERE userId = :userId ORDER BY createdAt DESC')
   Stream<List<HubItemData>> getUserHubsStream(String userId);
 
   @Insert(onConflict: OnConflictStrategy.replace)

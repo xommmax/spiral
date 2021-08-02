@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
@@ -20,6 +19,7 @@ class WidgetVideoPreview extends StatefulWidget {
 class _WidgetVideoPreviewState extends State<WidgetVideoPreview> {
   VideoPlayerController? _controller;
   bool _isInitialized = false;
+  bool _isPlaying = false;
 
   @override
   void initState() {
@@ -38,9 +38,6 @@ class _WidgetVideoPreviewState extends State<WidgetVideoPreview> {
       await _controller
           ?.initialize()
           .then((_) => setState(() => _isInitialized = true));
-      _controller?.play();
-      _controller?.setVolume(0.0);
-      _controller?.setLooping(true);
     } else {
       throw Exception(
           'Video Controller is null, \'filePath\' or \'networkUrl\' property must not be null');
@@ -49,17 +46,28 @@ class _WidgetVideoPreviewState extends State<WidgetVideoPreview> {
 
   @override
   Widget build(BuildContext context) => _isInitialized
-      ? FittedBox(
-          fit: BoxFit.cover,
-          child: SizedBox(
-            height: _controller?.value.size.height,
-            width: _controller?.value.size.width,
-            child: VideoPlayer(_controller!),
+      ? GestureDetector(
+          onTap: _onVideoTap,
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: SizedBox(
+              height: _controller?.value.size.height,
+              width: _controller?.value.size.width,
+              child: VideoPlayer(_controller!),
+            ),
           ),
         )
-      : Center(
-          child: ProgressBar(),
-        );
+      : SizedBox.shrink();
+
+  void _onVideoTap() {
+    if(!_isPlaying) {
+      _controller?.play();
+      _isPlaying = true;
+    } else {
+      _controller?.pause();
+      _isPlaying = false;
+    }
+  }
 
   @override
   void dispose() {
