@@ -1,3 +1,4 @@
+import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/db/entity/user_item_data.dart';
 
 class User {
@@ -21,6 +22,14 @@ class User {
         email: itemData.email,
         phoneNumber: itemData.phoneNumber,
         photoURL: itemData.photoURL,
+      );
+
+  factory User.fromResponse(UserResponse response) => User._(
+        id: response.id,
+        displayName: response.displayName,
+        email: response.email,
+        phoneNumber: response.phoneNumber,
+        photoURL: response.photoURL,
       );
 
   @override

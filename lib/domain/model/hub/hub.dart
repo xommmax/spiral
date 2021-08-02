@@ -1,3 +1,4 @@
+import 'package:dairo/data/api/model/response/hub_response.dart';
 import 'package:dairo/data/db/entity/hub_item_data.dart';
 
 class Hub {
@@ -21,6 +22,14 @@ class Hub {
         name: itemData.name,
         description: itemData.description,
         pictureUrl: itemData.pictureUrl,
+      );
+
+  factory Hub.fromResponse(HubResponse response) => Hub._(
+        id: response.id,
+        userId: response.userId,
+        name: response.name,
+        description: response.description,
+        pictureUrl: response.pictureUrl,
       );
 
   @override

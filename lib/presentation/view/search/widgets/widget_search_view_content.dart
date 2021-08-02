@@ -1,6 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/search/search_viewmodel.dart';
+import 'package:dairo/presentation/view/search/widgets/widget_search_results_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -12,14 +13,17 @@ class WidgetSearchViewContent extends ViewModelWidget<SearchViewModel> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.white,
+          iconTheme: IconThemeData(color: AppColors.black),
           title: TextField(
+            textInputAction: TextInputAction.search,
+            onSubmitted: viewModel.onSearchSubmitted,
             style: TextStyle(
-                color: AppColors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
             controller: viewModel.searchTextController,
             decoration: new InputDecoration.collapsed(
-                hintText: 'Enter Hubname',
+                hintText: Strings.search,
                 hintStyle: TextStyle(color: AppColors.gray)),
           ),
           bottom: TabBar(
@@ -29,16 +33,17 @@ class WidgetSearchViewContent extends ViewModelWidget<SearchViewModel> {
               Tab(text: Strings.hubs),
             ],
             labelColor: AppColors.black,
-            indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(50), // Creates border
-                color: AppColors.primaryColor),
+            unselectedLabelColor: AppColors.gray,
+            indicator: UnderlineTabIndicator(
+              borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
+            ),
           ),
         ),
         body: TabBarView(
           children: [
-            Icon(Icons.flight, size: 350),
-            Icon(Icons.flight, size: 350),
-            Icon(Icons.flight, size: 350),
+            WidgetTopSearchResultsTab(),
+            WidgetProfileSearchResultsTab(),
+            WidgetHubSearchResultsTab(),
           ],
         ),
       ),

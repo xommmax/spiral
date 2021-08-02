@@ -51,6 +51,7 @@ class Strings {
   static const unableToGetPublications =
       'Cannot get publications, please contact us';
   static const unableToGetUsers = 'Unable to get users, please contact us';
+  static const unableToGetSearchResults = 'Unable to get search results';
 
   /* New publication */
   static const newPublication = 'New publication';
