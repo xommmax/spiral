@@ -13,7 +13,7 @@ class AppBarUsersLiked extends ViewModelWidget<UsersLikedViewModel>
         centerTitle: true,
         title: Text(
           Strings.likes,
-          style: TextStyles.robotoWhiteBold22,
+          style: TextStyles.toolbarTitle,
         ),
       );
 

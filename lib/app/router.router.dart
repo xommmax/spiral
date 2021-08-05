@@ -17,24 +17,30 @@ import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
 import '../presentation/view/profile/current_user/current_user_profile_view.dart';
+import '../presentation/view/profile/user/user_profile_view.dart';
 import '../presentation/view/publication/users_liked/users_liked_view.dart';
+import '../presentation/view/search/search_view.dart';
 
 class Routes {
   static const String authView = '/auth-view';
   static const String mainView = '/';
   static const String newPublicationView = '/new-publication-view';
+  static const String userProfileView = '/user-profile-view';
   static const String currentUserProfileView = '/current-user-profile-view';
   static const String newHubView = '/new-hub-view';
   static const String hubView = '/hub-view';
   static const String usersLikedView = '/users-liked-view';
+  static const String searchView = '/search-view';
   static const all = <String>{
     authView,
     mainView,
     newPublicationView,
+    userProfileView,
     currentUserProfileView,
     newHubView,
     hubView,
     usersLikedView,
+    searchView,
   };
 }
 
@@ -45,10 +51,12 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.authView, page: AuthView),
     RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
+    RouteDef(Routes.userProfileView, page: UserProfileView),
     RouteDef(Routes.currentUserProfileView, page: CurrentUserProfileView),
     RouteDef(Routes.newHubView, page: NewHubView),
     RouteDef(Routes.hubView, page: HubView),
     RouteDef(Routes.usersLikedView, page: UsersLikedView),
+    RouteDef(Routes.searchView, page: SearchView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -71,6 +79,13 @@ class StackedRouter extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => NewPublicationView(hubId: args.hubId),
+        settings: data,
+      );
+    },
+    UserProfileView: (data) {
+      var args = data.getArgs<UserProfileViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => UserProfileView(userId: args.userId),
         settings: data,
       );
     },
@@ -103,6 +118,12 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    SearchView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SearchView(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -114,6 +135,12 @@ class StackedRouter extends RouterBase {
 class NewPublicationViewArguments {
   final String? hubId;
   NewPublicationViewArguments({this.hubId});
+}
+
+/// UserProfileView arguments holder class
+class UserProfileViewArguments {
+  final String userId;
+  UserProfileViewArguments({required this.userId});
 }
 
 /// HubView arguments holder class

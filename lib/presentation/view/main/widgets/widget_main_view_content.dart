@@ -12,12 +12,14 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
   @override
   Widget build(BuildContext context, MainViewModel viewModel) => Scaffold(
         extendBody: true,
-        body: IndexedStack(
-          index: viewModel.currentIndex,
-          children: [
-            HomeView(),
-            ExploreView(),
-          ],
+        body: SafeArea(
+          child: IndexedStack(
+            index: viewModel.currentIndex,
+            children: [
+              HomeView(),
+              ExploreView(),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomAppBar(
           notchMargin: 6,

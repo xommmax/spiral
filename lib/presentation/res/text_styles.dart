@@ -2,7 +2,6 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:flutter/cupertino.dart';
 
 class TextStyles {
-
   static const robotoBlack12 = TextStyle(
     color: AppColors.black,
     fontSize: 12,
@@ -42,20 +41,29 @@ class TextStyles {
     color: AppColors.textGray,
   );
 
-  static const robotoGray16 =
-      TextStyle(color: AppColors.textGray, fontSize: 16);
+  static const robotoGray16 = TextStyle(
+    color: AppColors.textGray,
+    fontSize: 16,
+  );
 
-  static const robotoGray18 =
-      TextStyle(color: AppColors.textGray, fontSize: 18);
+  static const robotoGray18 = TextStyle(
+    color: AppColors.textGray,
+    fontSize: 18,
+  );
 
-  static const robotoGray20 =
-      TextStyle(color: AppColors.textGray, fontSize: 20);
+  static const robotoGray20 = TextStyle(
+    color: AppColors.textGray,
+    fontSize: 20,
+  );
 
-  static const robotoGray22 =
-      TextStyle(color: AppColors.textGray, fontSize: 22);
+  static const robotoGray22 = TextStyle(
+    color: AppColors.textGray,
+    fontSize: 22,
+  );
 
-  static const robotoWhiteBold22 = TextStyle(
+  static const toolbarTitle = TextStyle(
     color: AppColors.white,
     fontSize: 22,
+    fontWeight: FontWeight.bold,
   );
 }
