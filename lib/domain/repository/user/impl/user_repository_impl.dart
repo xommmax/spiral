@@ -42,7 +42,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Stream<User?> getUser(String userId) {
-    var stream = _local.getUser(userId).map((itemData) {
+    final stream = _local.getUser(userId).map((itemData) {
       if (itemData == null) return null;
       return User.fromItemData(itemData);
     });
@@ -55,7 +55,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Stream<List<User>> getUsers(List<String> userIds) {
-    var stream = _local.getUsers(userIds).map((usersItemData) =>
+    final stream = _local.getUsers(userIds).map((usersItemData) =>
         usersItemData.map((itemData) => User.fromItemData(itemData)).toList());
 
     _remote.fetchUsers(userIds).then(

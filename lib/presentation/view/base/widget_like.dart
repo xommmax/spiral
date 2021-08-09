@@ -39,7 +39,6 @@ class _WidgetLikeState extends State<WidgetLike> {
         child: Row(
           children: [
             IconButton(
-              iconSize: 24,
               onPressed: _onLikeTap,
               icon: Icon(
                 _isLiked ? Icons.favorite : Icons.favorite_border_outlined,

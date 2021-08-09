@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:dairo/data/db/dao/comment_dao.dart';
 import 'package:dairo/data/db/dao/publication_dao.dart';
+import 'package:dairo/data/db/entity/comment_item_data.dart';
 import 'package:dairo/data/db/entity/hub_item_data.dart';
 import 'package:floor/floor.dart';
 import 'package:injectable/injectable.dart';
@@ -17,6 +19,7 @@ part 'dairo_database.g.dart';
   UserItemData,
   HubItemData,
   PublicationItemData,
+  CommentItemData,
 ])
 abstract class DairoDatabase extends FloorDatabase {
   @preResolve
@@ -27,4 +30,7 @@ abstract class DairoDatabase extends FloorDatabase {
 
   @preResolve
   PublicationDao get publicationDao;
+
+  @preResolve
+  CommentDao get commentDao;
 }

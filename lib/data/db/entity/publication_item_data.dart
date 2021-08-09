@@ -10,8 +10,9 @@ class PublicationItemData {
   final String hubId;
   final String? text;
   final String mediaUrls;
-  final String usersLiked;
+  final bool isLiked;
   final int likesCount;
+  final int commentsCount;
   final int createdAt;
 
   PublicationItemData({
@@ -19,8 +20,9 @@ class PublicationItemData {
     required this.hubId,
     required this.text,
     required this.mediaUrls,
-    required this.usersLiked,
+    required this.isLiked,
     required this.likesCount,
+    required this.commentsCount,
     required this.createdAt,
   });
 
@@ -30,14 +32,15 @@ class PublicationItemData {
         hubId: response.hubId,
         text: response.text,
         likesCount: response.likesCount,
+        commentsCount: response.commentsCount,
         mediaUrls: jsonEncode(response.mediaUrls),
-        usersLiked: jsonEncode(response.usersLiked),
+        isLiked: response.isLiked,
         createdAt: response.createdAt,
       );
 
   @override
   String toString() {
-    return 'PublicationItemData{id: $id, hubId: $hubId, text: $text, mediaUrls: $mediaUrls, usersLiked: $usersLiked, likesCount: $likesCount, createdAt: $createdAt}';
+    return 'PublicationItemData{id: $id, hubId: $hubId, text: $text, mediaUrls: $mediaUrls, isLiked: $isLiked, likesCount: $likesCount, commentsCount: $commentsCount, createdAt: $createdAt}';
   }
 
   @override
@@ -49,8 +52,9 @@ class PublicationItemData {
           hubId == other.hubId &&
           text == other.text &&
           mediaUrls == other.mediaUrls &&
-          usersLiked == other.usersLiked &&
+          isLiked == other.isLiked &&
           likesCount == other.likesCount &&
+          commentsCount == other.commentsCount &&
           createdAt == other.createdAt;
 
   @override
@@ -59,7 +63,8 @@ class PublicationItemData {
       hubId.hashCode ^
       text.hashCode ^
       mediaUrls.hashCode ^
-      usersLiked.hashCode ^
+      isLiked.hashCode ^
       likesCount.hashCode ^
+      commentsCount.hashCode ^
       createdAt.hashCode;
 }

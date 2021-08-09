@@ -1,7 +1,7 @@
 import {isEmulator} from "./utils";
 import * as admin from "firebase-admin";
-import {sendLike} from "./like";
-import {fetchPublications} from "./publication";
+import {onPublicationDisliked, onPublicationLiked} from "./like";
+import {onCommentAdded} from "./comment";
 
 export const appUrl = "https://us-central1-dairo-4593a.cloudfunctions.net";
 
@@ -13,5 +13,6 @@ if (isEmulator) {
   admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
 }
 
-exports.sendLike = sendLike;
-exports.fetchPublications = fetchPublications;
+exports.onPublicationLiked = onPublicationLiked;
+exports.onPublicationDisliked = onPublicationDisliked;
+exports.onCommentAdded = onCommentAdded;

@@ -25,7 +25,7 @@ class HubRepositoryImpl implements HubRepository {
     required String description,
     required MediaFile picture,
   }) async {
-    var currentUserId = _userRepository.checkAndGetCurrentUserId();
+    final currentUserId = _userRepository.checkAndGetCurrentUserId();
     HubRequest request = HubRequest(
       userId: currentUserId,
       name: name,
@@ -46,7 +46,7 @@ class HubRepositoryImpl implements HubRepository {
         .map((itemData) => itemData.map((e) => Hub.fromItemData(e)).toList());
 
     _remote.fetchUserHubs(userId).then((response) {
-      var itemData = response.map((e) => HubItemData.fromResponse(e)).toList();
+      final itemData = response.map((e) => HubItemData.fromResponse(e)).toList();
       _local.addHubs(itemData);
     });
     return stream;

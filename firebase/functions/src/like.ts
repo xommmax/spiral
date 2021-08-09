@@ -1,52 +1,62 @@
+
 import * as functions from "firebase-functions";
-import {validateFirebaseIdToken} from "./utils";
-import {log} from "firebase-functions/lib/logger";
-import * as express from "express";
 import * as admin from "firebase-admin";
-import * as publication from "./publication";
+import {log} from "firebase-functions/lib/logger";
 
-export interface LikePublicationRequest {
-    isLiked: boolean,
-    publicationId: string,
-    userId: string
-}
 
-export const sendLike = functions.https.onRequest(async (req: express.Request, res: express.Response)=> {
-  const user = await validateFirebaseIdToken(req, res);
-  if (user === null) {
-    return;
-  }
+export const onPublicationLiked = functions
+    .firestore
+    .document("publicationLikes/{publicationId}/users/{userId}")
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .onCreate((snap, _) => {
+      const publicationId = snap.ref.parent.parent?.id;
+      if (publicationId != undefined) {
+        updateLikesCount(true, publicationId).then((result) => {
+          if (result != -1) {
+            log(`'likesCount' value is successfully increased (${result}) on publication: ${publicationId}`);
+          } else {
+            log(`likesCount' value is not increased on publication: ${publicationId}`);
+          }
+        });
+      } else {
+        log("Unable to find publicationId for 'onPublicationLiked' function");
+      }
+    });
+
+export const onPublicationDisliked = functions
+    .firestore
+    .document("publicationLikes/{publicationId}/users/{userId}")
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .onDelete((snap, _) => {
+      const publicationId = snap.ref.parent.parent?.id;
+      if (publicationId != undefined) {
+        updateLikesCount(false, publicationId).then((result) => {
+          if (result != -1) {
+            log(`'likesCount' value is successfully decreased (${result}) on publication: ${publicationId}`);
+          } else {
+            log(`likesCount' value is not decreased on publication: ${publicationId}`);
+          }
+        });
+      } else {
+        log("Unable to find publicationId for 'onPublicationDisliked' function");
+      }
+    });
+
+
+export async function updateLikesCount(isLiked: boolean, publicationId: string) : Promise<number> {
+  let likesCounter = -1;
   try {
-    await saveUserLikedPublication(req.body);
-    const json = await updateLikesCount(req.body);
-    if (json != undefined) {
-      res.status(200).send(json);
-    } else {
-      log("An error occurred while trying to return json PublicationResponse");
-      res.status(412).send("Internal server error, please contact us");
+    const snap = admin.firestore().doc(`hubPublications/${publicationId}`);
+    const doc = await snap.get();
+    const count = await doc.get("likesCount");
+    if (isLiked) {
+      await snap.update({"likesCount": admin.firestore.FieldValue.increment(1)});
+    } else if (count > 0) {
+      await snap.update({"likesCount": admin.firestore.FieldValue.increment(-1)});
     }
+    likesCounter = await doc.get("likesCount");
   } catch (e) {
-    log("An error occurred while running 'sendLike' request: " + e + "\nstacktrace is: " + e.stackTrace);
-    res.status(422).send("Something went wrong, please try again.");
+    log(`An error occurred while running 'updateLikesCount' function: ${e}`);
   }
-});
-
-export async function saveUserLikedPublication(likePublication: LikePublicationRequest): Promise<void> {
-  const path = `hubPublications/${likePublication.publicationId}/usersLiked/${likePublication.userId}`;
-  if (likePublication.isLiked) {
-    await admin.firestore().doc(path).set({});
-  } else {
-    await admin.firestore().doc(path).delete();
-  }
-}
-
-export async function updateLikesCount(likePublication: LikePublicationRequest) : Promise<FirebaseFirestore.DocumentData|undefined> {
-  const snap = admin.firestore().doc(`hubPublications/${likePublication.publicationId}`);
-  const doc = await snap.get();
-  if (likePublication.isLiked) {
-    await snap.update({"likesCount": admin.firestore.FieldValue.increment(1)});
-  } else {
-    await snap.update({"likesCount": admin.firestore.FieldValue.increment(-1)});
-  }
-  return await publication.getPublication(doc);
+  return likesCounter;
 }
