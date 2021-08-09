@@ -1,6 +1,7 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -9,6 +10,7 @@ class MainViewModel extends IndexTrackingViewModel {
   final UserRepository _userRepository = locator<UserRepository>();
 
   onFabPressed() async {
+    // FirebaseAuth.instance.signOut();
     if (_userRepository.isCurrentUserExist()) {
       _navigationService.navigateTo(Routes.newPublicationView);
     } else {

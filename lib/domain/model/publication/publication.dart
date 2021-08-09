@@ -7,8 +7,9 @@ class Publication {
   final String hubId;
   final String? text;
   final int likesCount;
+  final int commentsCount;
   final List<String> mediaUrls;
-  final List<String> usersLiked;
+  final bool isLiked;
   final int createdAt;
 
   Publication._({
@@ -16,8 +17,9 @@ class Publication {
     required this.hubId,
     required this.text,
     required this.likesCount,
+    required this.commentsCount,
     required this.mediaUrls,
-    required this.usersLiked,
+    required this.isLiked,
     required this.createdAt,
   });
 
@@ -27,14 +29,15 @@ class Publication {
         hubId: itemData.hubId,
         text: itemData.text,
         likesCount: itemData.likesCount,
+        commentsCount: itemData.commentsCount,
         mediaUrls: jsonDecode(itemData.mediaUrls)?.cast<String>() ?? [],
-        usersLiked: jsonDecode(itemData.usersLiked)?.cast<String>() ?? [],
+        isLiked: itemData.isLiked,
         createdAt: itemData.createdAt,
       );
 
   @override
   String toString() {
-    return 'Publication{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, mediaUrls: $mediaUrls, usersLiked: $usersLiked, createdAt: $createdAt}';
+    return 'Publication{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, mediaUrls: $mediaUrls, isLiked: $isLiked, createdAt: $createdAt}';
   }
 
   @override
@@ -46,8 +49,9 @@ class Publication {
           hubId == other.hubId &&
           text == other.text &&
           likesCount == other.likesCount &&
+          commentsCount == other.commentsCount &&
           mediaUrls == other.mediaUrls &&
-          usersLiked == other.usersLiked &&
+          isLiked == other.isLiked &&
           createdAt == other.createdAt;
 
   @override
@@ -56,7 +60,8 @@ class Publication {
       hubId.hashCode ^
       text.hashCode ^
       likesCount.hashCode ^
+      commentsCount.hashCode ^
       mediaUrls.hashCode ^
-      usersLiked.hashCode ^
+      isLiked.hashCode ^
       createdAt.hashCode;
 }

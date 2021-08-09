@@ -22,26 +22,31 @@ class UserRemoteRepository {
       .collection(FirebaseCollections.users)
       .doc(userId)
       .get()
-      .then((snapshot) => UserResponse.fromJson(snapshot.id, snapshot.data()));
+      .then((snapshot) =>
+          UserResponse.fromJson(snapshot.data(), id: snapshot.id));
 
-  Future<List<UserResponse>> fetchUsers(List<String> userIds) =>
-      FirebaseFirestore.instance
-          .collection(FirebaseCollections.users)
-          .where(FieldPath.documentId, whereIn: userIds)
-          .get()
-          .then((snapshots) => snapshots.docs
-              .map((snapshot) =>
-                  UserResponse.fromJson(snapshot.id, snapshot.data()))
-              .toList());
+  Future<List<UserResponse>> fetchUsers(List<String> userIds) => Future.wait(
+        userIds.map(
+          (userId) => FirebaseFirestore.instance
+              .collection(FirebaseCollections.users)
+              .where(FieldPath.documentId, isEqualTo: userId)
+              .get()
+              .then(
+                (snapshots) => UserResponse.fromJson(
+                    snapshots.docs.first.data(),
+                    id: snapshots.docs.first.id),
+              ),
+        ),
+      );
 
   Future<UserResponse> saveUser(UserRequest request) async {
-    var reference = FirebaseFirestore.instance
+    final reference = FirebaseFirestore.instance
         .collection(FirebaseCollections.users)
         .doc(request.id);
 
     await reference.set(request.toJson());
-    var snapshot = await reference.get();
-    return UserResponse.fromJson(snapshot.id, snapshot.data());
+    final snapshot = await reference.get();
+    return UserResponse.fromJson(snapshot.data(), id: snapshot.id);
   }
 
   Future<UserRequest> loginWithSocial(SocialAuthRequest request) async {

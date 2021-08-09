@@ -8,7 +8,8 @@ class PublicationResponse {
   final String hubId;
   final String? text;
   final int likesCount;
-  final List<String> usersLiked;
+  final int commentsCount;
+  final bool isLiked;
   final List<String> mediaUrls;
   final int createdAt;
 
@@ -17,26 +18,29 @@ class PublicationResponse {
     required this.hubId,
     required this.text,
     required this.likesCount,
-    required this.usersLiked,
+    required this.commentsCount,
+    required this.isLiked,
     required this.mediaUrls,
     required this.createdAt,
   });
 
   factory PublicationResponse.fromJson(
     Map<String, dynamic>? json, {
-    String? id,
+    required String id,
+    required bool isLiked,
   }) {
     json = json ?? {};
     json['id'] ??= id;
-    json['usersLiked'] ??= [];
+    json['isLiked'] ??= isLiked;
     json['mediaUrls'] ??= [];
     json['likesCount'] ??= 0;
+    json['commentsCount'] ??= 0;
     return _$PublicationResponseFromJson(json);
   }
 
   @override
   String toString() {
-    return 'PublicationResponse{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, usersLiked: $usersLiked, mediaUrls: $mediaUrls, createdAt: $createdAt}';
+    return 'PublicationResponse{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, isLiked: $isLiked, mediaUrls: $mediaUrls, createdAt: $createdAt}';
   }
 
   @override
@@ -48,7 +52,8 @@ class PublicationResponse {
           hubId == other.hubId &&
           text == other.text &&
           likesCount == other.likesCount &&
-          usersLiked == other.usersLiked &&
+          commentsCount == other.commentsCount &&
+          isLiked == other.isLiked &&
           mediaUrls == other.mediaUrls &&
           createdAt == other.createdAt;
 
@@ -58,7 +63,8 @@ class PublicationResponse {
       hubId.hashCode ^
       text.hashCode ^
       likesCount.hashCode ^
-      usersLiked.hashCode ^
+      commentsCount.hashCode ^
+      isLiked.hashCode ^
       mediaUrls.hashCode ^
       createdAt.hashCode;
 }

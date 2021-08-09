@@ -22,12 +22,15 @@ class HubRemoteRepository {
             [hubPicture], FirebaseStorageFolders.hubPictures);
     hubRequest.pictureUrl = uploadedUrls[0];
 
-    var snapshot = await _firestore
+    final snapshot = await _firestore
         .collection(FirebaseCollections.userHubs)
         .add(hubRequest.toJson())
         .then((reference) => reference.get());
 
-    return HubResponse.fromJson(snapshot.id, snapshot.data());
+    return HubResponse.fromJson(
+      snapshot.data(),
+      id: snapshot.id,
+    );
   }
 
   Future<List<HubResponse>> fetchUserHubs(String userId) => _firestore
@@ -35,6 +38,11 @@ class HubRemoteRepository {
       .where("userId", isEqualTo: userId)
       .get()
       .then((snapshot) => snapshot.docs
-          .map((doc) => HubResponse.fromJson(doc.id, doc.data()))
+          .map(
+            (snapshot) => HubResponse.fromJson(
+              snapshot.data(),
+              id: snapshot.id,
+            ),
+          )
           .toList());
 }

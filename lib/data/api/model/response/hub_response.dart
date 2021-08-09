@@ -20,7 +20,10 @@ class HubResponse {
     required this.createdAt,
   });
 
-  factory HubResponse.fromJson(String id, Map<String, dynamic>? json) {
+  factory HubResponse.fromJson(
+    Map<String, dynamic>? json, {
+    String? id,
+  }) {
     json = json ?? {};
     json['id'] = id;
     return _$HubResponseFromJson(json);

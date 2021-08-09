@@ -66,6 +66,8 @@ class _$DairoDatabase extends DairoDatabase {
 
   PublicationDao? _publicationDaoInstance;
 
+  CommentDao? _commentDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -89,7 +91,9 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `usersLiked` TEXT NOT NULL, `likesCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `comment` (`id` TEXT NOT NULL, `publicationId` TEXT NOT NULL, `user` TEXT NOT NULL, `text` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `commentReplyId` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -111,6 +115,11 @@ class _$DairoDatabase extends DairoDatabase {
   PublicationDao get publicationDao {
     return _publicationDaoInstance ??=
         _$PublicationDao(database, changeListener);
+  }
+
+  @override
+  CommentDao get commentDao {
+    return _commentDaoInstance ??= _$CommentDao(database, changeListener);
   }
 }
 
@@ -297,8 +306,9 @@ class _$PublicationDao extends PublicationDao {
                   'hubId': item.hubId,
                   'text': item.text,
                   'mediaUrls': item.mediaUrls,
-                  'usersLiked': item.usersLiked,
+                  'isLiked': item.isLiked ? 1 : 0,
                   'likesCount': item.likesCount,
+                  'commentsCount': item.commentsCount,
                   'createdAt': item.createdAt
                 },
             changeListener);
@@ -313,7 +323,7 @@ class _$PublicationDao extends PublicationDao {
       _publicationItemDataInsertionAdapter;
 
   @override
-  Stream<List<PublicationItemData>> getHubPublicationsStream(String hubId) {
+  Stream<List<PublicationItemData>> getPublications(String hubId) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM publication WHERE hubId = ?1 ORDER BY createdAt DESC',
         mapper: (Map<String, Object?> row) => PublicationItemData(
@@ -321,12 +331,43 @@ class _$PublicationDao extends PublicationDao {
             hubId: row['hubId'] as String,
             text: row['text'] as String?,
             mediaUrls: row['mediaUrls'] as String,
-            usersLiked: row['usersLiked'] as String,
+            isLiked: (row['isLiked'] as int) != 0,
             likesCount: row['likesCount'] as int,
+            commentsCount: row['commentsCount'] as int,
             createdAt: row['createdAt'] as int),
         arguments: [hubId],
         queryableName: 'publication',
         isView: false);
+  }
+
+  @override
+  Stream<PublicationItemData?> getPublication(String publicationId) {
+    return _queryAdapter.queryStream('SELECT * FROM publication WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => PublicationItemData(
+            id: row['id'] as String,
+            hubId: row['hubId'] as String,
+            text: row['text'] as String?,
+            mediaUrls: row['mediaUrls'] as String,
+            isLiked: (row['isLiked'] as int) != 0,
+            likesCount: row['likesCount'] as int,
+            commentsCount: row['commentsCount'] as int,
+            createdAt: row['createdAt'] as int),
+        arguments: [publicationId],
+        queryableName: 'publication',
+        isView: false);
+  }
+
+  @override
+  Future<void> deletePublications(String hubId) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM publication WHERE hubId = ?1',
+        arguments: [hubId]);
+  }
+
+  @override
+  Future<void> deletePublication(String id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM publication WHERE id = ?1',
+        arguments: [id]);
   }
 
   @override
@@ -340,5 +381,111 @@ class _$PublicationDao extends PublicationDao {
       List<PublicationItemData> publications) async {
     await _publicationItemDataInsertionAdapter.insertList(
         publications, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updatePublication(PublicationItemData publication) async {
+    if (database is sqflite.Transaction) {
+      await super.updatePublication(publication);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.publicationDao.updatePublication(publication);
+      });
+    }
+  }
+
+  @override
+  Future<void> updatePublications(
+      List<PublicationItemData> publications, String hubId) async {
+    if (database is sqflite.Transaction) {
+      await super.updatePublications(publications, hubId);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.publicationDao
+            .updatePublications(publications, hubId);
+      });
+    }
+  }
+}
+
+class _$CommentDao extends CommentDao {
+  _$CommentDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _commentItemDataInsertionAdapter = InsertionAdapter(
+            database,
+            'comment',
+            (CommentItemData item) => <String, Object?>{
+                  'id': item.id,
+                  'publicationId': item.publicationId,
+                  'user': item.user,
+                  'text': item.text,
+                  'createdAt': item.createdAt,
+                  'commentReplyId': item.commentReplyId
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CommentItemData> _commentItemDataInsertionAdapter;
+
+  @override
+  Stream<List<CommentItemData>> getComments(String publicationId) {
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM comment WHERE publicationId = ?1 AND commentReplyId IS NULL ORDER BY createdAt DESC',
+        mapper: (Map<String, Object?> row) => CommentItemData(
+            id: row['id'] as String,
+            user: row['user'] as String,
+            publicationId: row['publicationId'] as String,
+            text: row['text'] as String,
+            createdAt: row['createdAt'] as int,
+            commentReplyId: row['commentReplyId'] as String?),
+        arguments: [publicationId],
+        queryableName: 'comment',
+        isView: false);
+  }
+
+  @override
+  Future<void> deleteComments(String publicationId) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM comment WHERE publicationId = ?1',
+        arguments: [publicationId]);
+  }
+
+  @override
+  Future<void> insertComment(CommentItemData comment) async {
+    await _commentItemDataInsertionAdapter.insert(
+        comment, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertComments(List<CommentItemData> comments) async {
+    await _commentItemDataInsertionAdapter.insertList(
+        comments, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateComments(
+      List<CommentItemData> comments, String publicationId) async {
+    if (database is sqflite.Transaction) {
+      await super.updateComments(comments, publicationId);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.commentDao
+            .updateComments(comments, publicationId);
+      });
+    }
   }
 }

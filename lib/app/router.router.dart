@@ -18,6 +18,7 @@ import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
 import '../presentation/view/profile/current_user/current_user_profile_view.dart';
 import '../presentation/view/profile/user/user_profile_view.dart';
+import '../presentation/view/publication/publication_view.dart';
 import '../presentation/view/publication/users_liked/users_liked_view.dart';
 import '../presentation/view/search/search_view.dart';
 
@@ -30,6 +31,7 @@ class Routes {
   static const String newHubView = '/new-hub-view';
   static const String hubView = '/hub-view';
   static const String usersLikedView = '/users-liked-view';
+  static const String publicationView = '/publication-view';
   static const String searchView = '/search-view';
   static const all = <String>{
     authView,
@@ -40,6 +42,7 @@ class Routes {
     newHubView,
     hubView,
     usersLikedView,
+    publicationView,
     searchView,
   };
 }
@@ -56,6 +59,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.newHubView, page: NewHubView),
     RouteDef(Routes.hubView, page: HubView),
     RouteDef(Routes.usersLikedView, page: UsersLikedView),
+    RouteDef(Routes.publicationView, page: PublicationView),
     RouteDef(Routes.searchView, page: SearchView),
   ];
   @override
@@ -118,6 +122,16 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    PublicationView: (data) {
+      var args = data.getArgs<PublicationViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => PublicationView(
+          args.publicationId,
+          args.userId,
+        ),
+        settings: data,
+      );
+    },
     SearchView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SearchView(),
@@ -154,4 +168,11 @@ class HubViewArguments {
 class UsersLikedViewArguments {
   final List<String> userIds;
   UsersLikedViewArguments({required this.userIds});
+}
+
+/// PublicationView arguments holder class
+class PublicationViewArguments {
+  final String publicationId;
+  final String userId;
+  PublicationViewArguments({required this.publicationId, required this.userId});
 }

@@ -18,11 +18,18 @@ class UserResponse {
     required this.photoURL,
   });
 
-  factory UserResponse.fromJson(String id, Map<String, dynamic>? json) {
+  factory UserResponse.fromJson(
+    Map<String, dynamic>? json, {
+    String? id,
+  }) {
     json = json ?? {};
-    json['id'] = id;
+    if (id != null) {
+      json['id'] = id;
+    }
     return _$UserResponseFromJson(json);
   }
+
+  Map<String, dynamic> toJson() => _$UserResponseToJson(this);
 
   @override
   String toString() {

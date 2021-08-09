@@ -16,6 +16,7 @@ class WidgetHubPublications extends ViewModelWidget<HubViewModel> {
           publication: viewModel.viewData.publications[position],
           onPublicationLikeClicked: viewModel.onPublicationLikeClicked,
           onUsersLikedScreenClicked: viewModel.onUsersLikedScreenClicked,
+          onPublicationDetailsClicked: viewModel.onPublicationDetailsClicked,
         ),
         separatorBuilder: (context, position) => Divider(
           height: 14,

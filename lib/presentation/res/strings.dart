@@ -52,6 +52,7 @@ class Strings {
       'Cannot get publications, please contact us';
   static const unableToGetUsers = 'Unable to get users, please contact us';
   static const unableToGetSearchResults = 'Unable to get search results';
+  static const unableToGetPublication = 'Cannot get publication, please contact us';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -77,5 +78,7 @@ class Strings {
   static const accounts = 'Accounts';
   static const hubs = 'Hubs';
 
+  /* Publication */
+  static const addComment = 'Add comment...';
   /* Uncategorized */
 }

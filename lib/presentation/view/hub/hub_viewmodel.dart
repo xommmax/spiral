@@ -39,9 +39,8 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
     super.onError(error);
   }
 
-  void _onPublicationsRetrieved(List<Publication> publications) {
-    viewData.publications = publications;
-  }
+  void _onPublicationsRetrieved(List<Publication> publications) =>
+      viewData.publications = publications;
 
   void onCreatePublicationClicked() => _navigationService.navigateTo(
         Routes.newPublicationView,
@@ -57,9 +56,21 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
         isLiked: isLiked,
       );
 
-  void onUsersLikedScreenClicked(List<String> userIds) =>
-      _navigationService.navigateTo(
-        Routes.usersLikedView,
-        arguments: UsersLikedViewArguments(userIds: userIds),
+  void onUsersLikedScreenClicked(String publicationId) async {
+    List<String> userIds = await _publicationRepository.getUsersLiked(publicationId);
+    return _navigationService.navigateTo(
+      Routes.usersLikedView,
+      arguments: UsersLikedViewArguments(userIds: userIds),
+    );
+  }
+
+
+  void onPublicationDetailsClicked(String publicationId) => _navigationService
+      .navigateTo(
+        Routes.publicationView,
+        arguments: PublicationViewArguments(
+          publicationId: publicationId,
+          userId: user.id,
+        ),
       );
 }

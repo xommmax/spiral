@@ -12,7 +12,8 @@ class WidgetHubPublication extends StatelessWidget {
   final User user;
   final Publication publication;
   final Function(String publicationId, bool isLiked) onPublicationLikeClicked;
-  final Function(List<String> userIds) onUsersLikedScreenClicked;
+  final Function(String publicationId) onUsersLikedScreenClicked;
+  final Function(String publicationId) onPublicationDetailsClicked;
 
   const WidgetHubPublication({
     Key? key,
@@ -20,34 +21,39 @@ class WidgetHubPublication extends StatelessWidget {
     required this.publication,
     required this.onPublicationLikeClicked,
     required this.onUsersLikedScreenClicked,
+    required this.onPublicationDetailsClicked,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _WidgetHubPublicationHeader(
-            user,
-            key: UniqueKey(),
-          ),
-          _WidgetHubPublicationText(
-            publication.text,
-            key: UniqueKey(),
-          ),
-          _WidgetHubPublicationMedia(
-            publication.mediaUrls,
-            key: UniqueKey(),
-          ),
-          _WidgetHubPublicationFooter(
-            publicationId: publication.id,
-            isLiked: publication.usersLiked.contains(user.id),
-            likesCount: publication.likesCount,
-            onPublicationLikeClicked: onPublicationLikeClicked,
-            onUsersLikedScreenClicked: () =>
-                onUsersLikedScreenClicked(publication.usersLiked),
-            key: UniqueKey(),
-          ),
-        ],
+  Widget build(BuildContext context) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => onPublicationDetailsClicked(publication.id),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _WidgetHubPublicationHeader(
+              user,
+              key: UniqueKey(),
+            ),
+            _WidgetHubPublicationText(
+              publication.text,
+              key: UniqueKey(),
+            ),
+            _WidgetHubPublicationMedia(
+              publication.mediaUrls,
+              key: UniqueKey(),
+            ),
+            _WidgetHubPublicationFooter(
+              publicationId: publication.id,
+              isLiked: publication.isLiked,
+              likesCount: publication.likesCount,
+              commentsCount: publication.commentsCount,
+              onPublicationLikeClicked: onPublicationLikeClicked,
+              onUsersLikedScreenClicked: () => onUsersLikedScreenClicked(publication.id),
+              key: UniqueKey(),
+            ),
+          ],
+        ),
       );
 }
 
@@ -113,6 +119,7 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
   final String publicationId;
   final bool isLiked;
   final int likesCount;
+  final int commentsCount;
   final Function(String, bool) onPublicationLikeClicked;
   final Function onUsersLikedScreenClicked;
 
@@ -120,6 +127,7 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
     required this.publicationId,
     required this.isLiked,
     required this.likesCount,
+    required this.commentsCount,
     required this.onPublicationLikeClicked,
     required this.onUsersLikedScreenClicked,
     Key? key,
@@ -145,7 +153,7 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
             Icon(
               Icons.messenger_outline,
               color: AppColors.black,
-            )
+            ),
           ],
         ),
       );
