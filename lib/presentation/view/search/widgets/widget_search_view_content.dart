@@ -15,6 +15,7 @@ class WidgetSearchViewContent extends ViewModelWidget<SearchViewModel> {
           backgroundColor: AppColors.white,
           iconTheme: IconThemeData(color: AppColors.black),
           title: TextField(
+            autofocus: true,
             textInputAction: TextInputAction.search,
             onSubmitted: viewModel.onSearchSubmitted,
             style: TextStyle(

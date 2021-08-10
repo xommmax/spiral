@@ -24,14 +24,6 @@ class Hub {
         pictureUrl: itemData.pictureUrl,
       );
 
-  factory Hub.fromResponse(HubResponse response) => Hub._(
-        id: response.id,
-        userId: response.userId,
-        name: response.name,
-        description: response.description,
-        pictureUrl: response.pictureUrl,
-      );
-
   @override
   String toString() {
     return 'Hub{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl}';
