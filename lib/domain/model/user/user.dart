@@ -24,14 +24,6 @@ class User {
         photoURL: itemData.photoURL,
       );
 
-  factory User.fromResponse(UserResponse response) => User._(
-        id: response.id,
-        displayName: response.displayName,
-        email: response.email,
-        phoneNumber: response.phoneNumber,
-        photoURL: response.photoURL,
-      );
-
   @override
   String toString() {
     return 'User{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';

@@ -26,14 +26,14 @@ const _videoFormats = [
 UrlType getUrlType(String url) {
   try {
     Uri uri = Uri.parse(url);
-    String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
+    String path = uri.path.toLowerCase();
     for (String format in _imageFormats) {
-      if (typeString == format) {
+      if (path.endsWith(format)) {
         return UrlType.IMAGE;
       }
     }
     for (String format in _videoFormats) {
-      if (typeString == format) {
+      if (path.endsWith(format)) {
         return UrlType.VIDEO;
       }
     }
