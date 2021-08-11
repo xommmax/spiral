@@ -18,6 +18,9 @@ class PublicationLocalRepository {
   Future<void> addPublication(PublicationItemData publication) =>
       _database.publicationDao.insertPublication(publication);
 
+  Future<void> addPublications(List<PublicationItemData> publications) =>
+      _database.publicationDao.insertPublications(publications);
+
   Future<void> updatePublication(PublicationItemData publication) =>
       _database.publicationDao.updatePublication(publication);
 

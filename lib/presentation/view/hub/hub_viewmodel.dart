@@ -57,20 +57,20 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
       );
 
   void onUsersLikedScreenClicked(String publicationId) async {
-    List<String> userIds = await _publicationRepository.getUsersLiked(publicationId);
+    List<String> userIds =
+        await _publicationRepository.getUsersLiked(publicationId);
     return _navigationService.navigateTo(
       Routes.usersLikedView,
       arguments: UsersLikedViewArguments(userIds: userIds),
     );
   }
 
-
-  void onPublicationDetailsClicked(String publicationId) => _navigationService
-      .navigateTo(
+  void onPublicationDetailsClicked(Publication publication) =>
+      _navigationService.navigateTo(
         Routes.publicationView,
         arguments: PublicationViewArguments(
-          publicationId: publicationId,
-          userId: user.id,
+          publicationId: publication.id,
+          userId: publication.userId,
         ),
       );
 }

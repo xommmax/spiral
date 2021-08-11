@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dairo/presentation/view/new_publication/widgets/widget_video_preview.dart';
+import 'package:dairo/presentation/view/base/widget_video_preview.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

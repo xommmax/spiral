@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/presentation/view/base/widget_video_preview.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
-import 'package:dairo/presentation/view/new_publication/widgets/widget_video_preview.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 

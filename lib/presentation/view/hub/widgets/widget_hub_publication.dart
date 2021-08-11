@@ -13,7 +13,7 @@ class WidgetHubPublication extends StatelessWidget {
   final Publication publication;
   final Function(String publicationId, bool isLiked) onPublicationLikeClicked;
   final Function(String publicationId) onUsersLikedScreenClicked;
-  final Function(String publicationId) onPublicationDetailsClicked;
+  final Function(Publication publication) onPublicationDetailsClicked;
 
   const WidgetHubPublication({
     Key? key,
@@ -27,7 +27,7 @@ class WidgetHubPublication extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () => onPublicationDetailsClicked(publication.id),
+        onTap: () => onPublicationDetailsClicked(publication),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -49,7 +49,8 @@ class WidgetHubPublication extends StatelessWidget {
               likesCount: publication.likesCount,
               commentsCount: publication.commentsCount,
               onPublicationLikeClicked: onPublicationLikeClicked,
-              onUsersLikedScreenClicked: () => onUsersLikedScreenClicked(publication.id),
+              onUsersLikedScreenClicked: () =>
+                  onUsersLikedScreenClicked(publication.id),
               key: UniqueKey(),
             ),
           ],

@@ -91,7 +91,7 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `userId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `comment` (`id` TEXT NOT NULL, `publicationId` TEXT NOT NULL, `user` TEXT NOT NULL, `text` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `commentReplyId` TEXT, PRIMARY KEY (`id`))');
 
@@ -304,6 +304,7 @@ class _$PublicationDao extends PublicationDao {
             (PublicationItemData item) => <String, Object?>{
                   'id': item.id,
                   'hubId': item.hubId,
+                  'userId': item.userId,
                   'text': item.text,
                   'mediaUrls': item.mediaUrls,
                   'isLiked': item.isLiked ? 1 : 0,
@@ -329,6 +330,7 @@ class _$PublicationDao extends PublicationDao {
         mapper: (Map<String, Object?> row) => PublicationItemData(
             id: row['id'] as String,
             hubId: row['hubId'] as String,
+            userId: row['userId'] as String,
             text: row['text'] as String?,
             mediaUrls: row['mediaUrls'] as String,
             isLiked: (row['isLiked'] as int) != 0,
@@ -346,6 +348,7 @@ class _$PublicationDao extends PublicationDao {
         mapper: (Map<String, Object?> row) => PublicationItemData(
             id: row['id'] as String,
             hubId: row['hubId'] as String,
+            userId: row['userId'] as String,
             text: row['text'] as String?,
             mediaUrls: row['mediaUrls'] as String,
             isLiked: (row['isLiked'] as int) != 0,

@@ -5,6 +5,7 @@ import 'package:dairo/data/db/entity/publication_item_data.dart';
 class Publication {
   final String id;
   final String hubId;
+  final String userId;
   final String? text;
   final int likesCount;
   final int commentsCount;
@@ -15,6 +16,7 @@ class Publication {
   Publication._({
     required this.id,
     required this.hubId,
+    required this.userId,
     required this.text,
     required this.likesCount,
     required this.commentsCount,
@@ -27,6 +29,7 @@ class Publication {
       Publication._(
         id: itemData.id,
         hubId: itemData.hubId,
+        userId: itemData.userId,
         text: itemData.text,
         likesCount: itemData.likesCount,
         commentsCount: itemData.commentsCount,
@@ -37,7 +40,7 @@ class Publication {
 
   @override
   String toString() {
-    return 'Publication{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, mediaUrls: $mediaUrls, isLiked: $isLiked, createdAt: $createdAt}';
+    return 'Publication{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, mediaUrls: $mediaUrls, isLiked: $isLiked, createdAt: $createdAt}';
   }
 
   @override
@@ -47,6 +50,7 @@ class Publication {
           runtimeType == other.runtimeType &&
           id == other.id &&
           hubId == other.hubId &&
+          userId == other.userId &&
           text == other.text &&
           likesCount == other.likesCount &&
           commentsCount == other.commentsCount &&
@@ -58,6 +62,7 @@ class Publication {
   int get hashCode =>
       id.hashCode ^
       hubId.hashCode ^
+      userId.hashCode ^
       text.hashCode ^
       likesCount.hashCode ^
       commentsCount.hashCode ^

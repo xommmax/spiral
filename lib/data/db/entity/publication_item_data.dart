@@ -8,6 +8,7 @@ class PublicationItemData {
   @primaryKey
   final String id;
   final String hubId;
+  final String userId;
   final String? text;
   final String mediaUrls;
   final bool isLiked;
@@ -18,6 +19,7 @@ class PublicationItemData {
   PublicationItemData({
     required this.id,
     required this.hubId,
+    required this.userId,
     required this.text,
     required this.mediaUrls,
     required this.isLiked,
@@ -30,6 +32,7 @@ class PublicationItemData {
       PublicationItemData(
         id: response.id,
         hubId: response.hubId,
+        userId: response.userId,
         text: response.text,
         likesCount: response.likesCount,
         commentsCount: response.commentsCount,
@@ -40,7 +43,7 @@ class PublicationItemData {
 
   @override
   String toString() {
-    return 'PublicationItemData{id: $id, hubId: $hubId, text: $text, mediaUrls: $mediaUrls, isLiked: $isLiked, likesCount: $likesCount, commentsCount: $commentsCount, createdAt: $createdAt}';
+    return 'PublicationItemData{id: $id, hubId: $hubId, userId: $userId, text: $text, mediaUrls: $mediaUrls, isLiked: $isLiked, likesCount: $likesCount, commentsCount: $commentsCount, createdAt: $createdAt}';
   }
 
   @override
@@ -50,6 +53,7 @@ class PublicationItemData {
           runtimeType == other.runtimeType &&
           id == other.id &&
           hubId == other.hubId &&
+          userId == other.userId &&
           text == other.text &&
           mediaUrls == other.mediaUrls &&
           isLiked == other.isLiked &&
@@ -61,6 +65,7 @@ class PublicationItemData {
   int get hashCode =>
       id.hashCode ^
       hubId.hashCode ^
+      userId.hashCode ^
       text.hashCode ^
       mediaUrls.hashCode ^
       isLiked.hashCode ^

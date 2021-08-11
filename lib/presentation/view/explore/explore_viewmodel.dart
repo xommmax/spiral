@@ -1,5 +1,6 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
+import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/repository/explore/explore_repository.dart';
 import 'package:dairo/presentation/view/explore/explore_viewdata.dart';
 import 'package:stacked/stacked.dart';
@@ -22,7 +23,13 @@ class ExploreViewModel extends BaseViewModel {
 
   onSearchPressed() => _navigationService.navigateTo(Routes.searchView);
 
-  onPublicationClicked(String publicationId) {
-    _navigationService.navigateTo(Routes.publicationDetails);
+  onPublicationClicked(Publication publication) {
+    _navigationService.navigateTo(
+      Routes.publicationView,
+      arguments: PublicationViewArguments(
+        publicationId: publication.id,
+        userId: publication.userId,
+      ),
+    );
   }
 }

@@ -34,10 +34,11 @@ class PublicationRepositoryImpl implements PublicationRepository {
     String? text,
     List<MediaFile>? mediaFiles,
   }) async {
-    _userRepository.checkAndGetCurrentUserId();
+    final currentUserId = _userRepository.checkAndGetCurrentUserId();
     final media = mediaFiles?.map((e) => File(e.path)).toList();
     PublicationRequest request = PublicationRequest(
       hubId: hubId,
+      userId: currentUserId,
       text: text,
       createdAt: DateTime.now().millisecondsSinceEpoch,
     );

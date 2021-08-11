@@ -6,6 +6,7 @@ part 'publication_response.g.dart';
 class PublicationResponse {
   final String id;
   final String hubId;
+  final String userId;
   final String? text;
   final int likesCount;
   final int commentsCount;
@@ -16,6 +17,7 @@ class PublicationResponse {
   PublicationResponse({
     required this.id,
     required this.hubId,
+    required this.userId,
     required this.text,
     required this.likesCount,
     required this.commentsCount,
@@ -40,7 +42,7 @@ class PublicationResponse {
 
   @override
   String toString() {
-    return 'PublicationResponse{id: $id, hubId: $hubId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, isLiked: $isLiked, mediaUrls: $mediaUrls, createdAt: $createdAt}';
+    return 'PublicationResponse{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, isLiked: $isLiked, mediaUrls: $mediaUrls, createdAt: $createdAt}';
   }
 
   @override
@@ -50,6 +52,7 @@ class PublicationResponse {
           runtimeType == other.runtimeType &&
           id == other.id &&
           hubId == other.hubId &&
+          userId == other.userId &&
           text == other.text &&
           likesCount == other.likesCount &&
           commentsCount == other.commentsCount &&
@@ -61,6 +64,7 @@ class PublicationResponse {
   int get hashCode =>
       id.hashCode ^
       hubId.hashCode ^
+      userId.hashCode ^
       text.hashCode ^
       likesCount.hashCode ^
       commentsCount.hashCode ^

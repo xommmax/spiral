@@ -60,7 +60,7 @@ class _WidgetVideoPreviewState extends State<WidgetVideoPreview> {
       : SizedBox.shrink();
 
   void _onVideoTap() {
-    if(!_isPlaying) {
+    if (!_isPlaying) {
       _controller?.play();
       _isPlaying = true;
     } else {

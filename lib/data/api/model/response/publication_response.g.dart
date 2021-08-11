@@ -10,6 +10,7 @@ PublicationResponse _$PublicationResponseFromJson(Map<String, dynamic> json) {
   return PublicationResponse(
     id: json['id'] as String,
     hubId: json['hubId'] as String,
+    userId: json['userId'] as String,
     text: json['text'] as String?,
     likesCount: json['likesCount'] as int,
     commentsCount: json['commentsCount'] as int,
@@ -25,6 +26,7 @@ Map<String, dynamic> _$PublicationResponseToJson(
     <String, dynamic>{
       'id': instance.id,
       'hubId': instance.hubId,
+      'userId': instance.userId,
       'text': instance.text,
       'likesCount': instance.likesCount,
       'commentsCount': instance.commentsCount,
