@@ -37,4 +37,11 @@ class PublicationLocalRepository {
   Future<void> updateComments(
           List<CommentItemData> comments, String publicationId) =>
       _database.commentDao.updateComments(comments, publicationId);
+
+  Stream<List<CommentItemData>> getCommentReplies(String parentCommentId) =>
+      _database.commentDao.getCommentReplies(parentCommentId);
+
+  Future<void> updateCommentReplies(
+      List<CommentItemData> comments, String parentCommentId) =>
+      _database.commentDao.updateCommentReplies(comments, parentCommentId);
 }

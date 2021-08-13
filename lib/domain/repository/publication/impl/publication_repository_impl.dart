@@ -85,11 +85,16 @@ class PublicationRepositoryImpl implements PublicationRepository {
     required String userId,
     required String text,
     required int createAt,
-    String? commentReplyId,
+    String? parentCommentId,
   }) async =>
       _remote
           .sendComment(
-            CommentRequest(userId: userId, text: text, createdAt: createAt),
+            CommentRequest(
+              userId: userId,
+              text: text,
+              createdAt: createAt,
+              parentCommentId: parentCommentId,
+            ),
             publicationId,
           )
           .then(
@@ -124,4 +129,33 @@ class PublicationRepositoryImpl implements PublicationRepository {
   @override
   Future<List<String>> getUsersLiked(String publicationId) =>
       _remote.fetchUsersLiked(publicationId);
+
+  @override
+  Stream<List<Comment>> getCommentReplies({
+    required String publicationId,
+    required String parentCommentId,
+  }) {
+    _remote
+        .fetchCommentReplies(
+            publicationId: publicationId, parentCommentId: parentCommentId)
+        .then((commentsResponse) {
+      final itemDataList = commentsResponse
+          .map(
+            (commentResponse) => CommentItemData.fromResponse(commentResponse),
+          )
+          .toList();
+      _local.updateCommentReplies(itemDataList, parentCommentId);
+    });
+
+    return _local.getCommentReplies(parentCommentId).map((comments) => comments
+        .map((comment) => Comment.fromItemData(
+              comment,
+              UserItemData.fromResponse(
+                UserResponse.fromJson(
+                  jsonDecode(comment.user),
+                ),
+              ),
+            ))
+        .toList());
+  }
 }

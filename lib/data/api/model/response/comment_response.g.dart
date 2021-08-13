@@ -15,7 +15,8 @@ CommentResponse _$CommentResponseFromJson(Map<String, dynamic> json) {
     user: json['user'] == null
         ? null
         : UserResponse.fromJson(json['user'] as Map<String, dynamic>?),
-    commentReplyId: json['commentReplyId'] as String?,
+    repliesCount: json['repliesCount'] as int,
+    parentCommentId: json['parentCommentId'] as String?,
   );
 }
 
@@ -25,6 +26,7 @@ Map<String, dynamic> _$CommentResponseToJson(CommentResponse instance) =>
       'text': instance.text,
       'createdAt': instance.createdAt,
       'publicationId': instance.publicationId,
-      'commentReplyId': instance.commentReplyId,
       'user': instance.user,
+      'repliesCount': instance.repliesCount,
+      'parentCommentId': instance.parentCommentId,
     };

@@ -1,9 +1,16 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class TextStyles {
   static const robotoBlack12 = TextStyle(
     color: AppColors.black,
+    fontSize: 12,
+  );
+
+  static const robotoBlackBold12 = TextStyle(
+    color: AppColors.black,
+    fontWeight: FontWeight.bold,
     fontSize: 12,
   );
 
@@ -65,5 +72,9 @@ class TextStyles {
     color: AppColors.white,
     fontSize: 22,
     fontWeight: FontWeight.bold,
+  );
+
+  static const robotoBlue14 = TextStyle(
+    color: Colors.blueAccent,
   );
 }

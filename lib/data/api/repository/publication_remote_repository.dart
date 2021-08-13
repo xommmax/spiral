@@ -140,4 +140,28 @@ class PublicationRemoteRepository {
               ),
             ),
           );
+
+  Future<List<CommentResponse>> fetchCommentReplies({
+    required String publicationId,
+    required String parentCommentId,
+  }) =>
+      _firestore
+          .collection('${FirebaseCollections.publicationComments}/'
+              '$publicationId/${FirebaseCollections.comments}')
+          .where(FirestoreKeys.parentCommentId, isEqualTo: parentCommentId)
+          .get()
+          .then(
+            (reference) => Future.wait(
+              reference.docs.map(
+                (doc) async => CommentResponse.fromJson(
+                  doc.data(),
+                  id: doc.id,
+                  publicationId: publicationId,
+                  user: await _userRemoteRepository.fetchUser(
+                    doc.get(FirestoreKeys.userId),
+                  ),
+                ),
+              ),
+            ),
+          );
 }

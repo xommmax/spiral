@@ -93,7 +93,7 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `userId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `comment` (`id` TEXT NOT NULL, `publicationId` TEXT NOT NULL, `user` TEXT NOT NULL, `text` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `commentReplyId` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `comment` (`id` TEXT NOT NULL, `publicationId` TEXT NOT NULL, `user` TEXT NOT NULL, `text` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `parentCommentId` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -429,7 +429,8 @@ class _$CommentDao extends CommentDao {
                   'user': item.user,
                   'text': item.text,
                   'createdAt': item.createdAt,
-                  'commentReplyId': item.commentReplyId
+                  'repliesCount': item.repliesCount,
+                  'parentCommentId': item.parentCommentId
                 },
             changeListener);
 
@@ -444,15 +445,33 @@ class _$CommentDao extends CommentDao {
   @override
   Stream<List<CommentItemData>> getComments(String publicationId) {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM comment WHERE publicationId = ?1 AND commentReplyId IS NULL ORDER BY createdAt DESC',
+        'SELECT * FROM comment WHERE publicationId = ?1 AND parentCommentId IS NULL ORDER BY createdAt DESC',
         mapper: (Map<String, Object?> row) => CommentItemData(
             id: row['id'] as String,
             user: row['user'] as String,
             publicationId: row['publicationId'] as String,
             text: row['text'] as String,
             createdAt: row['createdAt'] as int,
-            commentReplyId: row['commentReplyId'] as String?),
+            repliesCount: row['repliesCount'] as int,
+            parentCommentId: row['parentCommentId'] as String?),
         arguments: [publicationId],
+        queryableName: 'comment',
+        isView: false);
+  }
+
+  @override
+  Stream<List<CommentItemData>> getCommentReplies(String parentCommentId) {
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM comment WHERE parentCommentId = ?1 ORDER BY createdAt DESC',
+        mapper: (Map<String, Object?> row) => CommentItemData(
+            id: row['id'] as String,
+            user: row['user'] as String,
+            publicationId: row['publicationId'] as String,
+            text: row['text'] as String,
+            createdAt: row['createdAt'] as int,
+            repliesCount: row['repliesCount'] as int,
+            parentCommentId: row['parentCommentId'] as String?),
+        arguments: [parentCommentId],
         queryableName: 'comment',
         isView: false);
   }
@@ -462,6 +481,13 @@ class _$CommentDao extends CommentDao {
     await _queryAdapter.queryNoReturn(
         'DELETE FROM comment WHERE publicationId = ?1',
         arguments: [publicationId]);
+  }
+
+  @override
+  Future<void> deleteCommentReplies(String parentCommentId) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM comment WHERE parentCommentId = ?1',
+        arguments: [parentCommentId]);
   }
 
   @override
@@ -488,6 +514,22 @@ class _$CommentDao extends CommentDao {
           ..database = transaction;
         await transactionDatabase.commentDao
             .updateComments(comments, publicationId);
+      });
+    }
+  }
+
+  @override
+  Future<void> updateCommentReplies(
+      List<CommentItemData> comments, String parentCommentId) async {
+    if (database is sqflite.Transaction) {
+      await super.updateCommentReplies(comments, parentCommentId);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.commentDao
+            .updateCommentReplies(comments, parentCommentId);
       });
     }
   }

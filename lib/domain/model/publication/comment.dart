@@ -1,4 +1,3 @@
-
 import 'package:dairo/data/db/entity/comment_item_data.dart';
 import 'package:dairo/data/db/entity/user_item_data.dart';
 import 'package:dairo/domain/model/user/user.dart';
@@ -8,8 +7,9 @@ class Comment {
   final String publicationId;
   final User user;
   final String text;
-  final String? commentReplyId;
   final int createdAt;
+  final int repliesCount;
+  final String? parentCommentId;
 
   const Comment._({
     required this.id,
@@ -17,7 +17,8 @@ class Comment {
     required this.user,
     required this.text,
     required this.createdAt,
-    this.commentReplyId,
+    required this.repliesCount,
+    this.parentCommentId,
   });
 
   factory Comment.fromItemData(
@@ -27,13 +28,14 @@ class Comment {
         publicationId: commentItemData.publicationId,
         user: User.fromItemData(userItemData),
         text: commentItemData.text,
-        commentReplyId: commentItemData.commentReplyId,
+        parentCommentId: commentItemData.parentCommentId,
         createdAt: commentItemData.createdAt,
+        repliesCount: commentItemData.repliesCount,
       );
 
   @override
   String toString() {
-    return 'Comment{id: $id, publicationId: $publicationId, user: $user, text: $text, commentReplyId: $commentReplyId, createdAt: $createdAt}';
+    return 'Comment{id: $id, publicationId: $publicationId, user: $user, text: $text, createdAt: $createdAt, parentCommentId: $parentCommentId, repliesCount: $repliesCount}';
   }
 
   @override
@@ -45,8 +47,9 @@ class Comment {
           publicationId == other.publicationId &&
           user == other.user &&
           text == other.text &&
-          commentReplyId == other.commentReplyId &&
-          createdAt == other.createdAt;
+          createdAt == other.createdAt &&
+          parentCommentId == other.parentCommentId &&
+          repliesCount == other.repliesCount;
 
   @override
   int get hashCode =>
@@ -54,6 +57,7 @@ class Comment {
       publicationId.hashCode ^
       user.hashCode ^
       text.hashCode ^
-      commentReplyId.hashCode ^
-      createdAt.hashCode;
+      createdAt.hashCode ^
+      parentCommentId.hashCode ^
+      repliesCount.hashCode;
 }

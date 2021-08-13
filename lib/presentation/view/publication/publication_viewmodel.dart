@@ -12,7 +12,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class PublicationViewModel extends MultipleStreamViewModel {
-
   static const PUBLICATION_STREAM_KEY = 'PUBLICATION_STREAM_KEY';
   static const CURRENT_USER_STREAM_KEY = 'CURRENT_USER_STREAM_KEY';
   static const USER_STREAM_KEY = 'USER_STREAM_KEY';
@@ -36,6 +35,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
   User? currentUser;
   Publication? publication;
   List<Comment>? comments;
+  Comment? commentToReply;
 
   @override
   Map<String, StreamData> get streamsMap => {
@@ -91,26 +91,35 @@ class PublicationViewModel extends MultipleStreamViewModel {
         isLiked: isLiked,
       );
 
-  void onUsersLikedScreenClicked() async  {
-    List<String> userIds = await _publicationRepository.getUsersLiked(publicationId);
+  void onUsersLikedScreenClicked() async {
+    List<String> userIds =
+        await _publicationRepository.getUsersLiked(publicationId);
     return _navigationService.navigateTo(
       Routes.usersLikedView,
       arguments: UsersLikedViewArguments(userIds: userIds),
     );
   }
 
-
   void onSendCommentClicked() => _publicationRepository
-      .sendComment(
+          .sendComment(
         publicationId: publicationId,
         userId: userId,
         text: commentsTextController.text,
         createAt: DateTime.now().millisecondsSinceEpoch,
+        parentCommentId: commentToReply?.id,
       )
-      .then(
-        (_) => commentsTextController.clear(),
+          .then(
+        (_) {
+          commentsTextController.clear();
+          setCommentToReply(null);
+        },
       );
 
   bool isDataReady() =>
       user != null && currentUser != null && publication != null;
+
+  void setCommentToReply(Comment? comment) {
+    commentToReply = comment;
+    notifyListeners();
+  }
 }
