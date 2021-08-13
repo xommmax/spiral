@@ -36,24 +36,20 @@ class WidgetHubPublicationMedia extends StatelessWidget {
   }
 
   Widget _buildSingleMedia(int position) =>
-      getUrlType(mediaUrls[position]) == UrlType.IMAGE
-          ? CachedNetworkImage(
+      Stack(
+        children: [
+          Positioned.fromRect(
+            rect: Rect.fromPoints(Offset(400, 300), Offset(0, 0)),
+            child: getUrlType(mediaUrls[position]) == UrlType.IMAGE ? CachedNetworkImage(
               imageUrl: mediaUrls[position],
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
-            )
-          : getUrlType(mediaUrls[position]) == UrlType.VIDEO
-              ? Stack(
-                  children: [
-                    Positioned.fromRect(
-                      rect: Rect.fromPoints(Offset(400, 120), Offset(0, 0)),
-                      child: WidgetVideoPreview(
-                        networkUrl: mediaUrls[position],
-                      ),
-                    ),
-                  ],
-                )
-              : SizedBox.shrink();
+            ) : WidgetVideoPreview(
+              networkUrl: mediaUrls[position],
+            ),
+          ),
+        ],
+      );
 
   Widget _buildTwoMedias({
     int? firstImagePosition,
