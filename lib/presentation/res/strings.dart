@@ -55,6 +55,8 @@ class Strings {
   static const errorLoadingPublication = 'Error loading publication';
   static const unableToGetPublication =
       'Cannot get publication, please contact us';
+  static const unableToGetRepliesForTheComment =
+      'Unable to get replies for the comment, please contact us';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -82,5 +84,11 @@ class Strings {
 
   /* Publication */
   static const addComment = 'Add comment...';
-  /* Uncategorized */
+
+  /* Comments */
+  static const unknownUser = 'Unknown User';
+  static const showReplies = 'Show replies';
+  static const hideReplies = 'Hide replies';
+  static const yourAnswer = 'Your answer ';
+/* Uncategorized */
 }

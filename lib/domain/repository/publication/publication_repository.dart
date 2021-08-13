@@ -26,10 +26,15 @@ abstract class PublicationRepository {
     required String userId,
     required String text,
     required int createAt,
-    String? commentReplyId,
+    String? parentCommentId,
   });
 
   Stream<List<Comment>> getComments(String publicationId);
 
   Future<List<String>> getUsersLiked(String publicationId);
+
+  Stream<List<Comment>> getCommentReplies({
+    required String publicationId,
+    required String parentCommentId,
+  });
 }

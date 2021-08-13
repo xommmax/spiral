@@ -9,8 +9,9 @@ class CommentResponse {
   final String text;
   final int createdAt;
   final String publicationId;
-  final String? commentReplyId;
   final UserResponse? user;
+  final int repliesCount;
+  final String? parentCommentId;
 
   const CommentResponse({
     required this.id,
@@ -18,7 +19,8 @@ class CommentResponse {
     required this.text,
     required this.createdAt,
     required this.user,
-    this.commentReplyId,
+    required this.repliesCount,
+    this.parentCommentId,
   });
 
   factory CommentResponse.fromJson(
@@ -31,12 +33,13 @@ class CommentResponse {
     json['id'] = id;
     json['publicationId'] = publicationId;
     json['user'] = user?.toJson();
+    json['repliesCount'] ??= 0;
     return _$CommentResponseFromJson(json);
   }
 
   @override
   String toString() {
-    return 'CommentResponse{id: $id, text: $text, createAt: $createdAt, publicationId: $publicationId, commentReplyId: $commentReplyId, user: $user}';
+    return 'CommentResponse{id: $id, text: $text, createdAt: $createdAt, publicationId: $publicationId, user: $user, parentCommentId: $parentCommentId, repliesCount: $repliesCount}';
   }
 
   @override
@@ -48,8 +51,9 @@ class CommentResponse {
           text == other.text &&
           createdAt == other.createdAt &&
           publicationId == other.publicationId &&
-          commentReplyId == other.commentReplyId &&
-          user == other.user;
+          user == other.user &&
+          parentCommentId == other.parentCommentId &&
+          repliesCount == other.repliesCount;
 
   @override
   int get hashCode =>
@@ -57,6 +61,7 @@ class CommentResponse {
       text.hashCode ^
       createdAt.hashCode ^
       publicationId.hashCode ^
-      commentReplyId.hashCode ^
-      user.hashCode;
+      user.hashCode ^
+      parentCommentId.hashCode ^
+      repliesCount.hashCode;
 }
