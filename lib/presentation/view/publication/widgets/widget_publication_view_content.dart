@@ -15,9 +15,7 @@ class WidgetPublicationViewContent
         appBar: AppBarPublication(),
         body: SafeArea(
           child: viewModel.isDataReady()
-              ? SizedBox(
-                  child: WidgetPublication(),
-                )
+              ? WidgetPublication()
               : ProgressBar(
                   alignment: ProgressBarAlignment.Center,
                 ),

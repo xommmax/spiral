@@ -22,8 +22,11 @@ class WidgetPublication extends ViewModelWidget<PublicationViewModel> {
                     viewModel.publication!.mediaUrls.isNotEmpty
                         ? Padding(
                             padding: const EdgeInsets.only(top: 4.0),
-                            child: WidgetHubPublicationMedia(
-                                viewModel.publication!.mediaUrls),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 3,
+                              child: WidgetHubPublicationMedia(
+                                  viewModel.publication!.mediaUrls),
+                            ),
                           )
                         : SizedBox.shrink(),
                     viewModel.publication?.text != null &&

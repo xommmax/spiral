@@ -40,7 +40,7 @@ class HubViewModel extends StreamViewModel<List<Publication>> {
   }
 
   void _onPublicationsRetrieved(List<Publication> publications) =>
-      viewData.publications = publications;
+    viewData.publications = publications;
 
   void onCreatePublicationClicked() => _navigationService.navigateTo(
         Routes.newPublicationView,
