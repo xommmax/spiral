@@ -12,7 +12,7 @@ class WidgetHubPublications extends ViewModelWidget<HubViewModel> {
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, position) => WidgetHubPublication(
           key: ValueKey(viewModel.viewData.publications[position].id),
-          user: viewModel.user,
+          user: viewModel.viewData.user!,
           publication: viewModel.viewData.publications[position],
           onPublicationLikeClicked: viewModel.onPublicationLikeClicked,
           onUsersLikedScreenClicked: viewModel.onUsersLikedScreenClicked,

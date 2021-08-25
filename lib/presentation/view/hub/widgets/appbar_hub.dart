@@ -13,7 +13,7 @@ class AppBarHub extends ViewModelWidget<HubViewModel>
         automaticallyImplyLeading: true,
         centerTitle: false,
         title: Text(
-          viewModel.hub.name,
+          viewModel.viewData.hub?.name ?? '',
           style: TextStyles.white22Bold,
         ),
         actions: [

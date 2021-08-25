@@ -7,6 +7,7 @@ import 'package:dairo/domain/repository/publication/publication_repository.dart'
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
+import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -95,8 +96,11 @@ class PublicationViewModel extends MultipleStreamViewModel {
     List<String> userIds =
         await _publicationRepository.getUsersLiked(publicationId);
     return _navigationService.navigateTo(
-      Routes.usersLikedView,
-      arguments: UsersLikedViewArguments(userIds: userIds),
+      Routes.usersView,
+      arguments: UsersViewArguments(
+        userIds: userIds,
+        type: UsersType.Likes,
+      ),
     );
   }
 

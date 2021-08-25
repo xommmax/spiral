@@ -4,7 +4,10 @@ import 'package:floor/floor.dart';
 @dao
 abstract class HubDao {
   @Query('SELECT * FROM hub WHERE userId = :userId ORDER BY createdAt DESC')
-  Stream<List<HubItemData>> getUserHubsStream(String userId);
+  Stream<List<HubItemData>> getHubsStream(String userId);
+
+  @Query('SELECT * FROM hub WHERE id = :id')
+  Stream<HubItemData?> getHubStream(String id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHub(HubItemData hub);
@@ -12,6 +15,12 @@ abstract class HubDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHubs(List<HubItemData> hubs);
 
-  @delete
-  Future<void> deleteHub(HubItemData hub);
+  @Query('DELETE FROM hub WHERE id = :id')
+  Future<void> deleteHub(String id);
+
+  @transaction
+  Future<void> updateHub(HubItemData hub) async {
+    await deleteHub(hub.id);
+    await insertHub(hub);
+  }
 }

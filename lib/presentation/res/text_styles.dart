@@ -80,6 +80,11 @@ class TextStyles {
     fontSize: 22,
   );
 
+  static const white12 = TextStyle(
+    color: AppColors.white,
+    fontSize: 12,
+  );
+
   static const white16 = TextStyle(
     color: AppColors.white,
     fontSize: 16,

@@ -51,7 +51,10 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
 
   void onHubClicked(Hub hub) => _navigationService.navigateTo(
         Routes.hubView,
-        arguments: HubViewArguments(hub: hub, user: viewData.user!),
+        arguments: HubViewArguments(
+          hubId: hub.id,
+          userId: viewData.user!.id,
+        ),
       );
 
   void onSettingsClicked() =>
