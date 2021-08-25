@@ -46,8 +46,13 @@ class SearchViewModel extends BaseViewModel {
 
   void onHubSelected(Hub hub) async {
     _userRepository.getUser(hub.userId).first.then((user) {
-      _navigationService.navigateTo(Routes.hubView,
-          arguments: HubViewArguments(hub: hub, user: user!));
+      _navigationService.navigateTo(
+        Routes.hubView,
+        arguments: HubViewArguments(
+          hubId: hub.id,
+          userId: user!.id,
+        ),
+      );
     });
   }
 }

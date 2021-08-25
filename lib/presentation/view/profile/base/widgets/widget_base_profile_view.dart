@@ -1,6 +1,6 @@
 import 'package:dairo/presentation/res/text_styles.dart';
-import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_grid.dart';
 import 'package:dairo/presentation/view/profile/base/base_profile_viewmodel.dart';
+import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_grid.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -27,6 +27,13 @@ class WidgetBaseProfileView<T extends BaseProfileViewModel>
           Text(
             viewModel.viewData.user?.name ?? '',
             style: TextStyles.black18,
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+          ),
+          Text(
+            viewModel.viewData.user?.description ?? '',
+            style: TextStyles.gray16,
           ),
           SizedBox(
             height: 50,

@@ -42,13 +42,56 @@ class HubRepositoryImpl implements HubRepository {
 
   Stream<List<Hub>> getUserHubs(String userId) {
     Stream<List<Hub>> stream = _local
-        .getUserHubs(userId)
+        .getHubs(userId)
         .map((itemData) => itemData.map((e) => Hub.fromItemData(e)).toList());
 
     _remote.fetchUserHubs(userId).then((response) {
-      final itemData = response.map((e) => HubItemData.fromResponse(e)).toList();
+      final itemData =
+          response.map((e) => HubItemData.fromResponse(e)).toList();
       _local.addHubs(itemData);
     });
     return stream;
   }
+
+  @override
+  Stream<Hub> getHub(String hubId) {
+    Stream<Hub> stream = _local.getHub(hubId).map(
+          (itemData) => Hub.fromItemData(itemData!),
+        );
+
+    _remote.fetchHub(hubId).then(
+          (response) => _local.updateHub(
+            HubItemData.fromResponse(response),
+          ),
+        );
+    return stream;
+  }
+
+  @override
+  Future<void> follow(String hubId) => _remote
+      .follow(
+        userId: _userRepository.checkAndGetCurrentUserId(),
+        hubId: hubId,
+      )
+      .then(
+        (response) => _local.updateHub(
+          HubItemData.fromResponse(response),
+        ),
+      );
+
+  @override
+  Future<void> unfollow(String hubId) => _remote
+      .unfollow(
+        userId: _userRepository.checkAndGetCurrentUserId(),
+        hubId: hubId,
+      )
+      .then(
+        (response) => _local.updateHub(
+          HubItemData.fromResponse(response),
+        ),
+      );
+
+  @override
+  Future<List<String>> getHubFollowers(String hubId) =>
+      _remote.fetchHubFollowers(hubId);
 }

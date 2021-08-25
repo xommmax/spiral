@@ -31,4 +31,6 @@ abstract class UserRepository {
     required String subject,
     required String description,
   });
+
+  bool isCurrentUser(String userId);
 }

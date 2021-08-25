@@ -1,4 +1,3 @@
-import 'package:dairo/data/api/model/response/hub_response.dart';
 import 'package:dairo/data/db/entity/hub_item_data.dart';
 
 class Hub {
@@ -7,6 +6,8 @@ class Hub {
   final String name;
   final String description;
   final String pictureUrl;
+  final int followersCount;
+  final bool isFollow;
 
   Hub._({
     required this.id,
@@ -14,6 +15,8 @@ class Hub {
     required this.name,
     required this.description,
     required this.pictureUrl,
+    required this.followersCount,
+    required this.isFollow,
   });
 
   factory Hub.fromItemData(HubItemData itemData) => Hub._(
@@ -22,11 +25,13 @@ class Hub {
         name: itemData.name,
         description: itemData.description,
         pictureUrl: itemData.pictureUrl,
+        followersCount: itemData.followersCount,
+        isFollow: itemData.isFollow,
       );
 
   @override
   String toString() {
-    return 'Hub{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl}';
+    return 'Hub{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, followersCount: $followersCount, isFollow: $isFollow}';
   }
 
   @override
@@ -38,7 +43,9 @@ class Hub {
           userId == other.userId &&
           name == other.name &&
           description == other.description &&
-          pictureUrl == other.pictureUrl;
+          pictureUrl == other.pictureUrl &&
+          followersCount == other.followersCount &&
+          isFollow == other.isFollow;
 
   @override
   int get hashCode =>
@@ -46,5 +53,7 @@ class Hub {
       userId.hashCode ^
       name.hashCode ^
       description.hashCode ^
-      pictureUrl.hashCode;
+      pictureUrl.hashCode ^
+      followersCount.hashCode ^
+      isFollow.hashCode;
 }

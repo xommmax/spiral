@@ -77,6 +77,9 @@ class Strings {
 
   /* Hub */
   static const deleteHub = 'Delete hub';
+  static const followers = 'followers';
+  static const follow = 'Follow';
+  static const unfollow = 'Unfollow';
 
   /* Users liked */
   static const likes = 'Likes';

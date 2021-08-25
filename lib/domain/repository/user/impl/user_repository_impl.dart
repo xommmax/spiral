@@ -141,4 +141,7 @@ class UserRepositoryImpl implements UserRepository {
       currentUserId,
     );
   }
+
+  @override
+  bool isCurrentUser(String userId) => _auth.currentUser?.uid == userId;
 }

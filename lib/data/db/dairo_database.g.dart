@@ -89,7 +89,7 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `userId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -259,20 +259,9 @@ class _$HubDao extends HubDao {
                   'name': item.name,
                   'description': item.description,
                   'pictureUrl': item.pictureUrl,
-                  'createdAt': item.createdAt
-                },
-            changeListener),
-        _hubItemDataDeletionAdapter = DeletionAdapter(
-            database,
-            'hub',
-            ['id'],
-            (HubItemData item) => <String, Object?>{
-                  'id': item.id,
-                  'userId': item.userId,
-                  'name': item.name,
-                  'description': item.description,
-                  'pictureUrl': item.pictureUrl,
-                  'createdAt': item.createdAt
+                  'createdAt': item.createdAt,
+                  'followersCount': item.followersCount,
+                  'isFollow': item.isFollow ? 1 : 0
                 },
             changeListener);
 
@@ -284,10 +273,8 @@ class _$HubDao extends HubDao {
 
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
 
-  final DeletionAdapter<HubItemData> _hubItemDataDeletionAdapter;
-
   @override
-  Stream<List<HubItemData>> getUserHubsStream(String userId) {
+  Stream<List<HubItemData>> getHubsStream(String userId) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM hub WHERE userId = ?1 ORDER BY createdAt DESC',
         mapper: (Map<String, Object?> row) => HubItemData(
@@ -296,10 +283,35 @@ class _$HubDao extends HubDao {
             name: row['name'] as String,
             description: row['description'] as String,
             pictureUrl: row['pictureUrl'] as String,
-            createdAt: row['createdAt'] as int),
+            createdAt: row['createdAt'] as int,
+            followersCount: row['followersCount'] as int,
+            isFollow: (row['isFollow'] as int) != 0),
         arguments: [userId],
         queryableName: 'hub',
         isView: false);
+  }
+
+  @override
+  Stream<HubItemData?> getHubStream(String id) {
+    return _queryAdapter.queryStream('SELECT * FROM hub WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => HubItemData(
+            id: row['id'] as String,
+            userId: row['userId'] as String,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            pictureUrl: row['pictureUrl'] as String,
+            createdAt: row['createdAt'] as int,
+            followersCount: row['followersCount'] as int,
+            isFollow: (row['isFollow'] as int) != 0),
+        arguments: [id],
+        queryableName: 'hub',
+        isView: false);
+  }
+
+  @override
+  Future<void> deleteHub(String id) async {
+    await _queryAdapter
+        .queryNoReturn('DELETE FROM hub WHERE id = ?1', arguments: [id]);
   }
 
   @override
@@ -314,8 +326,17 @@ class _$HubDao extends HubDao {
   }
 
   @override
-  Future<void> deleteHub(HubItemData hub) async {
-    await _hubItemDataDeletionAdapter.delete(hub);
+  Future<void> updateHub(HubItemData hub) async {
+    if (database is sqflite.Transaction) {
+      await super.updateHub(hub);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.hubDao.updateHub(hub);
+      });
+    }
   }
 }
 

@@ -4,13 +4,18 @@ import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
+import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class UsersLikedViewModel extends StreamViewModel<List<User>> {
+class UsersViewModel extends StreamViewModel<List<User>> {
   final List<String> userIds;
+  final UsersType type;
 
-  UsersLikedViewModel({required this.userIds});
+  UsersViewModel({
+    required this.userIds,
+    required this.type,
+  });
 
   final UserRepository _usersRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();

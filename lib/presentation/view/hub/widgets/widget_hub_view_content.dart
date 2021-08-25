@@ -1,4 +1,5 @@
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:dairo/presentation/view/hub/widgets/widget_hub_header.dart';
 import 'package:dairo/presentation/view/hub/widgets/widget_hub_publications.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,16 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
         body: SafeArea(
           bottom: false,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                WidgetHubHeader(),
-                WidgetHubPublications(),
-              ],
-            ),
+            child: viewModel.viewData.isDataReady()
+                ? Column(
+                    children: [
+                      WidgetHubHeader(),
+                      WidgetHubPublications(),
+                    ],
+                  )
+                : ProgressBar(
+                    alignment: ProgressBarAlignment.Center,
+                  ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

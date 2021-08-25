@@ -9,8 +9,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../domain/model/hub/hub.dart';
-import '../domain/model/user/user.dart';
 import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/main/main_view.dart';
@@ -19,11 +17,12 @@ import '../presentation/view/new_publication/new_publication_view.dart';
 import '../presentation/view/profile/current_user/current_user_profile_view.dart';
 import '../presentation/view/profile/user/user_profile_view.dart';
 import '../presentation/view/publication/publication_view.dart';
-import '../presentation/view/publication/users_liked/users_liked_view.dart';
 import '../presentation/view/search/search_view.dart';
 import '../presentation/view/settings/account/account_details_view.dart';
 import '../presentation/view/settings/settings_view.dart';
 import '../presentation/view/settings/support/support_view.dart';
+import '../presentation/view/users/users_view.dart';
+import '../presentation/view/users/users_viewdata.dart';
 
 class Routes {
   static const String authView = '/auth-view';
@@ -33,7 +32,7 @@ class Routes {
   static const String currentUserProfileView = '/current-user-profile-view';
   static const String newHubView = '/new-hub-view';
   static const String hubView = '/hub-view';
-  static const String usersLikedView = '/users-liked-view';
+  static const String usersView = '/users-view';
   static const String publicationView = '/publication-view';
   static const String searchView = '/search-view';
   static const String settingsView = '/settings-view';
@@ -47,7 +46,7 @@ class Routes {
     currentUserProfileView,
     newHubView,
     hubView,
-    usersLikedView,
+    usersView,
     publicationView,
     searchView,
     settingsView,
@@ -67,7 +66,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.currentUserProfileView, page: CurrentUserProfileView),
     RouteDef(Routes.newHubView, page: NewHubView),
     RouteDef(Routes.hubView, page: HubView),
-    RouteDef(Routes.usersLikedView, page: UsersLikedView),
+    RouteDef(Routes.usersView, page: UsersView),
     RouteDef(Routes.publicationView, page: PublicationView),
     RouteDef(Routes.searchView, page: SearchView),
     RouteDef(Routes.settingsView, page: SettingsView),
@@ -121,16 +120,19 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<HubViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => HubView(
-          hub: args.hub,
-          user: args.user,
+          hubId: args.hubId,
+          userId: args.userId,
         ),
         settings: data,
       );
     },
-    UsersLikedView: (data) {
-      var args = data.getArgs<UsersLikedViewArguments>(nullOk: false);
+    UsersView: (data) {
+      var args = data.getArgs<UsersViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => UsersLikedView(userIds: args.userIds),
+        builder: (context) => UsersView(
+          userIds: args.userIds,
+          type: args.type,
+        ),
         settings: data,
       );
     },
@@ -189,15 +191,16 @@ class UserProfileViewArguments {
 
 /// HubView arguments holder class
 class HubViewArguments {
-  final Hub hub;
-  final User user;
-  HubViewArguments({required this.hub, required this.user});
+  final String hubId;
+  final String userId;
+  HubViewArguments({required this.hubId, required this.userId});
 }
 
-/// UsersLikedView arguments holder class
-class UsersLikedViewArguments {
+/// UsersView arguments holder class
+class UsersViewArguments {
   final List<String> userIds;
-  UsersLikedViewArguments({required this.userIds});
+  final UsersType type;
+  UsersViewArguments({required this.userIds, required this.type});
 }
 
 /// PublicationView arguments holder class

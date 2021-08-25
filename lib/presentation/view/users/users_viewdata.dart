@@ -1,0 +1,4 @@
+enum UsersType {
+  Likes,
+  Followers
+}
