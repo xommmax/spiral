@@ -20,7 +20,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
             padding: const EdgeInsets.all(10),
             child: Text(
               viewModel.hub.description,
-              style: TextStyles.robotoBlack14,
+              style: TextStyles.black14,
             ),
           ),
         ],

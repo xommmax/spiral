@@ -34,11 +34,11 @@ class WidgetProfileListItem extends StatelessWidget {
                   ),
                 ),
           title: Text(
-            _user.displayName ??
+            _user.name ??
                 _user.email ??
                 _user.phoneNumber ??
                 Strings.unknown,
-            style: TextStyles.robotoBlack14,
+            style: TextStyles.black14,
           ),
         ),
       );

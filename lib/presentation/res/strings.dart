@@ -4,6 +4,9 @@ class Strings {
   static const or = 'or';
   static const clear = 'Clear';
   static const verifyCode = 'Verify';
+  static const ok = 'Ok';
+  static const cancel = 'Cancel';
+  static const done = 'Done';
 
   /* Auth */
   static const welcomeToDairo = 'Welcome to Dairo';
@@ -57,6 +60,9 @@ class Strings {
       'Cannot get publication, please contact us';
   static const unableToGetRepliesForTheComment =
       'Unable to get replies for the comment, please contact us';
+  static const subjectCannotBeEmpty = 'Subject cannot be empty';
+  static const descriptionCannotBeEmpty = 'Description cannot be empty';
+  static const pleaseFillInInputForm = 'Please fill in input form to send support request';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -90,5 +96,27 @@ class Strings {
   static const showReplies = 'Show replies';
   static const hideReplies = 'Hide replies';
   static const yourAnswer = 'Your answer ';
+
+  /* Settings */
+  static const settings = 'Settings';
+  static const accountDetails = 'Account Details';
+  static const support = 'Support';
+  static const termsOfUsage = 'Terms of Usage';
+  static const logout = 'Logout';
+  static const areYouSureYouWantToLogout = 'Are you sure you want to logout?';
+
+  /* Account Details */
+  static const changePhoto = 'Change photo';
+  static const chooseSource = 'Choose image source';
+  static const gallery = 'Gallery';
+  static const camera = 'Camera';
+  static const name = 'Name';
+  static const username = 'Username';
+  static const description = 'Description';
+  static const accountUpdatedSuccessfully = 'Account successfully updated!';
+
+  /* Support */
+  static const subject = 'Subject';
+  static const messageSuccessfullySent = 'Message successfully sent!';
 /* Uncategorized */
 }

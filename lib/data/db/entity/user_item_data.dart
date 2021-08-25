@@ -5,14 +5,18 @@ import 'package:floor/floor.dart';
 class UserItemData {
   @primaryKey
   final String id;
-  final String? displayName;
+  final String? name;
+  final String? username;
+  final String? description;
   final String? email;
   final String? phoneNumber;
   final String? photoURL;
 
   UserItemData({
     required this.id,
-    required this.displayName,
+    required this.name,
+    required this.username,
+    required this.description,
     required this.email,
     required this.phoneNumber,
     required this.photoURL,
@@ -20,7 +24,9 @@ class UserItemData {
 
   factory UserItemData.fromResponse(UserResponse response) => UserItemData(
         id: response.id,
-        displayName: response.displayName,
+        name: response.name,
+        username: response.username,
+        description: response.description,
         email: response.email,
         phoneNumber: response.phoneNumber,
         photoURL: response.photoURL,
@@ -28,7 +34,7 @@ class UserItemData {
 
   @override
   String toString() {
-    return 'UserItemData{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+    return 'UserItemData{id: $id, displayName: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
   }
 
   @override
@@ -37,7 +43,9 @@ class UserItemData {
       other is UserItemData &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          displayName == other.displayName &&
+          name == other.name &&
+          username == other.username &&
+          description == other.description &&
           email == other.email &&
           phoneNumber == other.phoneNumber &&
           photoURL == other.photoURL;
@@ -45,7 +53,9 @@ class UserItemData {
   @override
   int get hashCode =>
       id.hashCode ^
-      displayName.hashCode ^
+      name.hashCode ^
+      username.hashCode ^
+      description.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
       photoURL.hashCode;

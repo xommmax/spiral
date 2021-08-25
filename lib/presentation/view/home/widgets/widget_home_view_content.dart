@@ -9,13 +9,13 @@ import 'widget_toolbar_home.dart';
 class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
   @override
   Widget build(BuildContext context, viewModel) => Column(children: [
-        WidgetToolBarHome(),
+        AppBarHome(),
         Expanded(
           child: Container(
             alignment: Alignment.center,
             child: Text(
               Strings.home,
-              style: TextStyles.robotoBlack22,
+              style: TextStyles.black22,
             ),
           ),
         ),

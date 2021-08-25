@@ -5,4 +5,5 @@ class FirebaseCollections {
   static const String comments = 'comments';
   static const String publicationLikes = 'publicationLikes';
   static const String publicationComments = 'publicationComments';
+  static const String usersSupportRequests = 'usersSupportRequests';
 }

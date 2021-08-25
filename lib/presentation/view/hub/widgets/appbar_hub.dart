@@ -14,7 +14,7 @@ class AppBarHub extends ViewModelWidget<HubViewModel>
         centerTitle: false,
         title: Text(
           viewModel.hub.name,
-          style: TextStyles.toolbarTitle,
+          style: TextStyles.white22Bold,
         ),
         actions: [
           DropdownButtonHideUnderline(

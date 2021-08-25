@@ -40,13 +40,13 @@ class WidgetCommentBottomInputField extends ViewModelWidget<PublicationViewModel
                             RichText(
                               text: TextSpan(
                                 text: Strings.yourAnswer,
-                                style: TextStyles.robotoGray14,
+                                style: TextStyles.gray14,
                                 children: [
                                   TextSpan(
                                       text: viewModel.commentToReply!.user
-                                              .displayName ??
+                                              .name ??
                                           Strings.unknownUser,
-                                      style: TextStyles.robotoBlue14)
+                                      style: TextStyles.blue14)
                                 ],
                               ),
                             ),
@@ -94,7 +94,7 @@ class WidgetCommentBottomInputField extends ViewModelWidget<PublicationViewModel
                     ),
                     maxLines: 5,
                     minLines: 1,
-                    style: TextStyles.robotoBlack14,
+                    style: TextStyles.black14,
                     textInputAction: TextInputAction.newline,
                     keyboardType: TextInputType.multiline,
                     textCapitalization: TextCapitalization.sentences,

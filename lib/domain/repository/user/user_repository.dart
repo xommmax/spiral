@@ -19,4 +19,16 @@ abstract class UserRepository {
   Future<void> logoutUser();
 
   String checkAndGetCurrentUserId();
+
+  Future<void> updateUser({
+    String? name,
+    String? username,
+    String? description,
+    String? photoURL,
+  });
+
+  Future<void> sendSupportRequest({
+    required String subject,
+    required String description,
+  });
 }
