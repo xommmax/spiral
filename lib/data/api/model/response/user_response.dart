@@ -5,14 +5,18 @@ part 'user_response.g.dart';
 @JsonSerializable()
 class UserResponse {
   final String id;
-  final String? displayName;
+  final String? name;
+  final String? username;
+  final String? description;
   final String? email;
   final String? phoneNumber;
   final String? photoURL;
 
   UserResponse({
     required this.id,
-    required this.displayName,
+    required this.name,
+    required this.username,
+    required this.description,
     required this.email,
     required this.phoneNumber,
     required this.photoURL,
@@ -31,9 +35,10 @@ class UserResponse {
 
   Map<String, dynamic> toJson() => _$UserResponseToJson(this);
 
+
   @override
   String toString() {
-    return 'UserResponse{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+    return 'UserResponse{id: $id, displayName: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
   }
 
   @override
@@ -42,7 +47,9 @@ class UserResponse {
       other is UserResponse &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          displayName == other.displayName &&
+          name == other.name &&
+          username == other.username &&
+          description == other.description &&
           email == other.email &&
           phoneNumber == other.phoneNumber &&
           photoURL == other.photoURL;
@@ -50,7 +57,9 @@ class UserResponse {
   @override
   int get hashCode =>
       id.hashCode ^
-      displayName.hashCode ^
+      name.hashCode ^
+      username.hashCode ^
+      description.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
       photoURL.hashCode;

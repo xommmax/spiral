@@ -16,9 +16,12 @@ class WidgetProfilePhoto extends StatelessWidget {
       width: width,
       height: height,
       decoration: new BoxDecoration(
-          shape: BoxShape.circle,
-          image: new DecorationImage(
-              fit: BoxFit.cover, image: CachedNetworkImageProvider(photoUrl!))),
+        shape: BoxShape.circle,
+        image: new DecorationImage(
+          fit: BoxFit.cover,
+          image: CachedNetworkImageProvider(photoUrl!),
+        ),
+      ),
     );
   }
 }

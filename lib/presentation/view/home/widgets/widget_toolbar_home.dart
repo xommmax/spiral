@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class WidgetToolBarHome extends ViewModelWidget<HomeViewModel> {
+class AppBarHome extends ViewModelWidget<HomeViewModel> {
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) => Container(
         padding: EdgeInsets.symmetric(horizontal: 8),
@@ -19,7 +19,7 @@ class WidgetToolBarHome extends ViewModelWidget<HomeViewModel> {
           children: [
             Text(
               Strings.appName,
-              style: TextStyles.toolbarTitle,
+              style: TextStyles.white22Bold,
             ),
             IconButton(
               onPressed: viewModel.onAccountIconClicked,

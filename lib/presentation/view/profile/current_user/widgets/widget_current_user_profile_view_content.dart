@@ -9,6 +9,19 @@ class WidgetCurrentUserProfileViewContent
   @override
   Widget build(BuildContext context, CurrentUserProfileViewModel viewModel) =>
       Scaffold(
+        appBar: viewModel.viewData.user != null
+            ? AppBar(
+                actions: [
+                  IconButton(
+                    onPressed: viewModel.onSettingsClicked,
+                    icon: Icon(
+                      Icons.settings,
+                      color: AppColors.white,
+                    ),
+                  ),
+                ],
+              )
+            : null,
         body: SafeArea(
           child: WidgetBaseProfileView<CurrentUserProfileViewModel>(),
         ),

@@ -6,22 +6,26 @@ part 'user_request.g.dart';
 @JsonSerializable()
 class UserRequest {
   final String id;
-  final String? displayName;
+  final String? name;
+  final String? username;
+  final String? description;
   final String? email;
   final String? phoneNumber;
   final String? photoURL;
 
   UserRequest({
     required this.id,
-    required this.displayName,
+    required this.name,
     required this.email,
     required this.phoneNumber,
     required this.photoURL,
+    this.username,
+    this.description,
   });
 
   factory UserRequest.fromFirebase(firebase.User firebaseUser) => UserRequest(
         id: firebaseUser.uid,
-        displayName: firebaseUser.displayName,
+        name: firebaseUser.displayName,
         email: firebaseUser.email,
         phoneNumber: firebaseUser.phoneNumber,
         photoURL: firebaseUser.photoURL,
@@ -31,7 +35,7 @@ class UserRequest {
 
   @override
   String toString() {
-    return 'UserRequest{id: $id, displayName: $displayName, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+    return 'UserRequest{id: $id, displayName: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
   }
 
   @override
@@ -40,7 +44,9 @@ class UserRequest {
       other is UserRequest &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          displayName == other.displayName &&
+          name == other.name &&
+          username == other.username &&
+          description == other.description &&
           email == other.email &&
           phoneNumber == other.phoneNumber &&
           photoURL == other.photoURL;
@@ -48,7 +54,9 @@ class UserRequest {
   @override
   int get hashCode =>
       id.hashCode ^
-      displayName.hashCode ^
+      name.hashCode ^
+      username.hashCode ^
+      description.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
       photoURL.hashCode;

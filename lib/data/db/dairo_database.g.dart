@@ -87,7 +87,7 @@ class _$DairoDatabase extends DairoDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `displayName` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -131,7 +131,9 @@ class _$UserDao extends UserDao {
             'user',
             (UserItemData item) => <String, Object?>{
                   'id': item.id,
-                  'displayName': item.displayName,
+                  'name': item.name,
+                  'username': item.username,
+                  'description': item.description,
                   'email': item.email,
                   'phoneNumber': item.phoneNumber,
                   'photoURL': item.photoURL
@@ -143,7 +145,9 @@ class _$UserDao extends UserDao {
             ['id'],
             (UserItemData item) => <String, Object?>{
                   'id': item.id,
-                  'displayName': item.displayName,
+                  'name': item.name,
+                  'username': item.username,
+                  'description': item.description,
                   'email': item.email,
                   'phoneNumber': item.phoneNumber,
                   'photoURL': item.photoURL
@@ -165,7 +169,9 @@ class _$UserDao extends UserDao {
     return _queryAdapter.queryStream('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => UserItemData(
             id: row['id'] as String,
-            displayName: row['displayName'] as String?,
+            name: row['name'] as String?,
+            username: row['username'] as String?,
+            description: row['description'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
             photoURL: row['photoURL'] as String?),
@@ -184,7 +190,9 @@ class _$UserDao extends UserDao {
         'SELECT * FROM user WHERE id IN (' + _sqliteVariablesForUserIds + ')',
         mapper: (Map<String, Object?> row) => UserItemData(
             id: row['id'] as String,
-            displayName: row['displayName'] as String?,
+            name: row['name'] as String?,
+            username: row['username'] as String?,
+            description: row['description'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
             photoURL: row['photoURL'] as String?),
@@ -198,7 +206,9 @@ class _$UserDao extends UserDao {
     return _queryAdapter.query('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => UserItemData(
             id: row['id'] as String,
-            displayName: row['displayName'] as String?,
+            name: row['name'] as String?,
+            username: row['username'] as String?,
+            description: row['description'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
             photoURL: row['photoURL'] as String?),
@@ -220,6 +230,20 @@ class _$UserDao extends UserDao {
   @override
   Future<void> deleteUser(UserItemData user) async {
     await _userItemDataDeletionAdapter.delete(user);
+  }
+
+  @override
+  Future<void> updateUser(UserItemData user) async {
+    if (database is sqflite.Transaction) {
+      await super.updateUser(user);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.userDao.updateUser(user);
+      });
+    }
   }
 }
 

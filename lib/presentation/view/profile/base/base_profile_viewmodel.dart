@@ -54,7 +54,8 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
         arguments: HubViewArguments(hub: hub, user: viewData.user!),
       );
 
-  void onSettingsClicked() {}
+  void onSettingsClicked() =>
+      _navigationService.navigateTo(Routes.settingsView);
 
   String? getPhotoUrl() => viewData.user?.photoURL;
 }

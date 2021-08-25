@@ -71,18 +71,18 @@ class WidgetComment extends ViewModelBuilderWidget<CommentViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  comment.user.displayName ??
+                  comment.user.name ??
                       comment.user.email ??
                       comment.user.phoneNumber ??
                       Strings.unknownUser,
-                  style: TextStyles.robotoBlackBold12,
+                  style: TextStyles.black12Bold,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 8),
                 ),
                 Text(
                   comment.text,
-                  style: TextStyles.robotoBlack12,
+                  style: TextStyles.black12,
                 ),
               ],
             ),
@@ -106,7 +106,7 @@ class WidgetComment extends ViewModelBuilderWidget<CommentViewModel> {
                           !viewModel.isRepliesShown
                               ? '${Strings.showReplies} (${viewModel.replies != null ? viewModel.replies?.length : comment.repliesCount})'
                               : Strings.hideReplies,
-                          style: TextStyles.robotoGray14,
+                          style: TextStyles.gray14,
                         ),
                       ],
                     ),

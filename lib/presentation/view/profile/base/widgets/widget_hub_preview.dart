@@ -27,7 +27,7 @@ class WidgetHubPreview extends StatelessWidget {
         ),
         Text(
           _hub.name,
-          style: TextStyles.robotoBlack14,
+          style: TextStyles.black14,
         ),
       ],
     );

@@ -35,13 +35,15 @@ class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: TextField(
-                    controller: viewModel.descriptionController,
-                    keyboardType: TextInputType.multiline,
-                    minLines: 1,
-                    maxLines: 3,
-                    decoration: new InputDecoration(
-                        hintText: 'Hub description',
-                        hintStyle: TextStyle(color: AppColors.gray))),
+                  controller: viewModel.descriptionController,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 3,
+                  decoration: new InputDecoration(
+                    hintText: 'Hub description',
+                    hintStyle: TextStyle(color: AppColors.gray),
+                  ),
+                ),
               ),
             ],
           ),

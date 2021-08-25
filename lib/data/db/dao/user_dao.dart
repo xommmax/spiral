@@ -26,4 +26,10 @@ abstract class UserDao {
       if (user != null) deleteUser(user);
     });
   }
+
+  @transaction
+  Future<void> updateUser(UserItemData user) async {
+    await deleteUser(user);
+    await insertUser(user);
+  }
 }

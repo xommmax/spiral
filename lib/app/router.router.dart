@@ -21,6 +21,9 @@ import '../presentation/view/profile/user/user_profile_view.dart';
 import '../presentation/view/publication/publication_view.dart';
 import '../presentation/view/publication/users_liked/users_liked_view.dart';
 import '../presentation/view/search/search_view.dart';
+import '../presentation/view/settings/account/account_details_view.dart';
+import '../presentation/view/settings/settings_view.dart';
+import '../presentation/view/settings/support/support_view.dart';
 
 class Routes {
   static const String authView = '/auth-view';
@@ -33,6 +36,9 @@ class Routes {
   static const String usersLikedView = '/users-liked-view';
   static const String publicationView = '/publication-view';
   static const String searchView = '/search-view';
+  static const String settingsView = '/settings-view';
+  static const String accountDetailsView = '/account-details-view';
+  static const String supportView = '/support-view';
   static const all = <String>{
     authView,
     mainView,
@@ -44,6 +50,9 @@ class Routes {
     usersLikedView,
     publicationView,
     searchView,
+    settingsView,
+    accountDetailsView,
+    supportView,
   };
 }
 
@@ -61,6 +70,9 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.usersLikedView, page: UsersLikedView),
     RouteDef(Routes.publicationView, page: PublicationView),
     RouteDef(Routes.searchView, page: SearchView),
+    RouteDef(Routes.settingsView, page: SettingsView),
+    RouteDef(Routes.accountDetailsView, page: AccountDetailsView),
+    RouteDef(Routes.supportView, page: SupportView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -135,6 +147,24 @@ class StackedRouter extends RouterBase {
     SearchView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SearchView(),
+        settings: data,
+      );
+    },
+    SettingsView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SettingsView(),
+        settings: data,
+      );
+    },
+    AccountDetailsView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AccountDetailsView(),
+        settings: data,
+      );
+    },
+    SupportView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SupportView(),
         settings: data,
       );
     },

@@ -20,7 +20,7 @@ class WidgetHubListItem extends StatelessWidget {
           ),
           title: Text(
             _hub.name,
-            style: TextStyles.robotoBlack14,
+            style: TextStyles.black14,
           ),
         ),
       );

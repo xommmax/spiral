@@ -18,7 +18,7 @@ class HubRemoteRepository {
 
   Future<HubResponse> createHub(HubRequest hubRequest, File hubPicture) async {
     List<String> uploadedUrls = await _firebaseStorageRepository
-        .uploadFilesToUserFolder(
+        .uploadMultipleFiles(
             [hubPicture], FirebaseStorageFolders.hubPictures);
     hubRequest.pictureUrl = uploadedUrls[0];
 

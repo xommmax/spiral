@@ -20,7 +20,7 @@ class InputFieldNewPublication
           disabledBorder: InputBorder.none,
         ),
         maxLines: null,
-        style: TextStyles.robotoBlack14,
+        style: TextStyles.black14,
         textInputAction: TextInputAction.newline,
         keyboardType: TextInputType.multiline,
         textCapitalization: TextCapitalization.sentences,

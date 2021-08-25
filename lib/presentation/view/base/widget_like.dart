@@ -48,7 +48,7 @@ class _WidgetLikeState extends State<WidgetLike> {
             _likesCount != 0
                 ? Text(
                     _likesCount.toString(),
-                    style: TextStyles.robotoBlack12,
+                    style: TextStyles.black12,
                   )
                 : SizedBox.shrink(),
           ],

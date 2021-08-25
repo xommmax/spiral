@@ -64,25 +64,25 @@ class _WidgetHubPublicationHeader extends StatelessWidget {
   const _WidgetHubPublicationHeader(this.user, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 40,
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Row(
-            children: [
-              WidgetProfilePhoto(
-                photoUrl: user.photoURL,
-                width: 22,
-                height: 22,
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: [
+            WidgetProfilePhoto(
+              photoUrl: user.photoURL,
+              width: 22,
+              height: 22,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 4),
+            ),
+            Expanded(
+              child: Text(
+                user.name ?? '',
+                style: TextStyles.black12,
               ),
-              Expanded(
-                child: Text(
-                  user.displayName ?? '',
-                  style: TextStyles.robotoBlack12,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 }
@@ -95,7 +95,7 @@ class _WidgetHubPublicationText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => text != null && text!.isNotEmpty
       ? Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8, bottom: 4),
           child: Text(text!),
         )
       : SizedBox.shrink();

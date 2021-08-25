@@ -1,0 +1,57 @@
+import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/settings/account/account_details_viewmodel.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:stacked/stacked.dart';
+
+class WidgetAccountDetailsInputFields
+    extends ViewModelWidget<AccountDetailsViewModel> {
+  @override
+  Widget build(BuildContext context, AccountDetailsViewModel viewModel) =>
+      Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 16),
+          ),
+          TextFormField(
+            controller: viewModel.viewData.nameController,
+            autofocus: false,
+            maxLines: 1,
+            decoration: new InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: Strings.name,
+              hintStyle: TextStyle(color: AppColors.gray),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+          ),
+          TextFormField(
+            controller: viewModel.viewData.usernameController,
+            autofocus: false,
+            maxLines: 1,
+            decoration: new InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: Strings.username,
+              hintStyle: TextStyle(color: AppColors.gray),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+          ),
+          TextFormField(
+            controller: viewModel.viewData.descriptionController,
+            autofocus: false,
+            maxLength: 150,
+            maxLines: 4,
+            minLines: 1,
+            decoration: new InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: Strings.description,
+              hintStyle: TextStyle(color: AppColors.gray),
+            ),
+          ),
+        ],
+      );
+}
