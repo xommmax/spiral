@@ -72,6 +72,9 @@ class Strings {
   static const home = 'Home';
   static const explore = 'Explore';
 
+  /* Profile */
+  static const followings = 'followings';
+
   /* Hubs*/
   static const no_hubs = 'No hubs';
 
@@ -121,5 +124,5 @@ class Strings {
   /* Support */
   static const subject = 'Subject';
   static const messageSuccessfullySent = 'Message successfully sent!';
-/* Uncategorized */
+  /* Uncategorized */
 }

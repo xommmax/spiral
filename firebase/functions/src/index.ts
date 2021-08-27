@@ -2,7 +2,8 @@ import {isEmulator} from "./utils";
 import * as admin from "firebase-admin";
 import {onPublicationDisliked, onPublicationLiked} from "./like";
 import {onCommentAdded} from "./comment";
-import {onFollowHub, onUnFollowHub} from "./follows";
+import {onFollowHub, onUnfollowHub} from "./follows";
+import {onFollowingHub, onUnfollowingHub} from "./followings";
 
 export const appUrl = "https://us-central1-dairo-4593a.cloudfunctions.net";
 
@@ -18,4 +19,6 @@ exports.onPublicationLiked = onPublicationLiked;
 exports.onPublicationDisliked = onPublicationDisliked;
 exports.onCommentAdded = onCommentAdded;
 exports.onFollowHub = onFollowHub;
-exports.onUnFollowHub = onUnFollowHub;
+exports.onUnfollowHub = onUnfollowHub;
+exports.onFollowingHub = onFollowingHub;
+exports.onUnfollowingHub = onUnfollowingHub;

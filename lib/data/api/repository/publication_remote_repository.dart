@@ -42,7 +42,7 @@ class PublicationRemoteRepository {
     );
   }
 
-  Future<List<PublicationResponse>> fetchHubPublications(String hubId) =>
+  Future<List<PublicationResponse>> fetchPublications(String hubId) =>
       _firestore
           .collection('${FirebaseCollections.hubPublications}')
           .where(FirestoreKeys.hubId, isEqualTo: hubId)
@@ -59,17 +59,18 @@ class PublicationRemoteRepository {
             ),
           );
 
-  Future<PublicationResponse> fetchHubPublication(String publicationId) =>
+  Stream<Future<PublicationResponse>> fetchPublicationStream(
+      String publicationId) =>
       _firestore
           .doc('${FirebaseCollections.hubPublications}/$publicationId')
-          .get()
-          .then(
+          .snapshots()
+          .map(
             (doc) async => PublicationResponse.fromJson(
-              doc.data(),
-              id: doc.id,
-              isLiked: await isCurrentUserLiked(doc.id),
-            ),
-          );
+          doc.data(),
+          id: doc.id,
+          isLiked: await isCurrentUserLiked(doc.id),
+        ),
+      );
 
   Future<bool> isCurrentUserLiked(
     String publicationId,

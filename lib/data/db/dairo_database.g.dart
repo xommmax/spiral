@@ -87,7 +87,7 @@ class _$DairoDatabase extends DairoDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, `followingsCount` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -136,7 +136,8 @@ class _$UserDao extends UserDao {
                   'description': item.description,
                   'email': item.email,
                   'phoneNumber': item.phoneNumber,
-                  'photoURL': item.photoURL
+                  'photoURL': item.photoURL,
+                  'followingsCount': item.followingsCount
                 },
             changeListener),
         _userItemDataDeletionAdapter = DeletionAdapter(
@@ -150,7 +151,8 @@ class _$UserDao extends UserDao {
                   'description': item.description,
                   'email': item.email,
                   'phoneNumber': item.phoneNumber,
-                  'photoURL': item.photoURL
+                  'photoURL': item.photoURL,
+                  'followingsCount': item.followingsCount
                 },
             changeListener);
 
@@ -174,7 +176,8 @@ class _$UserDao extends UserDao {
             description: row['description'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
-            photoURL: row['photoURL'] as String?),
+            photoURL: row['photoURL'] as String?,
+            followingsCount: row['followingsCount'] as int?),
         arguments: [userId],
         queryableName: 'user',
         isView: false);
@@ -195,7 +198,8 @@ class _$UserDao extends UserDao {
             description: row['description'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
-            photoURL: row['photoURL'] as String?),
+            photoURL: row['photoURL'] as String?,
+            followingsCount: row['followingsCount'] as int?),
         arguments: [...userIds],
         queryableName: 'user',
         isView: false);
@@ -211,7 +215,8 @@ class _$UserDao extends UserDao {
             description: row['description'] as String?,
             email: row['email'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
-            photoURL: row['photoURL'] as String?),
+            photoURL: row['photoURL'] as String?,
+            followingsCount: row['followingsCount'] as int?),
         arguments: [userId]);
   }
 
@@ -274,7 +279,7 @@ class _$HubDao extends HubDao {
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
 
   @override
-  Stream<List<HubItemData>> getHubsStream(String userId) {
+  Stream<List<HubItemData>> getHubs(String userId) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM hub WHERE userId = ?1 ORDER BY createdAt DESC',
         mapper: (Map<String, Object?> row) => HubItemData(
@@ -292,7 +297,7 @@ class _$HubDao extends HubDao {
   }
 
   @override
-  Stream<HubItemData?> getHubStream(String id) {
+  Stream<HubItemData?> getHub(String id) {
     return _queryAdapter.queryStream('SELECT * FROM hub WHERE id = ?1',
         mapper: (Map<String, Object?> row) => HubItemData(
             id: row['id'] as String,
@@ -304,6 +309,30 @@ class _$HubDao extends HubDao {
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0),
         arguments: [id],
+        queryableName: 'hub',
+        isView: false);
+  }
+
+  @override
+  Stream<List<HubItemData>> getHubsByIds(List<String> hubIds) {
+    const offset = 1;
+    final _sqliteVariablesForHubIds =
+        Iterable<String>.generate(hubIds.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM hub WHERE id IN (' +
+            _sqliteVariablesForHubIds +
+            ') ORDER BY createdAt DESC',
+        mapper: (Map<String, Object?> row) => HubItemData(
+            id: row['id'] as String,
+            userId: row['userId'] as String,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            pictureUrl: row['pictureUrl'] as String,
+            createdAt: row['createdAt'] as int,
+            followersCount: row['followersCount'] as int,
+            isFollow: (row['isFollow'] as int) != 0),
+        arguments: [...hubIds],
         queryableName: 'hub',
         isView: false);
   }

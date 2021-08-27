@@ -18,7 +18,7 @@ abstract class UserRepository {
 
   Future<void> logoutUser();
 
-  String checkAndGetCurrentUserId();
+  String getCurrentUserId();
 
   Future<void> updateUser({
     String? name,

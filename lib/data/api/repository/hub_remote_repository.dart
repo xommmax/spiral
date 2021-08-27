@@ -36,13 +36,13 @@ class HubRemoteRepository {
     );
   }
 
-  Future<List<HubResponse>> fetchUserHubs(String userId) => _firestore
+  Future<List<HubResponse>> fetchHubs(String userId) => _firestore
       .collection(FirebaseCollections.userHubs)
       .where(FirestoreKeys.userId, isEqualTo: userId)
       .get()
       .then(
-        (snapshot) => Future.wait(
-          snapshot.docs.map(
+        (snapshots) => Future.wait(
+          snapshots.docs.map(
             (doc) async => HubResponse.fromJson(
               doc.data(),
               id: doc.id,
@@ -52,22 +52,22 @@ class HubRemoteRepository {
         ),
       );
 
-  Future<HubResponse> fetchHub(String hubId) =>
-      _firestore.doc('${FirebaseCollections.userHubs}/$hubId').get().then(
-            (doc) async => HubResponse.fromJson(
-              doc.data(),
-              id: doc.id,
-              isFollow: await isCurrentUserFollows(doc.id),
+  Stream<Future<HubResponse>> fetchHubStream(String hubId) =>
+      _firestore.doc('${FirebaseCollections.userHubs}/$hubId').snapshots().map(
+            (snap) async => HubResponse.fromJson(
+              snap.data(),
+              id: snap.id,
+              isFollow: await isCurrentUserFollows(snap.id),
             ),
           );
 
   Future<bool> isCurrentUserFollows(String hubId) => _firestore
       .doc(
-          '${FirebaseCollections.usersFollowHubs}/${_userRepository.checkAndGetCurrentUserId()}/${FirestoreKeys.hubs}/$hubId')
+          '${FirebaseCollections.usersFollowHubs}/${_userRepository.getCurrentUserId()}/${FirestoreKeys.hubs}/$hubId')
       .get()
       .then((snapshot) => snapshot.exists);
 
-  Future<HubResponse> follow({
+  Future<void> onFollow({
     required String hubId,
     required String userId,
   }) =>
@@ -82,11 +82,9 @@ class HubRemoteRepository {
                 '${FirebaseCollections.usersFollowHubs}/$userId/${FirestoreKeys.hubs}')
             .doc(hubId)
             .set({}),
-      ]).then(
-        (_) => fetchHub(hubId),
-      );
+      ]);
 
-  Future<HubResponse> unfollow({
+  Future<void> onUnfollow({
     required String hubId,
     required String userId,
   }) =>
@@ -101,13 +99,35 @@ class HubRemoteRepository {
                 '${FirebaseCollections.usersFollowHubs}/$userId/${FirestoreKeys.hubs}')
             .doc(hubId)
             .delete(),
-      ]).then(
-        (_) => fetchHub(hubId),
-      );
+      ]);
 
-  Future<List<String>> fetchHubFollowers(String hubId) => _firestore
+  Future<List<String>> fetchHubFollowersIds(String hubId) => _firestore
       .collection(
           '${FirebaseCollections.hubsFollowers}/$hubId/${FirebaseCollections.users}')
       .get()
       .then((result) => result.docs.map((doc) => doc.id).toList());
+
+  Future<List<String>> fetchUserFollowsHubsIds(String userId) => _firestore
+      .collection(
+          '${FirebaseCollections.usersFollowHubs}/$userId/${FirestoreKeys.hubs}')
+      .get()
+      .then(
+        (query) => query.docs.map((snap) => snap.id).toList(),
+      );
+
+  Future<List<HubResponse>> fetchHubsByIds(List<String> hubIds) => Future.wait(
+        hubIds.map(
+          (hubId) => FirebaseFirestore.instance
+              .collection(FirebaseCollections.userHubs)
+              .where(FieldPath.documentId, isEqualTo: hubId)
+              .get()
+              .then(
+                (snapshots) async => HubResponse.fromJson(
+                  snapshots.docs.first.data(),
+                  id: snapshots.docs.first.id,
+                  isFollow: await isCurrentUserFollows(snapshots.docs.first.id),
+                ),
+              ),
+        ),
+      );
 }

@@ -44,17 +44,21 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Stream<User?> getCurrentUser() => getUser(checkAndGetCurrentUserId());
+  Stream<User?> getCurrentUser() => getUser(getCurrentUserId());
 
   @override
   Stream<User?> getUser(String userId) {
+
+    _remote.fetchUserStream(getCurrentUserId()).listen(
+          (response) => _local.updateUser(
+        UserItemData.fromResponse(response),
+      ),
+    );
+
     final stream = _local.getUser(userId).map((itemData) {
       if (itemData == null) return null;
       return User.fromItemData(itemData);
     });
-
-    _remote.fetchUser(userId).then(
-        (response) => _local.addUser(UserItemData.fromResponse(response)));
 
     return stream;
   }
@@ -79,13 +83,13 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<void> logoutUser() async {
-    final currentUserId = checkAndGetCurrentUserId();
+    final currentUserId = getCurrentUserId();
     await _auth.signOut();
     await _local.deleteUserById(currentUserId);
   }
 
   @override
-  String checkAndGetCurrentUserId() {
+  String getCurrentUserId() {
     final currentUserId = _auth.currentUser?.uid;
     if (currentUserId == null) throw UnauthorizedException();
     return currentUserId;
@@ -99,7 +103,7 @@ class UserRepositoryImpl implements UserRepository {
     String? photoURL,
   }) async {
     String? remoteUrl;
-    final currentUserId = checkAndGetCurrentUserId();
+    final currentUserId = getCurrentUserId();
     final UserItemData? itemData = await _local.getUser(currentUserId).first;
     if (itemData != null) {
       User user = User.fromItemData(itemData);
@@ -131,7 +135,7 @@ class UserRepositoryImpl implements UserRepository {
     required String subject,
     required String description,
   }) async {
-    final currentUserId = checkAndGetCurrentUserId();
+    final currentUserId = getCurrentUserId();
     await _remote.sendSupportRequest(
       SupportRequest(
         subject: subject,

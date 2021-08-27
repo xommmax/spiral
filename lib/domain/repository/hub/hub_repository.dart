@@ -12,13 +12,17 @@ abstract class HubRepository {
 
   Stream<List<Hub>> getCurrentUserHubs();
 
-  Stream<List<Hub>> getUserHubs(String userId);
+  Stream<List<Hub>> getHubs(String userId);
+
+  Stream<List<Hub>> getHubsByIds(List<String> hubIds);
 
   Stream<Hub> getHub(String hubId);
 
-  Future<void> follow(String hubId);
+  Future<void> onFollow(String hubId);
 
-  Future<void> unfollow(String hubId);
+  Future<void> onUnfollow(String hubId);
 
-  Future<List<String>> getHubFollowers(String hubId);
+  Future<List<String>> getHubFollowersIds(String hubId);
+
+  Future<List<String>> getUserFollowsHubsIds(String userId);
 }

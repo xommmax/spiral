@@ -63,7 +63,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
   Stream<User?> currentUserStream() => _userRepository.getCurrentUser();
 
   Stream<Publication?> publicationStream() =>
-      _publicationRepository.getHubPublication(publicationId);
+      _publicationRepository.getPublication(publicationId);
 
   Stream<List<Comment>?> commentsStream() =>
       _publicationRepository.getComments(publicationId);
@@ -83,25 +83,6 @@ class PublicationViewModel extends MultipleStreamViewModel {
   void onError(String key, error) {
     print('Error: $error on key: $key');
     AppSnackBar.showSnackBarError(Strings.unableToGetPublication);
-  }
-
-  void onPublicationLikeClicked(bool isLiked) =>
-      _publicationRepository.sendLike(
-        publicationId: publicationId,
-        userId: userId,
-        isLiked: isLiked,
-      );
-
-  void onUsersLikedScreenClicked() async {
-    List<String> userIds =
-        await _publicationRepository.getUsersLiked(publicationId);
-    return _navigationService.navigateTo(
-      Routes.usersView,
-      arguments: UsersViewArguments(
-        userIds: userIds,
-        type: UsersType.Likes,
-      ),
-    );
   }
 
   void onSendCommentClicked() => _publicationRepository

@@ -9,7 +9,7 @@ import 'appbar_users.dart';
 class WidgetUsersViewContent extends ViewModelWidget<UsersViewModel> {
   @override
   Widget build(BuildContext context, UsersViewModel viewModel) => Scaffold(
-        appBar: AppBarUsersLiked(),
+        appBar: AppBarUsers(),
         body: SafeArea(
           bottom: false,
           child: WidgetUsersList(),

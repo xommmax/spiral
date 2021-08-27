@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 
 class WidgetHubListItem extends StatelessWidget {
   final Hub _hub;
-  final Function(Hub) onHubListItemClicked;
+  final Function(Hub) onOpenHubDetailsClicked;
 
   const WidgetHubListItem(this._hub,
-      {Key? key, required this.onHubListItemClicked})
+      {Key? key, required this.onOpenHubDetailsClicked})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: () => onHubListItemClicked(_hub),
+        onTap: () => onOpenHubDetailsClicked(_hub),
         child: ListTile(
           leading: CircleAvatar(
             foregroundImage: CachedNetworkImageProvider(_hub.pictureUrl),

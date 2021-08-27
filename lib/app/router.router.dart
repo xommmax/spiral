@@ -11,6 +11,7 @@ import 'package:stacked/stacked.dart';
 
 import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/hub/hub_view.dart';
+import '../presentation/view/hubs/hubs_view.dart';
 import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
@@ -38,6 +39,7 @@ class Routes {
   static const String settingsView = '/settings-view';
   static const String accountDetailsView = '/account-details-view';
   static const String supportView = '/support-view';
+  static const String hubsView = '/hubs-view';
   static const all = <String>{
     authView,
     mainView,
@@ -52,6 +54,7 @@ class Routes {
     settingsView,
     accountDetailsView,
     supportView,
+    hubsView,
   };
 }
 
@@ -72,6 +75,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.settingsView, page: SettingsView),
     RouteDef(Routes.accountDetailsView, page: AccountDetailsView),
     RouteDef(Routes.supportView, page: SupportView),
+    RouteDef(Routes.hubsView, page: HubsView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -170,6 +174,13 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    HubsView: (data) {
+      var args = data.getArgs<HubsViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => HubsView(userIds: args.userIds),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -208,4 +219,10 @@ class PublicationViewArguments {
   final String publicationId;
   final String userId;
   PublicationViewArguments({required this.publicationId, required this.userId});
+}
+
+/// HubsView arguments holder class
+class HubsViewArguments {
+  final List<String> userIds;
+  HubsViewArguments({required this.userIds});
 }

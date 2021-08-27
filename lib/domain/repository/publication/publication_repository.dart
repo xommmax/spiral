@@ -11,13 +11,12 @@ abstract class PublicationRepository {
     List<MediaFile>? mediaFiles,
   });
 
-  Stream<List<Publication>> getHubPublications(String hubId);
+  Stream<List<Publication>> getPublications(String hubId);
 
-  Stream<Publication?> getHubPublication(String publicationId);
+  Stream<Publication?> getPublication(String publicationId);
 
   Future<void> sendLike({
     required String publicationId,
-    required String userId,
     required bool isLiked,
   });
 
