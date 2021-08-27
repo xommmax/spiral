@@ -15,6 +15,7 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) {
     email: json['email'] as String?,
     phoneNumber: json['phoneNumber'] as String?,
     photoURL: json['photoURL'] as String?,
+    followingsCount: json['followingsCount'] as int?,
   );
 }
 
@@ -27,4 +28,5 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
       'photoURL': instance.photoURL,
+      'followingsCount': instance.followingsCount,
     };

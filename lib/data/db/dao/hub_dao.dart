@@ -4,10 +4,13 @@ import 'package:floor/floor.dart';
 @dao
 abstract class HubDao {
   @Query('SELECT * FROM hub WHERE userId = :userId ORDER BY createdAt DESC')
-  Stream<List<HubItemData>> getHubsStream(String userId);
+  Stream<List<HubItemData>> getHubs(String userId);
 
   @Query('SELECT * FROM hub WHERE id = :id')
-  Stream<HubItemData?> getHubStream(String id);
+  Stream<HubItemData?> getHub(String id);
+
+  @Query('SELECT * FROM hub WHERE id IN (:hubIds) ORDER BY createdAt DESC')
+  Stream<List<HubItemData>> getHubsByIds(List<String> hubIds);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHub(HubItemData hub);

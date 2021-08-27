@@ -154,4 +154,14 @@ class UserRemoteRepository {
           .collection(FirebaseCollections.usersSupportRequests)
           .doc(userId)
           .set(request.toJson());
+
+  Stream<UserResponse> fetchUserStream(
+    String userId,
+  ) =>
+      FirebaseFirestore.instance
+          .doc('${FirebaseCollections.users}/$userId')
+          .snapshots()
+          .map(
+            (snap) => UserResponse.fromJson(snap.data(), id: snap.id),
+          );
 }

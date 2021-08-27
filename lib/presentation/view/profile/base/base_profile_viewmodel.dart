@@ -60,5 +60,14 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
   void onSettingsClicked() =>
       _navigationService.navigateTo(Routes.settingsView);
 
+  void onUserHubsFollowingClicked() async {
+    List<String> userIds =
+        await hubRepository.getUserFollowsHubsIds(viewData.user!.id);
+    _navigationService.navigateTo(
+      Routes.hubsView,
+      arguments: HubsViewArguments(userIds: userIds),
+    );
+  }
+
   String? getPhotoUrl() => viewData.user?.photoURL;
 }

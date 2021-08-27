@@ -52,7 +52,7 @@ class HubViewModel extends MultipleStreamViewModel {
   Stream<User?> userStream() => _userRepository.getUser(userId);
 
   Stream<List<Publication>?> publicationsStream() =>
-      _publicationRepository.getHubPublications(hubId);
+      _publicationRepository.getPublications(hubId);
 
   Stream<Hub?> hubStream() => _hubRepository.getHub(hubId);
 
@@ -73,7 +73,6 @@ class HubViewModel extends MultipleStreamViewModel {
   void onPublicationLikeClicked(String publicationId, bool isLiked) =>
       _publicationRepository.sendLike(
         publicationId: publicationId,
-        userId: hubId,
         isLiked: isLiked,
       );
 
@@ -99,11 +98,11 @@ class HubViewModel extends MultipleStreamViewModel {
       );
 
   void onFollowClicked() => viewData.hub!.isFollow
-      ? _hubRepository.unfollow(viewData.hub!.id)
-      : _hubRepository.follow(viewData.hub!.id);
+      ? _hubRepository.onUnfollow(viewData.hub!.id)
+      : _hubRepository.onFollow(viewData.hub!.id);
 
   void onFollowersClicked() async {
-    List<String> userIds = await _hubRepository.getHubFollowers(hubId);
+    List<String> userIds = await _hubRepository.getHubFollowersIds(hubId);
     return _navigationService.navigateTo(
       Routes.usersView,
       arguments: UsersViewArguments(

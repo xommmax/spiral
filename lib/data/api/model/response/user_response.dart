@@ -11,6 +11,7 @@ class UserResponse {
   final String? email;
   final String? phoneNumber;
   final String? photoURL;
+  final int? followingsCount;
 
   UserResponse({
     required this.id,
@@ -20,6 +21,7 @@ class UserResponse {
     required this.email,
     required this.phoneNumber,
     required this.photoURL,
+    required this.followingsCount,
   });
 
   factory UserResponse.fromJson(
@@ -35,10 +37,9 @@ class UserResponse {
 
   Map<String, dynamic> toJson() => _$UserResponseToJson(this);
 
-
   @override
   String toString() {
-    return 'UserResponse{id: $id, displayName: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+    return 'UserResponse{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, followingsCount: $followingsCount}';
   }
 
   @override
@@ -52,7 +53,8 @@ class UserResponse {
           description == other.description &&
           email == other.email &&
           phoneNumber == other.phoneNumber &&
-          photoURL == other.photoURL;
+          photoURL == other.photoURL &&
+          followingsCount == other.followingsCount;
 
   @override
   int get hashCode =>
@@ -62,5 +64,6 @@ class UserResponse {
       description.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
-      photoURL.hashCode;
+      photoURL.hashCode ^
+      followingsCount.hashCode;
 }

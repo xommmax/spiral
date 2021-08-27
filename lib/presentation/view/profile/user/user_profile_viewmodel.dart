@@ -11,5 +11,5 @@ class UserProfileViewModel extends BaseProfileViewModel {
   Stream<User?> userStream() => userRepository.getUser(userId);
 
   @override
-  Stream<List<Hub>> hubListStream() => hubRepository.getUserHubs(userId);
+  Stream<List<Hub>> hubListStream() => hubRepository.getHubs(userId);
 }

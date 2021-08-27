@@ -34,7 +34,7 @@ class PublicationRepositoryImpl implements PublicationRepository {
     String? text,
     List<MediaFile>? mediaFiles,
   }) async {
-    final currentUserId = _userRepository.checkAndGetCurrentUserId();
+    final currentUserId = _userRepository.getCurrentUserId();
     final media = mediaFiles?.map((e) => File(e.path)).toList();
     PublicationRequest request = PublicationRequest(
       hubId: hubId,
@@ -47,8 +47,8 @@ class PublicationRepositoryImpl implements PublicationRepository {
     await _local.addPublication(PublicationItemData.fromResponse(response));
   }
 
-  Stream<List<Publication>> getHubPublications(String hubId) {
-    _remote.fetchHubPublications(hubId).then((response) {
+  Stream<List<Publication>> getPublications(String hubId) {
+    _remote.fetchPublications(hubId).then((response) {
       final itemData =
           response.map((e) => PublicationItemData.fromResponse(e)).toList();
       _local.updatePublications(itemData, hubId);
@@ -58,9 +58,14 @@ class PublicationRepositoryImpl implements PublicationRepository {
         itemData.map((e) => Publication.fromItemData(e)).toList());
   }
 
-  Stream<Publication?> getHubPublication(String publicationId) {
-    _remote.fetchHubPublication(publicationId).then((response) =>
-        _local.updatePublication(PublicationItemData.fromResponse(response)));
+  Stream<Publication?> getPublication(String publicationId) {
+    _remote.fetchPublicationStream(publicationId).listen(
+          (future) => future.then(
+            (response) => _local.updatePublication(
+              PublicationItemData.fromResponse(response),
+            ),
+          ),
+        );
     return _local.getPublication(publicationId).map((itemData) {
       if (itemData == null) return null;
       return Publication.fromItemData(itemData);
@@ -70,14 +75,17 @@ class PublicationRepositoryImpl implements PublicationRepository {
   @override
   Future<void> sendLike({
     required String publicationId,
-    required String userId,
     required bool isLiked,
   }) =>
-      _remote.sendLike(
-        publicationId: publicationId,
-        userId: userId,
-        isLiked: isLiked,
-      );
+      _remote
+          .sendLike(
+            publicationId: publicationId,
+            userId: _userRepository.getCurrentUserId(),
+            isLiked: isLiked,
+          )
+          .then(
+            (value) => getPublication(publicationId),
+          );
 
   @override
   Future<void> sendComment({

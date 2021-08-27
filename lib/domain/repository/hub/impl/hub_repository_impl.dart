@@ -25,7 +25,7 @@ class HubRepositoryImpl implements HubRepository {
     required String description,
     required MediaFile picture,
   }) async {
-    final currentUserId = _userRepository.checkAndGetCurrentUserId();
+    final currentUserId = _userRepository.getCurrentUserId();
     HubRequest request = HubRequest(
       userId: currentUserId,
       name: name,
@@ -38,14 +38,14 @@ class HubRepositoryImpl implements HubRepository {
   }
 
   Stream<List<Hub>> getCurrentUserHubs() =>
-      getUserHubs(_userRepository.checkAndGetCurrentUserId());
+      getHubs(_userRepository.getCurrentUserId());
 
-  Stream<List<Hub>> getUserHubs(String userId) {
+  Stream<List<Hub>> getHubs(String userId) {
     Stream<List<Hub>> stream = _local
         .getHubs(userId)
         .map((itemData) => itemData.map((e) => Hub.fromItemData(e)).toList());
 
-    _remote.fetchUserHubs(userId).then((response) {
+    _remote.fetchHubs(userId).then((response) {
       final itemData =
           response.map((e) => HubItemData.fromResponse(e)).toList();
       _local.addHubs(itemData);
@@ -55,43 +55,50 @@ class HubRepositoryImpl implements HubRepository {
 
   @override
   Stream<Hub> getHub(String hubId) {
-    Stream<Hub> stream = _local.getHub(hubId).map(
-          (itemData) => Hub.fromItemData(itemData!),
-        );
-
-    _remote.fetchHub(hubId).then(
-          (response) => _local.updateHub(
-            HubItemData.fromResponse(response),
+    _remote.fetchHubStream(hubId).listen(
+          (futureHub) => futureHub.then(
+            (response) => _local.updateHub(
+              HubItemData.fromResponse(response),
+            ),
           ),
         );
-    return stream;
+
+    return _local.getHub(hubId).map(
+          (itemData) => Hub.fromItemData(itemData!),
+        );
   }
 
   @override
-  Future<void> follow(String hubId) => _remote
-      .follow(
-        userId: _userRepository.checkAndGetCurrentUserId(),
+  Future<void> onFollow(String hubId) => _remote.onFollow(
+        userId: _userRepository.getCurrentUserId(),
         hubId: hubId,
-      )
-      .then(
-        (response) => _local.updateHub(
-          HubItemData.fromResponse(response),
-        ),
       );
 
   @override
-  Future<void> unfollow(String hubId) => _remote
-      .unfollow(
-        userId: _userRepository.checkAndGetCurrentUserId(),
+  Future<void> onUnfollow(String hubId) => _remote.onUnfollow(
+        userId: _userRepository.getCurrentUserId(),
         hubId: hubId,
-      )
-      .then(
-        (response) => _local.updateHub(
-          HubItemData.fromResponse(response),
-        ),
       );
 
   @override
-  Future<List<String>> getHubFollowers(String hubId) =>
-      _remote.fetchHubFollowers(hubId);
+  Future<List<String>> getHubFollowersIds(String hubId) =>
+      _remote.fetchHubFollowersIds(hubId);
+
+  @override
+  Future<List<String>> getUserFollowsHubsIds(String userId) =>
+      _remote.fetchUserFollowsHubsIds(userId);
+
+  @override
+  Stream<List<Hub>> getHubsByIds(List<String> hubIds) {
+    Stream<List<Hub>> stream = _local
+        .getHubsByIds(hubIds)
+        .map((itemData) => itemData.map((e) => Hub.fromItemData(e)).toList());
+
+    _remote.fetchHubsByIds(hubIds).then((response) {
+      final itemData =
+          response.map((e) => HubItemData.fromResponse(e)).toList();
+      _local.addHubs(itemData);
+    });
+    return stream;
+  }
 }

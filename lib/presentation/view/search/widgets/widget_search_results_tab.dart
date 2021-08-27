@@ -19,7 +19,7 @@ class WidgetTopSearchResultsTab extends ViewModelWidget<SearchViewModel> {
                   onProfileListItemClicked: viewModel.onProfileClicked);
             else if (result is Hub)
               return WidgetHubListItem(result,
-                  onHubListItemClicked: viewModel.onHubSelected);
+                  onOpenHubDetailsClicked: viewModel.onHubSelected);
             else
               throw ArgumentError(Strings.unableToGetSearchResults);
           });
@@ -44,5 +44,5 @@ class WidgetHubSearchResultsTab extends ViewModelWidget<SearchViewModel> {
           itemCount: viewModel.hubSearchResults.length,
           itemBuilder: (context, index) => WidgetHubListItem(
               viewModel.hubSearchResults[index],
-              onHubListItemClicked: viewModel.onHubSelected));
+              onOpenHubDetailsClicked: viewModel.onHubSelected));
 }

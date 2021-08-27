@@ -9,10 +9,13 @@ class HubLocalRepository {
   final DairoDatabase _database = locator<DairoDatabase>();
 
   Stream<List<HubItemData>> getHubs(String userId) =>
-      _database.hubDao.getHubsStream(userId);
+      _database.hubDao.getHubs(userId);
+
+  Stream<List<HubItemData>> getHubsByIds(List<String> hubIds) =>
+      _database.hubDao.getHubsByIds(hubIds);
 
   Stream<HubItemData?> getHub(String hubId) =>
-      _database.hubDao.getHubStream(hubId);
+      _database.hubDao.getHub(hubId);
 
   Future<void> addHub(HubItemData hub) => _database.hubDao.insertHub(hub);
 

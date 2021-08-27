@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/profile/base/base_profile_viewmodel.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_grid.dart';
@@ -35,8 +36,23 @@ class WidgetBaseProfileView<T extends BaseProfileViewModel>
             viewModel.viewData.user?.description ?? '',
             style: TextStyles.gray16,
           ),
+          viewModel.viewData.user?.followingsCount != null
+              ? InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: viewModel.viewData.user!.followingsCount! > 0
+                      ? viewModel.onUserHubsFollowingClicked
+                      : null,
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      '${viewModel.viewData.user!.followingsCount.toString()} ${Strings.followings}',
+                      style: TextStyles.black14,
+                    ),
+                  ),
+                )
+              : SizedBox.shrink(),
           SizedBox(
-            height: 50,
+            height: 40,
           ),
           WidgetHubGrid<T>()
         ],

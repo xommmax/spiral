@@ -24,7 +24,7 @@ export const onFollowHub = functions
       }
     });
 
-export const onUnFollowHub = functions
+export const onUnfollowHub = functions
     .firestore
     .document("hubsFollowers/{hubId}/users/{userId}")
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
