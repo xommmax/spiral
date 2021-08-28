@@ -13,6 +13,8 @@ abstract class PublicationRepository {
 
   Stream<List<Publication>> getPublications(String hubId);
 
+  Stream<List<Publication>> getFeedPublications();
+
   Stream<Publication?> getPublication(String publicationId);
 
   Future<void> sendLike({

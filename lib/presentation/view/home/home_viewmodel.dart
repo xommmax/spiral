@@ -1,16 +1,27 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
+import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
+import 'package:dairo/domain/repository/hub/hub_repository.dart';
+import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
+import 'package:dairo/presentation/view/home/home_viewdata.dart';
+import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends MultipleStreamViewModel {
-  static const String USER_STREAM_KEY = 'USER_STREAM_KEY';
+  static const String CURRENT_USER_STREAM_KEY = 'CURRENT_USER_STREAM_KEY';
+  static const String FEED_PUBLICATIONS_STREAM = 'FEED_PUBLICATIONS_STREAM';
+
   final NavigationService _navigationService = locator<NavigationService>();
   final UserRepository _userRepository = locator<UserRepository>();
+  final PublicationRepository _publicationRepository =
+      locator<PublicationRepository>();
+  final HubRepository _hubRepository = locator<HubRepository>();
 
-  User? user;
+  final HomeViewData viewData = HomeViewData();
 
   onAccountIconClicked() async {
     if (_userRepository.isCurrentUserExist()) {
@@ -29,14 +40,74 @@ class HomeViewModel extends MultipleStreamViewModel {
   @override
   Map<String, StreamData> get streamsMap => _userRepository.isCurrentUserExist()
       ? {
-          USER_STREAM_KEY: StreamData<User?>(
-            userStream(),
-            onData: _onUserData,
+          CURRENT_USER_STREAM_KEY: StreamData<User?>(
+            _getCurrentUserStream(),
+            onData: _onUserRetrieved,
+          ),
+          FEED_PUBLICATIONS_STREAM: StreamData<List<Publication?>>(
+            _getFeedPublicationsStream(),
+            onData: _onFeedPublicationsRetrieved,
           ),
         }
       : {};
 
-  Stream<User?> userStream() => _userRepository.getCurrentUser();
+  Stream<User?> _getCurrentUserStream() => _userRepository.getCurrentUser();
 
-  _onUserData(User? data) => user = data;
+  Stream<List<Publication?>> _getFeedPublicationsStream() =>
+      _publicationRepository.getFeedPublications();
+
+  Stream<List<User?>> _getUsersStream(List<String> userIds) =>
+      _userRepository.getUsers(userIds);
+
+  Stream<List<Hub?>> _getHubsStream(List<String> hubIds) =>
+      _hubRepository.getHubsByIds(hubIds);
+
+  void _onUserRetrieved(User? data) => viewData.user = data;
+
+  void _onFeedPublicationsRetrieved(List<Publication?> data) {
+    viewData.publications = data;
+
+    _getUsersStream(data.map((publication) => publication!.userId).toList())
+        .listen((users) {
+      for(User? user in users) {
+        viewData.users[user!.id] = user;
+      }
+      notifyListeners();
+    });
+
+    _getHubsStream(data.map((publication) => publication!.hubId).toList())
+        .listen((hubs) {
+      for(Hub? hub in hubs) {
+        viewData.hubs[hub!.id] = hub;
+      }
+      notifyListeners();
+    });
+  }
+
+  void onPublicationLikeClicked(String publicationId, bool isLiked) =>
+      _publicationRepository.sendLike(
+        publicationId: publicationId,
+        isLiked: isLiked,
+      );
+
+  void onUsersLikedScreenClicked(String publicationId) async {
+    List<String> userIds =
+        await _publicationRepository.getUsersLiked(publicationId);
+    return _navigationService.navigateTo(
+      Routes.usersView,
+      arguments: UsersViewArguments(
+        userIds: userIds,
+        type: UsersType.Likes,
+      ),
+    );
+  }
+
+  void onPublicationDetailsClicked(Publication publication) =>
+      _navigationService.navigateTo(
+        Routes.publicationView,
+        arguments: PublicationViewArguments(
+          publicationId: publication.id,
+          userId: publication.userId,
+        ),
+      );
 }

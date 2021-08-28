@@ -7,6 +7,10 @@ abstract class PublicationDao {
       'SELECT * FROM publication WHERE hubId = :hubId ORDER BY createdAt DESC')
   Stream<List<PublicationItemData>> getPublications(String hubId);
 
+  @Query(
+      'SELECT * FROM publication WHERE hubId IN (:hubIds) ORDER BY createdAt DESC')
+  Stream<List<PublicationItemData>> getFeedPublications(List<String> hubIds);
+
   @Query('SELECT * FROM publication WHERE id = :publicationId')
   Stream<PublicationItemData?> getPublication(String publicationId);
 

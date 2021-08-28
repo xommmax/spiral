@@ -1,3 +1,4 @@
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/colors.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WidgetHubPublication extends StatelessWidget {
-  final User user;
+  final User? user;
+  final Hub? hub;
   final Publication publication;
   final Function(String publicationId, bool isLiked) onPublicationLikeClicked;
   final Function(String publicationId) onUsersLikedScreenClicked;
@@ -18,6 +20,7 @@ class WidgetHubPublication extends StatelessWidget {
   const WidgetHubPublication({
     Key? key,
     required this.user,
+    required this.hub,
     required this.publication,
     required this.onPublicationLikeClicked,
     required this.onUsersLikedScreenClicked,
@@ -31,9 +34,47 @@ class WidgetHubPublication extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _WidgetHubPublicationHeader(
-              user,
-              key: UniqueKey(),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    WidgetProfilePhoto(
+                      photoUrl: user?.photoURL,
+                      width: 22,
+                      height: 22,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                    ),
+                    Text(
+                      user?.name ?? '',
+                      style: TextStyles.black12,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                ),
+                Row(
+                  children: [
+                    WidgetProfilePhoto(
+                      photoUrl: hub?.pictureUrl,
+                      width: 22,
+                      height: 22,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                    ),
+                    Text(
+                      hub?.name ?? '',
+                      style: TextStyles.black12,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 8),
             ),
             _WidgetHubPublicationText(
               publication.text,
@@ -52,35 +93,6 @@ class WidgetHubPublication extends StatelessWidget {
               onUsersLikedScreenClicked: () =>
                   onUsersLikedScreenClicked(publication.id),
               key: UniqueKey(),
-            ),
-          ],
-        ),
-      );
-}
-
-class _WidgetHubPublicationHeader extends StatelessWidget {
-  final User user;
-
-  const _WidgetHubPublicationHeader(this.user, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.all(8),
-        child: Row(
-          children: [
-            WidgetProfilePhoto(
-              photoUrl: user.photoURL,
-              width: 22,
-              height: 22,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 4),
-            ),
-            Expanded(
-              child: Text(
-                user.name ?? '',
-                style: TextStyles.black12,
-              ),
             ),
           ],
         ),

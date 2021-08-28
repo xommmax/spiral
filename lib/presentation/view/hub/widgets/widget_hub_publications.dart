@@ -8,15 +8,17 @@ class WidgetHubPublications extends ViewModelWidget<HubViewModel> {
   @override
   Widget build(BuildContext context, HubViewModel viewModel) =>
       ListView.separated(
+        padding: EdgeInsets.all(8),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, position) => WidgetHubPublication(
           key: ValueKey(viewModel.viewData.publications[position].id),
-          user: viewModel.viewData.user!,
           publication: viewModel.viewData.publications[position],
           onPublicationLikeClicked: viewModel.onPublicationLikeClicked,
           onUsersLikedScreenClicked: viewModel.onUsersLikedScreenClicked,
           onPublicationDetailsClicked: viewModel.onPublicationDetailsClicked,
+          user: viewModel.viewData.user,
+          hub: viewModel.viewData.hub,
         ),
         separatorBuilder: (context, position) => Divider(
           height: 14,

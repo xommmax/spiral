@@ -4,6 +4,7 @@ import {onPublicationDisliked, onPublicationLiked} from "./like";
 import {onCommentAdded} from "./comment";
 import {onFollowHub, onUnfollowHub} from "./follows";
 import {onFollowingHub, onUnfollowingHub} from "./followings";
+import {onCreatePublication, onDeletePublication, onUpdatePublication} from "./publications";
 
 export const appUrl = "https://us-central1-dairo-4593a.cloudfunctions.net";
 
@@ -22,3 +23,6 @@ exports.onFollowHub = onFollowHub;
 exports.onUnfollowHub = onUnfollowHub;
 exports.onFollowingHub = onFollowingHub;
 exports.onUnfollowingHub = onUnfollowingHub;
+exports.onCreatePublication = onCreatePublication;
+exports.onUpdatePublication = onUpdatePublication;
+exports.onDeletePublication = onDeletePublication;
