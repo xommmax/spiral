@@ -28,7 +28,10 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> loginWithSocial(SocialAuthRequest socialAuthRequest) async {
     UserRequest request = await _remote.loginWithSocial(socialAuthRequest);
-    UserResponse response = await _remote.saveUser(request);
+    UserResponse? response = await _remote.fetchUser(request.id);
+    if(response == null) {
+      response = await _remote.saveUser(request);
+    }
     await _local.addUser(UserItemData.fromResponse(response));
   }
 
@@ -39,7 +42,10 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> verifySmsCode(String code) async {
     UserRequest request = await _remote.verifySmsCode(code);
-    UserResponse response = await _remote.saveUser(request);
+    UserResponse? response = await _remote.fetchUser(request.id);
+    if(response == null) {
+      response = await _remote.saveUser(request);
+    }
     await _local.addUser(UserItemData.fromResponse(response));
   }
 
