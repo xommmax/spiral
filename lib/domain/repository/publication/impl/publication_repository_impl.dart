@@ -16,6 +16,7 @@ import 'package:dairo/data/db/repository/publication_local_repository.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
+import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -27,6 +28,7 @@ class PublicationRepositoryImpl implements PublicationRepository {
   final PublicationLocalRepository _local =
       locator<PublicationLocalRepository>();
   final UserRepository _userRepository = locator<UserRepository>();
+  final HubRepository _hubRepository = locator<HubRepository>();
 
   @override
   Future<void> createPublication({
@@ -56,6 +58,24 @@ class PublicationRepositoryImpl implements PublicationRepository {
 
     return _local.getPublications(hubId).map((itemData) =>
         itemData.map((e) => Publication.fromItemData(e)).toList());
+  }
+
+  @override
+  Stream<List<Publication>> getFeedPublications() async* {
+    final userId = _userRepository.getCurrentUserId();
+    final hubIds = await _hubRepository.getUserFollowsHubsIds(userId);
+
+    _remote.fetchFeedPublications(userId).then((remotePublications) {
+      final localPublications = remotePublications
+          .map((e) => PublicationItemData.fromResponse(e))
+          .toList();
+      _local.addPublications(localPublications);
+    });
+
+    yield* _local.getFeedPublications(hubIds).map(
+          (itemData) =>
+          itemData.map((e) => Publication.fromItemData(e)).toList(),
+    );
   }
 
   Stream<Publication?> getPublication(String publicationId) {

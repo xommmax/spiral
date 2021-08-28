@@ -56,6 +56,10 @@ class HubViewModel extends MultipleStreamViewModel {
 
   Stream<Hub?> hubStream() => _hubRepository.getHub(hubId);
 
+  Stream<User?> getUser(String userId) => _userRepository.getUser(userId);
+
+  Stream<Hub?> getHub(String hubId) => _hubRepository.getHub(hubId);
+
   void _onUserRetrieved(User? user) => viewData.user = user;
 
   void _onPublicationsRetrieved(List<Publication> publications) =>

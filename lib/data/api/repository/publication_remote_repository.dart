@@ -11,6 +11,7 @@ import 'package:dairo/data/api/model/response/comment_response.dart';
 import 'package:dairo/data/api/model/response/publication_response.dart';
 import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
+import 'package:dairo/data/api/repository/hub_remote_repository.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -59,18 +60,35 @@ class PublicationRemoteRepository {
             ),
           );
 
+  Future<List<PublicationResponse>> fetchFeedPublications(String userId) =>
+      _firestore
+          .collection(
+          '${FirebaseCollections.userFeeds}/$userId/${FirebaseCollections.publications}')
+          .get()
+          .then(
+            (snap) => Future.wait(
+              snap.docs.map(
+                    (doc) async => PublicationResponse.fromJson(
+                  doc.data(),
+                  id: doc.id,
+                  isLiked: await isCurrentUserLiked(doc.id),
+                ),
+              ),
+            ),
+          );
+
   Stream<Future<PublicationResponse>> fetchPublicationStream(
-      String publicationId) =>
+          String publicationId) =>
       _firestore
           .doc('${FirebaseCollections.hubPublications}/$publicationId')
           .snapshots()
           .map(
             (doc) async => PublicationResponse.fromJson(
-          doc.data(),
-          id: doc.id,
-          isLiked: await isCurrentUserLiked(doc.id),
-        ),
-      );
+              doc.data(),
+              id: doc.id,
+              isLiked: await isCurrentUserLiked(doc.id),
+            ),
+          );
 
   Future<bool> isCurrentUserLiked(
     String publicationId,
