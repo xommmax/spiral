@@ -19,12 +19,15 @@ class UserRemoteRepository {
   String? codeVerificationId;
   final ApiHelper apiHelper = locator<ApiHelper>();
 
-  Future<UserResponse> fetchUser(String userId) => FirebaseFirestore.instance
+  Future<UserResponse?> fetchUser(String userId) => FirebaseFirestore.instance
       .collection(FirebaseCollections.users)
       .doc(userId)
       .get()
-      .then((snapshot) =>
-          UserResponse.fromJson(snapshot.data(), id: snapshot.id));
+      .then(
+        (snapshot) => snapshot.exists
+            ? UserResponse.fromJson(snapshot.data(), id: snapshot.id)
+            : null,
+      );
 
   Future<List<UserResponse>> fetchUsers(List<String> userIds) => Future.wait(
         userIds.map(

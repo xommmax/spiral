@@ -112,7 +112,7 @@ class PublicationRemoteRepository {
             '${FirebaseCollections.publicationComments}/$publicationId/${FirebaseCollections.comments}')
         .add(request.toJson())
         .then((reference) => reference.get());
-    final UserResponse user = await _userRemoteRepository
+    final UserResponse? user = await _userRemoteRepository
         .fetchUser(snapshot.get(FirestoreKeys.userId));
     return CommentResponse.fromJson(
       snapshot.data(),
