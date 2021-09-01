@@ -18,6 +18,8 @@ abstract class HubRepository {
 
   Stream<Hub> getHub(String hubId);
 
+  Stream<Hub> getOnboardingHub();
+
   Future<void> onFollow(String hubId);
 
   Future<void> onUnfollow(String hubId);

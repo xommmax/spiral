@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/firebase_collections.dart';
+import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/data/api/firebase_storage_folder.dart';
 import 'package:dairo/data/api/firestore_keys.dart';
 import 'package:dairo/data/api/model/request/comment_request.dart';
@@ -11,7 +12,6 @@ import 'package:dairo/data/api/model/response/comment_response.dart';
 import 'package:dairo/data/api/model/response/publication_response.dart';
 import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
-import 'package:dairo/data/api/repository/hub_remote_repository.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -60,22 +60,37 @@ class PublicationRemoteRepository {
             ),
           );
 
-  Future<List<PublicationResponse>> fetchFeedPublications(String userId) =>
-      _firestore
-          .collection(
+  Future<List<PublicationResponse>> fetchFeedPublications(String userId) => _firestore
+      .collection(
           '${FirebaseCollections.userFeeds}/$userId/${FirebaseCollections.publications}')
-          .get()
-          .then(
-            (snap) => Future.wait(
-              snap.docs.map(
-                    (doc) async => PublicationResponse.fromJson(
-                  doc.data(),
-                  id: doc.id,
-                  isLiked: await isCurrentUserLiked(doc.id),
-                ),
-              ),
+      .get()
+      .then(
+        (snap) => Future.wait(
+          snap.docs.map(
+            (doc) async => PublicationResponse.fromJson(
+              doc.data(),
+              id: doc.id,
+              isLiked: await isCurrentUserLiked(doc.id),
             ),
-          );
+          ),
+        ),
+      );
+
+  Future<List<PublicationResponse>> fetchOnboardingPublications() => _firestore
+      .collection('${FirebaseCollections.hubPublications}')
+      .where(FirestoreKeys.hubId, isEqualTo: FirebaseDocuments.guestHub)
+      .get()
+      .then(
+        (snap) => snap.docs
+        .map(
+          (doc) => PublicationResponse.fromJson(
+        doc.data(),
+        id: doc.id,
+        isLiked: false,
+      ),
+    )
+        .toList(),
+  );
 
   Stream<Future<PublicationResponse>> fetchPublicationStream(
           String publicationId) =>

@@ -1,5 +1,6 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
+import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
@@ -7,13 +8,17 @@ import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/view/home/home_viewdata.dart';
+import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
 import 'package:dairo/presentation/view/users/users_viewdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends MultipleStreamViewModel {
   static const String CURRENT_USER_STREAM_KEY = 'CURRENT_USER_STREAM_KEY';
-  static const String FEED_PUBLICATIONS_STREAM = 'FEED_PUBLICATIONS_STREAM';
+  static const String FEED_PUBLICATIONS_STREAM_KEY =
+      'FEED_PUBLICATIONS_STREAM_KEY';
+  static const String GUEST_USER_STREAM_KEY = 'GUEST_USER_STREAM_KEY';
 
   final NavigationService _navigationService = locator<NavigationService>();
   final UserRepository _userRepository = locator<UserRepository>();
@@ -23,20 +28,6 @@ class HomeViewModel extends MultipleStreamViewModel {
 
   final HomeViewData viewData = HomeViewData();
 
-  onAccountIconClicked() async {
-    if (_userRepository.isCurrentUserExist()) {
-      _navigationService.navigateTo(Routes.currentUserProfileView);
-    } else {
-      _navigationService.navigateTo(Routes.authView)?.then((result) {
-        if (result != null && result is bool && result) {
-          notifySourceChanged(clearOldData: true);
-          initialise();
-          _navigationService.navigateTo(Routes.currentUserProfileView);
-        }
-      });
-    }
-  }
-
   @override
   Map<String, StreamData> get streamsMap => _userRepository.isCurrentUserExist()
       ? {
@@ -44,12 +35,16 @@ class HomeViewModel extends MultipleStreamViewModel {
             _getCurrentUserStream(),
             onData: _onUserRetrieved,
           ),
-          FEED_PUBLICATIONS_STREAM: StreamData<List<Publication?>>(
+          FEED_PUBLICATIONS_STREAM_KEY: StreamData<List<Publication?>>(
             _getFeedPublicationsStream(),
             onData: _onFeedPublicationsRetrieved,
           ),
         }
-      : {};
+      : {
+          GUEST_USER_STREAM_KEY: StreamData<SharedPreferences>(
+              Stream.fromFuture(SharedPreferences.getInstance()),
+              onData: _onGuestUserRetrieved)
+        };
 
   Stream<User?> _getCurrentUserStream() => _userRepository.getCurrentUser();
 
@@ -62,6 +57,19 @@ class HomeViewModel extends MultipleStreamViewModel {
   Stream<List<Hub?>> _getHubsStream(List<String> hubIds) =>
       _hubRepository.getHubsByIds(hubIds);
 
+  void _onGuestUserRetrieved(SharedPreferences? sharedPreferences) {
+    if (sharedPreferences != null) {
+      bool? isOnboardingCompleted = sharedPreferences
+          .getBool(SharedPreferencesKeys.isOnboardingCompleted);
+      if (isOnboardingCompleted != true) {
+        _navigationService.clearStackAndShow(
+          Routes.hubView,
+          arguments: HubViewArguments(hubId: FirebaseDocuments.guestHub),
+        );
+      }
+    }
+  }
+
   void _onUserRetrieved(User? data) => viewData.user = data;
 
   void _onFeedPublicationsRetrieved(List<Publication?> data) {
@@ -69,7 +77,7 @@ class HomeViewModel extends MultipleStreamViewModel {
 
     _getUsersStream(data.map((publication) => publication!.userId).toList())
         .listen((users) {
-      for(User? user in users) {
+      for (User? user in users) {
         viewData.users[user!.id] = user;
       }
       notifyListeners();
@@ -77,11 +85,25 @@ class HomeViewModel extends MultipleStreamViewModel {
 
     _getHubsStream(data.map((publication) => publication!.hubId).toList())
         .listen((hubs) {
-      for(Hub? hub in hubs) {
+      for (Hub? hub in hubs) {
         viewData.hubs[hub!.id] = hub;
       }
       notifyListeners();
     });
+  }
+
+  void onAccountIconClicked() async {
+    if (_userRepository.isCurrentUserExist()) {
+      _navigationService.navigateTo(Routes.currentUserProfileView);
+    } else {
+      _navigationService.navigateTo(Routes.authView)?.then((result) {
+        if (result != null && result is bool && result) {
+          notifySourceChanged(clearOldData: true);
+          initialise();
+          _navigationService.navigateTo(Routes.currentUserProfileView);
+        }
+      });
+    }
   }
 
   void onPublicationLikeClicked(String publicationId, bool isLiked) =>

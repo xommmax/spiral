@@ -16,7 +16,7 @@ class AppBarHub extends ViewModelWidget<HubViewModel>
           viewModel.viewData.hub?.name ?? '',
           style: TextStyles.white22Bold,
         ),
-        actions: [
+        actions: viewModel.userId != null ? [
           DropdownButtonHideUnderline(
             child: DropdownButton(
               iconSize: 28,
@@ -41,7 +41,7 @@ class AppBarHub extends ViewModelWidget<HubViewModel>
               ],
             ),
           ),
-        ],
+        ] : null,
       );
 
   @override

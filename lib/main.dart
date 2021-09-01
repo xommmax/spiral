@@ -75,7 +75,7 @@ class _DairoAppState extends State<DairoApp> {
     if (ENV.useFirebaseEmulator) {
       await FirebaseAuth.instance.useEmulator("http://localhost:9099");
       FirebaseFunctions.instance.useFunctionsEmulator("localhost", 5001);
-      await  FirebaseStorage.instance.useStorageEmulator("localhost", 9199);
+      await FirebaseStorage.instance.useStorageEmulator("localhost", 9199);
       FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
     }
   }

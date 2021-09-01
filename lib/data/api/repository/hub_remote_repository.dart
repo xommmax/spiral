@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/firebase_collections.dart';
+import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/data/api/firebase_storage_folder.dart';
 import 'package:dairo/data/api/firestore_keys.dart';
 import 'package:dairo/data/api/model/request/hub_request.dart';
@@ -58,6 +59,15 @@ class HubRemoteRepository {
               snap.data(),
               id: snap.id,
               isFollow: await isCurrentUserFollows(snap.id),
+            ),
+          );
+
+  Future<HubResponse> fetchOnboardingHub() =>
+      _firestore.doc('${FirebaseCollections.userHubs}/${FirebaseDocuments.guestHub}').get().then(
+            (snap) => HubResponse.fromJson(
+              snap.data(),
+              id: snap.id,
+              isFollow: false,
             ),
           );
 
