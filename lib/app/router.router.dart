@@ -203,8 +203,8 @@ class UserProfileViewArguments {
 /// HubView arguments holder class
 class HubViewArguments {
   final String hubId;
-  final String userId;
-  HubViewArguments({required this.hubId, required this.userId});
+  final String? userId;
+  HubViewArguments({required this.hubId, this.userId});
 }
 
 /// UsersView arguments holder class

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/data/api/model/request/comment_request.dart';
 import 'package:dairo/data/api/model/request/publication_request.dart';
 import 'package:dairo/data/api/model/response/comment_response.dart';
@@ -57,6 +58,18 @@ class PublicationRepositoryImpl implements PublicationRepository {
     });
 
     return _local.getPublications(hubId).map((itemData) =>
+        itemData.map((e) => Publication.fromItemData(e)).toList());
+  }
+
+  @override
+  Stream<List<Publication>> getOnboardingPublications() {
+    _remote.fetchOnboardingPublications().then((response) {
+      final itemData =
+      response.map((e) => PublicationItemData.fromResponse(e)).toList();
+      _local.updatePublications(itemData, FirebaseDocuments.guestHub);
+    });
+
+    return _local.getPublications(FirebaseDocuments.guestHub).map((itemData) =>
         itemData.map((e) => Publication.fromItemData(e)).toList());
   }
 

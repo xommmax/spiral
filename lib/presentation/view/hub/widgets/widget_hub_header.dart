@@ -43,7 +43,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                     ? Padding(
                         padding: EdgeInsets.only(left: 16),
                         child: InkWell(
-                          onTap: viewModel.onFollowClicked,
+                          onTap: viewModel.userId != null ? viewModel.onFollowClicked : null,
                           child: Container(
                             decoration: BoxDecoration(
                               color: AppColors.buttonColor,

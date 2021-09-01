@@ -7,7 +7,7 @@ import 'hub_viewmodel.dart';
 class HubView extends StandardBaseView<HubViewModel> {
   HubView({
     required String hubId,
-    required String userId,
+    String? userId,
   }) : super(
           HubViewModel(
             hubId: hubId,

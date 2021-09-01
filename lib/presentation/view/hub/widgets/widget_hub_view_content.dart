@@ -15,7 +15,7 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
         body: SafeArea(
           bottom: false,
           child: SingleChildScrollView(
-            child: viewModel.viewData.isDataReady()
+            child: viewModel.viewData.hub != null
                 ? Column(
                     children: [
                       WidgetHubHeader(),
@@ -28,8 +28,11 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.onCreatePublicationClicked,
-          child: Icon(Icons.add),
+          onPressed: viewModel.userId != null
+              ? viewModel.onCreatePublicationClicked
+              : viewModel.onOnboardingNextClicked,
+          child:
+              Icon(viewModel.userId != null ? Icons.add : Icons.arrow_forward),
           backgroundColor: AppColors.primaryColor,
           // elevation: 0,
         ),

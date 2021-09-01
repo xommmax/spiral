@@ -8,7 +8,9 @@ import 'package:dairo/domain/repository/publication/publication_repository.dart'
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/view/hub/hub_viewdata.dart';
 import 'package:dairo/presentation/view/hub/widgets/appbar_hub.dart';
+import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
 import 'package:dairo/presentation/view/users/users_viewdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -16,9 +18,12 @@ class HubViewModel extends MultipleStreamViewModel {
   static const PUBLICATIONS_STREAM_KEY = 'PUBLICATIONS_STREAM_KEY';
   static const USER_STREAM_KEY = 'USER_STREAM_KEY';
   static const HUB_STREAM_KEY = 'HUB_STREAM_KEY';
+  static const ONBOARDING_HUB_STREAM_KEY = 'ONBOARDING_HUB_STREAM_KEY';
+  static const ONBOARDING_PUBLICATIONS_STREAM_KEY =
+      'ONBOARDING_PUBLICATIONS_STREAM_KEY';
 
   final String hubId;
-  final String userId;
+  final String? userId;
 
   HubViewModel({
     required this.hubId,
@@ -34,22 +39,33 @@ class HubViewModel extends MultipleStreamViewModel {
   final HubViewData viewData = HubViewData();
 
   @override
-  Map<String, StreamData> get streamsMap => {
-        USER_STREAM_KEY: StreamData<User?>(
-          userStream(),
-          onData: _onUserRetrieved,
-        ),
-        PUBLICATIONS_STREAM_KEY: StreamData<List<Publication>?>(
-          publicationsStream(),
-          onData: _onPublicationsRetrieved,
-        ),
-        HUB_STREAM_KEY: StreamData<Hub?>(
-          hubStream(),
-          onData: _onHubRetrieved,
-        ),
-      };
+  Map<String, StreamData> get streamsMap => userId != null
+      ? {
+          USER_STREAM_KEY: StreamData<User?>(
+            userStream(),
+            onData: _onUserRetrieved,
+          ),
+          PUBLICATIONS_STREAM_KEY: StreamData<List<Publication>?>(
+            publicationsStream(),
+            onData: _onPublicationsRetrieved,
+          ),
+          HUB_STREAM_KEY: StreamData<Hub?>(
+            hubStream(),
+            onData: _onHubRetrieved,
+          ),
+        }
+      : {
+          ONBOARDING_HUB_STREAM_KEY: StreamData<Hub?>(
+            _getOnboardingHubStream(),
+            onData: _onOnboardingHubRetrieved,
+          ),
+          ONBOARDING_PUBLICATIONS_STREAM_KEY: StreamData<List<Publication?>>(
+            _getOnboardingPublicationsStream(),
+            onData: _onOnboardingPublicationsRetrieved,
+          ),
+        };
 
-  Stream<User?> userStream() => _userRepository.getUser(userId);
+  Stream<User?> userStream() => _userRepository.getUser(userId!);
 
   Stream<List<Publication>?> publicationsStream() =>
       _publicationRepository.getPublications(hubId);
@@ -60,12 +76,22 @@ class HubViewModel extends MultipleStreamViewModel {
 
   Stream<Hub?> getHub(String hubId) => _hubRepository.getHub(hubId);
 
+  Stream<Hub?> _getOnboardingHubStream() => _hubRepository.getOnboardingHub();
+
+  Stream<List<Publication?>> _getOnboardingPublicationsStream() =>
+      _publicationRepository.getOnboardingPublications();
+
   void _onUserRetrieved(User? user) => viewData.user = user;
 
   void _onPublicationsRetrieved(List<Publication> publications) =>
       viewData.publications = publications;
 
   void _onHubRetrieved(Hub? hub) => viewData.hub = hub;
+
+  void _onOnboardingHubRetrieved(Hub? hub) => viewData.hub = hub;
+
+  void _onOnboardingPublicationsRetrieved(List<Publication> publications) =>
+      viewData.publications = publications;
 
   void onCreatePublicationClicked() => _navigationService.navigateTo(
         Routes.newPublicationView,
@@ -116,5 +142,14 @@ class HubViewModel extends MultipleStreamViewModel {
     );
   }
 
-  bool isCurrentUser() => _userRepository.isCurrentUser(viewData.user!.id);
+  void onOnboardingNextClicked() async {
+    final SharedPreferences _sharedPreferences =
+        await SharedPreferences.getInstance();
+    await _sharedPreferences.setBool(
+        SharedPreferencesKeys.isOnboardingCompleted, true);
+    _navigationService.clearStackAndShow(Routes.mainView);
+  }
+
+  bool isCurrentUser() =>
+      userId != null && _userRepository.isCurrentUser(viewData.user!.id);
 }

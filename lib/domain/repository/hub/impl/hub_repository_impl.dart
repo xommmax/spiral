@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/data/api/model/request/hub_request.dart';
 import 'package:dairo/data/api/model/response/hub_response.dart';
 import 'package:dairo/data/api/repository/hub_remote_repository.dart';
@@ -66,6 +67,19 @@ class HubRepositoryImpl implements HubRepository {
     return _local.getHub(hubId).map(
           (itemData) => Hub.fromItemData(itemData!),
         );
+  }
+
+  @override
+  Stream<Hub> getOnboardingHub() {
+    _remote.fetchOnboardingHub().then(
+          (response) => _local.updateHub(
+          HubItemData.fromResponse(response),
+        ),
+    );
+
+    return _local.getHub(FirebaseDocuments.guestHub).map(
+          (itemData) => Hub.fromItemData(itemData!),
+    );
   }
 
   @override

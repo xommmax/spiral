@@ -39,7 +39,7 @@ class WidgetHubPublicationMedia extends StatelessWidget {
       Stack(
         children: [
           Positioned.fromRect(
-            rect: Rect.fromPoints(Offset(450, 300), Offset(0, 0)),
+            rect: Rect.fromPoints(Offset(450, 220), Offset(0, 0)),
             child: getUrlType(mediaUrls[position]) == UrlType.IMAGE ? CachedNetworkImage(
               imageUrl: mediaUrls[position],
               fit: BoxFit.fitWidth,
