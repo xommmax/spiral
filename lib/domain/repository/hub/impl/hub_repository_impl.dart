@@ -21,7 +21,7 @@ class HubRepositoryImpl implements HubRepository {
   final UserRepository _userRepository = locator<UserRepository>();
 
   @override
-  Future<void> createHub({
+  Future<Hub> createHub({
     required String name,
     required String description,
     required MediaFile picture,
@@ -35,7 +35,9 @@ class HubRepositoryImpl implements HubRepository {
     );
 
     HubResponse response = await _remote.createHub(request, File(picture.path));
-    await _local.addHub(HubItemData.fromResponse(response));
+    HubItemData itemData = HubItemData.fromResponse(response);
+    await _local.addHub(itemData);
+    return Hub.fromItemData(itemData);
   }
 
   Stream<List<Hub>> getCurrentUserHubs() =>

@@ -1,4 +1,5 @@
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
@@ -13,6 +14,8 @@ import 'package:stacked_services/stacked_services.dart';
 import 'new_publication_viewdata.dart';
 
 class NewPublicationViewModel extends BaseViewModel {
+
+  static const String createHubItemValue = 'createHubItemValue';
   String? hubId;
 
   NewPublicationViewModel(this.hubId) {
@@ -57,7 +60,15 @@ class NewPublicationViewModel extends BaseViewModel {
     );
   }
 
-  void onHubSelected(String hubId) {
+  void onHubSelected(String? hubId) {
+    if(hubId == createHubItemValue) {
+      _navigationService.navigateTo(Routes.newHubView)?.then((result) {
+        if(result != null && result is String) {
+          _getHubs();
+        }
+      });
+      return;
+    }
     this.hubId = hubId;
     onDonePressed();
   }

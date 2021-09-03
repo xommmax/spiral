@@ -4,7 +4,7 @@ import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 
 abstract class HubRepository {
-  Future<void> createHub({
+  Future<Hub> createHub({
     required String name,
     required String description,
     required MediaFile picture,
