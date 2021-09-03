@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
@@ -23,17 +24,17 @@ class NewHubViewModel extends BaseViewModel {
   final _picker = ImagePicker();
   final NewHubViewData viewData = NewHubViewData();
 
-  void onDonePressed() {
+  void onDonePressed() async {
     viewData.name = nameController.text;
     viewData.description = descriptionController.text;
 
     if (!_allDetailsSpecified()) return;
 
-    _hubRepository.createHub(
+    Hub hub = await _hubRepository.createHub(
         name: viewData.name!,
         description: viewData.description!,
         picture: MediaFile(path: viewData.pictureUrl!, type: MediaType.image));
-    _navigationService.back();
+    _navigationService.back(result: hub.id);
   }
 
   bool _allDetailsSpecified() {

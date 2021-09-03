@@ -124,5 +124,8 @@ class Strings {
   /* Support */
   static const subject = 'Subject';
   static const messageSuccessfullySent = 'Message successfully sent!';
+
+  /* Create hub */
+  static const createHub = 'Create hub';
   /* Uncategorized */
 }
