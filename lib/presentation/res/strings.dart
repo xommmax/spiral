@@ -7,6 +7,8 @@ class Strings {
   static const ok = 'Ok';
   static const cancel = 'Cancel';
   static const done = 'Done';
+  static const private = 'Private';
+  static const public = 'Public';
 
   /* Auth */
   static const welcomeToDairo = 'Welcome to Dairo';
@@ -125,7 +127,8 @@ class Strings {
   static const subject = 'Subject';
   static const messageSuccessfullySent = 'Message successfully sent!';
 
-  /* Create hub */
+  /* New hub */
+  static const selectHubModification = 'Select modification';
   static const createHub = 'Create hub';
-  /* Uncategorized */
+/* Uncategorized */
 }

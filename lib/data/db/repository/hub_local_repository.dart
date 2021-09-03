@@ -22,4 +22,7 @@ class HubLocalRepository {
       _database.hubDao.insertHubs(hubs);
 
   Future<void> updateHub(HubItemData hub) => _database.hubDao.updateHub(hub);
+
+  Future<void> updateHubs(List<HubItemData> hubs, String userId) =>
+      _database.hubDao.updateHubs(hubs, userId);
 }

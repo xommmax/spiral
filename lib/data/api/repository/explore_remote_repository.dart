@@ -29,6 +29,7 @@ class ExploreRemoteRepository {
 
   Future<List<HubResponse>> searchHubs(String searchQuery) => _firestore
       .collection(FirebaseCollections.userHubs)
+      .where(FirestoreKeys.isPrivate, isEqualTo: false)
       .where(FirestoreKeys.name,
           isGreaterThanOrEqualTo: searchQuery,
           isLessThanOrEqualTo: searchQuery + '\uf8ff')

@@ -89,7 +89,7 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, `followingsCount` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, `isPrivate` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `userId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -266,7 +266,8 @@ class _$HubDao extends HubDao {
                   'pictureUrl': item.pictureUrl,
                   'createdAt': item.createdAt,
                   'followersCount': item.followersCount,
-                  'isFollow': item.isFollow ? 1 : 0
+                  'isFollow': item.isFollow ? 1 : 0,
+                  'isPrivate': item.isPrivate ? 1 : 0
                 },
             changeListener);
 
@@ -290,7 +291,8 @@ class _$HubDao extends HubDao {
             pictureUrl: row['pictureUrl'] as String,
             createdAt: row['createdAt'] as int,
             followersCount: row['followersCount'] as int,
-            isFollow: (row['isFollow'] as int) != 0),
+            isFollow: (row['isFollow'] as int) != 0,
+            isPrivate: (row['isPrivate'] as int) != 0),
         arguments: [userId],
         queryableName: 'hub',
         isView: false);
@@ -307,7 +309,8 @@ class _$HubDao extends HubDao {
             pictureUrl: row['pictureUrl'] as String,
             createdAt: row['createdAt'] as int,
             followersCount: row['followersCount'] as int,
-            isFollow: (row['isFollow'] as int) != 0),
+            isFollow: (row['isFollow'] as int) != 0,
+            isPrivate: (row['isPrivate'] as int) != 0),
         arguments: [id],
         queryableName: 'hub',
         isView: false);
@@ -331,7 +334,8 @@ class _$HubDao extends HubDao {
             pictureUrl: row['pictureUrl'] as String,
             createdAt: row['createdAt'] as int,
             followersCount: row['followersCount'] as int,
-            isFollow: (row['isFollow'] as int) != 0),
+            isFollow: (row['isFollow'] as int) != 0,
+            isPrivate: (row['isPrivate'] as int) != 0),
         arguments: [...hubIds],
         queryableName: 'hub',
         isView: false);
@@ -341,6 +345,12 @@ class _$HubDao extends HubDao {
   Future<void> deleteHub(String id) async {
     await _queryAdapter
         .queryNoReturn('DELETE FROM hub WHERE id = ?1', arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteHubs(String userId) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM hub WHERE userId = ?1',
+        arguments: [userId]);
   }
 
   @override
@@ -364,6 +374,20 @@ class _$HubDao extends HubDao {
         final transactionDatabase = _$DairoDatabase(changeListener)
           ..database = transaction;
         await transactionDatabase.hubDao.updateHub(hub);
+      });
+    }
+  }
+
+  @override
+  Future<void> updateHubs(List<HubItemData> hubs, String userId) async {
+    if (database is sqflite.Transaction) {
+      await super.updateHubs(hubs, userId);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.hubDao.updateHubs(hubs, userId);
       });
     }
   }
