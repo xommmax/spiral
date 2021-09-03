@@ -3,7 +3,6 @@ import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/explore/explore_repository.dart';
-import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -15,7 +14,6 @@ class SearchViewModel extends BaseViewModel {
   List<Hub> hubSearchResults = [];
   final ExploreRepository _exploreRepository = locator<ExploreRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final UserRepository _userRepository = locator<UserRepository>();
 
   @override
   void dispose() {
@@ -45,14 +43,12 @@ class SearchViewModel extends BaseViewModel {
   }
 
   void onHubSelected(Hub hub) async {
-    _userRepository.getUser(hub.userId).first.then((user) {
-      _navigationService.navigateTo(
-        Routes.hubView,
-        arguments: HubViewArguments(
-          hubId: hub.id,
-          userId: user!.id,
-        ),
-      );
-    });
+    _navigationService.navigateTo(
+      Routes.hubView,
+      arguments: HubViewArguments(
+        hubId: hub.id,
+        userId: hub.userId,
+      ),
+    );
   }
 }

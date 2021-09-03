@@ -54,8 +54,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Stream<User?> getUser(String userId) {
-
-    _remote.fetchUserStream(getCurrentUserId()).listen(
+    _remote.fetchUserStream(userId).listen(
           (response) => _local.updateUser(
         UserItemData.fromResponse(response),
       ),

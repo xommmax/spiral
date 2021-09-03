@@ -8,4 +8,5 @@ class FirestoreKeys {
   static const String users = 'users';
   static const String hubs = 'hubs';
   static const String followingsCount = 'followingsCount';
+  static const String isPrivate = 'isPrivate';
 }

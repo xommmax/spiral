@@ -10,26 +10,33 @@ class WidgetHubPreview extends StatelessWidget {
   const WidgetHubPreview(this._hub);
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          clipBehavior: Clip.antiAlias,
-          margin: EdgeInsets.all(15),
-          elevation: 6,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6.0),
+  Widget build(BuildContext context) => Column(
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Card(
+                clipBehavior: Clip.antiAlias,
+                margin: EdgeInsets.all(15),
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: _hub.pictureUrl,
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+              ),
+              _hub.isPrivate ? Icon(
+                Icons.lock,
+                color: Colors.blueGrey,
+              ) : SizedBox.shrink(),
+            ],
           ),
-          child: CachedNetworkImage(
-            imageUrl: _hub.pictureUrl,
-            errorWidget: (context, url, error) => Icon(Icons.error),
+          Text(
+            _hub.name,
+            style: TextStyles.black14,
           ),
-        ),
-        Text(
-          _hub.name,
-          style: TextStyles.black14,
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -30,12 +30,27 @@ class NewHubViewModel extends BaseViewModel {
 
     if (!_allDetailsSpecified()) return;
 
-    Hub hub = await _hubRepository.createHub(
+    AppDialog.showConfirmationDialog(
+      title: Strings.selectHubModification,
+      cancelText: Strings.private,
+      confirmText: Strings.public,
+      onConfirm: _onCreateHub,
+    );
+  }
+
+  void _onCreateHub(bool isConfirm) => _hubRepository
+      .createHub(
         name: viewData.name!,
         description: viewData.description!,
-        picture: MediaFile(path: viewData.pictureUrl!, type: MediaType.image));
-    _navigationService.back(result: hub.id);
-  }
+        picture: MediaFile(
+          path: viewData.pictureUrl!,
+          type: MediaType.image,
+        ),
+        isPrivate: !isConfirm,
+      )
+      .then(
+        (hub) => _navigationService.back(result: hub.id),
+      );
 
   bool _allDetailsSpecified() {
     if (viewData.name == null || viewData.name!.isEmpty) {

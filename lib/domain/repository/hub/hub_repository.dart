@@ -8,6 +8,7 @@ abstract class HubRepository {
     required String name,
     required String description,
     required MediaFile picture,
+    required bool isPrivate,
   });
 
   Stream<List<Hub>> getCurrentUserHubs();

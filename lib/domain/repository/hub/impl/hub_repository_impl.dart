@@ -25,6 +25,7 @@ class HubRepositoryImpl implements HubRepository {
     required String name,
     required String description,
     required MediaFile picture,
+    required bool isPrivate,
   }) async {
     final currentUserId = _userRepository.getCurrentUserId();
     HubRequest request = HubRequest(
@@ -32,6 +33,7 @@ class HubRepositoryImpl implements HubRepository {
       name: name,
       description: description,
       createdAt: DateTime.now().millisecondsSinceEpoch,
+      isPrivate: isPrivate,
     );
 
     HubResponse response = await _remote.createHub(request, File(picture.path));
@@ -49,9 +51,9 @@ class HubRepositoryImpl implements HubRepository {
         .map((itemData) => itemData.map((e) => Hub.fromItemData(e)).toList());
 
     _remote.fetchHubs(userId).then((response) {
-      final itemData =
+      final itemDataList =
           response.map((e) => HubItemData.fromResponse(e)).toList();
-      _local.addHubs(itemData);
+      _local.updateHubs(itemDataList, userId);
     });
     return stream;
   }
@@ -75,13 +77,13 @@ class HubRepositoryImpl implements HubRepository {
   Stream<Hub> getOnboardingHub() {
     _remote.fetchOnboardingHub().then(
           (response) => _local.updateHub(
-          HubItemData.fromResponse(response),
-        ),
-    );
+            HubItemData.fromResponse(response),
+          ),
+        );
 
     return _local.getHub(FirebaseDocuments.guestHub).map(
           (itemData) => Hub.fromItemData(itemData!),
-    );
+        );
   }
 
   @override

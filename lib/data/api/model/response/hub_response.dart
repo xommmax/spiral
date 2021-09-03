@@ -12,6 +12,7 @@ class HubResponse {
   final int createdAt;
   final int followersCount;
   final bool isFollow;
+  final bool isPrivate;
 
   HubResponse({
     required this.id,
@@ -22,6 +23,7 @@ class HubResponse {
     required this.createdAt,
     required this.followersCount,
     required this.isFollow,
+    required this.isPrivate,
   });
 
   factory HubResponse.fromJson(
@@ -38,7 +40,7 @@ class HubResponse {
 
   @override
   String toString() {
-    return 'HubResponse{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, createdAt: $createdAt, followersCount: $followersCount, isFollow: $isFollow}';
+    return 'HubResponse{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, createdAt: $createdAt, followersCount: $followersCount, isFollow: $isFollow, isPrivate: $isPrivate}';
   }
 
   @override
@@ -53,7 +55,8 @@ class HubResponse {
           pictureUrl == other.pictureUrl &&
           createdAt == other.createdAt &&
           followersCount == other.followersCount &&
-          isFollow == other.isFollow;
+          isFollow == other.isFollow &&
+          isPrivate == other.isPrivate;
 
   @override
   int get hashCode =>
@@ -64,5 +67,6 @@ class HubResponse {
       pictureUrl.hashCode ^
       createdAt.hashCode ^
       followersCount.hashCode ^
-      isFollow.hashCode;
+      isFollow.hashCode ^
+      isPrivate.hashCode;
 }

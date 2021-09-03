@@ -12,6 +12,7 @@ HubRequest _$HubRequestFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     description: json['description'] as String,
     createdAt: json['createdAt'] as int,
+    isPrivate: json['isPrivate'] as bool,
   )..pictureUrl = json['pictureUrl'] as String?;
 }
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$HubRequestToJson(HubRequest instance) =>
       'name': instance.name,
       'description': instance.description,
       'createdAt': instance.createdAt,
+      'isPrivate': instance.isPrivate,
       'pictureUrl': instance.pictureUrl,
     };
