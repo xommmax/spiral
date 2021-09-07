@@ -26,7 +26,6 @@ abstract class PublicationRepository {
 
   Future<void> sendComment({
     required String publicationId,
-    required String userId,
     required String text,
     required int createAt,
     String? parentCommentId,

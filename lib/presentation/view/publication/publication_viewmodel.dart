@@ -88,7 +88,6 @@ class PublicationViewModel extends MultipleStreamViewModel {
   void onSendCommentClicked() => _publicationRepository
           .sendComment(
         publicationId: publicationId,
-        userId: userId,
         text: commentsTextController.text,
         createAt: DateTime.now().millisecondsSinceEpoch,
         parentCommentId: commentToReply?.id,

@@ -123,7 +123,6 @@ class PublicationRepositoryImpl implements PublicationRepository {
   @override
   Future<void> sendComment({
     required String publicationId,
-    required String userId,
     required String text,
     required int createAt,
     String? parentCommentId,
@@ -131,7 +130,7 @@ class PublicationRepositoryImpl implements PublicationRepository {
       _remote
           .sendComment(
             CommentRequest(
-              userId: userId,
+              userId: _userRepository.getCurrentUserId(),
               text: text,
               createdAt: createAt,
               parentCommentId: parentCommentId,
