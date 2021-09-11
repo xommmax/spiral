@@ -20,7 +20,7 @@ class WidgetAccountDetailsContent
             style: TextStyles.white22Bold,
           ),
           actions: [
-            !viewModel.isBusy
+            viewModel.viewData.isDataChanged && !viewModel.isBusy
                 ? Center(
                     child: IconButton(
                       onPressed: viewModel.onDoneClicked,

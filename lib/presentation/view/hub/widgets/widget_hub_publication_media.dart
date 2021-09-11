@@ -36,20 +36,22 @@ class WidgetHubPublicationMedia extends StatelessWidget {
   }
 
   Widget _buildSingleMedia(int position) =>
-      Stack(
-        children: [
-          Positioned.fromRect(
-            rect: Rect.fromPoints(Offset(450, 220), Offset(0, 0)),
-            child: getUrlType(mediaUrls[position]) == UrlType.IMAGE ? CachedNetworkImage(
+      getUrlType(mediaUrls[position]) == UrlType.IMAGE
+          ? CachedNetworkImage(
               imageUrl: mediaUrls[position],
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               width: double.maxFinite,
-            ) : WidgetVideoPreview(
-              networkUrl: mediaUrls[position],
-            ),
-          ),
-        ],
-      );
+            )
+          : Stack(
+              children: [
+                Positioned.fromRect(
+                  rect: Rect.fromPoints(Offset(400, 300), Offset(0, 0)),
+                  child: WidgetVideoPreview(
+                    networkUrl: mediaUrls[position],
+                  ),
+                ),
+              ],
+            );
 
   Widget _buildTwoMedias({
     int? firstImagePosition,
@@ -63,7 +65,7 @@ class WidgetHubPublicationMedia extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: Divider(
+            child: SizedBox(
               height: 4,
             ),
           ),
@@ -82,7 +84,7 @@ class WidgetHubPublicationMedia extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: Divider(
+            child: SizedBox(
               height: 4,
             ),
           ),
@@ -96,8 +98,8 @@ class WidgetHubPublicationMedia extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Divider(
-                    height: 1,
+                  child: SizedBox(
+                    height: 4,
                   ),
                 ),
                 Expanded(
@@ -118,8 +120,8 @@ class WidgetHubPublicationMedia extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: Divider(
-              height: 1,
+            child: SizedBox(
+              height: 4,
             ),
           ),
           Expanded(

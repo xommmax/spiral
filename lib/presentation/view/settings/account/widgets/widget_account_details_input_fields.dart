@@ -16,6 +16,7 @@ class WidgetAccountDetailsInputFields
           ),
           TextFormField(
             controller: viewModel.viewData.nameController,
+            onChanged: viewModel.onNameChanged,
             autofocus: false,
             maxLines: 1,
             decoration: new InputDecoration(
@@ -29,6 +30,7 @@ class WidgetAccountDetailsInputFields
           ),
           TextFormField(
             controller: viewModel.viewData.usernameController,
+            onChanged: viewModel.onUsernameChanged,
             autofocus: false,
             maxLines: 1,
             decoration: new InputDecoration(
@@ -42,6 +44,7 @@ class WidgetAccountDetailsInputFields
           ),
           TextFormField(
             controller: viewModel.viewData.descriptionController,
+            onChanged: viewModel.onDescriptionChanged,
             autofocus: false,
             maxLength: 150,
             maxLines: 4,

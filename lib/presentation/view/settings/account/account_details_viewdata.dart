@@ -7,4 +7,5 @@ class AccountDetailsViewData {
   final TextEditingController descriptionController = TextEditingController();
 
   String? photoUrl;
+  bool isDataChanged = false;
 }

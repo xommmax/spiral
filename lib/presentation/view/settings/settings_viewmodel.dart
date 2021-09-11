@@ -27,7 +27,7 @@ class SettingsViewModel extends BaseViewModel {
         onConfirm: (isConfirm) async {
           if (isConfirm) {
             await _userRepository.logoutUser();
-            _navigateToAuthScreen();
+            _navigateToHomeScreen();
           }
         },
       );
@@ -47,6 +47,6 @@ class SettingsViewModel extends BaseViewModel {
   void _navigateToSupportScreen() =>
       _navigationService.navigateTo(Routes.supportView);
 
-  void _navigateToAuthScreen() =>
-      _navigationService.navigateTo(Routes.authView);
+  void _navigateToHomeScreen() =>
+      _navigationService.clearStackAndShow(Routes.mainView);
 }

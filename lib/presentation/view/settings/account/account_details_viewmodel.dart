@@ -54,6 +54,7 @@ class AccountDetailsViewModel extends StreamViewModel<User?> {
           .then(
         (result) {
           viewData.photoUrl = result?.path;
+          viewData.isDataChanged = true;
           notifyListeners();
         },
       );
@@ -68,5 +69,20 @@ class AccountDetailsViewModel extends StreamViewModel<User?> {
     );
     setBusy(false);
     AppSnackBar.showSnackBarSuccess(Strings.accountUpdatedSuccessfully);
+  }
+
+  void onNameChanged(String? name) {
+    viewData.isDataChanged = name != data?.name;
+    notifyListeners();
+  }
+
+  void onUsernameChanged(String? username) {
+    viewData.isDataChanged = username != data?.username;
+    notifyListeners();
+  }
+
+  void onDescriptionChanged(String? description) {
+    viewData.isDataChanged = description != data?.description;
+    notifyListeners();
   }
 }
