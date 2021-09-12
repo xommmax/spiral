@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:flutter/material.dart';
 
 class WidgetProfilePhoto extends StatelessWidget {
@@ -10,7 +11,12 @@ class WidgetProfilePhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (photoUrl == null) return Icon(Icons.person);
+    if (photoUrl == null)
+      return Icon(
+        Icons.person_rounded,
+        size: width,
+        color: AppColors.black,
+      );
 
     return Container(
       width: width,

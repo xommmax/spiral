@@ -13,6 +13,7 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
   Widget build(BuildContext context, MainViewModel viewModel) => Scaffold(
         extendBody: true,
         body: SafeArea(
+          bottom: false,
           child: IndexedStack(
             index: viewModel.currentIndex,
             children: [
@@ -32,24 +33,31 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
               children: mainTabs
                   .map<Widget>(
                     (tab) => IconButton(
-                      icon: Icon(tab.icon),
-                      color: AppColors.white,
-                      iconSize: 30,
+                      icon: Icon(
+                        tab.icon,
+                        color: tab.index == viewModel.currentIndex
+                            ? AppColors.black
+                            : AppColors.gray,
+                        size: 30,
+                      ),
                       onPressed: () => viewModel.setIndex(tab.index),
                     ),
                   )
                   .toList()
-                    ..insert(
-                      (mainTabs.length ~/ 2),
-                      SizedBox(width: 50),
-                    ),
+                ..insert(
+                  (mainTabs.length ~/ 2),
+                  SizedBox(width: 50),
+                ),
             ),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: viewModel.onFabPressed,
-          child: Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            color: AppColors.black,
+          ),
           backgroundColor: AppColors.primaryColor,
           // elevation: 0,
         ),

@@ -17,9 +17,6 @@ class AuthViewModel extends BaseViewModel {
   onGoogleSignUpClicked() =>
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Google));
 
-  onFacebookSignUpClocked() =>
-      _loginWithSocial(SocialAuthRequest(SocialAuthType.Facebook));
-
   onAppleSignUpClicked() =>
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Apple));
 

@@ -1,4 +1,3 @@
-import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/settings/account/account_details_viewmodel.dart';
@@ -14,10 +13,9 @@ class WidgetAccountDetailsContent
   Widget build(BuildContext context, AccountDetailsViewModel viewModel) =>
       Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Text(
             Strings.accountDetails,
-            style: TextStyles.white22Bold,
+            style: TextStyles.toolbarTitle,
           ),
           actions: [
             viewModel.viewData.isDataChanged && !viewModel.isBusy
@@ -26,7 +24,6 @@ class WidgetAccountDetailsContent
                       onPressed: viewModel.onDoneClicked,
                       icon: Icon(
                         Icons.done,
-                        color: AppColors.white,
                       ),
                     ),
                   )
@@ -41,7 +38,7 @@ class WidgetAccountDetailsContent
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.all(12),
                     child: Column(
                       children: [
                         Align(

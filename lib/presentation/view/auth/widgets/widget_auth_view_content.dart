@@ -19,8 +19,7 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
               children: [
                 Stack(
                   children: [
-                    Image.asset(
-                        'lib/presentation/res/drawable/ic_auth_background.png'),
+                    Image.asset('assets/images/ic_auth_background.png'),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -76,11 +75,6 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                                     onPressed: viewModel.onAppleSignUpClicked,
                                     text: Strings.loginWithApple,
                                   ),
-                            SignInButton(
-                              Buttons.Facebook,
-                              onPressed: viewModel.onFacebookSignUpClocked,
-                              text: Strings.loginWithFacebook,
-                            ),
                           ],
                         ),
                       ),

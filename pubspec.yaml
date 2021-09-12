@@ -60,9 +60,6 @@ dependencies:
   # google auth
   google_sign_in: ^5.0.4
 
-  # facebook auth
-  flutter_facebook_auth: ^3.5.0
-
   # apple auth
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.1
@@ -104,7 +101,7 @@ dev_dependencies:
   stacked_generator: ^0.4.8
 flutter:
   assets:
-    - lib/presentation/res/drawable/
+    - assets/images/
     - .prod.env
     - .dev.env
   uses-material-design: true

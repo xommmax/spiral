@@ -25,6 +25,7 @@ class NewHubViewModel extends BaseViewModel {
   final NewHubViewData viewData = NewHubViewData();
 
   void onDonePressed() async {
+    if (isBusy) return;
     viewData.name = nameController.text;
     viewData.description = descriptionController.text;
 
@@ -38,19 +39,28 @@ class NewHubViewModel extends BaseViewModel {
     );
   }
 
-  void _onCreateHub(bool isConfirm) => _hubRepository
-      .createHub(
-        name: viewData.name!,
-        description: viewData.description!,
-        picture: MediaFile(
-          path: viewData.pictureUrl!,
-          type: MediaType.image,
-        ),
-        isPrivate: !isConfirm,
-      )
-      .then(
-        (hub) => _navigationService.back(result: hub.id),
-      );
+  void _onCreateHub(bool isConfirm) async {
+    setBusy(true);
+    notifyListeners();
+    try {
+      await _hubRepository
+          .createHub(
+            name: viewData.name!,
+            description: viewData.description!,
+            picture: MediaFile(
+              path: viewData.pictureUrl!,
+              type: MediaType.image,
+            ),
+            isPrivate: !isConfirm,
+          )
+          .then(
+            (hub) => _navigationService.back(result: hub.id),
+          );
+    } catch (e) {
+      AppSnackBar.showSnackBarError(e.toString());
+    }
+    setBusy(false);
+  }
 
   bool _allDetailsSpecified() {
     if (viewData.name == null || viewData.name!.isEmpty) {

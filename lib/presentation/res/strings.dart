@@ -14,7 +14,6 @@ class Strings {
   static const welcomeToDairo = 'Welcome to Dairo';
   static const getStarted = 'Get started';
   static const loginWithGoogle = 'Login with Google';
-  static const loginWithFacebook = 'Login with Facebook';
   static const loginWithApple = 'Login with Apple';
   static const signup = 'Sign Up';
 
@@ -64,7 +63,8 @@ class Strings {
       'Unable to get replies for the comment, please contact us';
   static const subjectCannotBeEmpty = 'Subject cannot be empty';
   static const descriptionCannotBeEmpty = 'Description cannot be empty';
-  static const pleaseFillInInputForm = 'Please fill in input form to send support request';
+  static const pleaseFillInInputForm =
+      'Please fill in input form to send support request';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -78,7 +78,7 @@ class Strings {
   static const followings = 'followings';
 
   /* Hubs*/
-  static const no_hubs = 'No hubs';
+  static const no_user_hubs = "This user doesn't have any hubs yet";
 
   /* Hub */
   static const deleteHub = 'Delete hub';
@@ -125,10 +125,18 @@ class Strings {
 
   /* Support */
   static const subject = 'Subject';
-  static const messageSuccessfullySent = 'Message successfully sent!';
+  static const supportRequestSuccessfullySent =
+      'Support request successfully sent!';
 
   /* New hub */
   static const selectHubModification = 'Select modification';
   static const createHub = 'Create hub';
+
+  static const myShowcase = 'My Showcase';
+  static const showcase = 'Showcase';
+
+  static const enterHubname = 'Enter Hubname';
+
+  static const hubDescription = 'Hub description';
 /* Uncategorized */
 }

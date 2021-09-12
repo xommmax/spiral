@@ -7,5 +7,4 @@ class SocialAuthRequest {
 enum SocialAuthType {
   Google,
   Apple,
-  Facebook,
 }

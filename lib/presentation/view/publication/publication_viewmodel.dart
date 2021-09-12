@@ -2,9 +2,7 @@ import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
-import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
-import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:dairo/presentation/view/users/users_viewdata.dart';
@@ -14,8 +12,6 @@ import 'package:stacked_services/stacked_services.dart';
 
 class PublicationViewModel extends MultipleStreamViewModel {
   static const PUBLICATION_STREAM_KEY = 'PUBLICATION_STREAM_KEY';
-  static const CURRENT_USER_STREAM_KEY = 'CURRENT_USER_STREAM_KEY';
-  static const USER_STREAM_KEY = 'USER_STREAM_KEY';
   static const COMMENTS_STREAM_KEY = 'COMMENTS_STREAM_KEY';
 
   final String publicationId;
@@ -28,26 +24,15 @@ class PublicationViewModel extends MultipleStreamViewModel {
 
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
-  final UserRepository _userRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
   final TextEditingController commentsTextController = TextEditingController();
 
-  User? user;
-  User? currentUser;
   Publication? publication;
   List<Comment>? comments;
   Comment? commentToReply;
 
   @override
   Map<String, StreamData> get streamsMap => {
-        USER_STREAM_KEY: StreamData<User?>(
-          userStream(),
-          onData: _onUserRetrieved,
-        ),
-        CURRENT_USER_STREAM_KEY: StreamData<User?>(
-          currentUserStream(),
-          onData: _onCurrentDataRetrieved,
-        ),
         PUBLICATION_STREAM_KEY: StreamData<Publication?>(
           publicationStream(),
           onData: _onPublicationRetrieved,
@@ -58,20 +43,11 @@ class PublicationViewModel extends MultipleStreamViewModel {
         ),
       };
 
-  Stream<User?> userStream() => _userRepository.getUser(userId);
-
-  Stream<User?> currentUserStream() => _userRepository.getCurrentUser();
-
   Stream<Publication?> publicationStream() =>
       _publicationRepository.getPublication(publicationId);
 
   Stream<List<Comment>?> commentsStream() =>
       _publicationRepository.getComments(publicationId);
-
-  void _onUserRetrieved(User? user) => this.user = user;
-
-  void _onCurrentDataRetrieved(User? currentUser) =>
-      this.currentUser = currentUser;
 
   void _onPublicationRetrieved(Publication? publication) =>
       this.publication = publication;
@@ -99,8 +75,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
         },
       );
 
-  bool isDataReady() =>
-      user != null && currentUser != null && publication != null;
+  bool isDataReady() => publication != null;
 
   void setCommentToReply(Comment? comment) {
     commentToReply = comment;

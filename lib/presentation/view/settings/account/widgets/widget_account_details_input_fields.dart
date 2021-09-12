@@ -1,5 +1,5 @@
-import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/input_decoration.dart';
 import 'package:dairo/presentation/view/settings/account/account_details_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,11 +19,7 @@ class WidgetAccountDetailsInputFields
             onChanged: viewModel.onNameChanged,
             autofocus: false,
             maxLines: 1,
-            decoration: new InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: Strings.name,
-              hintStyle: TextStyle(color: AppColors.gray),
-            ),
+            decoration: CustomInputDecoration(Strings.name),
           ),
           Padding(
             padding: EdgeInsets.only(top: 8),
@@ -33,11 +29,7 @@ class WidgetAccountDetailsInputFields
             onChanged: viewModel.onUsernameChanged,
             autofocus: false,
             maxLines: 1,
-            decoration: new InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: Strings.username,
-              hintStyle: TextStyle(color: AppColors.gray),
-            ),
+            decoration: CustomInputDecoration(Strings.username),
           ),
           Padding(
             padding: EdgeInsets.only(top: 8),
@@ -49,11 +41,7 @@ class WidgetAccountDetailsInputFields
             maxLength: 150,
             maxLines: 4,
             minLines: 1,
-            decoration: new InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: Strings.description,
-              hintStyle: TextStyle(color: AppColors.gray),
-            ),
+            decoration: CustomInputDecoration(Strings.description),
           ),
         ],
       );

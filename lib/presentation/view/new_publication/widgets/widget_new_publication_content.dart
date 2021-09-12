@@ -58,7 +58,7 @@ class WidgetNewPublicationContent
                 onPressed: viewModel.onDonePressed,
                 child: Icon(
                   viewModel.isBusy ? Icons.file_upload : Icons.check,
-                  color: AppColors.white,
+                  color: AppColors.black,
                 ),
                 backgroundColor: AppColors.primaryColor,
               )
@@ -70,7 +70,6 @@ class WidgetNewPublicationContent
 }
 
 class _WidgetPopUpHubsSelectionMenu extends StatelessWidget {
-
   final List<Hub> hubs;
   final Function(String) onHubSelected;
 

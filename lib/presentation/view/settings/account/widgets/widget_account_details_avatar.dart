@@ -14,11 +14,11 @@ class WidgetAccountDetailsAvatar
         onTap: viewModel.onChangeAvatarClicked,
         borderRadius: BorderRadius.circular(100),
         child: Padding(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.only(bottom: 16),
           child: viewModel.viewData.photoUrl == null
               ? WidgetProfilePhoto(
-                  width: 80,
-                  height: 80,
+                  width: 90,
+                  height: 90,
                   photoUrl: viewModel.data?.photoURL,
                 )
               : CircleAvatar(

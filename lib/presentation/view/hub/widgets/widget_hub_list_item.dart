@@ -21,6 +21,8 @@ class WidgetHubListItem extends StatelessWidget {
           title: Text(
             _hub.name,
             style: TextStyles.black14,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       );

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/hub/hub_viewmodel.dart';
@@ -12,17 +13,17 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
   Widget build(BuildContext context, HubViewModel viewModel) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CachedNetworkImage(
-            imageUrl: viewModel.viewData.hub!.pictureUrl,
-            height: 212,
-            width: double.maxFinite,
-            fit: BoxFit.fill,
+          AspectRatio(
+            aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
+            child: CachedNetworkImage(
+              imageUrl: viewModel.viewData.hub!.pictureUrl,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
               viewModel.viewData.hub!.description,
-              style: TextStyles.black14,
+              style: TextStyles.gray14,
             ),
           ),
           Padding(
@@ -34,8 +35,14 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   behavior: HitTestBehavior.translucent,
                   child: Column(
                     children: [
-                      Text(viewModel.viewData.hub!.followersCount.toString()),
-                      Text(Strings.followers),
+                      Text(
+                        viewModel.viewData.hub!.followersCount.toString(),
+                        style: TextStyles.black18Bold,
+                      ),
+                      Text(
+                        Strings.followers,
+                        style: TextStyles.black14,
+                      ),
                     ],
                   ),
                 ),
@@ -43,7 +50,9 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                     ? Padding(
                         padding: EdgeInsets.only(left: 16),
                         child: InkWell(
-                          onTap: viewModel.userId != null ? viewModel.onFollowClicked : null,
+                          onTap: viewModel.userId != null
+                              ? viewModel.onFollowClicked
+                              : null,
                           child: Container(
                             decoration: BoxDecoration(
                               color: AppColors.buttonColor,

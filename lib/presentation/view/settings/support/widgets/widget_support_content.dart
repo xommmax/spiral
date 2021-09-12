@@ -1,6 +1,6 @@
-import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/view/base/input_decoration.dart';
 import 'package:dairo/presentation/view/settings/support/support_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,7 +12,7 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
         appBar: AppBar(
           title: Text(
             Strings.support,
-            style: TextStyles.white22Bold,
+            style: TextStyles.toolbarTitle,
           ),
           actions: [
             !viewModel.isBusy
@@ -21,7 +21,6 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                       onPressed: viewModel.onSubmitMessageClicked,
                       icon: Icon(
                         Icons.done,
-                        color: AppColors.white,
                       ),
                     ),
                   )
@@ -45,11 +44,7 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                           controller: viewModel.viewData.subjectController,
                           maxLength: 40,
                           maxLines: 1,
-                          decoration: new InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: Strings.subject,
-                            hintStyle: TextStyle(color: AppColors.gray),
-                          ),
+                          decoration: CustomInputDecoration(Strings.subject),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 8),
@@ -57,13 +52,10 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                         TextFormField(
                           controller: viewModel.viewData.descriptionController,
                           maxLength: 350,
-                          maxLines: 9,
-                          minLines: 9,
-                          decoration: new InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: Strings.description,
-                            hintStyle: TextStyle(color: AppColors.gray),
-                          ),
+                          maxLines: 8,
+                          minLines: 1,
+                          decoration:
+                              CustomInputDecoration(Strings.description),
                         ),
                       ],
                     ),
