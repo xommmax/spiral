@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app/env.dart';
@@ -53,9 +53,13 @@ class _DairoAppState extends State<DairoApp> {
     if (!_initialized) {
       return SizedBox.shrink();
     }
+    final ThemeData theme = _getAppTheme();
     return MaterialApp(
       onGenerateRoute: StackedRouter().onGenerateRoute,
-      theme: _getAppTheme(),
+      theme: theme.copyWith(
+        colorScheme:
+            theme.colorScheme.copyWith(secondary: AppColors.accentColor),
+      ),
       navigatorKey: StackedService.navigatorKey,
     );
   }
@@ -84,6 +88,10 @@ class _DairoAppState extends State<DairoApp> {
         primaryColor: AppColors.primaryColor,
         backgroundColor: AppColors.baseBackgroundColor,
         appBarTheme: AppBarTheme(
-            brightness: SchedulerBinding.instance?.window.platformBrightness),
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
+            color: AppColors.primaryColor,
+            systemOverlayStyle: SystemUiOverlayStyle.light),
       );
 }

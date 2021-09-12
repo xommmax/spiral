@@ -10,17 +10,15 @@ class WidgetSettingsContent extends ViewModelWidget<SettingsViewModel> {
   @override
   Widget build(BuildContext context, SettingsViewModel viewModel) => Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Text(
             Strings.settings,
-            style: TextStyles.white22Bold,
+            style: TextStyles.toolbarTitle,
           ),
           actions: [
             IconButton(
               onPressed: viewModel.onLogoutClicked,
               icon: Icon(
                 Icons.logout,
-                color: AppColors.white,
               ),
             ),
           ],
@@ -29,12 +27,6 @@ class WidgetSettingsContent extends ViewModelWidget<SettingsViewModel> {
           itemCount: viewModel.viewData.settingsItems.length,
           itemBuilder: (context, index) => Column(
             children: [
-              index == 0
-                  ? Divider(
-                      height: 1,
-                      color: AppColors.primaryColor,
-                    )
-                  : SizedBox.shrink(),
               _WidgetSettingsItem(
                 text: viewModel.viewData.settingsItems[index],
                 index: index,
@@ -43,14 +35,14 @@ class WidgetSettingsContent extends ViewModelWidget<SettingsViewModel> {
               index + 1 == viewModel.viewData.settingsItems.length
                   ? Divider(
                       height: 1,
-                      color: AppColors.primaryColor,
+                      color: AppColors.gray,
                     )
                   : SizedBox.shrink(),
             ],
           ),
           separatorBuilder: (context, index) => Divider(
             height: 1,
-            color: AppColors.primaryColor,
+            color: AppColors.gray,
           ),
         ),
       );
@@ -77,7 +69,7 @@ class _WidgetSettingsItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   text,
-                  style: TextStyles.primary16,
+                  style: TextStyle(color: AppColors.black, fontSize: 15),
                 ),
               ),
               Icon(

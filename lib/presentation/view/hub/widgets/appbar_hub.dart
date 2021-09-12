@@ -11,37 +11,38 @@ class AppBarHub extends ViewModelWidget<HubViewModel>
   @override
   Widget build(BuildContext context, HubViewModel viewModel) => AppBar(
         automaticallyImplyLeading: true,
-        centerTitle: false,
         title: Text(
           viewModel.viewData.hub?.name ?? '',
-          style: TextStyles.white22Bold,
+          style: TextStyles.toolbarTitle,
         ),
-        actions: viewModel.userId != null ? [
-          DropdownButtonHideUnderline(
-            child: DropdownButton(
-              iconSize: 28,
-              icon: InkWell(
-                child: Icon(
-                  Icons.more_vert_outlined,
-                  color: AppColors.white,
-                ),
-              ),
-              onChanged: viewModel.onMenuItemClicked,
-              items: [
-                DropdownMenuItem(
-                  value: HubMenuItem.DeleteHub,
-                  child: Text(
-                    Strings.deleteHub,
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                      fontSize: 14,
+        actions: viewModel.userId != null
+            ? [
+                DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    iconSize: 28,
+                    icon: InkWell(
+                      child: Icon(
+                        Icons.more_vert_outlined,
+                        color: AppColors.black,
+                      ),
                     ),
+                    onChanged: viewModel.onMenuItemClicked,
+                    items: [
+                      DropdownMenuItem(
+                        value: HubMenuItem.DeleteHub,
+                        child: Text(
+                          Strings.deleteHub,
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ] : null,
+              ]
+            : null,
       );
 
   @override

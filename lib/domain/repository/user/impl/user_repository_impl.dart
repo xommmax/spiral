@@ -29,7 +29,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> loginWithSocial(SocialAuthRequest socialAuthRequest) async {
     UserRequest request = await _remote.loginWithSocial(socialAuthRequest);
     UserResponse? response = await _remote.fetchUser(request.id);
-    if(response == null) {
+    if (response == null) {
       response = await _remote.saveUser(request);
     }
     await _local.addUser(UserItemData.fromResponse(response));
@@ -43,7 +43,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> verifySmsCode(String code) async {
     UserRequest request = await _remote.verifySmsCode(code);
     UserResponse? response = await _remote.fetchUser(request.id);
-    if(response == null) {
+    if (response == null) {
       response = await _remote.saveUser(request);
     }
     await _local.addUser(UserItemData.fromResponse(response));
@@ -56,9 +56,9 @@ class UserRepositoryImpl implements UserRepository {
   Stream<User?> getUser(String userId) {
     _remote.fetchUserStream(userId).listen(
           (response) => _local.updateUser(
-        UserItemData.fromResponse(response),
-      ),
-    );
+            UserItemData.fromResponse(response),
+          ),
+        );
 
     final stream = _local.getUser(userId).map((itemData) {
       if (itemData == null) return null;
@@ -146,8 +146,8 @@ class UserRepositoryImpl implements UserRepository {
         subject: subject,
         description: description,
         createdAt: DateTime.now().millisecondsSinceEpoch,
+        userId: currentUserId,
       ),
-      currentUserId,
     );
   }
 

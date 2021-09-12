@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
+import 'package:dairo/presentation/res/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -39,9 +40,13 @@ class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
                   keyboardType: TextInputType.multiline,
                   minLines: 1,
                   maxLines: 3,
+                  maxLength: 100,
                   decoration: new InputDecoration(
-                    hintText: 'Hub description',
+                    hintText: Strings.hubDescription,
                     hintStyle: TextStyle(color: AppColors.gray),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColors.accentColor, width: 2)),
                   ),
                 ),
               ),
@@ -52,7 +57,7 @@ class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
           onPressed: viewModel.onDonePressed,
           child: Icon(
             viewModel.isBusy ? Icons.file_upload : Icons.check,
-            color: AppColors.white,
+            color: AppColors.black,
           ),
           backgroundColor: AppColors.primaryColor,
         ),

@@ -28,12 +28,13 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.userId != null
-              ? viewModel.onCreatePublicationClicked
-              : viewModel.onOnboardingNextClicked,
-          child:
-              Icon(viewModel.userId != null ? Icons.add : Icons.arrow_forward),
+          onPressed: viewModel.onFabPressed,
+          child: Icon(
+            viewModel.userId != null ? Icons.add : Icons.arrow_forward,
+            color: AppColors.black,
+          ),
           backgroundColor: AppColors.primaryColor,
+
           // elevation: 0,
         ),
       );

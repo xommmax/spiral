@@ -58,6 +58,7 @@ class TextStyles {
 
   static const gray14 = TextStyle(
     color: AppColors.textGray,
+    fontSize: 14,
   );
 
   static const gray16 = TextStyle(
@@ -114,5 +115,11 @@ class TextStyles {
   static const primary16 = TextStyle(
     color: AppColors.primaryColor,
     fontSize: 16,
+  );
+
+  static const toolbarTitle = TextStyle(
+    color: AppColors.black,
+    fontSize: 21,
+    fontWeight: FontWeight.w800,
   );
 }

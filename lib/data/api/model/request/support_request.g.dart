@@ -11,6 +11,7 @@ SupportRequest _$SupportRequestFromJson(Map<String, dynamic> json) {
     subject: json['subject'] as String,
     description: json['description'] as String,
     createdAt: json['createdAt'] as int,
+    userId: json['userId'] as String,
   );
 }
 
@@ -19,4 +20,5 @@ Map<String, dynamic> _$SupportRequestToJson(SupportRequest instance) =>
       'subject': instance.subject,
       'description': instance.description,
       'createdAt': instance.createdAt,
+      'userId': instance.userId,
     };

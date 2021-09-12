@@ -31,7 +31,7 @@ class _WidgetExploreVideoPreviewState extends State<WidgetExploreVideoPreview> {
 
     _controller?.setVolume(0.0);
     _controller?.setLooping(true);
-    _controller?.play();
+    // _controller?.play();
   }
 
   @override

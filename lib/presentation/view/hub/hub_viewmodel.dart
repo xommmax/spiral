@@ -93,10 +93,25 @@ class HubViewModel extends MultipleStreamViewModel {
   void _onOnboardingPublicationsRetrieved(List<Publication> publications) =>
       viewData.publications = publications;
 
+  void onFabPressed() async {
+    if (userId != null)
+      onCreatePublicationClicked();
+    else
+      onOnboardingNextClicked();
+  }
+
   void onCreatePublicationClicked() => _navigationService.navigateTo(
         Routes.newPublicationView,
         arguments: NewPublicationViewArguments(hubId: hubId),
       );
+
+  void onOnboardingNextClicked() async {
+    final SharedPreferences _sharedPreferences =
+        await SharedPreferences.getInstance();
+    await _sharedPreferences.setBool(
+        SharedPreferencesKeys.isOnboardingCompleted, true);
+    _navigationService.clearStackAndShow(Routes.mainView);
+  }
 
   void onMenuItemClicked(HubMenuItem? item) {}
 
@@ -140,14 +155,6 @@ class HubViewModel extends MultipleStreamViewModel {
         type: UsersType.Followers,
       ),
     );
-  }
-
-  void onOnboardingNextClicked() async {
-    final SharedPreferences _sharedPreferences =
-        await SharedPreferences.getInstance();
-    await _sharedPreferences.setBool(
-        SharedPreferencesKeys.isOnboardingCompleted, true);
-    _navigationService.clearStackAndShow(Routes.mainView);
   }
 
   bool isCurrentUser() =>

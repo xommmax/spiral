@@ -9,7 +9,6 @@ import 'package:dairo/domain/model/user/social_auth_exception.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -48,10 +47,12 @@ class UserRemoteRepository {
         .collection(FirebaseCollections.users)
         .doc(request.id);
     var snapshot = await reference.get();
+    var requestJson = request.toJson();
+    requestJson['followingsCount'] = snapshot.data()?['followingsCount'] ?? 0;
     if (snapshot.exists) {
-      await reference.update(request.toJson());
+      await reference.update(requestJson);
     } else {
-      await reference.set(request.toJson());
+      await reference.set(requestJson);
     }
     snapshot = await reference.get();
     return UserResponse.fromJson(snapshot.data(), id: snapshot.id);
@@ -62,9 +63,6 @@ class UserRemoteRepository {
     switch (request.type) {
       case SocialAuthType.Google:
         firebaseUser = await _loginWithGoogle();
-        break;
-      case SocialAuthType.Facebook:
-        firebaseUser = await _loginWithFacebook();
         break;
       case SocialAuthType.Apple:
         firebaseUser = await _loginWithApple();
@@ -87,19 +85,6 @@ class UserRemoteRepository {
       accessToken: googleAuth.accessToken,
     );
     return _signInWithCredentials(credential);
-  }
-
-  Future<User> _loginWithFacebook() async {
-    final LoginResult result = await FacebookAuth.instance.login();
-    if (result.status != LoginStatus.success)
-      throw SocialAuthException(
-          message: Strings.errorUnableToGetCredentialsFromFacebook);
-
-    final String? token = result.accessToken?.token;
-    if (token == null)
-      throw SocialAuthException(message: Strings.errorFacebookAuthError);
-
-    return _signInWithCredentials(FacebookAuthProvider.credential(token));
   }
 
   Future<User> _loginWithApple() async {
@@ -152,11 +137,10 @@ class UserRemoteRepository {
     return UserRequest.fromFirebase(firebaseUser);
   }
 
-  Future<void> sendSupportRequest(SupportRequest request, String userId) =>
+  Future<void> sendSupportRequest(SupportRequest request) =>
       FirebaseFirestore.instance
           .collection(FirebaseCollections.usersSupportRequests)
-          .doc(userId)
-          .set(request.toJson());
+          .add(request.toJson());
 
   Stream<UserResponse> fetchUserStream(
     String userId,

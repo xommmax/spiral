@@ -12,7 +12,7 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
       AppBar(
         title: Text(
           Strings.newPublication,
-          style: TextStyles.white22Bold,
+          style: TextStyles.toolbarTitle,
         ),
         centerTitle: false,
         automaticallyImplyLeading: true,
