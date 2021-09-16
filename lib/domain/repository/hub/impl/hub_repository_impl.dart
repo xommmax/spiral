@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dairo/app/analytics.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/data/api/model/request/hub_request.dart';
@@ -10,6 +11,7 @@ import 'package:dairo/data/db/entity/hub_item_data.dart';
 import 'package:dairo/data/db/repository/hub_local_repository.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -19,6 +21,8 @@ class HubRepositoryImpl implements HubRepository {
   final HubLocalRepository _local = locator<HubLocalRepository>();
   final HubRemoteRepository _remote = locator<HubRemoteRepository>();
   final UserRepository _userRepository = locator<UserRepository>();
+  final AnalyticsRepository _analyticsRepository =
+      locator<AnalyticsRepository>();
 
   @override
   Future<Hub> createHub({
@@ -39,7 +43,9 @@ class HubRepositoryImpl implements HubRepository {
     HubResponse response = await _remote.createHub(request, File(picture.path));
     HubItemData itemData = HubItemData.fromResponse(response);
     await _local.addHub(itemData);
-    return Hub.fromItemData(itemData);
+    final hub = Hub.fromItemData(itemData);
+    _sendHubCreatedEvent(hub);
+    return hub;
   }
 
   Stream<List<Hub>> getCurrentUserHubs() =>
@@ -119,4 +125,12 @@ class HubRepositoryImpl implements HubRepository {
     });
     return stream;
   }
+
+  Future<void> _sendHubCreatedEvent(Hub hub) => _analyticsRepository.logEvent(
+        name: AnalyticsEventKeys.userCreatedHub,
+        parameters: {
+          AnalyticsEventPropertiesKeys.userId: hub.userId,
+          AnalyticsEventPropertiesKeys.hubId: hub.id,
+        },
+      );
 }

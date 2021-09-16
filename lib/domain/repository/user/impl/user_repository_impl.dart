@@ -10,8 +10,10 @@ import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
 import 'package:dairo/data/db/entity/user_item_data.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
+import 'package:dairo/domain/model/user/sign_up_method.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
+import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
@@ -24,13 +26,21 @@ class UserRepositoryImpl implements UserRepository {
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
   final FirebaseStorageRepository _firebaseStorageRepository =
       locator<FirebaseStorageRepository>();
+  final AnalyticsRepository _analyticsRepository =
+      locator<AnalyticsRepository>();
 
   @override
   Future<void> loginWithSocial(SocialAuthRequest socialAuthRequest) async {
     UserRequest request = await _remote.loginWithSocial(socialAuthRequest);
     UserResponse? response = await _remote.fetchUser(request.id);
+    final authMethod = socialAuthRequest.type == SocialAuthType.Google
+        ? AuthMethod.Google
+        : AuthMethod.Apple;
     if (response == null) {
       response = await _remote.saveUser(request);
+      _analyticsRepository.logSignUp(authMethod: authMethod);
+    } else {
+      _analyticsRepository.logLogin(authMethod: authMethod);
     }
     await _local.addUser(UserItemData.fromResponse(response));
   }
@@ -45,6 +55,9 @@ class UserRepositoryImpl implements UserRepository {
     UserResponse? response = await _remote.fetchUser(request.id);
     if (response == null) {
       response = await _remote.saveUser(request);
+      _analyticsRepository.logSignUp(authMethod: AuthMethod.Phone);
+    } else {
+      _analyticsRepository.logLogin(authMethod: AuthMethod.Phone);
     }
     await _local.addUser(UserItemData.fromResponse(response));
   }
@@ -65,6 +78,9 @@ class UserRepositoryImpl implements UserRepository {
       return User.fromItemData(itemData);
     });
 
+    if (userId == getCurrentUserId()) {
+      _analyticsRepository.setUserId(userId: userId);
+    }
     return stream;
   }
 

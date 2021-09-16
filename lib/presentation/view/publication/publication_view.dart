@@ -1,3 +1,4 @@
+import 'package:dairo/app/router.router.dart';
 import 'package:dairo/presentation/view/base/standard_base_view.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
 import 'package:dairo/presentation/view/publication/widgets/widget_publication_view_content.dart';
@@ -12,6 +13,7 @@ class PublicationView extends StandardBaseView<PublicationViewModel> {
             publicationId: publicationId,
             userId: userId,
           ),
+          routeName: Routes.publicationView,
         );
 
   @override

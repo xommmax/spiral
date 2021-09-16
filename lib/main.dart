@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:country_codes/country_codes.dart';
+import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,6 +36,9 @@ void main() async {
 }
 
 class DairoApp extends StatefulWidget {
+  final AnalyticsRepository analyticsRepository =
+      locator<AnalyticsRepository>();
+
   @override
   _DairoAppState createState() => _DairoAppState();
 }
@@ -45,6 +49,7 @@ class _DairoAppState extends State<DairoApp> {
   @override
   void initState() {
     initializeFlutterFire();
+    widget.analyticsRepository.logAppOpen();
     super.initState();
   }
 
@@ -60,6 +65,9 @@ class _DairoAppState extends State<DairoApp> {
         colorScheme:
             theme.colorScheme.copyWith(secondary: AppColors.accentColor),
       ),
+      navigatorObservers: [
+        widget.analyticsRepository.getObserver(),
+      ],
       navigatorKey: StackedService.navigatorKey,
     );
   }

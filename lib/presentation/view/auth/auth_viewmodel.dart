@@ -11,6 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 class AuthViewModel extends BaseViewModel {
   final UserRepository _userRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
+
   final AuthViewData viewData = AuthViewData();
   final TextEditingController phoneNumberController = TextEditingController();
 
@@ -21,9 +22,9 @@ class AuthViewModel extends BaseViewModel {
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Apple));
 
   void _loginWithSocial(SocialAuthRequest request) {
-    _userRepository
-        .loginWithSocial(request)
-        .then((result) => _navigationService.back(result: true));
+    _userRepository.loginWithSocial(request).then(
+          (result) => _navigateBack(),
+        );
   }
 
   onCountryCodeChanged(String? countryCode) => viewData.phoneCode = countryCode;
@@ -52,9 +53,10 @@ class AuthViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onCodeVerificationRetrieved(String code) => _userRepository
-      .verifySmsCode(code)
-      .then((result) => _navigationService.back(result: true));
+  onCodeVerificationRetrieved(String code) =>
+      _userRepository.verifySmsCode(code).then((result) => _navigateBack());
+
+  void _navigateBack() => _navigationService.back(result: true);
 
   @override
   void dispose() {

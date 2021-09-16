@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../presentation/view/auth/auth_view.dart';
+import '../presentation/view/explore/explore_view.dart';
+import '../presentation/view/home/home_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/hubs/hubs_view.dart';
 import '../presentation/view/main/main_view.dart';
@@ -40,6 +42,8 @@ class Routes {
   static const String accountDetailsView = '/account-details-view';
   static const String supportView = '/support-view';
   static const String hubsView = '/hubs-view';
+  static const String homeView = '/home-view';
+  static const String exploreView = '/explore-view';
   static const all = <String>{
     authView,
     mainView,
@@ -55,6 +59,8 @@ class Routes {
     accountDetailsView,
     supportView,
     hubsView,
+    homeView,
+    exploreView,
   };
 }
 
@@ -76,6 +82,8 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.accountDetailsView, page: AccountDetailsView),
     RouteDef(Routes.supportView, page: SupportView),
     RouteDef(Routes.hubsView, page: HubsView),
+    RouteDef(Routes.homeView, page: HomeView),
+    RouteDef(Routes.exploreView, page: ExploreView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -178,6 +186,18 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<HubsViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => HubsView(userIds: args.userIds),
+        settings: data,
+      );
+    },
+    HomeView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => HomeView(),
+        settings: data,
+      );
+    },
+    ExploreView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ExploreView(),
         settings: data,
       );
     },

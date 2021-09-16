@@ -1,3 +1,4 @@
+import 'package:dairo/app/router.router.dart';
 import 'package:dairo/presentation/view/base/standard_base_view.dart';
 import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:dairo/presentation/view/users/users_viewmodel.dart';
@@ -13,6 +14,7 @@ class UsersView extends StandardBaseView<UsersViewModel> {
             userIds: userIds,
             type: type,
           ),
+          routeName: Routes.usersView,
         );
 
   @override

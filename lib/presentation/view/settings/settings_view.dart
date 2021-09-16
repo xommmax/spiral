@@ -1,3 +1,4 @@
+import 'package:dairo/app/router.router.dart';
 import 'package:dairo/presentation/view/base/standard_base_view.dart';
 import 'package:dairo/presentation/view/settings/settings_viewmodel.dart';
 import 'package:dairo/presentation/view/settings/widgets/widget_settings_content.dart';
@@ -8,6 +9,7 @@ class SettingsView extends StandardBaseView<SettingsViewModel> {
   SettingsView()
       : super(
           SettingsViewModel(),
+          routeName: Routes.settingsView,
         );
 
   @override
