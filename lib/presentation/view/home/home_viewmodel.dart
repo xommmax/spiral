@@ -70,7 +70,7 @@ class HomeViewModel extends MultipleStreamViewModel {
     }
   }
 
-  void _onUserRetrieved(User? data) => viewData.user = data;
+  void _onUserRetrieved(User? user) => viewData.user = user;
 
   void _onFeedPublicationsRetrieved(List<Publication?> data) {
     viewData.publications = data;

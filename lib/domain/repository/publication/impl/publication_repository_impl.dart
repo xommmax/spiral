@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dairo/app/analytics.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/data/api/model/request/comment_request.dart';
@@ -17,6 +18,7 @@ import 'package:dairo/data/db/repository/publication_local_repository.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
+import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
@@ -30,6 +32,8 @@ class PublicationRepositoryImpl implements PublicationRepository {
       locator<PublicationLocalRepository>();
   final UserRepository _userRepository = locator<UserRepository>();
   final HubRepository _hubRepository = locator<HubRepository>();
+  final AnalyticsRepository _analyticsRepository =
+      locator<AnalyticsRepository>();
 
   @override
   Future<void> createPublication({
@@ -48,6 +52,11 @@ class PublicationRepositoryImpl implements PublicationRepository {
     PublicationResponse response =
         await _remote.createPublication(request, media);
     await _local.addPublication(PublicationItemData.fromResponse(response));
+    _sendPublicationCreatedEvent(
+      publicationId: response.id,
+      hubId: response.hubId,
+      userId: response.userId,
+    );
   }
 
   Stream<List<Publication>> getPublications(String hubId) {
@@ -65,7 +74,7 @@ class PublicationRepositoryImpl implements PublicationRepository {
   Stream<List<Publication>> getOnboardingPublications() {
     _remote.fetchOnboardingPublications().then((response) {
       final itemData =
-      response.map((e) => PublicationItemData.fromResponse(e)).toList();
+          response.map((e) => PublicationItemData.fromResponse(e)).toList();
       _local.updatePublications(itemData, FirebaseDocuments.guestHub);
     });
 
@@ -87,8 +96,8 @@ class PublicationRepositoryImpl implements PublicationRepository {
 
     yield* _local.getFeedPublications(hubIds).map(
           (itemData) =>
-          itemData.map((e) => Publication.fromItemData(e)).toList(),
-    );
+              itemData.map((e) => Publication.fromItemData(e)).toList(),
+        );
   }
 
   Stream<Publication?> getPublication(String publicationId) {
@@ -112,13 +121,20 @@ class PublicationRepositoryImpl implements PublicationRepository {
   }) =>
       _remote
           .sendLike(
+        publicationId: publicationId,
+        userId: _userRepository.getCurrentUserId(),
+        isLiked: isLiked,
+      )
+          .then(
+        (value) {
+          getPublication(publicationId);
+          _sendUserLikedEvent(
             publicationId: publicationId,
             userId: _userRepository.getCurrentUserId(),
             isLiked: isLiked,
-          )
-          .then(
-            (value) => getPublication(publicationId),
           );
+        },
+      );
 
   @override
   Future<void> sendComment({
@@ -129,19 +145,24 @@ class PublicationRepositoryImpl implements PublicationRepository {
   }) async =>
       _remote
           .sendComment(
-            CommentRequest(
-              userId: _userRepository.getCurrentUserId(),
-              text: text,
-              createdAt: createAt,
-              parentCommentId: parentCommentId,
-            ),
-            publicationId,
-          )
-          .then(
-            (CommentResponse response) => _local.addComment(
-              CommentItemData.fromResponse(response),
-            ),
-          );
+        CommentRequest(
+          userId: _userRepository.getCurrentUserId(),
+          text: text,
+          createdAt: createAt,
+          parentCommentId: parentCommentId,
+        ),
+        publicationId,
+      )
+          .then((CommentResponse response) {
+        _sendUserLeftCommentEvent(
+          publicationId: publicationId,
+          userId: _userRepository.getCurrentUserId(),
+          commentId: response.id,
+        );
+        _local.addComment(
+          CommentItemData.fromResponse(response),
+        );
+      });
 
   @override
   Stream<List<Comment>> getComments(String publicationId) {
@@ -154,16 +175,18 @@ class PublicationRepositoryImpl implements PublicationRepository {
       _local.updateComments(itemDataList, publicationId);
     });
 
-    return _local.getComments(publicationId).map((comments) => comments
-        .map((comment) => Comment.fromItemData(
-              comment,
-              UserItemData.fromResponse(
-                UserResponse.fromJson(
-                  jsonDecode(comment.user),
-                ),
-              ),
-            ))
-        .toList());
+    return _local.getComments(publicationId).map(
+          (comments) => comments
+              .map((comment) => Comment.fromItemData(
+                    comment,
+                    UserItemData.fromResponse(
+                      UserResponse.fromJson(
+                        jsonDecode(comment.user),
+                      ),
+                    ),
+                  ))
+              .toList(),
+        );
   }
 
   @override
@@ -198,4 +221,47 @@ class PublicationRepositoryImpl implements PublicationRepository {
             ))
         .toList());
   }
+
+  void _sendPublicationCreatedEvent({
+    required String publicationId,
+    required String hubId,
+    required String userId,
+  }) =>
+      _analyticsRepository.logEvent(
+        name: AnalyticsEventKeys.userCreatedPublication,
+        parameters: {
+          AnalyticsEventPropertiesKeys.publicationId: publicationId,
+          AnalyticsEventPropertiesKeys.hubId: hubId,
+          AnalyticsEventPropertiesKeys.userId: userId,
+        },
+      );
+
+  Future<void> _sendUserLikedEvent({
+    required bool isLiked,
+    required String publicationId,
+    required String userId,
+  }) =>
+      _analyticsRepository.logEvent(
+        name: isLiked
+            ? AnalyticsEventKeys.userLikedPublication
+            : AnalyticsEventKeys.userDislikedPublication,
+        parameters: {
+          AnalyticsEventPropertiesKeys.publicationId: publicationId,
+          AnalyticsEventPropertiesKeys.userId: userId,
+        },
+      );
+
+  Future<void> _sendUserLeftCommentEvent({
+    required String publicationId,
+    required String userId,
+    required String commentId,
+  }) =>
+      _analyticsRepository.logEvent(
+        name: AnalyticsEventKeys.userLeftComment,
+        parameters: {
+          AnalyticsEventPropertiesKeys.publicationId: publicationId,
+          AnalyticsEventPropertiesKeys.userId: userId,
+          AnalyticsEventPropertiesKeys.commentId: commentId,
+        },
+      );
 }
