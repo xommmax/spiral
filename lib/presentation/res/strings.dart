@@ -9,6 +9,8 @@ class Strings {
   static const done = 'Done';
   static const private = 'Private';
   static const public = 'Public';
+  static const no = 'No';
+  static const yes = 'Yes';
 
   /* Auth */
   static const welcomeToDairo = 'Welcome to Dairo';
@@ -129,7 +131,6 @@ class Strings {
       'Support request successfully sent!';
 
   /* New hub */
-  static const selectHubModification = 'Select modification';
   static const createHub = 'Create hub';
 
   static const myShowcase = 'My Showcase';
@@ -138,5 +139,8 @@ class Strings {
   static const enterHubname = 'Enter Hubname';
 
   static const hubDescription = 'Hub description';
+
+  static const privateHub = 'Private hub';
+
 /* Uncategorized */
 }

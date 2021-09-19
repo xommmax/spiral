@@ -11,6 +11,7 @@ class AppBarNewHub extends ViewModelWidget<NewHubViewModel>
   @override
   Widget build(BuildContext context, NewHubViewModel viewModel) => AppBar(
         title: TextField(
+          autofocus: true,
           style: TextStyles.toolbarTitle,
           controller: viewModel.nameController,
           decoration: new InputDecoration.collapsed(

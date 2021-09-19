@@ -60,7 +60,9 @@ class PublicationRemoteRepository {
             ),
           );
 
-  Future<List<PublicationResponse>> fetchFeedPublications(String userId) => _firestore
+  Future<
+      List<
+          PublicationResponse>> fetchFeedPublications(String userId) => _firestore
       .collection(
           '${FirebaseCollections.userFeeds}/$userId/${FirebaseCollections.publications}')
       .get()
@@ -78,19 +80,19 @@ class PublicationRemoteRepository {
 
   Future<List<PublicationResponse>> fetchOnboardingPublications() => _firestore
       .collection('${FirebaseCollections.hubPublications}')
-      .where(FirestoreKeys.hubId, isEqualTo: FirebaseDocuments.guestHub)
+      .where(FirestoreKeys.hubId, isEqualTo: FirebaseDocuments.onboardingHub)
       .get()
       .then(
         (snap) => snap.docs
-        .map(
-          (doc) => PublicationResponse.fromJson(
-        doc.data(),
-        id: doc.id,
-        isLiked: false,
-      ),
-    )
-        .toList(),
-  );
+            .map(
+              (doc) => PublicationResponse.fromJson(
+                doc.data(),
+                id: doc.id,
+                isLiked: false,
+              ),
+            )
+            .toList(),
+      );
 
   Stream<Future<PublicationResponse>> fetchPublicationStream(
           String publicationId) =>

@@ -75,11 +75,12 @@ class PublicationRepositoryImpl implements PublicationRepository {
     _remote.fetchOnboardingPublications().then((response) {
       final itemData =
           response.map((e) => PublicationItemData.fromResponse(e)).toList();
-      _local.updatePublications(itemData, FirebaseDocuments.guestHub);
+      _local.updatePublications(itemData, FirebaseDocuments.onboardingHub);
     });
 
-    return _local.getPublications(FirebaseDocuments.guestHub).map((itemData) =>
-        itemData.map((e) => Publication.fromItemData(e)).toList());
+    return _local.getPublications(FirebaseDocuments.onboardingHub).map(
+        (itemData) =>
+            itemData.map((e) => Publication.fromItemData(e)).toList());
   }
 
   @override

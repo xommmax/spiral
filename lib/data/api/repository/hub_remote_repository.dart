@@ -8,6 +8,7 @@ import 'package:dairo/data/api/firebase_storage_folder.dart';
 import 'package:dairo/data/api/firestore_keys.dart';
 import 'package:dairo/data/api/model/request/hub_request.dart';
 import 'package:dairo/data/api/model/response/hub_response.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -62,20 +63,25 @@ class HubRemoteRepository {
             ),
           );
 
-  Future<HubResponse> fetchOnboardingHub() =>
-      _firestore.doc('${FirebaseCollections.userHubs}/${FirebaseDocuments.guestHub}').get().then(
-            (snap) => HubResponse.fromJson(
-              snap.data(),
-              id: snap.id,
-              isFollow: false,
-            ),
-          );
-
-  Future<bool> isCurrentUserFollows(String hubId) => _firestore
-      .doc(
-          '${FirebaseCollections.usersFollowHubs}/${_userRepository.getCurrentUserId()}/${FirestoreKeys.hubs}/$hubId')
+  Future<HubResponse> fetchOnboardingHub() => _firestore
+      .doc('${FirebaseCollections.userHubs}/${FirebaseDocuments.onboardingHub}')
       .get()
-      .then((snapshot) => snapshot.exists);
+      .then(
+        (snap) => HubResponse.fromJson(
+          snap.data(),
+          id: snap.id,
+          isFollow: false,
+        ),
+      );
+
+  Future<bool> isCurrentUserFollows(String hubId) async {
+    if (!_userRepository.isCurrentUserExist()) return false;
+    return _firestore
+        .doc(
+            '${FirebaseCollections.usersFollowHubs}/${_userRepository.getCurrentUserId()}/${FirestoreKeys.hubs}/$hubId')
+        .get()
+        .then((snapshot) => snapshot.exists);
+  }
 
   Future<void> onFollow({
     required String hubId,
@@ -140,4 +146,21 @@ class HubRemoteRepository {
               ),
         ),
       );
+
+  Future<HubResponse> setHubPrivate(Hub hub, bool private) async {
+    print("ID: " + hub.id);
+    final doc = _firestore.collection(FirebaseCollections.userHubs).doc(hub.id);
+    return doc.update({FirestoreKeys.isPrivate: private}).then((_) => doc
+        .get()
+        .then((snapshot) => HubResponse.fromJson(snapshot.data(),
+            id: hub.id, isFollow: hub.isFollow)));
+  }
+
+  Future<void> deleteHub(Hub hub) {
+    print("ID: " + hub.id);
+    return _firestore
+        .collection(FirebaseCollections.userHubs)
+        .doc(hub.id)
+        .delete();
+  }
 }

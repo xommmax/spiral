@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
-class WidgetSettingsContent extends ViewModelWidget<SettingsViewModel> {
+class WidgetProfileSettingsContent
+    extends ViewModelWidget<ProfileSettingsViewModel> {
   @override
-  Widget build(BuildContext context, SettingsViewModel viewModel) => Scaffold(
+  Widget build(BuildContext context, ProfileSettingsViewModel viewModel) =>
+      Scaffold(
         appBar: AppBar(
           title: Text(
             Strings.settings,
@@ -63,7 +65,7 @@ class _WidgetSettingsItem extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: () => onItemClicked(index),
         child: Container(
-          padding: EdgeInsets.fromLTRB(8, 24, 8, 24),
+          padding: EdgeInsets.fromLTRB(24, 24, 8, 24),
           child: Row(
             children: [
               Expanded(
@@ -74,7 +76,7 @@ class _WidgetSettingsItem extends StatelessWidget {
               ),
               Icon(
                 Icons.keyboard_arrow_right,
-                color: AppColors.primaryColor,
+                color: AppColors.black,
               )
             ],
           ),

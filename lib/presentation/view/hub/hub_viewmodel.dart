@@ -7,7 +7,6 @@ import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/view/hub/hub_viewdata.dart';
-import 'package:dairo/presentation/view/hub/widgets/appbar_hub.dart';
 import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
 import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,11 +22,13 @@ class HubViewModel extends MultipleStreamViewModel {
       'ONBOARDING_PUBLICATIONS_STREAM_KEY';
 
   final String hubId;
-  final String? userId;
+  final String userId;
+  final bool onboarding;
 
   HubViewModel({
     required this.hubId,
     required this.userId,
+    this.onboarding = false,
   });
 
   final PublicationRepository _publicationRepository =
@@ -39,33 +40,36 @@ class HubViewModel extends MultipleStreamViewModel {
   final HubViewData viewData = HubViewData();
 
   @override
-  Map<String, StreamData> get streamsMap => userId != null
-      ? {
-          USER_STREAM_KEY: StreamData<User?>(
-            userStream(),
-            onData: _onUserRetrieved,
-          ),
-          PUBLICATIONS_STREAM_KEY: StreamData<List<Publication>?>(
-            publicationsStream(),
-            onData: _onPublicationsRetrieved,
-          ),
-          HUB_STREAM_KEY: StreamData<Hub?>(
-            hubStream(),
-            onData: _onHubRetrieved,
-          ),
-        }
-      : {
-          ONBOARDING_HUB_STREAM_KEY: StreamData<Hub?>(
-            _getOnboardingHubStream(),
-            onData: _onOnboardingHubRetrieved,
-          ),
-          ONBOARDING_PUBLICATIONS_STREAM_KEY: StreamData<List<Publication?>>(
-            _getOnboardingPublicationsStream(),
-            onData: _onOnboardingPublicationsRetrieved,
-          ),
-        };
+  Map<String, StreamData> get streamsMap =>
+      !onboarding ? _getHubStreamsMap() : _getOnboardingStreamsMap();
 
-  Stream<User?> userStream() => _userRepository.getUser(userId!);
+  Map<String, StreamData> _getHubStreamsMap() => {
+        USER_STREAM_KEY: StreamData<User?>(
+          userStream(),
+          onData: _onUserRetrieved,
+        ),
+        PUBLICATIONS_STREAM_KEY: StreamData<List<Publication>?>(
+          publicationsStream(),
+          onData: _onPublicationsRetrieved,
+        ),
+        HUB_STREAM_KEY: StreamData<Hub?>(
+          hubStream(),
+          onData: _onHubRetrieved,
+        ),
+      };
+
+  _getOnboardingStreamsMap() => {
+        ONBOARDING_HUB_STREAM_KEY: StreamData<Hub?>(
+          _getOnboardingHubStream(),
+          onData: _onOnboardingHubRetrieved,
+        ),
+        ONBOARDING_PUBLICATIONS_STREAM_KEY: StreamData<List<Publication?>>(
+          _getOnboardingPublicationsStream(),
+          onData: _onOnboardingPublicationsRetrieved,
+        ),
+      };
+
+  Stream<User?> userStream() => _userRepository.getUser(userId);
 
   Stream<List<Publication>?> publicationsStream() =>
       _publicationRepository.getPublications(hubId);
@@ -73,8 +77,6 @@ class HubViewModel extends MultipleStreamViewModel {
   Stream<Hub?> hubStream() => _hubRepository.getHub(hubId);
 
   Stream<User?> getUser(String userId) => _userRepository.getUser(userId);
-
-  Stream<Hub?> getHub(String hubId) => _hubRepository.getHub(hubId);
 
   Stream<Hub?> _getOnboardingHubStream() => _hubRepository.getOnboardingHub();
 
@@ -93,8 +95,14 @@ class HubViewModel extends MultipleStreamViewModel {
   void _onOnboardingPublicationsRetrieved(List<Publication> publications) =>
       viewData.publications = publications;
 
+  void onSettingsClicked() {
+    _navigationService.navigateTo(
+      Routes.hubSettingsView,
+    );
+  }
+
   void onFabPressed() async {
-    if (userId != null)
+    if (!onboarding)
       onCreatePublicationClicked();
     else
       onOnboardingNextClicked();
@@ -112,8 +120,6 @@ class HubViewModel extends MultipleStreamViewModel {
         SharedPreferencesKeys.isOnboardingCompleted, true);
     _navigationService.clearStackAndShow(Routes.mainView);
   }
-
-  void onMenuItemClicked(HubMenuItem? item) {}
 
   void onPublicationLikeClicked(String publicationId, bool isLiked) =>
       _publicationRepository.sendLike(
@@ -142,9 +148,13 @@ class HubViewModel extends MultipleStreamViewModel {
         ),
       );
 
-  void onFollowClicked() => viewData.hub!.isFollow
-      ? _hubRepository.onUnfollow(viewData.hub!.id)
-      : _hubRepository.onFollow(viewData.hub!.id);
+  void onFollowClicked() {
+    final hub = viewData.hub;
+    if (onboarding || hub == null) return;
+    hub.isFollow
+        ? _hubRepository.onUnfollow(hub.id)
+        : _hubRepository.onFollow(hub.id);
+  }
 
   void onFollowersClicked() async {
     List<String> userIds = await _hubRepository.getHubFollowersIds(hubId);
@@ -157,6 +167,18 @@ class HubViewModel extends MultipleStreamViewModel {
     );
   }
 
-  bool isCurrentUser() =>
-      userId != null && _userRepository.isCurrentUser(viewData.user!.id);
+  bool isCurrentUser() {
+    var user = viewData.user;
+    if (user == null) return false;
+    return _userRepository.isCurrentUser(user.id);
+  }
+
+  void onBackPressed() => _navigationService.back();
+
+  void onSettingsPressed() {
+    final hub = viewData.hub;
+    if (hub != null)
+      _navigationService.navigateTo(Routes.hubSettingsView,
+          arguments: HubSettingsViewArguments(hub: hub));
+  }
 }

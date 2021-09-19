@@ -8,15 +8,15 @@ import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class SettingsViewModel extends BaseViewModel {
-  SettingsViewModel() {
+class ProfileSettingsViewModel extends BaseViewModel {
+  ProfileSettingsViewModel() {
     initUser();
   }
 
   final UserRepository _userRepository = locator<UserRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
 
-  final SettingsViewData viewData = SettingsViewData();
+  final ProfileSettingsViewData viewData = ProfileSettingsViewData();
 
   Future<void> initUser() async {
     viewData.user = await _userRepository.getCurrentUser().first;

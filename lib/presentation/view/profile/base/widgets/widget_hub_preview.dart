@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
 class WidgetHubPreview extends StatelessWidget {
   final Hub _hub;
@@ -20,23 +22,38 @@ class WidgetHubPreview extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
-            child: Stack(alignment: Alignment.bottomLeft, children: [
-              CachedNetworkImage(
-                imageUrl: _hub.pictureUrl,
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-              _hub.isPrivate
-                  ? Container(
-                      color: AppColors.black,
-                      padding: EdgeInsets.all(6),
-                      child: Icon(
-                        Icons.lock,
-                        color: AppColors.white,
-                        size: 16,
-                      ),
-                    )
-                  : SizedBox.shrink(),
-            ]),
+            child: AspectRatio(
+              aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
+              child: Stack(alignment: Alignment.bottomLeft, children: [
+                Container(
+                  foregroundDecoration: _hub.isPrivate
+                      ? const RotatedCornerDecoration(
+                          color: AppColors.black,
+                          geometry: const BadgeGeometry(
+                              width: 42,
+                              height: 42,
+                              alignment: BadgeAlignment.bottomLeft),
+                        )
+                      : null,
+                  child: CachedNetworkImage(
+                    imageUrl: _hub.pictureUrl,
+                    errorWidget: (context, url, error) => Center(
+                      child: Icon(Icons.error),
+                    ),
+                  ),
+                ),
+                _hub.isPrivate
+                    ? Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(
+                          Icons.lock_rounded,
+                          color: AppColors.white,
+                          size: 16,
+                        ),
+                      )
+                    : SizedBox.shrink(),
+              ]),
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),

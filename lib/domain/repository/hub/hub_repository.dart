@@ -28,4 +28,8 @@ abstract class HubRepository {
   Future<List<String>> getHubFollowersIds(String hubId);
 
   Future<List<String>> getUserFollowsHubsIds(String userId);
+
+  Future<Hub> setHubPrivate(Hub hub, bool private);
+
+  Future<void> deleteHub(Hub hub);
 }

@@ -1,5 +1,3 @@
-import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/hub/hub_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,40 +8,19 @@ class AppBarHub extends ViewModelWidget<HubViewModel>
     implements ObstructingPreferredSizeWidget {
   @override
   Widget build(BuildContext context, HubViewModel viewModel) => AppBar(
-        automaticallyImplyLeading: true,
-        title: Text(
-          viewModel.viewData.hub?.name ?? '',
-          style: TextStyles.toolbarTitle,
-        ),
-        actions: viewModel.userId != null
-            ? [
-                DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                    iconSize: 28,
-                    icon: InkWell(
-                      child: Icon(
-                        Icons.more_vert_outlined,
-                        color: AppColors.black,
-                      ),
-                    ),
-                    onChanged: viewModel.onMenuItemClicked,
-                    items: [
-                      DropdownMenuItem(
-                        value: HubMenuItem.DeleteHub,
-                        child: Text(
-                          Strings.deleteHub,
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ]
-            : null,
-      );
+          automaticallyImplyLeading: true,
+          title: Text(
+            viewModel.viewData.hub?.name ?? '',
+            style: TextStyles.toolbarTitle,
+          ),
+          actions: [
+            IconButton(
+              onPressed: viewModel.onSettingsClicked,
+              icon: Icon(
+                Icons.settings,
+              ),
+            ),
+          ]);
 
   @override
   Size get preferredSize =>
@@ -52,5 +29,3 @@ class AppBarHub extends ViewModelWidget<HubViewModel>
   @override
   bool shouldFullyObstruct(BuildContext context) => true;
 }
-
-enum HubMenuItem { DeleteHub }

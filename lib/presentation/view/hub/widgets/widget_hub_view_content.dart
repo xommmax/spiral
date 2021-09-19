@@ -6,14 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../hub_viewmodel.dart';
-import 'appbar_hub.dart';
 
 class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
   @override
   Widget build(BuildContext context, HubViewModel viewModel) => Scaffold(
-        appBar: AppBarHub(),
         body: SafeArea(
-          bottom: false,
           child: SingleChildScrollView(
             child: viewModel.viewData.hub != null
                 ? Column(
@@ -27,15 +24,17 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
                   ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.onFabPressed,
-          child: Icon(
-            viewModel.userId != null ? Icons.add : Icons.arrow_forward,
-            color: AppColors.black,
-          ),
-          backgroundColor: AppColors.primaryColor,
+        floatingActionButton: viewModel.isCurrentUser() || viewModel.onboarding
+            ? FloatingActionButton(
+                onPressed: viewModel.onFabPressed,
+                child: Icon(
+                  !viewModel.onboarding ? Icons.add : Icons.arrow_forward,
+                  color: AppColors.black,
+                ),
+                backgroundColor: AppColors.primaryColor,
 
-          // elevation: 0,
-        ),
+                // elevation: 0,
+              )
+            : null,
       );
 }

@@ -87,7 +87,7 @@ class HubRepositoryImpl implements HubRepository {
           ),
         );
 
-    return _local.getHub(FirebaseDocuments.guestHub).map(
+    return _local.getHub(FirebaseDocuments.onboardingHub).map(
           (itemData) => Hub.fromItemData(itemData!),
         );
   }
@@ -133,4 +133,17 @@ class HubRepositoryImpl implements HubRepository {
           AnalyticsEventPropertiesKeys.hubId: hub.id,
         },
       );
+
+  @override
+  Future<Hub> setHubPrivate(Hub hub, bool private) async =>
+      _remote.setHubPrivate(hub, private).then((response) async {
+        await _local.updateHub(HubItemData.fromResponse(response));
+        HubItemData itemData = (await _local.getHub(hub.id).first)!;
+        return Hub.fromItemData(itemData);
+      });
+
+  @override
+  Future<void> deleteHub(Hub hub) => _remote.deleteHub(hub).then((_) {
+        return _local.deleteHub(hub.id);
+      });
 }

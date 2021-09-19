@@ -11,7 +11,16 @@ service cloud.firestore {
         }
 
         function isBelongsToCurrentUser() {
-            return request.resource.data.userId == currentUserId();
+            return isRequestBelongsToCurrentUser() &&
+            isResourceBelongsToCurrentUser();
+        }
+
+        function isRequestBelongsToCurrentUser() {
+        	return request.resource.data.userId == currentUserId();
+        }
+
+        function isResourceBelongsToCurrentUser() {
+        	return resource.data.userId == currentUserId();
         }
 
         match /users/{userId} {
@@ -27,17 +36,23 @@ service cloud.firestore {
 
         match /userHubs/{hubId} {
             allow read;
-            allow write: if isAuthorized() && isBelongsToCurrentUser();
+            allow create: if isAuthorized() && isRequestBelongsToCurrentUser();
+            allow update: if isAuthorized() && isBelongsToCurrentUser();
+            allow delete: if isAuthorized() && isResourceBelongsToCurrentUser();
         }
 
         match /hubPublications/{publicationId} {
             allow read;
-            allow write: if isAuthorized() && isBelongsToCurrentUser();
+            allow create: if isAuthorized() && isRequestBelongsToCurrentUser();
+            allow update: if isAuthorized() && isBelongsToCurrentUser();
+            allow delete: if isAuthorized() && isResourceBelongsToCurrentUser();
         }
 
         match /publicationComments/{publicationId}/comments/{commentId} {
             allow read;
-            allow write: if isAuthorized() && isBelongsToCurrentUser();
+            allow create: if isAuthorized() && isRequestBelongsToCurrentUser();
+            allow update: if isAuthorized() && isBelongsToCurrentUser();
+            allow delete: if isAuthorized() && isResourceBelongsToCurrentUser();
         }
 
         match /publicationLikes/{publicationId}/users/{userId} {
@@ -64,8 +79,13 @@ service cloud.firestore {
             allow write: if isAuthorized() && isUserBelongsCurrentUser();
         }
 
-        match /userFeeds/{userId}/publications {
+        match /userFeeds/{userId}/publications/{publicationId} {
             allow read;
+        }
+
+        match /usersSupportRequests/{requestId} {
+        		allow read;
+            allow write;
         }
     }
 }

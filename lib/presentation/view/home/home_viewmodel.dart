@@ -18,7 +18,7 @@ class HomeViewModel extends MultipleStreamViewModel {
   static const String CURRENT_USER_STREAM_KEY = 'CURRENT_USER_STREAM_KEY';
   static const String FEED_PUBLICATIONS_STREAM_KEY =
       'FEED_PUBLICATIONS_STREAM_KEY';
-  static const String GUEST_USER_STREAM_KEY = 'GUEST_USER_STREAM_KEY';
+  static const String ONBOARDING_STREAM_KEY = 'ONBOARDING_STREAM_KEY';
 
   final NavigationService _navigationService = locator<NavigationService>();
   final UserRepository _userRepository = locator<UserRepository>();
@@ -41,9 +41,9 @@ class HomeViewModel extends MultipleStreamViewModel {
           ),
         }
       : {
-          GUEST_USER_STREAM_KEY: StreamData<SharedPreferences>(
+          ONBOARDING_STREAM_KEY: StreamData<SharedPreferences>(
               Stream.fromFuture(SharedPreferences.getInstance()),
-              onData: _onGuestUserRetrieved)
+              onData: _onOnboardingRetrieved)
         };
 
   Stream<User?> _getCurrentUserStream() => _userRepository.getCurrentUser();
@@ -57,14 +57,17 @@ class HomeViewModel extends MultipleStreamViewModel {
   Stream<List<Hub?>> _getHubsStream(List<String> hubIds) =>
       _hubRepository.getHubsByIds(hubIds);
 
-  void _onGuestUserRetrieved(SharedPreferences? sharedPreferences) {
+  void _onOnboardingRetrieved(SharedPreferences? sharedPreferences) {
     if (sharedPreferences != null) {
       bool? isOnboardingCompleted = sharedPreferences
           .getBool(SharedPreferencesKeys.isOnboardingCompleted);
       if (isOnboardingCompleted != true) {
         _navigationService.clearStackAndShow(
           Routes.hubView,
-          arguments: HubViewArguments(hubId: FirebaseDocuments.guestHub),
+          arguments: HubViewArguments(
+              hubId: FirebaseDocuments.onboardingHub,
+              userId: "onboardingUser",
+              onboarding: true),
         );
       }
     }

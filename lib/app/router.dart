@@ -2,6 +2,7 @@ import 'package:dairo/presentation/view/auth/auth_view.dart';
 import 'package:dairo/presentation/view/explore/explore_view.dart';
 import 'package:dairo/presentation/view/home/home_view.dart';
 import 'package:dairo/presentation/view/hub/hub_view.dart';
+import 'package:dairo/presentation/view/hub/settings/hub_settings_view.dart';
 import 'package:dairo/presentation/view/hubs/hubs_view.dart';
 import 'package:dairo/presentation/view/main/main_view.dart';
 import 'package:dairo/presentation/view/new_hub/new_hub_view.dart';
@@ -28,12 +29,13 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: UsersView),
     MaterialRoute(page: PublicationView),
     MaterialRoute(page: SearchView),
-    MaterialRoute(page: SettingsView),
+    MaterialRoute(page: ProfileSettingsView),
     MaterialRoute(page: AccountDetailsView),
     MaterialRoute(page: SupportView),
     MaterialRoute(page: HubsView),
     MaterialRoute(page: HomeView),
     MaterialRoute(page: ExploreView),
+    MaterialRoute(page: HubSettingsView),
   ],
 )
 class $AppRouter {}

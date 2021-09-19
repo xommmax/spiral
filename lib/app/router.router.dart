@@ -9,10 +9,12 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../domain/model/hub/hub.dart';
 import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/explore/explore_view.dart';
 import '../presentation/view/home/home_view.dart';
 import '../presentation/view/hub/hub_view.dart';
+import '../presentation/view/hub/settings/hub_settings_view.dart';
 import '../presentation/view/hubs/hubs_view.dart';
 import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
@@ -38,12 +40,13 @@ class Routes {
   static const String usersView = '/users-view';
   static const String publicationView = '/publication-view';
   static const String searchView = '/search-view';
-  static const String settingsView = '/settings-view';
+  static const String profileSettingsView = '/profile-settings-view';
   static const String accountDetailsView = '/account-details-view';
   static const String supportView = '/support-view';
   static const String hubsView = '/hubs-view';
   static const String homeView = '/home-view';
   static const String exploreView = '/explore-view';
+  static const String hubSettingsView = '/hub-settings-view';
   static const all = <String>{
     authView,
     mainView,
@@ -55,12 +58,13 @@ class Routes {
     usersView,
     publicationView,
     searchView,
-    settingsView,
+    profileSettingsView,
     accountDetailsView,
     supportView,
     hubsView,
     homeView,
     exploreView,
+    hubSettingsView,
   };
 }
 
@@ -78,12 +82,13 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.usersView, page: UsersView),
     RouteDef(Routes.publicationView, page: PublicationView),
     RouteDef(Routes.searchView, page: SearchView),
-    RouteDef(Routes.settingsView, page: SettingsView),
+    RouteDef(Routes.profileSettingsView, page: ProfileSettingsView),
     RouteDef(Routes.accountDetailsView, page: AccountDetailsView),
     RouteDef(Routes.supportView, page: SupportView),
     RouteDef(Routes.hubsView, page: HubsView),
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.exploreView, page: ExploreView),
+    RouteDef(Routes.hubSettingsView, page: HubSettingsView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -134,6 +139,7 @@ class StackedRouter extends RouterBase {
         builder: (context) => HubView(
           hubId: args.hubId,
           userId: args.userId,
+          onboarding: args.onboarding,
         ),
         settings: data,
       );
@@ -164,9 +170,9 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    SettingsView: (data) {
+    ProfileSettingsView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SettingsView(),
+        builder: (context) => ProfileSettingsView(),
         settings: data,
       );
     },
@@ -201,6 +207,13 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    HubSettingsView: (data) {
+      var args = data.getArgs<HubSettingsViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => HubSettingsView(args.hub),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -223,8 +236,10 @@ class UserProfileViewArguments {
 /// HubView arguments holder class
 class HubViewArguments {
   final String hubId;
-  final String? userId;
-  HubViewArguments({required this.hubId, this.userId});
+  final String userId;
+  final bool onboarding;
+  HubViewArguments(
+      {required this.hubId, required this.userId, this.onboarding = false});
 }
 
 /// UsersView arguments holder class
@@ -245,4 +260,10 @@ class PublicationViewArguments {
 class HubsViewArguments {
   final List<String> userIds;
   HubsViewArguments({required this.userIds});
+}
+
+/// HubSettingsView arguments holder class
+class HubSettingsViewArguments {
+  final Hub hub;
+  HubSettingsViewArguments({required this.hub});
 }

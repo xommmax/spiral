@@ -5,13 +5,13 @@ import 'package:dairo/presentation/view/settings/widgets/widget_settings_content
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class SettingsView extends StandardBaseView<SettingsViewModel> {
-  SettingsView()
+class ProfileSettingsView extends StandardBaseView<ProfileSettingsViewModel> {
+  ProfileSettingsView()
       : super(
-          SettingsViewModel(),
-          routeName: Routes.settingsView,
+          ProfileSettingsViewModel(),
+          routeName: Routes.profileSettingsView,
         );
 
   @override
-  Widget getContent(BuildContext context) => WidgetSettingsContent();
+  Widget getContent(BuildContext context) => WidgetProfileSettingsContent();
 }

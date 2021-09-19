@@ -28,7 +28,7 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
         ),
         HUB_LIST_STREAM_KEY: StreamData<List<Hub>>(
           hubListStream(),
-          onData: obHubsData,
+          onData: onHubsData,
           onError: onHubsError,
         ),
       };
@@ -39,7 +39,7 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
 
   void onUserData(User? data) => viewData.user = data;
 
-  void obHubsData(List<Hub> data) => viewData.hubs = data;
+  void onHubsData(List<Hub> data) => viewData.hubs = data;
 
   void onUserError(error) {
     AppSnackBar.showSnackBarError(Strings.errorUnableToGetCurrentUser);
@@ -63,11 +63,11 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
 
   void onSettingsClicked() {
     if (viewData.user != null)
-      _navigationService.navigateTo(Routes.settingsView);
+      _navigationService.navigateTo(Routes.profileSettingsView);
   }
 
   void onUserHubsFollowingClicked() async {
-    if (viewData.user == null || viewData.user!.followingsCount! <= 0) return;
+    if (viewData.user == null) return;
     List<String> userIds =
         await hubRepository.getUserFollowsHubsIds(viewData.user!.id);
     _navigationService.navigateTo(

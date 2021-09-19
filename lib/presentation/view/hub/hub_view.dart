@@ -8,14 +8,16 @@ import 'hub_viewmodel.dart';
 class HubView extends StandardBaseView<HubViewModel> {
   HubView({
     required String hubId,
-    String? userId,
+    required String userId,
+    bool onboarding = false,
   }) : super(
           HubViewModel(
             hubId: hubId,
             userId: userId,
+            onboarding: onboarding,
           ),
-    routeName: Routes.hubView,
-  );
+          routeName: Routes.hubView,
+        );
 
   @override
   Widget getContent(BuildContext context) => WidgetHubViewContent();
