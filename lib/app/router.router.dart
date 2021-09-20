@@ -12,10 +12,12 @@ import 'package:stacked/stacked.dart';
 import '../domain/model/hub/hub.dart';
 import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/explore/explore_view.dart';
+import '../presentation/view/followers/followers_view.dart';
+import '../presentation/view/followers/followers_viewdata.dart';
+import '../presentation/view/followings/followings_view.dart';
 import '../presentation/view/home/home_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/hub/settings/hub_settings_view.dart';
-import '../presentation/view/hubs/hubs_view.dart';
 import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
@@ -26,8 +28,6 @@ import '../presentation/view/search/search_view.dart';
 import '../presentation/view/settings/account/account_details_view.dart';
 import '../presentation/view/settings/settings_view.dart';
 import '../presentation/view/settings/support/support_view.dart';
-import '../presentation/view/users/users_view.dart';
-import '../presentation/view/users/users_viewdata.dart';
 
 class Routes {
   static const String authView = '/auth-view';
@@ -37,13 +37,13 @@ class Routes {
   static const String currentUserProfileView = '/current-user-profile-view';
   static const String newHubView = '/new-hub-view';
   static const String hubView = '/hub-view';
-  static const String usersView = '/users-view';
+  static const String followersView = '/followers-view';
   static const String publicationView = '/publication-view';
   static const String searchView = '/search-view';
   static const String profileSettingsView = '/profile-settings-view';
   static const String accountDetailsView = '/account-details-view';
   static const String supportView = '/support-view';
-  static const String hubsView = '/hubs-view';
+  static const String followingsView = '/followings-view';
   static const String homeView = '/home-view';
   static const String exploreView = '/explore-view';
   static const String hubSettingsView = '/hub-settings-view';
@@ -55,13 +55,13 @@ class Routes {
     currentUserProfileView,
     newHubView,
     hubView,
-    usersView,
+    followersView,
     publicationView,
     searchView,
     profileSettingsView,
     accountDetailsView,
     supportView,
-    hubsView,
+    followingsView,
     homeView,
     exploreView,
     hubSettingsView,
@@ -79,13 +79,13 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.currentUserProfileView, page: CurrentUserProfileView),
     RouteDef(Routes.newHubView, page: NewHubView),
     RouteDef(Routes.hubView, page: HubView),
-    RouteDef(Routes.usersView, page: UsersView),
+    RouteDef(Routes.followersView, page: FollowersView),
     RouteDef(Routes.publicationView, page: PublicationView),
     RouteDef(Routes.searchView, page: SearchView),
     RouteDef(Routes.profileSettingsView, page: ProfileSettingsView),
     RouteDef(Routes.accountDetailsView, page: AccountDetailsView),
     RouteDef(Routes.supportView, page: SupportView),
-    RouteDef(Routes.hubsView, page: HubsView),
+    RouteDef(Routes.followingsView, page: FollowingsView),
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.exploreView, page: ExploreView),
     RouteDef(Routes.hubSettingsView, page: HubSettingsView),
@@ -144,10 +144,10 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    UsersView: (data) {
-      var args = data.getArgs<UsersViewArguments>(nullOk: false);
+    FollowersView: (data) {
+      var args = data.getArgs<FollowersViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => UsersView(
+        builder: (context) => FollowersView(
           userIds: args.userIds,
           type: args.type,
         ),
@@ -188,10 +188,10 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    HubsView: (data) {
-      var args = data.getArgs<HubsViewArguments>(nullOk: false);
+    FollowingsView: (data) {
+      var args = data.getArgs<FollowingsViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => HubsView(userIds: args.userIds),
+        builder: (context) => FollowingsView(userIds: args.userIds),
         settings: data,
       );
     },
@@ -242,11 +242,11 @@ class HubViewArguments {
       {required this.hubId, required this.userId, this.onboarding = false});
 }
 
-/// UsersView arguments holder class
-class UsersViewArguments {
+/// FollowersView arguments holder class
+class FollowersViewArguments {
   final List<String> userIds;
-  final UsersType type;
-  UsersViewArguments({required this.userIds, required this.type});
+  final FollowersType type;
+  FollowersViewArguments({required this.userIds, required this.type});
 }
 
 /// PublicationView arguments holder class
@@ -256,10 +256,10 @@ class PublicationViewArguments {
   PublicationViewArguments({required this.publicationId, required this.userId});
 }
 
-/// HubsView arguments holder class
-class HubsViewArguments {
+/// FollowingsView arguments holder class
+class FollowingsViewArguments {
   final List<String> userIds;
-  HubsViewArguments({required this.userIds});
+  FollowingsViewArguments({required this.userIds});
 }
 
 /// HubSettingsView arguments holder class

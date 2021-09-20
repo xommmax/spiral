@@ -1,14 +1,11 @@
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
-import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class PublicationViewModel extends MultipleStreamViewModel {
   static const PUBLICATION_STREAM_KEY = 'PUBLICATION_STREAM_KEY';
@@ -24,7 +21,6 @@ class PublicationViewModel extends MultipleStreamViewModel {
 
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
-  final NavigationService _navigationService = locator<NavigationService>();
   final TextEditingController commentsTextController = TextEditingController();
 
   Publication? publication;

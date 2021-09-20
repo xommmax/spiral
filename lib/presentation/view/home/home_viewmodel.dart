@@ -7,9 +7,9 @@ import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
+import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/home/home_viewdata.dart';
 import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
-import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -119,10 +119,10 @@ class HomeViewModel extends MultipleStreamViewModel {
     List<String> userIds =
         await _publicationRepository.getUsersLiked(publicationId);
     return _navigationService.navigateTo(
-      Routes.usersView,
-      arguments: UsersViewArguments(
+      Routes.followersView,
+      arguments: FollowersViewArguments(
         userIds: userIds,
-        type: UsersType.Likes,
+        type: FollowersType.Likes,
       ),
     );
   }

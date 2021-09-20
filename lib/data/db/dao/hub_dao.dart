@@ -18,21 +18,24 @@ abstract class HubDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHubs(List<HubItemData> hubs);
 
+  @delete
+  Future<void> deleteHub(HubItemData hub);
+
   @Query('DELETE FROM hub WHERE id = :id')
-  Future<void> deleteHub(String id);
+  Future<void> deleteHubById(String id);
 
   @Query('DELETE FROM hub WHERE userId = :userId')
-  Future<void> deleteHubs(String userId);
+  Future<void> deleteHubsById(String userId);
 
   @transaction
   Future<void> updateHub(HubItemData hub) async {
-    await deleteHub(hub.id);
+    await deleteHubById(hub.id);
     await insertHub(hub);
   }
 
   @transaction
   Future<void> updateHubs(List<HubItemData> hubs, String userId) async {
-    await deleteHubs(userId);
+    await deleteHubsById(userId);
     await insertHubs(hubs);
   }
 }

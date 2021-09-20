@@ -7,10 +7,10 @@ import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class HubsViewModel extends StreamViewModel<List<Hub>> {
+class FollowingsViewModel extends StreamViewModel<List<Hub>> {
   final List<String> hubIds;
 
-  HubsViewModel({
+  FollowingsViewModel({
     required this.hubIds,
   });
 
@@ -27,7 +27,7 @@ class HubsViewModel extends StreamViewModel<List<Hub>> {
 
   @override
   void onError(error) {
-    AppSnackBar.showSnackBarError(Strings.unableToGetHubsList);
+    AppSnackBar.showSnackBarError(Strings.unableToGetFollowingsList);
     super.onError(error);
   }
 }

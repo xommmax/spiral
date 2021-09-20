@@ -53,10 +53,11 @@ class Strings {
       'Something went wrong while sending publication';
   static const cannotOpenHubPleaseContactUs =
       'Cannot open this hub, please contact us';
-  static const unableToGetHubsList = 'Cannot get hubs, please contact us';
+  static const unableToGetFollowingsList =
+      'Cannot get following hubs, please contact us';
   static const unableToGetPublications =
       'Cannot get publications, please contact us';
-  static const unableToGetUsers = 'Unable to get users, please contact us';
+  static const unableToGetFollowers = 'Unable to get followers';
   static const unableToGetSearchResults = 'Unable to get search results';
   static const errorLoadingPublication = 'Error loading publication';
   static const unableToGetPublication =

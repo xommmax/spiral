@@ -1,4 +1,0 @@
-enum UsersType {
-  Likes,
-  Followers
-}

@@ -156,11 +156,11 @@ class HubRemoteRepository {
             id: hub.id, isFollow: hub.isFollow)));
   }
 
-  Future<void> deleteHub(Hub hub) {
-    print("ID: " + hub.id);
-    return _firestore
-        .collection(FirebaseCollections.userHubs)
-        .doc(hub.id)
-        .delete();
+  Future<HubResponse> deleteHub(Hub hub) async {
+    final doc = _firestore.collection(FirebaseCollections.userHubs).doc(hub.id);
+    HubResponse response = HubResponse.fromJson((await doc.get()).data(),
+        id: hub.id, isFollow: hub.isFollow);
+    await doc.delete();
+    return response;
   }
 }

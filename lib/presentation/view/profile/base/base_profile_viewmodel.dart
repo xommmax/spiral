@@ -46,7 +46,7 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
   }
 
   void onHubsError(error) {
-    AppSnackBar.showSnackBarError(Strings.unableToGetHubsList);
+    AppSnackBar.showSnackBarError(Strings.unableToGetFollowingsList);
   }
 
   void onOpenHubClicked(Hub hub) {
@@ -71,8 +71,8 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
     List<String> userIds =
         await hubRepository.getUserFollowsHubsIds(viewData.user!.id);
     _navigationService.navigateTo(
-      Routes.hubsView,
-      arguments: HubsViewArguments(userIds: userIds),
+      Routes.followingsView,
+      arguments: FollowingsViewArguments(userIds: userIds),
     );
   }
 

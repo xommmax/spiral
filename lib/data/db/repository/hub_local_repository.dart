@@ -26,5 +26,5 @@ class HubLocalRepository {
   Future<void> updateHubs(List<HubItemData> hubs, String userId) =>
       _database.hubDao.updateHubs(hubs, userId);
 
-  Future<void> deleteHub(String hubId) => _database.hubDao.deleteHub(hubId);
+  Future<void> deleteHub(HubItemData hub) => _database.hubDao.deleteHub(hub);
 }

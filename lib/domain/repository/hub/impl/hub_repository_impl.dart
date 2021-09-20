@@ -143,7 +143,7 @@ class HubRepositoryImpl implements HubRepository {
       });
 
   @override
-  Future<void> deleteHub(Hub hub) => _remote.deleteHub(hub).then((_) {
-        return _local.deleteHub(hub.id);
+  Future<void> deleteHub(Hub hub) => _remote.deleteHub(hub).then((response) {
+        return _local.deleteHub(HubItemData.fromResponse(response));
       });
 }

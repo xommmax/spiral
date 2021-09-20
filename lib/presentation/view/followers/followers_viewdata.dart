@@ -1,0 +1,1 @@
+enum FollowersType { Likes, Followers }

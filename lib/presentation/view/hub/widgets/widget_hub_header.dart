@@ -94,18 +94,22 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
             ),
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             onTap: viewModel.onFollowersClicked,
-            child: Column(
-              children: [
-                Text(
-                  viewModel.viewData.hub!.followersCount.toString(),
-                  style: TextStyles.black18Bold,
-                ),
-                Text(
-                  Strings.followers,
-                  style: TextStyles.black14,
-                ),
-              ],
+            child: Padding(
+              padding: EdgeInsets.all(4),
+              child: Column(
+                children: [
+                  Text(
+                    viewModel.viewData.hub!.followersCount.toString(),
+                    style: TextStyles.black18Bold,
+                  ),
+                  Text(
+                    Strings.followers,
+                    style: TextStyles.black14,
+                  ),
+                ],
+              ),
             ),
           ),
           Divider(

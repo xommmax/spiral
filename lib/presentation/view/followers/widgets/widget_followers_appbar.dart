@@ -1,23 +1,21 @@
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
+import 'package:dairo/presentation/view/followers/followers_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/string_extensions.dart';
-import 'package:dairo/presentation/view/users/users_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../users_viewdata.dart';
-
-class AppBarUsers extends ViewModelWidget<UsersViewModel>
+class WidgetFollowersAppBar extends ViewModelWidget<FollowersViewModel>
     implements ObstructingPreferredSizeWidget {
   @override
-  Widget build(BuildContext context, UsersViewModel viewModel) => AppBar(
-        centerTitle: true,
+  Widget build(BuildContext context, FollowersViewModel viewModel) => AppBar(
         title: Text(
-          viewModel.type == UsersType.Likes
+          viewModel.type == FollowersType.Likes
               ? Strings.likes
               : Strings.followers.capitalize(),
-          style: TextStyles.white22Bold,
+          style: TextStyles.toolbarTitle,
         ),
       );
 

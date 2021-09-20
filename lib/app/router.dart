@@ -1,9 +1,10 @@
 import 'package:dairo/presentation/view/auth/auth_view.dart';
 import 'package:dairo/presentation/view/explore/explore_view.dart';
+import 'package:dairo/presentation/view/followers/followers_view.dart';
+import 'package:dairo/presentation/view/followings/followings_view.dart';
 import 'package:dairo/presentation/view/home/home_view.dart';
 import 'package:dairo/presentation/view/hub/hub_view.dart';
 import 'package:dairo/presentation/view/hub/settings/hub_settings_view.dart';
-import 'package:dairo/presentation/view/hubs/hubs_view.dart';
 import 'package:dairo/presentation/view/main/main_view.dart';
 import 'package:dairo/presentation/view/new_hub/new_hub_view.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_view.dart';
@@ -14,7 +15,6 @@ import 'package:dairo/presentation/view/search/search_view.dart';
 import 'package:dairo/presentation/view/settings/account/account_details_view.dart';
 import 'package:dairo/presentation/view/settings/settings_view.dart';
 import 'package:dairo/presentation/view/settings/support/support_view.dart';
-import 'package:dairo/presentation/view/users/users_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 @StackedApp(
@@ -26,13 +26,13 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: CurrentUserProfileView),
     MaterialRoute(page: NewHubView),
     MaterialRoute(page: HubView),
-    MaterialRoute(page: UsersView),
+    MaterialRoute(page: FollowersView),
     MaterialRoute(page: PublicationView),
     MaterialRoute(page: SearchView),
     MaterialRoute(page: ProfileSettingsView),
     MaterialRoute(page: AccountDetailsView),
     MaterialRoute(page: SupportView),
-    MaterialRoute(page: HubsView),
+    MaterialRoute(page: FollowingsView),
     MaterialRoute(page: HomeView),
     MaterialRoute(page: ExploreView),
     MaterialRoute(page: HubSettingsView),

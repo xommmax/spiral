@@ -3,16 +3,16 @@ import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
-import 'package:dairo/presentation/view/users/users_viewdata.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class UsersViewModel extends StreamViewModel<List<User>> {
+class FollowersViewModel extends StreamViewModel<List<User>> {
   final List<String> userIds;
-  final UsersType type;
+  final FollowersType type;
 
-  UsersViewModel({
+  FollowersViewModel({
     required this.userIds,
     required this.type,
   });
@@ -30,7 +30,7 @@ class UsersViewModel extends StreamViewModel<List<User>> {
 
   @override
   void onError(error) {
-    AppSnackBar.showSnackBarError(Strings.unableToGetUsers);
+    AppSnackBar.showSnackBarError(Strings.unableToGetFollowers);
     super.onError(error);
   }
 }

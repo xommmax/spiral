@@ -269,6 +269,22 @@ class _$HubDao extends HubDao {
                   'isFollow': item.isFollow ? 1 : 0,
                   'isPrivate': item.isPrivate ? 1 : 0
                 },
+            changeListener),
+        _hubItemDataDeletionAdapter = DeletionAdapter(
+            database,
+            'hub',
+            ['id'],
+            (HubItemData item) => <String, Object?>{
+                  'id': item.id,
+                  'userId': item.userId,
+                  'name': item.name,
+                  'description': item.description,
+                  'pictureUrl': item.pictureUrl,
+                  'createdAt': item.createdAt,
+                  'followersCount': item.followersCount,
+                  'isFollow': item.isFollow ? 1 : 0,
+                  'isPrivate': item.isPrivate ? 1 : 0
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -278,6 +294,8 @@ class _$HubDao extends HubDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<HubItemData> _hubItemDataInsertionAdapter;
+
+  final DeletionAdapter<HubItemData> _hubItemDataDeletionAdapter;
 
   @override
   Stream<List<HubItemData>> getHubs(String userId) {
@@ -342,13 +360,13 @@ class _$HubDao extends HubDao {
   }
 
   @override
-  Future<void> deleteHub(String id) async {
+  Future<void> deleteHubById(String id) async {
     await _queryAdapter
         .queryNoReturn('DELETE FROM hub WHERE id = ?1', arguments: [id]);
   }
 
   @override
-  Future<void> deleteHubs(String userId) async {
+  Future<void> deleteHubsById(String userId) async {
     await _queryAdapter.queryNoReturn('DELETE FROM hub WHERE userId = ?1',
         arguments: [userId]);
   }
@@ -362,6 +380,11 @@ class _$HubDao extends HubDao {
   Future<void> insertHubs(List<HubItemData> hubs) async {
     await _hubItemDataInsertionAdapter.insertList(
         hubs, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteHub(HubItemData hub) async {
+    await _hubItemDataDeletionAdapter.delete(hub);
   }
 
   @override
