@@ -57,7 +57,7 @@ class WidgetNewPublicationContent
             ? FloatingActionButton(
                 onPressed: viewModel.onDonePressed,
                 child: Icon(
-                  viewModel.isBusy ? Icons.file_upload : Icons.check,
+                  Icons.check,
                   color: AppColors.black,
                 ),
                 backgroundColor: AppColors.primaryColor,
@@ -116,7 +116,7 @@ class _WidgetPopUpHubsSelectionMenu extends StatelessWidget {
           ),
           child: Icon(
             Icons.check,
-            color: AppColors.white,
+            color: AppColors.black,
           ),
         ),
         itemBuilder: (context) => items,

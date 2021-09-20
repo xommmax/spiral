@@ -1,9 +1,7 @@
-import 'package:dairo/app/analytics.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
-import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
@@ -49,17 +47,13 @@ class NewPublicationViewModel extends BaseViewModel {
       return;
     }
 
-    _publicationRepository
-        .createPublication(
+    _publicationRepository.createPublication(
       hubId: hubId!,
       text: publicationTextController.text,
       mediaFiles: viewData.mediaFiles,
     );
 
-    await Future.delayed(
-      Duration(seconds: 1),
-      () async => _navigationService.back(result: true),
-    );
+    _navigationService.back(result: true);
   }
 
   void onHubSelected(String? hubId) {

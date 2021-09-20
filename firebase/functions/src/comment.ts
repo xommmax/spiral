@@ -6,6 +6,7 @@ import * as admin from "firebase-admin";
 export const onCommentAdded = functions
     .firestore
     .document("publicationComments/{publicationId}/comments/{commentId}")
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .onCreate((snap, _) => updateCounters(snap.ref));
 
 export async function updateCounters(ref: FirebaseFirestore.DocumentReference): Promise<void> {
