@@ -4,7 +4,7 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/widget_attachments_panel.dart';
-import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_medias_list.dart';
+import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_media_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -31,15 +31,34 @@ class WidgetNewPublicationContent
                     onPanDown: (_) =>
                         FocusScope.of(context).requestFocus(FocusNode()),
                     child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InputFieldNewPublication(),
-                            WidgetNewPublicationMediasList()
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          viewModel.viewData.mediaFiles.length != 0
+                              ? _WidgetSwitchMediaPreviewType()
+                              : SizedBox.shrink(),
+                          IndexedStack(
+                            index: viewModel.mediaPreviewTypeIndex,
+                            children: [
+                              Column(
+                                children: [
+                                  viewModel.viewData.mediaFiles.length != 0
+                                      ? WidgetNewPublicationMediaGridPreview()
+                                      : SizedBox.shrink(),
+                                  InputFieldNewPublication(),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  viewModel.viewData.mediaFiles.length != 0
+                                      ? WidgetNewPublicationMediaCarouselPreview()
+                                      : SizedBox.shrink(),
+                                  InputFieldNewPublication(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -165,5 +184,37 @@ class _WidgetCreateHubItem extends StatelessWidget {
           ),
         ),
         title: Text(Strings.createHub),
+      );
+}
+
+class _WidgetSwitchMediaPreviewType
+    extends ViewModelWidget<NewPublicationViewModel> {
+  const _WidgetSwitchMediaPreviewType({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
+      Padding(
+        padding: EdgeInsets.only(top: 8, bottom: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.grid_on),
+              iconSize: 28,
+              color: viewModel.mediaPreviewTypeIndex == 0
+                  ? AppColors.black
+                  : AppColors.gray,
+              onPressed: () => viewModel.onMediaPreviewTypeIndexChanged(0),
+            ),
+            IconButton(
+              icon: Icon(Icons.view_carousel_outlined),
+              iconSize: 28,
+              color: viewModel.mediaPreviewTypeIndex == 1
+                  ? AppColors.black
+                  : AppColors.gray,
+              onPressed: () => viewModel.onMediaPreviewTypeIndexChanged(1),
+            ),
+          ],
+        ),
       );
 }

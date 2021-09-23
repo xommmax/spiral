@@ -75,6 +75,8 @@ dependencies:
   # image downloader with cache
   cached_network_image: ^3.0.0
 
+  carousel_slider: ^4.0.0
+
   # video player widget
   video_player: ^2.1.6
 

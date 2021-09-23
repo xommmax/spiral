@@ -16,6 +16,7 @@ import 'new_publication_viewdata.dart';
 class NewPublicationViewModel extends BaseViewModel {
   static const String createHubItemValue = 'createHubItemValue';
   String? hubId;
+  int mediaPreviewTypeIndex = 0;
 
   NewPublicationViewModel(this.hubId) {
     if (hubId == null) {
@@ -157,5 +158,10 @@ class NewPublicationViewModel extends BaseViewModel {
   void dispose() {
     publicationTextController.dispose();
     super.dispose();
+  }
+
+  void onMediaPreviewTypeIndexChanged(int index) {
+    mediaPreviewTypeIndex = index;
+    notifyListeners();
   }
 }
