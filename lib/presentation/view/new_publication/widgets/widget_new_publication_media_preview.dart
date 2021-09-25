@@ -17,18 +17,44 @@ class WidgetNewPublicationMediaGridPreview
         physics: NeverScrollableScrollPhysics(),
         crossAxisSpacing: 4,
         mainAxisSpacing: 4,
-        children: viewModel.viewData.mediaFiles
-            .map((file) => _bindItem(
-                  viewModel.viewData.mediaFiles,
-                  viewModel.viewData.mediaFiles.indexOf(file),
-                ))
-            .toList(),
+        children: viewModel.viewData.mediaFiles.map((file) {
+          int position = viewModel.viewData.mediaFiles.indexOf(file);
+          return _bindItem(
+            viewModel.viewData.mediaFiles,
+            position,
+            () => viewModel.removeMedia(position),
+          );
+        }).toList(),
         crossAxisCount: 3,
       );
 }
 
-Widget _bindItem(List<MediaFile> files, int position) =>
-    WidgetPublicationMediaPreview(files, position, local: true);
+Widget _bindItem(List<MediaFile> files, int position, VoidCallback onPressed) =>
+    Stack(
+      fit: StackFit.expand,
+      children: [
+        WidgetPublicationMediaPreview(files, position, local: true),
+        Positioned(
+          left: 8,
+          top: 8,
+          child: CircleAvatar(
+            radius: 17,
+            backgroundColor: Color(0x20FF0000),
+            child: IconButton(
+              icon: Text(
+                '—',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: onPressed,
+            ),
+          ),
+        ),
+      ],
+    );
 
 class WidgetNewPublicationMediaCarouselPreview
     extends ViewModelWidget<NewPublicationViewModel> {
@@ -38,12 +64,14 @@ class WidgetNewPublicationMediaCarouselPreview
         alignment: Alignment.center,
         children: [
           CarouselSlider(
-            items: viewModel.viewData.mediaFiles
-                .map((file) => _bindItem(
-                      viewModel.viewData.mediaFiles,
-                      viewModel.viewData.mediaFiles.indexOf(file),
-                    ))
-                .toList(),
+            items: viewModel.viewData.mediaFiles.map((file) {
+              int position = viewModel.viewData.mediaFiles.indexOf(file);
+              return _bindItem(
+                viewModel.viewData.mediaFiles,
+                position,
+                () => viewModel.removeMedia(position),
+              );
+            }).toList(),
             carouselController: viewModel.buttonCarouselController,
             options: CarouselOptions(
               aspectRatio: 1,

@@ -111,4 +111,14 @@ class NewPublicationViewModel extends BaseViewModel {
     currentMediaCarouselIndex = index;
     notifyListeners();
   }
+
+  void removeMedia(int position) {
+    mediaList.removeAt(position);
+    viewData.mediaFiles.removeAt(position);
+    if (currentMediaCarouselIndex > mediaList.length - 1 &&
+        currentMediaCarouselIndex > 0) {
+      currentMediaCarouselIndex = mediaList.length - 1;
+    }
+    notifyListeners();
+  }
 }
