@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
@@ -20,6 +22,8 @@ class NewPublicationViewModel extends BaseViewModel {
   int mediaPreviewTypeIndex = 0;
   List<Media> mediaList = [];
   media.MediaViewType mediaViewType = media.MediaViewType.values[0];
+  int currentMediaCarouselIndex = 0;
+  final CarouselController buttonCarouselController = CarouselController();
 
   NewPublicationViewModel(this.hubId) {
     if (hubId == null) {
@@ -100,6 +104,11 @@ class NewPublicationViewModel extends BaseViewModel {
           : media.MediaType.video;
       return media.MediaFile(path: path, type: mediaType);
     }).toList();
+    notifyListeners();
+  }
+
+  void onCarouselPageChanged(int index, CarouselPageChangedReason reason) {
+    currentMediaCarouselIndex = index;
     notifyListeners();
   }
 }
