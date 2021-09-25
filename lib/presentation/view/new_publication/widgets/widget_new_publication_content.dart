@@ -6,10 +6,12 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/input_field_new_publication.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_media_preview.dart';
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/media_picker.dart';
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/picker_decoration.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:media_picker_widget/media_picker_widget.dart';
 import 'package:stacked/stacked.dart';
 
 import 'appbar_new_publication.dart';

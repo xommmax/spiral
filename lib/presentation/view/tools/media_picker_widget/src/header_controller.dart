@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../media_picker_widget.dart';
+import 'media.dart';
 
 class HeaderController {
   HeaderController();

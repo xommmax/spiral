@@ -1,4 +1,18 @@
-part of media_picker_widget;
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import 'album_selector.dart';
+import 'enums.dart';
+import 'header.dart';
+import 'header_controller.dart';
+import 'media.dart';
+import 'media_list.dart';
+import 'picker_decoration.dart';
+import 'widgets/loading_widget.dart';
+import 'widgets/media_tile.dart';
+import 'widgets/no_media.dart';
 
 class MediaPicker extends StatefulWidget {
   MediaPicker({
@@ -51,7 +65,8 @@ class _MediaPickerState extends State<MediaPicker> {
               ? NoMedia()
               : Column(
                   children: [
-                    if (decoration!.actionBarPosition == ActionBarPosition.top) _buildHeader(),
+                    if (decoration!.actionBarPosition == ActionBarPosition.top)
+                      _buildHeader(),
                     Expanded(
                         child: Stack(
                       children: [
@@ -76,7 +91,9 @@ class _MediaPickerState extends State<MediaPicker> {
                         ),
                       ],
                     )),
-                    if (decoration!.actionBarPosition == ActionBarPosition.bottom) _buildHeader(),
+                    if (decoration!.actionBarPosition ==
+                        ActionBarPosition.bottom)
+                      _buildHeader(),
                   ],
                 ),
     );
@@ -104,7 +121,8 @@ class _MediaPickerState extends State<MediaPicker> {
 
     var result = await PhotoManager.requestPermission();
     if (result) {
-      List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(type: type);
+      List<AssetPathEntity> albums =
+          await PhotoManager.getAssetPathList(type: type);
       setState(() {
         _albums = albums;
         selectedAlbum = _albums![0];
@@ -124,10 +142,12 @@ class _MediaPickerState extends State<MediaPicker> {
 
 openCamera({required ValueChanged<Media> onCapture}) async {
   final picker = ImagePicker();
-  final PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera);
+  final PickedFile? pickedFile =
+      await picker.getImage(source: ImageSource.camera);
 
   if (pickedFile != null) {
-    List<AssetPathEntity> album = await PhotoManager.getAssetPathList(onlyAll: true);
+    List<AssetPathEntity> album =
+        await PhotoManager.getAssetPathList(onlyAll: true);
     List<AssetEntity> media = await album[0].getAssetListPaged(0, 1);
 
     Media convertedMedia = await convertToMedia(media: media[0]);

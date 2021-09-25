@@ -1,4 +1,9 @@
-part of media_picker_widget;
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+
+import 'enums.dart';
 
 class Media {
   File? file;

@@ -7,9 +7,10 @@ import 'package:dairo/domain/model/publication/media.dart' as media;
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/widgets.dart';
-import 'package:media_picker_widget/media_picker_widget.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

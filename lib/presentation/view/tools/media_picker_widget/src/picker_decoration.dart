@@ -1,4 +1,6 @@
-part of media_picker_widget;
+import 'package:flutter/material.dart';
+
+import 'enums.dart';
 
 ///[PickerDecoration] is used for decorating the UI
 

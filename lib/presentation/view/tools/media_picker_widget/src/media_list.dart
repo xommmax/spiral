@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-import '../media_picker_widget.dart';
+import 'enums.dart';
 import 'header_controller.dart';
+import 'media.dart';
+import 'picker_decoration.dart';
 import 'widgets/media_tile.dart';
 
 class MediaList extends StatefulWidget {
@@ -39,7 +41,8 @@ class _MediaListState extends State<MediaList> {
     album = widget.album;
     if (widget.mediaCount == MediaCount.multiple) {
       selectedMedias.addAll(widget.previousList);
-      WidgetsBinding.instance!.addPostFrameCallback((_) => widget.headerController.updateSelection!(selectedMedias));
+      WidgetsBinding.instance!.addPostFrameCallback(
+          (_) => widget.headerController.updateSelection!(selectedMedias));
     }
     _fetchNewMedia();
     super.initState();
@@ -56,7 +59,8 @@ class _MediaListState extends State<MediaList> {
       child: GridView.builder(
         controller: widget.scrollController,
         itemCount: _mediaList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.decoration!.columnCount),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: widget.decoration!.columnCount),
         itemBuilder: (BuildContext context, int index) {
           return _mediaList[index];
         },
@@ -97,7 +101,8 @@ class _MediaListState extends State<MediaList> {
             if (isSelected)
               setState(() => selectedMedias.add(media));
             else
-              setState(() => selectedMedias.removeWhere((_media) => _media.id == media.id));
+              setState(() => selectedMedias
+                  .removeWhere((_media) => _media.id == media.id));
             widget.headerController.updateSelection!(selectedMedias);
           },
           isSelected: isPreviouslySelected(asset),
