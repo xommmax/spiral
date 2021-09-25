@@ -143,5 +143,7 @@ class Strings {
 
   static const privateHub = 'Private hub';
 
+  static const errorLimitMaxMediaSize = 'The limit is 10 photos or videos';
+
 /* Uncategorized */
 }

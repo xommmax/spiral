@@ -69,7 +69,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
 
   # picker:
-  image_picker: ^0.8.1+2
+  media_picker_widget: ^0.0.5
   # cropper
   image_cropper: ^1.4.1
   # image downloader with cache

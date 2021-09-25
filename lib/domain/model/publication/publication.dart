@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dairo/data/db/entity/publication_item_data.dart';
+import 'package:dairo/domain/model/publication/media.dart';
+import 'package:flutter/foundation.dart';
 
 class Publication {
   final String id;
@@ -12,6 +14,7 @@ class Publication {
   final List<String> mediaUrls;
   final bool isLiked;
   final int createdAt;
+  final MediaViewType viewType;
 
   Publication._({
     required this.id,
@@ -23,6 +26,7 @@ class Publication {
     required this.mediaUrls,
     required this.isLiked,
     required this.createdAt,
+    required this.viewType,
   });
 
   factory Publication.fromItemData(PublicationItemData itemData) =>
@@ -36,11 +40,13 @@ class Publication {
         mediaUrls: jsonDecode(itemData.mediaUrls)?.cast<String>() ?? [],
         isLiked: itemData.isLiked,
         createdAt: itemData.createdAt,
+        viewType: MediaViewType.values
+            .firstWhere((e) => describeEnum(e) == itemData.viewType),
       );
 
   @override
   String toString() {
-    return 'Publication{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, mediaUrls: $mediaUrls, isLiked: $isLiked, createdAt: $createdAt}';
+    return 'Publication{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, mediaUrls: $mediaUrls, isLiked: $isLiked, createdAt: $createdAt, viewType: $viewType}';
   }
 
   @override
@@ -56,7 +62,8 @@ class Publication {
           commentsCount == other.commentsCount &&
           mediaUrls == other.mediaUrls &&
           isLiked == other.isLiked &&
-          createdAt == other.createdAt;
+          createdAt == other.createdAt &&
+          viewType == other.viewType;
 
   @override
   int get hashCode =>
@@ -68,5 +75,6 @@ class Publication {
       commentsCount.hashCode ^
       mediaUrls.hashCode ^
       isLiked.hashCode ^
-      createdAt.hashCode;
+      createdAt.hashCode ^
+      viewType.hashCode;
 }

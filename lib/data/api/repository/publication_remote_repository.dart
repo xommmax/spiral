@@ -32,9 +32,12 @@ class PublicationRemoteRepository {
           mediaFiles, FirebaseStorageFolders.hubPublications);
     }
     request.mediaUrls = uploadedUrls;
+    var requestJson = request.toJson();
+    requestJson['likesCount'] = 0;
+    requestJson['commentsCount'] = 0;
     final snapshot = await _firestore
         .collection(FirebaseCollections.hubPublications)
-        .add(request.toJson())
+        .add(requestJson)
         .then((reference) => reference.get());
     return PublicationResponse.fromJson(
       snapshot.data(),

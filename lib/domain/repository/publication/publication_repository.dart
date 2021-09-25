@@ -9,6 +9,7 @@ abstract class PublicationRepository {
     required String hubId,
     String? text,
     List<MediaFile>? mediaFiles,
+    required MediaViewType viewType,
   });
 
   Stream<List<Publication>> getPublications(String hubId);
