@@ -144,8 +144,3 @@ class WidgetNewPublicationMediaCarouselPreview
         ],
       );
 }
-
-enum MediaPreviewType {
-  GRID,
-  CAROUSEL,
-}
