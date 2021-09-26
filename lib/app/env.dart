@@ -2,7 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 late $ENV ENV;
 
-const _envFile = String.fromEnvironment("ENV", defaultValue: "dev");
+const _envFile = String.fromEnvironment("ENV", defaultValue: "prod");
 
 /// type-safe, strongly typed wrapper around dotenv
 class $ENV {
