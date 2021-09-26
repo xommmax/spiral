@@ -25,19 +25,12 @@ class WidgetExplorePublication extends StatelessWidget {
           child: getUrlType(previewMediaUrl) == UrlType.IMAGE
               ? CachedNetworkImage(
                   imageUrl: previewMediaUrl,
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.cover,
                   width: double.maxFinite,
                 )
               : getUrlType(previewMediaUrl) == UrlType.VIDEO
-                  ? Stack(
-                      children: [
-                        Positioned.fromRect(
-                          rect: Rect.fromPoints(Offset(400, 120), Offset(0, 0)),
-                          child: WidgetPublicationVideoPreview(
-                              networkUrl: previewMediaUrl),
-                        ),
-                      ],
-                    )
+                  ? WidgetPublicationVideoPreview(
+                      networkUrl: previewMediaUrl, fit: BoxFit.cover)
                   : SizedBox.shrink());
     } else if (publication.text != null) {
       return GestureDetector(

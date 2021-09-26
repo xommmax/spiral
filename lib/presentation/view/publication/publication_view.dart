@@ -8,10 +8,12 @@ class PublicationView extends StandardBaseView<PublicationViewModel> {
   PublicationView(
     String publicationId,
     String userId,
+    String hubId,
   ) : super(
           PublicationViewModel(
             publicationId: publicationId,
             userId: userId,
+            hubId: hubId,
           ),
           routeName: Routes.publicationView,
         );

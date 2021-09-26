@@ -1,5 +1,7 @@
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
 import 'package:dairo/presentation/view/publication/widgets/widget_comment_input_field.dart';
@@ -22,6 +24,7 @@ class WidgetPublication extends ViewModelWidget<PublicationViewModel> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    WidgetPublicationHeader(),
                     viewModel.publication!.mediaUrls.isNotEmpty
                         ? Padding(
                             padding: const EdgeInsets.only(top: 4.0),
@@ -86,5 +89,62 @@ class WidgetPublicationMedia extends StatelessWidget {
     } else {
       throw ArgumentError(Strings.unknownMediaType);
     }
+  }
+}
+
+class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
+  @override
+  Widget build(BuildContext context, PublicationViewModel viewModel) {
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Row(
+            children: [
+              WidgetProfilePhoto(
+                photoUrl: viewModel.user?.photoURL,
+                width: 22,
+                height: 22,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 4),
+              ),
+              InkWell(
+                child: Text(
+                  viewModel.user?.name ??
+                      viewModel.user?.username ??
+                      viewModel.user?.email ??
+                      '',
+                  style: TextStyles.black12,
+                ),
+                onTap: viewModel.onUserClicked,
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 16),
+          ),
+          Row(
+            children: [
+              WidgetProfilePhoto(
+                photoUrl: viewModel.hub?.pictureUrl,
+                width: 22,
+                height: 22,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 4),
+              ),
+              InkWell(
+                child: Text(
+                  viewModel.hub?.name ?? '',
+                  style: TextStyles.black12,
+                ),
+                onTap: viewModel.onHubClicked,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -145,6 +145,7 @@ class HubViewModel extends MultipleStreamViewModel {
         arguments: PublicationViewArguments(
           publicationId: publication.id,
           userId: publication.userId,
+          hubId: publication.hubId,
         ),
       );
 

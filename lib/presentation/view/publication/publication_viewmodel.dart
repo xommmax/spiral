@@ -1,29 +1,44 @@
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/app/router.router.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
+import 'package:dairo/domain/model/user/user.dart';
+import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
+import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class PublicationViewModel extends MultipleStreamViewModel {
   static const PUBLICATION_STREAM_KEY = 'PUBLICATION_STREAM_KEY';
   static const COMMENTS_STREAM_KEY = 'COMMENTS_STREAM_KEY';
+  static const USER_STREAM_KEY = 'USER_STREAM_KEY';
+  static const HUB_STREAM_KEY = 'HUB_STREAM_KEY';
 
   final String publicationId;
   final String userId;
+  final String hubId;
 
   PublicationViewModel({
     required this.publicationId,
     required this.userId,
+    required this.hubId,
   });
 
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
   final TextEditingController commentsTextController = TextEditingController();
+  final UserRepository _userRepository = locator<UserRepository>();
+  final HubRepository _hubRepository = locator<HubRepository>();
+  final NavigationService navigationService = locator<NavigationService>();
 
   Publication? publication;
+  User? user;
+  Hub? hub;
   List<Comment>? comments;
   Comment? commentToReply;
 
@@ -37,7 +52,20 @@ class PublicationViewModel extends MultipleStreamViewModel {
           commentsStream(),
           onData: _onCommentsRetrieved,
         ),
+        USER_STREAM_KEY: StreamData<User?>(
+          userStream(),
+          onData: _onUserRetrieved,
+        ),
+        HUB_STREAM_KEY: StreamData<Hub?>(
+          hubStream(),
+          onData: _onHubRetrieved,
+        ),
       };
+
+  Stream<User?> userStream() => _userRepository.getUser(userId);
+  Stream<Hub?> hubStream() => _hubRepository.getHub(hubId);
+  void _onUserRetrieved(User? user) => this.user = user;
+  void _onHubRetrieved(Hub? hub) => this.hub = hub;
 
   Stream<Publication?> publicationStream() =>
       _publicationRepository.getPublication(publicationId);
@@ -76,5 +104,19 @@ class PublicationViewModel extends MultipleStreamViewModel {
   void setCommentToReply(Comment? comment) {
     commentToReply = comment;
     notifyListeners();
+  }
+
+  void onUserClicked() {
+    if (user != null) {
+      navigationService.navigateTo(Routes.userProfileView,
+          arguments: UserProfileViewArguments(userId: user!.id));
+    }
+  }
+
+  void onHubClicked() {
+    if (hub != null && user != null) {
+      navigationService.navigateTo(Routes.hubView,
+          arguments: HubViewArguments(hubId: hub!.id, userId: user!.id));
+    }
   }
 }

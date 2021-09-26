@@ -101,6 +101,7 @@ class Strings {
 
   /* Publication */
   static const addComment = 'Add comment...';
+  static const publication = 'Publication';
 
   /* Comments */
   static const unknownUser = 'Unknown User';
