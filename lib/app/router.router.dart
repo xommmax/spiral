@@ -160,6 +160,7 @@ class StackedRouter extends RouterBase {
         builder: (context) => PublicationView(
           args.publicationId,
           args.userId,
+          args.hubId,
         ),
         settings: data,
       );
@@ -253,7 +254,9 @@ class FollowersViewArguments {
 class PublicationViewArguments {
   final String publicationId;
   final String userId;
-  PublicationViewArguments({required this.publicationId, required this.userId});
+  final String hubId;
+  PublicationViewArguments(
+      {required this.publicationId, required this.userId, required this.hubId});
 }
 
 /// FollowingsView arguments holder class
