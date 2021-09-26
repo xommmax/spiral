@@ -24,6 +24,8 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
                     .users[viewModel.viewData.publications[position]!.userId],
                 hub: viewModel.viewData
                     .hubs[viewModel.viewData.publications[position]!.hubId],
+                onUserClicked: viewModel.onUserClicked,
+                onHubClicked: viewModel.onHubClicked,
               ),
               separatorBuilder: (context, position) => Divider(
                 height: 14,

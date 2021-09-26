@@ -19,6 +19,8 @@ class WidgetHubPublication extends StatelessWidget {
   final Function(String publicationId, bool isLiked) onPublicationLikeClicked;
   final Function(String publicationId) onUsersLikedScreenClicked;
   final Function(Publication publication) onPublicationDetailsClicked;
+  final Function(User user) onUserClicked;
+  final Function(Hub hub) onHubClicked;
 
   const WidgetHubPublication({
     Key? key,
@@ -28,6 +30,8 @@ class WidgetHubPublication extends StatelessWidget {
     required this.onPublicationLikeClicked,
     required this.onUsersLikedScreenClicked,
     required this.onPublicationDetailsClicked,
+    required this.onUserClicked,
+    required this.onHubClicked,
   }) : super(key: key);
 
   @override
@@ -49,9 +53,14 @@ class WidgetHubPublication extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
-                    Text(
-                      user?.name ?? '',
-                      style: TextStyles.black12,
+                    InkWell(
+                      child: Text(
+                        user?.name ?? user?.username ?? user?.email ?? '',
+                        style: TextStyles.black12,
+                      ),
+                      onTap: () {
+                        if (user != null) onUserClicked(user!);
+                      },
                     ),
                   ],
                 ),
@@ -68,9 +77,14 @@ class WidgetHubPublication extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
-                    Text(
-                      hub?.name ?? '',
-                      style: TextStyles.black12,
+                    InkWell(
+                      child: Text(
+                        hub?.name ?? '',
+                        style: TextStyles.black12,
+                      ),
+                      onTap: () {
+                        if (hub != null) onHubClicked(hub!);
+                      },
                     ),
                   ],
                 ),
@@ -111,8 +125,12 @@ class _WidgetHubPublicationText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => text != null && text!.isNotEmpty
       ? Padding(
-          padding: const EdgeInsets.only(left: 8, bottom: 4),
-          child: Text(text!),
+          padding: const EdgeInsets.only(left: 8, top: 8),
+          child: Text(
+            text!,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
         )
       : SizedBox.shrink();
 }
