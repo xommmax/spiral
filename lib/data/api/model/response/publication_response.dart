@@ -13,6 +13,7 @@ class PublicationResponse {
   final bool isLiked;
   final List<String> mediaUrls;
   final int createdAt;
+  final String viewType;
 
   PublicationResponse({
     required this.id,
@@ -24,6 +25,7 @@ class PublicationResponse {
     required this.isLiked,
     required this.mediaUrls,
     required this.createdAt,
+    required this.viewType,
   });
 
   factory PublicationResponse.fromJson(
@@ -42,7 +44,7 @@ class PublicationResponse {
 
   @override
   String toString() {
-    return 'PublicationResponse{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, isLiked: $isLiked, mediaUrls: $mediaUrls, createdAt: $createdAt}';
+    return 'PublicationResponse{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, isLiked: $isLiked, mediaUrls: $mediaUrls, createdAt: $createdAt, viewType: $viewType}';
   }
 
   @override
@@ -58,7 +60,8 @@ class PublicationResponse {
           commentsCount == other.commentsCount &&
           isLiked == other.isLiked &&
           mediaUrls == other.mediaUrls &&
-          createdAt == other.createdAt;
+          createdAt == other.createdAt &&
+          viewType == other.viewType;
 
   @override
   int get hashCode =>
@@ -70,5 +73,6 @@ class PublicationResponse {
       commentsCount.hashCode ^
       isLiked.hashCode ^
       mediaUrls.hashCode ^
-      createdAt.hashCode;
+      createdAt.hashCode ^
+      viewType.hashCode;
 }

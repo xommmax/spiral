@@ -12,6 +12,7 @@ PublicationRequest _$PublicationRequestFromJson(Map<String, dynamic> json) {
     userId: json['userId'] as String,
     text: json['text'] as String?,
     createdAt: json['createdAt'] as int,
+    viewType: json['viewType'] as String,
   )..mediaUrls =
       (json['mediaUrls'] as List<dynamic>).map((e) => e as String).toList();
 }
@@ -23,4 +24,5 @@ Map<String, dynamic> _$PublicationRequestToJson(PublicationRequest instance) =>
       'text': instance.text,
       'createdAt': instance.createdAt,
       'mediaUrls': instance.mediaUrls,
+      'viewType': instance.viewType,
     };

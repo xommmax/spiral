@@ -42,11 +42,11 @@
         <true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Explanation on why the camera access is needed.</string>
+	<string>To take pictures for publications</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Explanation on why the microphone access is needed.</string>
+	<string>To record videos for publications</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Explanation on why the photo access is needed.</string>
+	<string>To choose pictures and videos for publications</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

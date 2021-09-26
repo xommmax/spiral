@@ -26,9 +26,12 @@ class HubRemoteRepository {
         .uploadMultipleFiles([hubPicture], FirebaseStorageFolders.hubPictures);
     hubRequest.pictureUrl = uploadedUrls[0];
 
+    var requestJson = hubRequest.toJson();
+    requestJson['followersCount'] = 0;
+
     final snapshot = await _firestore
         .collection(FirebaseCollections.userHubs)
-        .add(hubRequest.toJson())
+        .add(requestJson)
         .then((reference) => reference.get());
 
     return HubResponse.fromJson(

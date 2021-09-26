@@ -133,6 +133,17 @@ class HomeViewModel extends MultipleStreamViewModel {
         arguments: PublicationViewArguments(
           publicationId: publication.id,
           userId: publication.userId,
+          hubId: publication.hubId,
         ),
       );
+
+  onUserClicked(User user) {
+    _navigationService.navigateTo(Routes.userProfileView,
+        arguments: UserProfileViewArguments(userId: user.id));
+  }
+
+  onHubClicked(Hub hub) {
+    _navigationService.navigateTo(Routes.hubView,
+        arguments: HubViewArguments(hubId: hub.id, userId: hub.userId));
+  }
 }

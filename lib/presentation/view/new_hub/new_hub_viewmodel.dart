@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
@@ -30,14 +31,13 @@ class NewHubViewModel extends BaseViewModel {
 
     if (!_allDetailsSpecified()) return;
     _onCreateHub();
-    _navigationService.back();
   }
 
   void _onCreateHub() async {
     setBusy(true);
     notifyListeners();
     try {
-      await _hubRepository.createHub(
+      Hub hub = await _hubRepository.createHub(
         name: viewData.name!,
         description: viewData.description!,
         picture: MediaFile(
@@ -46,6 +46,7 @@ class NewHubViewModel extends BaseViewModel {
         ),
         isPrivate: false,
       );
+      _navigationService.back(result: hub.id);
     } catch (e) {
       AppSnackBar.showSnackBarError(e.toString());
     }

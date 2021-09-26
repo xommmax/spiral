@@ -28,7 +28,7 @@ export async function validateFirebaseIdToken(req: express.Request, res: express
   }
 
   try {
-    return await admin.auth().verifyIdToken(idToken);
+    return admin.auth().verifyIdToken(idToken);
   } catch (error) {
     functions.logger.error("Error while verifying Firebase ID token:", error);
     res.status(403).send("Unauthorized");

@@ -19,7 +19,6 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
               children: [
                 Stack(
                   children: [
-                    Image.asset('assets/images/ic_auth_background.png'),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -34,10 +33,6 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                               height: 101,
                               width: 101,
                               margin: EdgeInsets.only(top: 180),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: AppColors.primaryColor,
-                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 12.0),

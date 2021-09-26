@@ -15,6 +15,7 @@ class PublicationItemData {
   final int likesCount;
   final int commentsCount;
   final int createdAt;
+  final String viewType;
 
   PublicationItemData({
     required this.id,
@@ -26,6 +27,7 @@ class PublicationItemData {
     required this.likesCount,
     required this.commentsCount,
     required this.createdAt,
+    required this.viewType,
   });
 
   factory PublicationItemData.fromResponse(PublicationResponse response) =>
@@ -39,11 +41,12 @@ class PublicationItemData {
         mediaUrls: jsonEncode(response.mediaUrls),
         isLiked: response.isLiked,
         createdAt: response.createdAt,
+        viewType: response.viewType,
       );
 
   @override
   String toString() {
-    return 'PublicationItemData{id: $id, hubId: $hubId, userId: $userId, text: $text, mediaUrls: $mediaUrls, isLiked: $isLiked, likesCount: $likesCount, commentsCount: $commentsCount, createdAt: $createdAt}';
+    return 'PublicationItemData{id: $id, hubId: $hubId, userId: $userId, text: $text, mediaUrls: $mediaUrls, isLiked: $isLiked, likesCount: $likesCount, commentsCount: $commentsCount, createdAt: $createdAt, viewType: $viewType}';
   }
 
   @override
@@ -59,7 +62,8 @@ class PublicationItemData {
           isLiked == other.isLiked &&
           likesCount == other.likesCount &&
           commentsCount == other.commentsCount &&
-          createdAt == other.createdAt;
+          createdAt == other.createdAt &&
+          viewType == other.viewType;
 
   @override
   int get hashCode =>
@@ -71,5 +75,6 @@ class PublicationItemData {
       isLiked.hashCode ^
       likesCount.hashCode ^
       commentsCount.hashCode ^
-      createdAt.hashCode;
+      createdAt.hashCode ^
+      viewType.hashCode;
 }

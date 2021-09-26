@@ -78,7 +78,7 @@ class UserRepositoryImpl implements UserRepository {
       return User.fromItemData(itemData);
     });
 
-    if (userId == getCurrentUserId()) {
+    if (isCurrentUserExist() && userId == getCurrentUserId()) {
       _analyticsRepository.setUserId(userId: userId);
     }
     return stream;

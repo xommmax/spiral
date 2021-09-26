@@ -29,6 +29,7 @@ class ExploreViewModel extends BaseViewModel {
       arguments: PublicationViewArguments(
         publicationId: publication.id,
         userId: publication.userId,
+        hubId: publication.hubId,
       ),
     );
   }

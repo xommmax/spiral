@@ -8,4 +8,12 @@ class MediaFile {
   });
 }
 
-enum MediaType { image, video }
+enum MediaType {
+  image,
+  video,
+}
+
+enum MediaViewType {
+  carousel,
+  grid,
+}

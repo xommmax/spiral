@@ -13,7 +13,7 @@ class Strings {
   static const yes = 'Yes';
 
   /* Auth */
-  static const welcomeToDairo = 'Welcome to Dairo';
+  static const welcomeToDairo = 'Welcome to Spiral';
   static const getStarted = 'Get started';
   static const loginWithGoogle = 'Login with Google';
   static const loginWithApple = 'Login with Apple';
@@ -101,6 +101,7 @@ class Strings {
 
   /* Publication */
   static const addComment = 'Add comment...';
+  static const publication = 'Publication';
 
   /* Comments */
   static const unknownUser = 'Unknown User';
@@ -142,6 +143,10 @@ class Strings {
   static const hubDescription = 'Hub description';
 
   static const privateHub = 'Private hub';
+
+  static const errorLimitMaxMediaSize = 'The limit is 9 photos or videos';
+
+  static const unknownMediaType = "Unknown media type";
 
 /* Uncategorized */
 }

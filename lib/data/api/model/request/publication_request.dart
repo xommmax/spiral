@@ -9,19 +9,21 @@ class PublicationRequest {
   final String? text;
   final int createdAt;
   List<String> mediaUrls = [];
+  final String viewType;
 
   PublicationRequest({
     required this.hubId,
     required this.userId,
     required this.text,
     required this.createdAt,
+    required this.viewType,
   });
 
   Map<String, dynamic> toJson() => _$PublicationRequestToJson(this);
 
   @override
   String toString() {
-    return 'PublicationRequest{hubId: $hubId, userId: $userId, text: $text, createdAt: $createdAt, mediaUrls: $mediaUrls}';
+    return 'PublicationRequest{hubId: $hubId, userId: $userId, text: $text, createdAt: $createdAt, mediaUrls: $mediaUrls, viewType: $viewType}';
   }
 
   @override
@@ -33,7 +35,8 @@ class PublicationRequest {
           userId == other.userId &&
           text == other.text &&
           createdAt == other.createdAt &&
-          mediaUrls == other.mediaUrls;
+          mediaUrls == other.mediaUrls &&
+          viewType == other.viewType;
 
   @override
   int get hashCode =>
@@ -41,5 +44,6 @@ class PublicationRequest {
       userId.hashCode ^
       text.hashCode ^
       createdAt.hashCode ^
-      mediaUrls.hashCode;
+      mediaUrls.hashCode ^
+      viewType.hashCode;
 }

@@ -22,6 +22,7 @@ import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: PublicationRepository)
@@ -40,6 +41,7 @@ class PublicationRepositoryImpl implements PublicationRepository {
     required String hubId,
     String? text,
     List<MediaFile>? mediaFiles,
+    required MediaViewType viewType,
   }) async {
     final currentUserId = _userRepository.getCurrentUserId();
     final media = mediaFiles?.map((e) => File(e.path)).toList();
@@ -48,6 +50,7 @@ class PublicationRepositoryImpl implements PublicationRepository {
       userId: currentUserId,
       text: text,
       createdAt: DateTime.now().millisecondsSinceEpoch,
+      viewType: describeEnum(viewType),
     );
     PublicationResponse response =
         await _remote.createPublication(request, media);

@@ -22,7 +22,7 @@ class ButtonSignUp extends ViewModelWidget<AuthViewModel> {
               Strings.signup,
               style: TextStyle(
                 fontSize: 18,
-                color: AppColors.white,
+                color: AppColors.black,
               ),
             ),
           ),

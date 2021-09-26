@@ -1,3 +1,5 @@
+import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ class AppBarPublication extends ViewModelWidget<PublicationViewModel>
   @override
   Widget build(BuildContext context, PublicationViewModel viewModel) => AppBar(
         automaticallyImplyLeading: true,
+        title: Text(Strings.publication, style: TextStyles.toolbarTitle),
       );
 
   @override

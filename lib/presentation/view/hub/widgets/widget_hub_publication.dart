@@ -1,11 +1,14 @@
 import 'package:dairo/domain/model/hub/hub.dart';
+import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/base/widget_like.dart';
-import 'package:dairo/presentation/view/hub/widgets/widget_hub_publication_media.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
+import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
+import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -16,6 +19,8 @@ class WidgetHubPublication extends StatelessWidget {
   final Function(String publicationId, bool isLiked) onPublicationLikeClicked;
   final Function(String publicationId) onUsersLikedScreenClicked;
   final Function(Publication publication) onPublicationDetailsClicked;
+  final Function(User user) onUserClicked;
+  final Function(Hub hub) onHubClicked;
 
   const WidgetHubPublication({
     Key? key,
@@ -25,6 +30,8 @@ class WidgetHubPublication extends StatelessWidget {
     required this.onPublicationLikeClicked,
     required this.onUsersLikedScreenClicked,
     required this.onPublicationDetailsClicked,
+    required this.onUserClicked,
+    required this.onHubClicked,
   }) : super(key: key);
 
   @override
@@ -46,9 +53,14 @@ class WidgetHubPublication extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
-                    Text(
-                      user?.name ?? '',
-                      style: TextStyles.black12,
+                    InkWell(
+                      child: Text(
+                        user?.name ?? user?.username ?? user?.email ?? '',
+                        style: TextStyles.black12,
+                      ),
+                      onTap: () {
+                        if (user != null) onUserClicked(user!);
+                      },
                     ),
                   ],
                 ),
@@ -65,9 +77,14 @@ class WidgetHubPublication extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
-                    Text(
-                      hub?.name ?? '',
-                      style: TextStyles.black12,
+                    InkWell(
+                      child: Text(
+                        hub?.name ?? '',
+                        style: TextStyles.black12,
+                      ),
+                      onTap: () {
+                        if (hub != null) onHubClicked(hub!);
+                      },
                     ),
                   ],
                 ),
@@ -76,12 +93,13 @@ class WidgetHubPublication extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 8),
             ),
-            _WidgetHubPublicationText(
-              publication.text,
-              key: UniqueKey(),
-            ),
             _WidgetHubPublicationMedia(
               publication.mediaUrls,
+              publication.viewType,
+              key: UniqueKey(),
+            ),
+            _WidgetHubPublicationText(
+              publication.text,
               key: UniqueKey(),
             ),
             _WidgetHubPublicationFooter(
@@ -107,25 +125,44 @@ class _WidgetHubPublicationText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => text != null && text!.isNotEmpty
       ? Padding(
-          padding: const EdgeInsets.only(left: 8, bottom: 4),
-          child: Text(text!),
+          padding: const EdgeInsets.only(left: 8, top: 8),
+          child: Text(
+            text!,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
         )
       : SizedBox.shrink();
 }
 
 class _WidgetHubPublicationMedia extends StatelessWidget {
   final List<String> mediaUrls;
+  final MediaViewType viewType;
 
-  const _WidgetHubPublicationMedia(this.mediaUrls, {Key? key})
+  const _WidgetHubPublicationMedia(this.mediaUrls, this.viewType, {Key? key})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) => mediaUrls.isNotEmpty
-      ? SizedBox(
-          height: 160,
-          child: WidgetHubPublicationMedia(mediaUrls),
-        )
-      : SizedBox.shrink();
+  Widget build(BuildContext context) {
+    if (mediaUrls.isEmpty) return SizedBox.shrink();
+    List<MediaFile> mediaFiles = mediaUrls.map((url) {
+      switch (getUrlType(url)) {
+        case UrlType.IMAGE:
+          return MediaFile(path: url, type: MediaType.image);
+        case UrlType.VIDEO:
+          return MediaFile(path: url, type: MediaType.video);
+        case UrlType.UNKNOWN:
+          throw ArgumentError(Strings.unknownMediaType);
+      }
+    }).toList();
+    if (viewType == MediaViewType.carousel) {
+      return WidgetPublicationMediaCarouselPreview(mediaFiles);
+    } else if (viewType == MediaViewType.grid) {
+      return WidgetPublicationMediaGridPreview(mediaFiles);
+    } else {
+      throw ArgumentError(Strings.unknownMediaType);
+    }
+  }
 }
 
 class _WidgetHubPublicationFooter extends StatelessWidget {
