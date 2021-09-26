@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/explore/widgets/widget_explore_video_preview.dart';
+import 'package:dairo/presentation/view/publication/media/widget_publication_video_preview.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +33,7 @@ class WidgetExplorePublication extends StatelessWidget {
                       children: [
                         Positioned.fromRect(
                           rect: Rect.fromPoints(Offset(400, 120), Offset(0, 0)),
-                          child: WidgetExploreVideoPreview(
+                          child: WidgetPublicationVideoPreview(
                               networkUrl: previewMediaUrl),
                         ),
                       ],

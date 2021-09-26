@@ -81,9 +81,12 @@ dependencies:
 
   # video player widget
   video_player: ^2.1.6
+  chewie: ^1.2.2
+  video_thumbnail: ^0.4.3
 
   # tool to work with files
   path: ^1.8.0
+  path_provider: ^2.0.4
 
   # launcher icons
   flutter_launcher_icons: ^0.9.0

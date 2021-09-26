@@ -5,7 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/base/full_screen_publication_media_widget.dart';
-import 'package:dairo/presentation/view/base/widget_video_preview.dart';
+import 'package:dairo/presentation/view/publication/media/widget_publication_video_preview.dart';
 import 'package:flutter/material.dart';
 
 class WidgetPublicationMediaPreview extends StatelessWidget {
@@ -31,7 +31,15 @@ class WidgetPublicationMediaPreview extends StatelessWidget {
                     imageUrl: file.path,
                     fit: BoxFit.cover,
                   )
-            : WidgetVideoPreview(filePath: file.path),
+            : local
+                ? WidgetPublicationVideoPreview(
+                    filePath: file.path,
+                    fit: BoxFit.cover,
+                  )
+                : WidgetPublicationVideoPreview(
+                    networkUrl: file.path,
+                    fit: BoxFit.cover,
+                  ),
       ),
       mediaFiles: mediaFiles,
       currentIndex: currentIndex,
