@@ -23,7 +23,6 @@ class _WidgetVideoPreviewState extends State<WidgetPublicationVideo> {
   VideoPlayerController? _videoPlayerController;
   ChewieController? chewieController;
   bool _isInitialized = false;
-  bool _isPlaying = false;
 
   @override
   void initState() {

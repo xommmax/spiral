@@ -1,11 +1,65 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/view/base/full_screen_publication_media_widget.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
-import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
+
+class WidgetNewPublicationMediaPreview
+    extends ViewModelWidget<NewPublicationViewModel> {
+  final int index;
+
+  WidgetNewPublicationMediaPreview(this.index);
+
+  @override
+  Widget build(BuildContext context, NewPublicationViewModel viewModel) {
+    final file = viewModel.viewData.mediaFiles[index];
+    return FullScreenPublicationMediaWidget(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.file(
+            file.previewImage,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            left: 4,
+            top: 4,
+            child: CircleAvatar(
+              backgroundColor: AppColors.white,
+              radius: 16,
+              child: IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: AppColors.black,
+                  size: 16,
+                ),
+                onPressed: () => viewModel.removeMedia(index),
+              ),
+            ),
+          ),
+          file.type == MediaType.video
+              ? Align(
+                  child: CircleAvatar(
+                    radius: 24,
+                    backgroundColor: Color(0x80000000),
+                    child: Icon(
+                      Icons.play_arrow,
+                      color: AppColors.white,
+                    ),
+                  ),
+                )
+              : SizedBox.shrink(),
+        ],
+      ),
+      localMediaFiles: viewModel.viewData.mediaFiles,
+      currentIndex: index,
+      local: true,
+    );
+  }
+}
 
 class WidgetNewPublicationMediaGridPreview
     extends ViewModelWidget<NewPublicationViewModel> {
@@ -19,42 +73,11 @@ class WidgetNewPublicationMediaGridPreview
         mainAxisSpacing: 4,
         children: viewModel.viewData.mediaFiles.map((file) {
           int position = viewModel.viewData.mediaFiles.indexOf(file);
-          return _bindItem(
-            viewModel.viewData.mediaFiles,
-            position,
-            () => viewModel.removeMedia(position),
-          );
+          return WidgetNewPublicationMediaPreview(position);
         }).toList(),
         crossAxisCount: 3,
       );
 }
-
-Widget _bindItem(List<MediaFile> files, int position, VoidCallback onPressed) =>
-    Stack(
-      fit: StackFit.expand,
-      children: [
-        WidgetPublicationMediaPreview(files, position, local: true),
-        Positioned(
-          left: 8,
-          top: 8,
-          child: CircleAvatar(
-            radius: 17,
-            backgroundColor: Color(0x20FF0000),
-            child: IconButton(
-              icon: Text(
-                '—',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onPressed: onPressed,
-            ),
-          ),
-        ),
-      ],
-    );
 
 class WidgetNewPublicationMediaCarouselPreview
     extends ViewModelWidget<NewPublicationViewModel> {
@@ -66,11 +89,7 @@ class WidgetNewPublicationMediaCarouselPreview
           CarouselSlider(
             items: viewModel.viewData.mediaFiles.map((file) {
               int position = viewModel.viewData.mediaFiles.indexOf(file);
-              return _bindItem(
-                viewModel.viewData.mediaFiles,
-                position,
-                () => viewModel.removeMedia(position),
-              );
+              return WidgetNewPublicationMediaPreview(position);
             }).toList(),
             carouselController: viewModel.buttonCarouselController,
             options: CarouselOptions(

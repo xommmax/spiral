@@ -11,7 +11,6 @@ import 'media.dart';
 import 'media_list.dart';
 import 'picker_decoration.dart';
 import 'widgets/loading_widget.dart';
-import 'widgets/media_tile.dart';
 import 'widgets/no_media.dart';
 
 class MediaPicker extends StatefulWidget {
@@ -150,7 +149,7 @@ openCamera({required ValueChanged<Media> onCapture}) async {
         await PhotoManager.getAssetPathList(onlyAll: true);
     List<AssetEntity> media = await album[0].getAssetListPaged(0, 1);
 
-    Media convertedMedia = await convertToMedia(media: media[0]);
+    Media convertedMedia = await Media.fromAssetEntity(media: media[0]);
     onCapture(convertedMedia);
   }
 }

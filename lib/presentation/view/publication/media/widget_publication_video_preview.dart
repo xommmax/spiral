@@ -4,8 +4,7 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:video_compress/video_compress.dart';
 
 class WidgetPublicationVideoPreview extends StatefulWidget {
   final String? filePath;
@@ -22,7 +21,7 @@ class WidgetPublicationVideoPreview extends StatefulWidget {
 
 class WidgetPublicationVideoPreviewState
     extends State<WidgetPublicationVideoPreview> {
-  String? thumbnail;
+  File? thumbnail;
 
   @override
   void initState() {
@@ -35,13 +34,9 @@ class WidgetPublicationVideoPreviewState
       throw ArgumentError();
   }
 
-  void _getThumbnail(String path) async {
-    VideoThumbnail.thumbnailFile(
-      video: path,
-      thumbnailPath: (await getTemporaryDirectory()).path,
-      imageFormat: ImageFormat.JPEG,
-      quality: 40,
-    ).then((value) => setState(() => thumbnail = value));
+  void _getThumbnail(String path) {
+    VideoCompress.getFileThumbnail(path)
+        .then((value) => setState(() => thumbnail = value));
   }
 
   @override
@@ -55,7 +50,7 @@ class WidgetPublicationVideoPreviewState
         fit: StackFit.expand,
         children: [
           Image.file(
-            File(thumbnail!),
+            thumbnail!,
             fit: widget.fit,
           ),
           Align(

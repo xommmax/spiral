@@ -3,10 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-import '../enums.dart';
 import '../media.dart';
 import '../picker_decoration.dart';
-import 'loading_widget.dart';
 
 class MediaTile extends StatefulWidget {
   MediaTile({
@@ -148,32 +146,12 @@ class _MediaTileState extends State<MediaTile>
         ),
       );
     } else {
-      convertToMedia(media: widget.media)
+      Media.fromAssetEntity(media: widget.media)
           .then((_media) => setState(() => media = _media));
-      return LoadingWidget(
-        decoration: widget.decoration!,
-      );
+      return SizedBox();
     }
   }
 
   @override
   bool get wantKeepAlive => true;
-}
-
-Future<Media> convertToMedia({required AssetEntity media}) async {
-  Media convertedMedia = Media();
-  convertedMedia.file = await media.file;
-  // convertedMedia.mediaByte = await media.originBytes;
-  convertedMedia.thumbnail = await media.thumbDataWithSize(200, 200);
-  convertedMedia.id = media.id;
-  convertedMedia.size = media.size;
-  convertedMedia.title = media.title;
-  convertedMedia.creationTime = media.createDateTime;
-
-  MediaType mediaType = MediaType.all;
-  if (media.type == AssetType.video) mediaType = MediaType.video;
-  if (media.type == AssetType.image) mediaType = MediaType.image;
-  convertedMedia.mediaType = mediaType;
-
-  return convertedMedia;
 }

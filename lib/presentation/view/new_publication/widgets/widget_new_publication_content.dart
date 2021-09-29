@@ -5,11 +5,7 @@ import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/input_field_new_publication.dart';
-import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_media_preview.dart';
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/media_picker.dart';
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/picker_decoration.dart';
-import 'package:dairo/presentation/view/tools/snackbar.dart';
+import 'package:dairo/presentation/view/new_publication/widgets/widget_new_publication_media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -39,7 +35,7 @@ class WidgetNewPublicationContent
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
-                      onTap: () => openMediaPicker(context, viewModel),
+                      onTap: () => viewModel.openMediaPicker(context),
                       child: Container(
                         height: height / 2,
                         child: Center(
@@ -99,45 +95,6 @@ class WidgetNewPublicationContent
               onHubSelected: viewModel.onHubSelected,
             ),
     );
-  }
-
-  void openMediaPicker(
-      BuildContext context, NewPublicationViewModel viewModel) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return MediaPicker(
-            mediaList: viewModel.mediaList,
-            onPick: (selectedList) {
-              if (selectedList.length > NewPublicationViewModel.maxMediaSize) {
-                AppSnackBar.showSnackBarError(Strings.errorLimitMaxMediaSize);
-                return;
-              }
-              viewModel.updateMediaList(selectedList);
-              Navigator.pop(context);
-            },
-            onCancel: () => Navigator.pop(context),
-            mediaCount: MediaCount.multiple,
-            mediaType: MediaType.all,
-            decoration: PickerDecoration(
-              actionBarPosition: ActionBarPosition.top,
-              albumTitleStyle: TextStyle(
-                color: AppColors.black,
-              ),
-              albumTextStyle: TextStyle(
-                color: AppColors.black,
-              ),
-              completeTextStyle: TextStyle(
-                color: AppColors.black,
-              ),
-              completeButtonStyle: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(AppColors.lightGray),
-              ),
-              cancelIcon: Icon(Icons.arrow_back),
-              completeText: 'Done',
-            ),
-          );
-        });
   }
 }
 
