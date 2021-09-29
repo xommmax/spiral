@@ -31,6 +31,7 @@ class PublicationRemoteRepository {
       PublicationRequest request, List<LocalMediaFile>? mediaFiles) async {
     List<String> mediaUrls = [];
     List<String> previewUrls = [];
+
     final String userId = _auth.currentUser!.uid;
     String folder = FirebaseStorageFolders.hubPublications;
 
@@ -41,30 +42,34 @@ class PublicationRemoteRepository {
           await _firebaseStorageRepository.uploadFile(
               file: compressedVideoFile, userId: userId, folder: folder);
 
-      mediaUrls.add(uploadedCompressedVideoPath);
+      mediaUrls[mediaFiles!.indexOf(mediaFile)] = uploadedCompressedVideoPath;
 
       String uploadedPreviewPath = await _firebaseStorageRepository.uploadFile(
           file: mediaFile.previewImage, userId: userId, folder: folder);
-      previewUrls.add(uploadedPreviewPath);
+      previewUrls[mediaFiles.indexOf(mediaFile)] = uploadedPreviewPath;
     }
 
     if (mediaFiles != null && mediaFiles.isNotEmpty) {
-      await Future.wait(mediaFiles.map<Future>((mediaFile) {
-        if (mediaFile.type == MediaType.image) {
-          return _firebaseStorageRepository
-              .uploadFile(
-                  file: mediaFile.previewImage, userId: userId, folder: folder)
-              .then((uploadedPath) {
-            mediaUrls.add(uploadedPath);
-            previewUrls.add(uploadedPath);
-          });
-        } else if (mediaFile.type == MediaType.video) {
-          return _compressAndUploadVideo(mediaFile);
-        } else {
-          throw ArgumentError();
-        }
+      mediaUrls = List.generate(mediaFiles.length, (index) => "");
+      previewUrls = List.generate(mediaFiles.length, (index) => "");
+
+      await Future.wait(mediaFiles
+          .where((mediaFile) => mediaFile.type == MediaType.image)
+          .map<Future>((mediaFile) {
+        return _firebaseStorageRepository
+            .uploadFile(
+                file: mediaFile.previewImage, userId: userId, folder: folder)
+            .then((uploadedPath) {
+          mediaUrls[mediaFiles.indexOf(mediaFile)] = uploadedPath;
+          previewUrls[mediaFiles.indexOf(mediaFile)] = uploadedPath;
+        });
       }));
+
+      await Future.forEach(
+          mediaFiles.where((mediaFile) => mediaFile.type == MediaType.video),
+          (LocalMediaFile mediaFile) => _compressAndUploadVideo(mediaFile));
     }
+
     request.mediaUrls = mediaUrls;
     request.previewUrls = previewUrls;
     var requestJson = request.toJson();

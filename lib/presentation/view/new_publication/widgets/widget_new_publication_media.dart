@@ -56,7 +56,6 @@ class WidgetNewPublicationMediaPreview
       ),
       localMediaFiles: viewModel.viewData.mediaFiles,
       currentIndex: index,
-      local: true,
     );
   }
 }

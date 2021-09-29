@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/presentation/view/publication/media/widget_publication_video.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenPublicationMediaWidget extends StatelessWidget {
   FullScreenPublicationMediaWidget({
     required this.child,
     required this.currentIndex,
-    required this.local,
     this.remoteMediaFiles,
     this.localMediaFiles,
     this.backgroundColor = Colors.black,
@@ -19,7 +19,6 @@ class FullScreenPublicationMediaWidget extends StatelessWidget {
   final List<RemoteMediaFile>? remoteMediaFiles;
   final List<LocalMediaFile>? localMediaFiles;
   final int currentIndex;
-  final bool local;
   final Color backgroundColor;
   final bool backgroundIsTransparent;
   final DisposeLevel disposeLevel;
@@ -43,7 +42,6 @@ class FullScreenPublicationMediaWidget extends StatelessWidget {
                     backgroundColor: backgroundColor,
                     backgroundIsTransparent: backgroundIsTransparent,
                     disposeLevel: disposeLevel,
-                    local: local,
                   );
                 }));
       },
@@ -62,7 +60,6 @@ class FullScreenPage extends StatefulWidget {
     required this.backgroundColor,
     required this.backgroundIsTransparent,
     required this.disposeLevel,
-    required this.local,
   });
 
   final List<RemoteMediaFile>? remoteMediaFiles;
@@ -71,7 +68,6 @@ class FullScreenPage extends StatefulWidget {
   final Color backgroundColor;
   final bool backgroundIsTransparent;
   final DisposeLevel disposeLevel;
-  final bool local;
 
   @override
   _FullScreenPageState createState() => _FullScreenPageState();
@@ -90,10 +86,13 @@ class _FullScreenPageState extends State<FullScreenPage> {
 
   Duration animationDuration = Duration.zero;
 
+  late List<Widget> carouselItems;
+
   @override
   void initState() {
     super.initState();
     setDisposeLevel();
+    initCarouselItems();
   }
 
   setDisposeLevel() {
@@ -159,33 +158,6 @@ class _FullScreenPageState extends State<FullScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> carouselItems;
-    if (widget.localMediaFiles != null) {
-      carouselItems = widget.localMediaFiles!.map((file) {
-        return file.type == MediaType.image
-            ? Image.file(
-                file.previewImage,
-              )
-            : WidgetPublicationVideoPreview(
-                filePath: file.originalFile.path,
-                isPlayable: true,
-              );
-      }).toList();
-    } else if (widget.remoteMediaFiles != null) {
-      carouselItems = widget.remoteMediaFiles!.map((file) {
-        return file.type == MediaType.image
-            ? CachedNetworkImage(
-                imageUrl: file.path,
-              )
-            : WidgetPublicationVideoPreview(
-                networkUrl: file.path,
-                isPlayable: true,
-              );
-      }).toList();
-    } else {
-      throw ArgumentError();
-    }
-
     return Scaffold(
       backgroundColor: widget.backgroundIsTransparent
           ? Colors.transparent
@@ -229,5 +201,45 @@ class _FullScreenPageState extends State<FullScreenPage> {
         ),
       ),
     );
+  }
+
+  void initCarouselItems() {
+    if (widget.localMediaFiles != null) {
+      carouselItems = widget.localMediaFiles!
+          .map((e) => _LocalFullScreenPublicationMediaWidget(e))
+          .toList();
+    } else if (widget.remoteMediaFiles != null) {
+      carouselItems = widget.remoteMediaFiles!
+          .map((e) => _RemoteFullScreenPublicationMediaWidget(e))
+          .toList();
+    } else {
+      throw ArgumentError();
+    }
+  }
+}
+
+class _LocalFullScreenPublicationMediaWidget extends StatelessWidget {
+  final LocalMediaFile file;
+
+  _LocalFullScreenPublicationMediaWidget(this.file);
+
+  @override
+  Widget build(BuildContext context) {
+    return file.type == MediaType.image
+        ? Image.file(file.previewImage)
+        : WidgetPublicationVideo(filePath: file.originalFile.path);
+  }
+}
+
+class _RemoteFullScreenPublicationMediaWidget extends StatelessWidget {
+  final RemoteMediaFile file;
+
+  _RemoteFullScreenPublicationMediaWidget(this.file);
+
+  @override
+  Widget build(BuildContext context) {
+    return file.type == MediaType.image
+        ? CachedNetworkImage(imageUrl: file.previewPath)
+        : WidgetPublicationVideo(networkUrl: file.path);
   }
 }

@@ -38,7 +38,6 @@ class WidgetPublicationMediaPreview extends StatelessWidget {
       ),
       remoteMediaFiles: mediaFiles,
       currentIndex: currentIndex,
-      local: false,
     );
   }
 }
