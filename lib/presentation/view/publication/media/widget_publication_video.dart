@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:chewie/chewie.dart';
-import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
@@ -44,7 +44,7 @@ class _WidgetVideoPreviewState extends State<WidgetPublicationVideo> {
       chewieController = ChewieController(
         videoPlayerController: _videoPlayerController!,
         autoPlay: true,
-        looping: true,
+        looping: false,
       );
       setState(() => _isInitialized = true);
     } else {
@@ -55,9 +55,7 @@ class _WidgetVideoPreviewState extends State<WidgetPublicationVideo> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text("Video Player", style: TextStyles.toolbarTitle),
-        ),
+        backgroundColor: AppColors.black,
         body: Column(
           children: <Widget>[
             Expanded(
