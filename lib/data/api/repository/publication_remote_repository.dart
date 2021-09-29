@@ -13,6 +13,8 @@ import 'package:dairo/data/api/model/response/publication_response.dart';
 import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
+import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
@@ -23,15 +25,48 @@ class PublicationRemoteRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final UserRemoteRepository _userRemoteRepository =
       locator<UserRemoteRepository>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<PublicationResponse> createPublication(
-      PublicationRequest request, List<File>? mediaFiles) async {
-    List<String> uploadedUrls = [];
-    if (mediaFiles != null && mediaFiles.isNotEmpty) {
-      uploadedUrls = await _firebaseStorageRepository.uploadMultipleFiles(
-          mediaFiles, FirebaseStorageFolders.hubPublications);
+      PublicationRequest request, List<LocalMediaFile>? mediaFiles) async {
+    List<String> mediaUrls = [];
+    List<String> previewUrls = [];
+    final String userId = _auth.currentUser!.uid;
+    String folder = FirebaseStorageFolders.hubPublications;
+
+    Future _compressAndUploadVideo(LocalMediaFile mediaFile) async {
+      File compressedVideoFile =
+          await compressVideo(mediaFile.originalFile.path);
+      String uploadedCompressedVideoPath =
+          await _firebaseStorageRepository.uploadFile(
+              file: compressedVideoFile, userId: userId, folder: folder);
+
+      mediaUrls.add(uploadedCompressedVideoPath);
+
+      String uploadedPreviewPath = await _firebaseStorageRepository.uploadFile(
+          file: mediaFile.previewImage, userId: userId, folder: folder);
+      previewUrls.add(uploadedPreviewPath);
     }
-    request.mediaUrls = uploadedUrls;
+
+    if (mediaFiles != null && mediaFiles.isNotEmpty) {
+      await Future.wait(mediaFiles.map<Future>((mediaFile) {
+        if (mediaFile.type == MediaType.image) {
+          return _firebaseStorageRepository
+              .uploadFile(
+                  file: mediaFile.previewImage, userId: userId, folder: folder)
+              .then((uploadedPath) {
+            mediaUrls.add(uploadedPath);
+            previewUrls.add(uploadedPath);
+          });
+        } else if (mediaFile.type == MediaType.video) {
+          return _compressAndUploadVideo(mediaFile);
+        } else {
+          throw ArgumentError();
+        }
+      }));
+    }
+    request.mediaUrls = mediaUrls;
+    request.previewUrls = previewUrls;
     var requestJson = request.toJson();
     requestJson['likesCount'] = 0;
     requestJson['commentsCount'] = 0;

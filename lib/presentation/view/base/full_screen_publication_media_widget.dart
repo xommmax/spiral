@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/publication/media.dart';
-import 'package:dairo/presentation/view/publication/media/widget_publication_video_preview.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenPublicationMediaWidget extends StatelessWidget {
@@ -9,7 +8,7 @@ class FullScreenPublicationMediaWidget extends StatelessWidget {
     required this.child,
     required this.currentIndex,
     required this.local,
-    this.mediaFiles,
+    this.remoteMediaFiles,
     this.localMediaFiles,
     this.backgroundColor = Colors.black,
     this.backgroundIsTransparent = true,
@@ -17,7 +16,7 @@ class FullScreenPublicationMediaWidget extends StatelessWidget {
   });
 
   final Widget child;
-  final List<MediaFile>? mediaFiles;
+  final List<RemoteMediaFile>? remoteMediaFiles;
   final List<LocalMediaFile>? localMediaFiles;
   final int currentIndex;
   final bool local;
@@ -38,7 +37,7 @@ class FullScreenPublicationMediaWidget extends StatelessWidget {
                     : backgroundColor,
                 pageBuilder: (BuildContext context, _, __) {
                   return FullScreenPage(
-                    mediaFiles: mediaFiles,
+                    remoteMediaFiles: remoteMediaFiles,
                     localMediaFiles: localMediaFiles,
                     currentIndex: currentIndex,
                     backgroundColor: backgroundColor,
@@ -57,7 +56,7 @@ enum DisposeLevel { High, Medium, Low }
 
 class FullScreenPage extends StatefulWidget {
   FullScreenPage({
-    this.mediaFiles,
+    this.remoteMediaFiles,
     this.localMediaFiles,
     required this.currentIndex,
     required this.backgroundColor,
@@ -66,7 +65,7 @@ class FullScreenPage extends StatefulWidget {
     required this.local,
   });
 
-  final List<MediaFile>? mediaFiles;
+  final List<RemoteMediaFile>? remoteMediaFiles;
   final List<LocalMediaFile>? localMediaFiles;
   final int currentIndex;
   final Color backgroundColor;
@@ -172,8 +171,8 @@ class _FullScreenPageState extends State<FullScreenPage> {
                 isPlayable: true,
               );
       }).toList();
-    } else if (widget.mediaFiles != null) {
-      carouselItems = widget.mediaFiles!.map((file) {
+    } else if (widget.remoteMediaFiles != null) {
+      carouselItems = widget.remoteMediaFiles!.map((file) {
         return file.type == MediaType.image
             ? CachedNetworkImage(
                 imageUrl: file.path,

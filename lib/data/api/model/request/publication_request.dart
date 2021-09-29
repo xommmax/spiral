@@ -9,6 +9,7 @@ class PublicationRequest {
   final String? text;
   final int createdAt;
   List<String> mediaUrls = [];
+  List<String> previewUrls = [];
   final String viewType;
 
   PublicationRequest({
@@ -23,7 +24,7 @@ class PublicationRequest {
 
   @override
   String toString() {
-    return 'PublicationRequest{hubId: $hubId, userId: $userId, text: $text, createdAt: $createdAt, mediaUrls: $mediaUrls, viewType: $viewType}';
+    return 'PublicationRequest{hubId: $hubId, userId: $userId, text: $text, createdAt: $createdAt, mediaUrls: $mediaUrls, previewUrls: $previewUrls, viewType: $viewType}';
   }
 
   @override
@@ -36,6 +37,7 @@ class PublicationRequest {
           text == other.text &&
           createdAt == other.createdAt &&
           mediaUrls == other.mediaUrls &&
+          previewUrls == other.previewUrls &&
           viewType == other.viewType;
 
   @override
@@ -45,5 +47,6 @@ class PublicationRequest {
       text.hashCode ^
       createdAt.hashCode ^
       mediaUrls.hashCode ^
+      previewUrls.hashCode ^
       viewType.hashCode;
 }

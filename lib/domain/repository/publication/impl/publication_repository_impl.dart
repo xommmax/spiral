@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dairo/app/analytics.dart';
 import 'package:dairo/app/locator.dart';
@@ -40,11 +39,10 @@ class PublicationRepositoryImpl implements PublicationRepository {
   Future<void> createPublication({
     required String hubId,
     String? text,
-    List<MediaFile>? mediaFiles,
+    List<LocalMediaFile>? mediaFiles,
     required MediaViewType viewType,
   }) async {
     final currentUserId = _userRepository.getCurrentUserId();
-    final media = mediaFiles?.map((e) => File(e.path)).toList();
     PublicationRequest request = PublicationRequest(
       hubId: hubId,
       userId: currentUserId,
@@ -53,7 +51,7 @@ class PublicationRepositoryImpl implements PublicationRepository {
       viewType: describeEnum(viewType),
     );
     PublicationResponse response =
-        await _remote.createPublication(request, media);
+        await _remote.createPublication(request, mediaFiles);
     await _local.addPublication(PublicationItemData.fromResponse(response));
     _sendPublicationCreatedEvent(
       publicationId: response.id,

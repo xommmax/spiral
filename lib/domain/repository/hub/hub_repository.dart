@@ -7,7 +7,7 @@ abstract class HubRepository {
   Future<Hub> createHub({
     required String name,
     required String description,
-    required MediaFile picture,
+    required LocalMediaFile picture,
     required bool isPrivate,
   });
 

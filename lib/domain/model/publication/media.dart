@@ -33,13 +33,15 @@ class LocalMediaFile {
   }
 }
 
-class MediaFile {
+class RemoteMediaFile {
   final String path;
   final MediaType type;
+  final String previewPath;
 
-  const MediaFile({
+  const RemoteMediaFile({
     required this.path,
     required this.type,
+    required this.previewPath,
   });
 }
 

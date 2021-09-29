@@ -28,7 +28,7 @@ class HubRepositoryImpl implements HubRepository {
   Future<Hub> createHub({
     required String name,
     required String description,
-    required MediaFile picture,
+    required LocalMediaFile picture,
     required bool isPrivate,
   }) async {
     final currentUserId = _userRepository.getCurrentUserId();
@@ -40,7 +40,8 @@ class HubRepositoryImpl implements HubRepository {
       isPrivate: isPrivate,
     );
 
-    HubResponse response = await _remote.createHub(request, File(picture.path));
+    HubResponse response =
+        await _remote.createHub(request, File(picture.previewImage.path));
     HubItemData itemData = HubItemData.fromResponse(response);
     await _local.addHub(itemData);
     final hub = Hub.fromItemData(itemData);

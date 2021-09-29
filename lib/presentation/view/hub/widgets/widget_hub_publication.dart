@@ -95,6 +95,7 @@ class WidgetHubPublication extends StatelessWidget {
             ),
             _WidgetHubPublicationMedia(
               publication.mediaUrls,
+              publication.previewUrls,
               publication.viewType,
               key: UniqueKey(),
             ),
@@ -137,24 +138,41 @@ class _WidgetHubPublicationText extends StatelessWidget {
 
 class _WidgetHubPublicationMedia extends StatelessWidget {
   final List<String> mediaUrls;
+  final List<String> previewUrls;
   final MediaViewType viewType;
 
-  const _WidgetHubPublicationMedia(this.mediaUrls, this.viewType, {Key? key})
+  const _WidgetHubPublicationMedia(
+      this.mediaUrls, this.previewUrls, this.viewType,
+      {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (mediaUrls.isEmpty) return SizedBox.shrink();
-    List<MediaFile> mediaFiles = mediaUrls.map((url) {
-      switch (getUrlType(url)) {
+
+    List<RemoteMediaFile> mediaFiles = [];
+    for (int i = 0; i < mediaUrls.length; i++) {
+      String mediaUrl = mediaUrls[i];
+      switch (getUrlType(mediaUrl)) {
         case UrlType.IMAGE:
-          return MediaFile(path: url, type: MediaType.image);
+          mediaFiles.add(RemoteMediaFile(
+            path: mediaUrl,
+            previewPath: previewUrls[i],
+            type: MediaType.image,
+          ));
+          break;
         case UrlType.VIDEO:
-          return MediaFile(path: url, type: MediaType.video);
+          mediaFiles.add(RemoteMediaFile(
+            path: mediaUrl,
+            previewPath: previewUrls[i],
+            type: MediaType.video,
+          ));
+          break;
         case UrlType.UNKNOWN:
           throw ArgumentError(Strings.unknownMediaType);
       }
-    }).toList();
+    }
+
     if (viewType == MediaViewType.carousel) {
       return WidgetPublicationMediaCarouselPreview(mediaFiles);
     } else if (viewType == MediaViewType.grid) {

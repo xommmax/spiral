@@ -13,8 +13,11 @@ PublicationRequest _$PublicationRequestFromJson(Map<String, dynamic> json) {
     text: json['text'] as String?,
     createdAt: json['createdAt'] as int,
     viewType: json['viewType'] as String,
-  )..mediaUrls =
-      (json['mediaUrls'] as List<dynamic>).map((e) => e as String).toList();
+  )
+    ..mediaUrls =
+        (json['mediaUrls'] as List<dynamic>).map((e) => e as String).toList()
+    ..previewUrls =
+        (json['previewUrls'] as List<dynamic>).map((e) => e as String).toList();
 }
 
 Map<String, dynamic> _$PublicationRequestToJson(PublicationRequest instance) =>
@@ -24,5 +27,6 @@ Map<String, dynamic> _$PublicationRequestToJson(PublicationRequest instance) =>
       'text': instance.text,
       'createdAt': instance.createdAt,
       'mediaUrls': instance.mediaUrls,
+      'previewUrls': instance.previewUrls,
       'viewType': instance.viewType,
     };

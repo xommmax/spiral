@@ -10,6 +10,7 @@ import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart'
     as picker_enums;
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart'
@@ -19,9 +20,6 @@ import 'package:dairo/presentation/view/tools/media_picker_widget/src/picker_dec
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:video_compress/video_compress.dart';
@@ -69,7 +67,7 @@ class NewPublicationViewModel extends BaseViewModel {
     _publicationRepository.createPublication(
       hubId: hubId!,
       text: publicationTextController.text,
-      // mediaFiles: viewData.mediaFiles,
+      mediaFiles: viewData.mediaFiles,
       viewType: mediaViewType,
     );
 
@@ -125,28 +123,8 @@ class NewPublicationViewModel extends BaseViewModel {
     }
   }
 
-  Future<File> compressImage(String path, int quality) async {
-    final newPath = p.join((await getTemporaryDirectory()).path,
-        '${DateTime.now()}.${p.extension(path)}');
-    final result = await FlutterImageCompress.compressAndGetFile(
-      path,
-      newPath,
-      quality: quality,
-    );
-    return result!;
-  }
-
   Future<File> _getVideoThumbnail(String path) =>
       VideoCompress.getFileThumbnail(path);
-
-  Future<File> compressVideo(String path) async {
-    MediaInfo? mediaInfo = await VideoCompress.compressVideo(
-      path,
-      quality: VideoQuality.Res1280x720Quality,
-      deleteOrigin: false, // It's false by default
-    );
-    return File(mediaInfo!.path!);
-  }
 
   void onCarouselPageChanged(int index, CarouselPageChangedReason reason) {
     currentMediaCarouselIndex = index;

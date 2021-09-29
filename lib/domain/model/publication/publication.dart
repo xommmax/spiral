@@ -12,6 +12,7 @@ class Publication {
   final int likesCount;
   final int commentsCount;
   final List<String> mediaUrls;
+  final List<String> previewUrls;
   final bool isLiked;
   final int createdAt;
   final MediaViewType viewType;
@@ -24,6 +25,7 @@ class Publication {
     required this.likesCount,
     required this.commentsCount,
     required this.mediaUrls,
+    required this.previewUrls,
     required this.isLiked,
     required this.createdAt,
     required this.viewType,
@@ -38,6 +40,7 @@ class Publication {
         likesCount: itemData.likesCount,
         commentsCount: itemData.commentsCount,
         mediaUrls: jsonDecode(itemData.mediaUrls)?.cast<String>() ?? [],
+        previewUrls: jsonDecode(itemData.previewUrls)?.cast<String>() ?? [],
         isLiked: itemData.isLiked,
         createdAt: itemData.createdAt,
         viewType: MediaViewType.values
@@ -46,7 +49,7 @@ class Publication {
 
   @override
   String toString() {
-    return 'Publication{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, mediaUrls: $mediaUrls, isLiked: $isLiked, createdAt: $createdAt, viewType: $viewType}';
+    return 'Publication{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, mediaUrls: $mediaUrls, previewUrls: $previewUrls, isLiked: $isLiked, createdAt: $createdAt, viewType: $viewType}';
   }
 
   @override
@@ -61,6 +64,7 @@ class Publication {
           likesCount == other.likesCount &&
           commentsCount == other.commentsCount &&
           mediaUrls == other.mediaUrls &&
+          previewUrls == other.previewUrls &&
           isLiked == other.isLiked &&
           createdAt == other.createdAt &&
           viewType == other.viewType;
@@ -74,6 +78,7 @@ class Publication {
       likesCount.hashCode ^
       commentsCount.hashCode ^
       mediaUrls.hashCode ^
+      previewUrls.hashCode ^
       isLiked.hashCode ^
       createdAt.hashCode ^
       viewType.hashCode;

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dairo/presentation/view/publication/media/widget_publication_video_preview.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -46,9 +45,10 @@ class WidgetHubPublicationMedia extends StatelessWidget {
               children: [
                 Positioned.fromRect(
                   rect: Rect.fromPoints(Offset(400, 300), Offset(0, 0)),
-                  child: WidgetPublicationVideoPreview(
-                    networkUrl: mediaUrls[position],
-                  ),
+                  child: SizedBox.shrink(),
+                  // WidgetPublicationVideoPreview(
+                  //   networkUrl: mediaUrls[position],
+                  // ),
                 ),
               ],
             );

@@ -8,7 +8,7 @@ abstract class PublicationRepository {
   Future<void> createPublication({
     required String hubId,
     String? text,
-    List<MediaFile>? mediaFiles,
+    List<LocalMediaFile>? mediaFiles,
     required MediaViewType viewType,
   });
 
