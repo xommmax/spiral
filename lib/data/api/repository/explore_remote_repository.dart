@@ -62,4 +62,42 @@ class ExploreRemoteRepository {
           ),
         ),
       );
+
+  Future<List<HubResponse>> fetchExploreHubs() => _firestore
+      .collection(FirebaseCollections.userHubs)
+      .orderBy(FirestoreKeys.createdAt, descending: true)
+      .limit(3)
+      .get()
+      .then(
+        (snapshot) => Future.wait(
+          snapshot.docs.map(
+            (doc) async => HubResponse.fromJson(
+              doc.data(),
+              id: doc.id,
+              isFollow: await _hubRemoteRepository.isCurrentUserFollows(doc.id),
+            ),
+          ),
+        ),
+      );
+
+  Future<List<String>> getExploreHubMediaPreviews(String hubId) async {
+    final snapshot = await _firestore
+        .collection(FirebaseCollections.hubPublications)
+        .where(FirestoreKeys.hubId, isEqualTo: hubId)
+        .orderBy(FirestoreKeys.createdAt, descending: true)
+        .limit(3)
+        .get();
+
+    List<String> urls = [];
+    snapshot.docs
+        .map((doc) => PublicationResponse.fromJson(
+              doc.data(),
+              id: doc.id,
+              isLiked: false,
+            ))
+        .forEach((response) {
+      if (response.mediaUrls.isNotEmpty) urls.add(response.mediaUrls[0]);
+    });
+    return urls;
+  }
 }

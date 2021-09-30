@@ -8,4 +8,8 @@ abstract class ExploreRepository {
   Future<List<Hub>> searchHubs(String searchQuery);
 
   Future<List<Publication>> getExplorePublications();
+
+  Future<List<Hub>> getExploreHubs();
+
+  Future<List<String>> getExploreHubMediaPreviews(String hubId);
 }
