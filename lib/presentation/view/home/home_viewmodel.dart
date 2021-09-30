@@ -1,6 +1,5 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
-import 'package:dairo/data/api/firebase_documents.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
@@ -9,7 +8,6 @@ import 'package:dairo/domain/repository/publication/publication_repository.dart'
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/home/home_viewdata.dart';
-import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -58,19 +56,19 @@ class HomeViewModel extends MultipleStreamViewModel {
       _hubRepository.getHubsByIds(hubIds);
 
   void _onOnboardingRetrieved(SharedPreferences? sharedPreferences) {
-    if (sharedPreferences != null) {
-      bool? isOnboardingCompleted = sharedPreferences
-          .getBool(SharedPreferencesKeys.isOnboardingCompleted);
-      if (isOnboardingCompleted != true) {
-        _navigationService.clearStackAndShow(
-          Routes.hubView,
-          arguments: HubViewArguments(
-              hubId: FirebaseDocuments.onboardingHub,
-              userId: "onboardingUser",
-              onboarding: true),
-        );
-      }
-    }
+    // if (sharedPreferences != null) {
+    //   bool? isOnboardingCompleted = sharedPreferences
+    //       .getBool(SharedPreferencesKeys.isOnboardingCompleted);
+    //   if (isOnboardingCompleted != true) {
+    //     _navigationService.clearStackAndShow(
+    //       Routes.hubView,
+    //       arguments: HubViewArguments(
+    //           hubId: FirebaseDocuments.onboardingHub,
+    //           userId: "onboardingUser",
+    //           onboarding: true),
+    //     );
+    //   }
+    // }
   }
 
   void _onUserRetrieved(User? user) => viewData.user = user;
