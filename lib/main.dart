@@ -95,6 +95,7 @@ class _DairoAppState extends State<DairoApp> {
   ThemeData _getAppTheme() => ThemeData(
         primaryColor: AppColors.primaryColor,
         backgroundColor: AppColors.baseBackgroundColor,
+        scaffoldBackgroundColor: AppColors.baseBackgroundColor,
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here

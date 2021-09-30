@@ -16,14 +16,6 @@ class WidgetProfileSettingsContent
             Strings.settings,
             style: TextStyles.toolbarTitle,
           ),
-          actions: [
-            IconButton(
-              onPressed: viewModel.onLogoutClicked,
-              icon: Icon(
-                Icons.logout,
-              ),
-            ),
-          ],
         ),
         body: ListView.separated(
           itemCount: viewModel.viewData.settingsItems.length,

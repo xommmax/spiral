@@ -5,8 +5,8 @@ class ProfileSettingsViewData {
   User? user;
 
   final settingsItems = [
-    Strings.accountDetails,
-    Strings.support,
-    Strings.termsOfUsage,
+    Strings.feedback,
+    Strings.privacyPolicy,
+    Strings.logout,
   ];
 }

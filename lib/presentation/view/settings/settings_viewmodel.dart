@@ -36,14 +36,13 @@ class ProfileSettingsViewModel extends BaseViewModel {
   void onItemClicked(int index) {
     switch (index) {
       case 0:
-        return _navigateToAccountDetailsScreen();
-      case 1:
-        return _navigateToSupportScreen();
+        _navigateToSupportScreen();
+        return;
+      case 2:
+        onLogoutClicked();
+        return;
     }
   }
-
-  void _navigateToAccountDetailsScreen() =>
-      _navigationService.navigateTo(Routes.accountDetailsView);
 
   void _navigateToSupportScreen() =>
       _navigationService.navigateTo(Routes.supportView)?.then((result) {

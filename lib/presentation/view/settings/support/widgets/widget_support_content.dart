@@ -11,7 +11,7 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
   Widget build(BuildContext context, SupportViewModel viewModel) => Scaffold(
         appBar: AppBar(
           title: Text(
-            Strings.support,
+            Strings.feedback,
             style: TextStyles.toolbarTitle,
           ),
           actions: [

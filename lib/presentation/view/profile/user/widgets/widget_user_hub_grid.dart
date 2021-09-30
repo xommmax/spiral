@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_preview.dart';
 import 'package:dairo/presentation/view/profile/user/user_profile_viewmodel.dart';
@@ -9,24 +10,34 @@ class WidgetUserHubGrid extends ViewModelWidget<UserProfileViewModel> {
   Widget build(BuildContext context, UserProfileViewModel viewModel) {
     final hubs = viewModel.viewData.hubs;
     if (hubs.isEmpty) return _buildEmptyState();
-    return _buildGrid(viewModel);
+    return _buildGrid(context, viewModel);
   }
 
-  _buildGrid(UserProfileViewModel viewModel) => GridView.count(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        crossAxisSpacing: 1,
-        childAspectRatio: 16 / 13,
-        children: viewModel.viewData.hubs
-            .map(
-              (hub) => InkWell(
-                onTap: () => viewModel.onOpenHubClicked(hub),
-                child: WidgetHubPreview(hub),
-              ),
-            )
-            .toList(),
-      );
+  _buildGrid(BuildContext context, UserProfileViewModel viewModel) {
+    double width = MediaQuery.of(context).size.width / 2;
+    double height =
+        (width - WidgetHubPreview.paddingLeft - WidgetHubPreview.paddingRight) /
+                Dimens.hubPictureRatioX *
+                Dimens.hubPictureRatioY +
+            WidgetHubPreview.paddingTop +
+            WidgetHubPreview.paddingBottom +
+            WidgetHubPreview.textHeight;
+    return GridView.count(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      crossAxisCount: 2,
+      crossAxisSpacing: 1,
+      childAspectRatio: width / height,
+      children: viewModel.viewData.hubs
+          .map(
+            (hub) => InkWell(
+              onTap: () => viewModel.onOpenHubClicked(hub),
+              child: WidgetHubPreview(hub),
+            ),
+          )
+          .toList(),
+    );
+  }
 
   _buildEmptyState() => Center(
         child: Padding(

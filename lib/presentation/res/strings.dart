@@ -11,6 +11,8 @@ class Strings {
   static const public = 'Public';
   static const no = 'No';
   static const yes = 'Yes';
+  static const at = 'at';
+  static const inWord = 'in';
 
   /* Auth */
   static const welcomeToDairo = 'Welcome to Spiral';
@@ -87,7 +89,7 @@ class Strings {
   static const deleteHub = 'Delete hub';
   static const followers = 'followers';
   static const follow = 'Follow';
-  static const unfollow = 'Unfollow';
+  static const following = 'Following';
 
   /* Users liked */
   static const likes = 'Likes';
@@ -113,7 +115,9 @@ class Strings {
   static const settings = 'Settings';
   static const accountDetails = 'Account Details';
   static const support = 'Support';
+  static const feedback = 'Feedback';
   static const termsOfUsage = 'Terms of Usage';
+  static const privacyPolicy = 'Privacy Policy';
   static const logout = 'Logout';
   static const areYouSureYouWantToLogout = 'Are you sure you want to logout?';
 
