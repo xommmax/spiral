@@ -11,6 +11,8 @@ const _imageFormats = [
   'jpeg',
   'png',
   'gif',
+  'heic',
+  'heif',
 ];
 
 const _videoFormats = [
@@ -21,6 +23,7 @@ const _videoFormats = [
   'avi',
   'mkv',
   'webm',
+  'heic',
 ];
 
 UrlType getUrlType(String url) {

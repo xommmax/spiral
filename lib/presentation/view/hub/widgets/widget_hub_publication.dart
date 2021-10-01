@@ -4,7 +4,6 @@ import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/base/widget_like.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
@@ -19,8 +18,8 @@ class WidgetHubPublication extends StatelessWidget {
   final Function(String publicationId, bool isLiked) onPublicationLikeClicked;
   final Function(String publicationId) onUsersLikedScreenClicked;
   final Function(Publication publication) onPublicationDetailsClicked;
-  final Function(User user) onUserClicked;
-  final Function(Hub hub) onHubClicked;
+  final Function(User? user) onUserClicked;
+  final Function(Hub? hub) onHubClicked;
 
   const WidgetHubPublication({
     Key? key,
@@ -43,50 +42,51 @@ class WidgetHubPublication extends StatelessWidget {
           children: [
             Row(
               children: [
-                Row(
-                  children: [
-                    WidgetProfilePhoto(
-                      photoUrl: user?.photoURL,
-                      width: 22,
-                      height: 22,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 4),
-                    ),
-                    InkWell(
-                      child: Text(
-                        user?.name ?? user?.username ?? user?.email ?? '',
-                        style: TextStyles.black12,
+                InkWell(
+                  child: Row(
+                    children: [
+                      WidgetProfilePhoto(
+                        photoUrl: user?.photoURL,
+                        width: 28,
+                        height: 28,
                       ),
-                      onTap: () {
-                        if (user != null) onUserClicked(user!);
-                      },
-                    ),
-                  ],
+                      SizedBox(width: 4),
+                      Text(
+                        user?.name ?? user?.username ?? user?.email ?? '',
+                        style: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onTap: () => onUserClicked(user),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(Strings.inWord),
                 ),
-                Row(
-                  children: [
-                    WidgetProfilePhoto(
-                      photoUrl: hub?.pictureUrl,
-                      width: 22,
-                      height: 22,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 4),
-                    ),
-                    InkWell(
-                      child: Text(
-                        hub?.name ?? '',
-                        style: TextStyles.black12,
+                InkWell(
+                  child: Row(
+                    children: [
+                      WidgetProfilePhoto(
+                        photoUrl: hub?.pictureUrl,
+                        width: 28,
+                        height: 28,
                       ),
-                      onTap: () {
-                        if (hub != null) onHubClicked(hub!);
-                      },
-                    ),
-                  ],
+                      SizedBox(width: 4),
+                      Text(
+                        hub?.name ?? '',
+                        style: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onTap: () => onHubClicked(hub),
                 ),
               ],
             ),
@@ -95,6 +95,7 @@ class WidgetHubPublication extends StatelessWidget {
             ),
             _WidgetHubPublicationMedia(
               publication.mediaUrls,
+              publication.previewUrls,
               publication.viewType,
               key: UniqueKey(),
             ),
@@ -137,24 +138,41 @@ class _WidgetHubPublicationText extends StatelessWidget {
 
 class _WidgetHubPublicationMedia extends StatelessWidget {
   final List<String> mediaUrls;
+  final List<String> previewUrls;
   final MediaViewType viewType;
 
-  const _WidgetHubPublicationMedia(this.mediaUrls, this.viewType, {Key? key})
+  const _WidgetHubPublicationMedia(
+      this.mediaUrls, this.previewUrls, this.viewType,
+      {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (mediaUrls.isEmpty) return SizedBox.shrink();
-    List<MediaFile> mediaFiles = mediaUrls.map((url) {
-      switch (getUrlType(url)) {
+
+    List<RemoteMediaFile> mediaFiles = [];
+    for (int i = 0; i < mediaUrls.length; i++) {
+      String mediaUrl = mediaUrls[i];
+      switch (getUrlType(mediaUrl)) {
         case UrlType.IMAGE:
-          return MediaFile(path: url, type: MediaType.image);
+          mediaFiles.add(RemoteMediaFile(
+            path: mediaUrl,
+            previewPath: previewUrls[i],
+            type: MediaType.image,
+          ));
+          break;
         case UrlType.VIDEO:
-          return MediaFile(path: url, type: MediaType.video);
+          mediaFiles.add(RemoteMediaFile(
+            path: mediaUrl,
+            previewPath: previewUrls[i],
+            type: MediaType.video,
+          ));
+          break;
         case UrlType.UNKNOWN:
           throw ArgumentError(Strings.unknownMediaType);
       }
-    }).toList();
+    }
+
     if (viewType == MediaViewType.carousel) {
       return WidgetPublicationMediaCarouselPreview(mediaFiles);
     } else if (viewType == MediaViewType.grid) {

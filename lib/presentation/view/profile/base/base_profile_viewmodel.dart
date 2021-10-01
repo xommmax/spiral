@@ -61,6 +61,10 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
     );
   }
 
+  void onBackPressed() {
+    _navigationService.back();
+  }
+
   void onSettingsClicked() {
     if (viewData.user != null)
       _navigationService.navigateTo(Routes.profileSettingsView);

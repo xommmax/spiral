@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/hub/hub_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,14 +20,12 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   foregroundDecoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFF000000),
                         Color(0x90000000),
-                        Color(0x70000000),
                         Color(0x00000000),
                       ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0, 0.18, 0.21, 0.25],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      stops: [0, 0.5],
                     ),
                   ),
                   child: CachedNetworkImage(
@@ -49,73 +46,103 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   onPressed: viewModel.onBackPressed,
                 ),
               ),
-              Positioned(
-                top: 4,
-                right: 4,
-                child: viewModel.isCurrentUser()
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.settings,
-                          size: 24,
+              if (viewModel.isCurrentUser())
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.settings,
+                      size: 24,
+                      color: AppColors.white,
+                    ),
+                    onPressed: viewModel.onSettingsPressed,
+                  ),
+                ),
+              if (!viewModel.isCurrentUser())
+                Positioned(
+                  bottom: 12,
+                  right: 16,
+                  child: InkWell(
+                    onTap: viewModel.onFollowClicked,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: viewModel.viewData.hub!.isFollow
+                          ? BoxDecoration(
+                              color: AppColors.buttonColor,
+                              border: Border.all(
+                                color: AppColors.buttonColor,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            )
+                          : BoxDecoration(
+                              border: Border.all(
+                                color: AppColors.white,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                      child: Text(
+                        viewModel.viewData.hub!.isFollow
+                            ? Strings.following
+                            : Strings.follow,
+                        style: TextStyle(
                           color: AppColors.white,
+                          fontSize: 16,
                         ),
-                        onPressed: viewModel.onSettingsPressed,
-                      )
-                    : InkWell(
-                        onTap: viewModel.onFollowClicked,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 30,
-                          ),
-                          child: Text(
-                            viewModel.viewData.hub!.isFollow
-                                ? Strings.unfollow
-                                : Strings.follow,
-                            style: TextStyles.white16,
+                      ),
+                    ),
+                  ),
+                ),
+              Positioned(
+                left: 8,
+                bottom: 10,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      viewModel.viewData.hub?.name ?? '',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: viewModel.onFollowersClicked,
+                      child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Text(
+                          '${viewModel.viewData.hub!.followersCount.toString()} followers',
+                          style: TextStyle(
+                            color: AppColors.white,
                           ),
                         ),
                       ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              viewModel.viewData.hub?.name ?? '',
-              style: TextStyles.black22Bold,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(16),
             child: Text(
               viewModel.viewData.hub!.description,
-              style: TextStyles.gray14,
-            ),
-          ),
-          InkWell(
-            borderRadius: BorderRadius.circular(10),
-            onTap: viewModel.onFollowersClicked,
-            child: Padding(
-              padding: EdgeInsets.all(4),
-              child: Column(
-                children: [
-                  Text(
-                    viewModel.viewData.hub!.followersCount.toString(),
-                    style: TextStyles.black18Bold,
-                  ),
-                  Text(
-                    Strings.followers,
-                    style: TextStyles.black14,
-                  ),
-                ],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppColors.darkGray,
+                fontSize: 14,
               ),
             ),
           ),
           Divider(
-            thickness: 0,
-            height: 24,
-            color: AppColors.gray,
+            height: 1,
+            indent: 8,
+            endIndent: 8,
+            color: AppColors.lightGray,
           ),
         ],
       );

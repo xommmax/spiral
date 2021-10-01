@@ -1,55 +1,49 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/base/full_screen_publication_media_widget.dart';
-import 'package:dairo/presentation/view/publication/media/widget_publication_video_preview.dart';
 import 'package:flutter/material.dart';
 
 class WidgetPublicationMediaPreview extends StatelessWidget {
-  final List<MediaFile> mediaFiles;
+  final List<RemoteMediaFile> mediaFiles;
   final int currentIndex;
-  final bool local;
 
-  WidgetPublicationMediaPreview(this.mediaFiles, this.currentIndex,
-      {this.local = false});
+  WidgetPublicationMediaPreview(this.mediaFiles, this.currentIndex);
 
   @override
   Widget build(BuildContext context) {
     final file = mediaFiles[currentIndex];
     return FullScreenPublicationMediaWidget(
-      child: ClipRRect(
-        child: file.type == MediaType.image
-            ? local
-                ? Image.file(
-                    File(file.path),
-                    fit: BoxFit.cover,
-                  )
-                : CachedNetworkImage(
-                    imageUrl: file.path,
-                    fit: BoxFit.cover,
-                  )
-            : local
-                ? WidgetPublicationVideoPreview(
-                    filePath: file.path,
-                    fit: BoxFit.cover,
-                  )
-                : WidgetPublicationVideoPreview(
-                    networkUrl: file.path,
-                    fit: BoxFit.cover,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CachedNetworkImage(
+            imageUrl: file.previewPath,
+            fit: BoxFit.cover,
+          ),
+          file.type == MediaType.video
+              ? Align(
+                  child: CircleAvatar(
+                    radius: 24,
+                    backgroundColor: Color(0x80000000),
+                    child: Icon(
+                      Icons.play_arrow,
+                      color: AppColors.white,
+                    ),
                   ),
+                )
+              : SizedBox.shrink(),
+        ],
       ),
-      mediaFiles: mediaFiles,
+      remoteMediaFiles: mediaFiles,
       currentIndex: currentIndex,
-      local: local,
     );
   }
 }
 
 class WidgetPublicationMediaGridPreview extends StatelessWidget {
-  final List<MediaFile> mediaFiles;
+  final List<RemoteMediaFile> mediaFiles;
 
   WidgetPublicationMediaGridPreview(this.mediaFiles);
 
@@ -69,7 +63,7 @@ class WidgetPublicationMediaGridPreview extends StatelessWidget {
 }
 
 class WidgetPublicationMediaCarouselPreview extends StatefulWidget {
-  final List<MediaFile> mediaFiles;
+  final List<RemoteMediaFile> mediaFiles;
 
   WidgetPublicationMediaCarouselPreview(this.mediaFiles);
 

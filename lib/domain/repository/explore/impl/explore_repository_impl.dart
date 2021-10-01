@@ -57,4 +57,18 @@ class ExploreRepositoryImpl implements ExploreRepository {
         .map((itemData) => Publication.fromItemData(itemData))
         .toList();
   }
+
+  @override
+  Future<List<Hub>> getExploreHubs() async {
+    List<HubResponse> responses = await _exploreRemote.fetchExploreHubs();
+    List<HubItemData> itemData = responses
+        .map((response) => HubItemData.fromResponse(response))
+        .toList();
+    _hubLocal.addHubs(itemData);
+    return itemData.map((itemData) => Hub.fromItemData(itemData)).toList();
+  }
+
+  @override
+  Future<List<String>> getExploreHubMediaPreviews(String hubId) =>
+      _exploreRemote.getExploreHubMediaPreviews(hubId);
 }

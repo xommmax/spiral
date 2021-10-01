@@ -1,18 +1,28 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
-import 'package:dairo/domain/model/publication/media.dart' as media;
+import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart'
+    as picker_enums;
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart'
+    as picker_media;
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/media_picker.dart';
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/picker_decoration.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:video_compress/video_compress.dart';
 
 import 'new_publication_viewdata.dart';
 
@@ -21,8 +31,7 @@ class NewPublicationViewModel extends BaseViewModel {
   static const int maxMediaSize = 9;
   String? hubId;
   int mediaPreviewTypeIndex = 0;
-  List<Media> mediaList = [];
-  media.MediaViewType mediaViewType = media.MediaViewType.values[0];
+  MediaViewType mediaViewType = MediaViewType.values[0];
   int currentMediaCarouselIndex = 0;
   final CarouselController buttonCarouselController = CarouselController();
 
@@ -79,11 +88,6 @@ class NewPublicationViewModel extends BaseViewModel {
     onDonePressed();
   }
 
-  void onMediaItemRemoveClicked(int position) {
-    viewData.mediaFiles.removeAt(position);
-    notifyListeners();
-  }
-
   @override
   void dispose() {
     publicationTextController.dispose();
@@ -92,21 +96,35 @@ class NewPublicationViewModel extends BaseViewModel {
 
   void onMediaPreviewTypeIndexChanged(int index) {
     mediaPreviewTypeIndex = index;
-    mediaViewType = media.MediaViewType.values[index];
+    mediaViewType = MediaViewType.values[index];
     notifyListeners();
   }
 
-  void updateMediaList(List<Media> mediaList) {
-    this.mediaList = mediaList;
-    viewData.mediaFiles = mediaList.map((file) {
-      String path = file.file!.path;
-      media.MediaType mediaType = file.mediaType == MediaType.image
-          ? media.MediaType.image
-          : media.MediaType.video;
-      return media.MediaFile(path: path, type: mediaType);
-    }).toList();
-    notifyListeners();
+  void updateMediaList(List<picker_media.Media> pickerMedia) async {
+    viewData.mediaFiles = [];
+
+    for (picker_media.Media media in pickerMedia) {
+      File previewImage;
+      if (media.mediaType == picker_enums.MediaType.image)
+        previewImage = await compressImage(media.file!.path, 25);
+      else if (media.mediaType == picker_enums.MediaType.video)
+        previewImage = await _getVideoThumbnail(media.file!.path);
+      else
+        throw ArgumentError();
+
+      LocalMediaFile mediaFile = LocalMediaFile(
+          id: media.id,
+          originalFile: media.file!,
+          previewImage: previewImage,
+          type: media.mediaType!.toPubMediaType());
+
+      viewData.mediaFiles.add(mediaFile);
+      notifyListeners();
+    }
   }
+
+  Future<File> _getVideoThumbnail(String path) =>
+      VideoCompress.getFileThumbnail(path);
 
   void onCarouselPageChanged(int index, CarouselPageChangedReason reason) {
     currentMediaCarouselIndex = index;
@@ -114,12 +132,49 @@ class NewPublicationViewModel extends BaseViewModel {
   }
 
   void removeMedia(int position) {
-    mediaList.removeAt(position);
     viewData.mediaFiles.removeAt(position);
-    if (currentMediaCarouselIndex > mediaList.length - 1 &&
+    if (currentMediaCarouselIndex > viewData.mediaFiles.length - 1 &&
         currentMediaCarouselIndex > 0) {
-      currentMediaCarouselIndex = mediaList.length - 1;
+      currentMediaCarouselIndex = viewData.mediaFiles.length - 1;
     }
     notifyListeners();
+  }
+
+  void openMediaPicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return MediaPicker(
+            mediaList:
+                viewData.mediaFiles.map((e) => e.toPickerMedia()).toList(),
+            onPick: (selectedList) {
+              if (selectedList.length > NewPublicationViewModel.maxMediaSize) {
+                AppSnackBar.showSnackBarError(Strings.errorLimitMaxMediaSize);
+                return;
+              }
+              updateMediaList(selectedList);
+              Navigator.pop(context);
+            },
+            onCancel: () => Navigator.pop(context),
+            mediaCount: picker_enums.MediaCount.multiple,
+            decoration: PickerDecoration(
+              actionBarPosition: picker_enums.ActionBarPosition.top,
+              albumTitleStyle: TextStyle(
+                color: AppColors.black,
+              ),
+              albumTextStyle: TextStyle(
+                color: AppColors.black,
+              ),
+              completeTextStyle: TextStyle(
+                color: AppColors.black,
+              ),
+              completeButtonStyle: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.lightGray),
+              ),
+              cancelIcon: Icon(Icons.arrow_back),
+              completeText: 'Done',
+            ),
+          );
+        });
   }
 }

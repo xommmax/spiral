@@ -1,5 +1,6 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/repository/explore/explore_repository.dart';
 import 'package:dairo/presentation/view/explore/explore_viewdata.dart';
@@ -13,6 +14,7 @@ class ExploreViewModel extends BaseViewModel {
 
   ExploreViewModel() {
     getExplorePublications();
+    getExploreHubs();
   }
 
   getExplorePublications() async {
@@ -21,15 +23,35 @@ class ExploreViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  getExploreHubs() async {
+    viewData.exploreHubs = await _exploreRepository.getExploreHubs();
+    for (int i = 0; i < viewData.exploreHubs.length; i++) {
+      Hub hub = viewData.exploreHubs[i];
+      viewData.exploreHubMediaPreviews
+          .add(await _exploreRepository.getExploreHubMediaPreviews(hub.id));
+    }
+    notifyListeners();
+  }
+
   onSearchPressed() => _navigationService.navigateTo(Routes.searchView);
 
-  onPublicationClicked(Publication publication) {
+  void onPublicationClicked(Publication publication) {
     _navigationService.navigateTo(
       Routes.publicationView,
       arguments: PublicationViewArguments(
         publicationId: publication.id,
         userId: publication.userId,
         hubId: publication.hubId,
+      ),
+    );
+  }
+
+  void onHubClicked(Hub hub) {
+    _navigationService.navigateTo(
+      Routes.hubView,
+      arguments: HubViewArguments(
+        hubId: hub.id,
+        userId: hub.userId,
       ),
     );
   }

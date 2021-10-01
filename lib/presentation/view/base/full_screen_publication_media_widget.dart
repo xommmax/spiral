@@ -1,26 +1,24 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/publication/media.dart';
-import 'package:dairo/presentation/view/publication/media/widget_publication_video_preview.dart';
+import 'package:dairo/presentation/view/publication/media/widget_publication_video.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenPublicationMediaWidget extends StatelessWidget {
   FullScreenPublicationMediaWidget({
     required this.child,
-    required this.mediaFiles,
     required this.currentIndex,
-    required this.local,
+    this.remoteMediaFiles,
+    this.localMediaFiles,
     this.backgroundColor = Colors.black,
     this.backgroundIsTransparent = true,
     this.disposeLevel = DisposeLevel.Medium,
   });
 
   final Widget child;
-  final List<MediaFile> mediaFiles;
+  final List<RemoteMediaFile>? remoteMediaFiles;
+  final List<LocalMediaFile>? localMediaFiles;
   final int currentIndex;
-  final bool local;
   final Color backgroundColor;
   final bool backgroundIsTransparent;
   final DisposeLevel disposeLevel;
@@ -38,12 +36,12 @@ class FullScreenPublicationMediaWidget extends StatelessWidget {
                     : backgroundColor,
                 pageBuilder: (BuildContext context, _, __) {
                   return FullScreenPage(
-                    mediaFiles: mediaFiles,
+                    remoteMediaFiles: remoteMediaFiles,
+                    localMediaFiles: localMediaFiles,
                     currentIndex: currentIndex,
                     backgroundColor: backgroundColor,
                     backgroundIsTransparent: backgroundIsTransparent,
                     disposeLevel: disposeLevel,
-                    local: local,
                   );
                 }));
       },
@@ -56,20 +54,20 @@ enum DisposeLevel { High, Medium, Low }
 
 class FullScreenPage extends StatefulWidget {
   FullScreenPage({
-    required this.mediaFiles,
+    this.remoteMediaFiles,
+    this.localMediaFiles,
     required this.currentIndex,
     required this.backgroundColor,
     required this.backgroundIsTransparent,
     required this.disposeLevel,
-    required this.local,
   });
 
-  final List<MediaFile> mediaFiles;
+  final List<RemoteMediaFile>? remoteMediaFiles;
+  final List<LocalMediaFile>? localMediaFiles;
   final int currentIndex;
   final Color backgroundColor;
   final bool backgroundIsTransparent;
   final DisposeLevel disposeLevel;
-  final bool local;
 
   @override
   _FullScreenPageState createState() => _FullScreenPageState();
@@ -88,10 +86,13 @@ class _FullScreenPageState extends State<FullScreenPage> {
 
   Duration animationDuration = Duration.zero;
 
+  late List<Widget> carouselItems;
+
   @override
   void initState() {
     super.initState();
     setDisposeLevel();
+    initCarouselItems();
   }
 
   setDisposeLevel() {
@@ -180,25 +181,7 @@ class _FullScreenPageState extends State<FullScreenPage> {
                 left: 0,
                 right: 0,
                 child: CarouselSlider(
-                  items: widget.mediaFiles.map((file) {
-                    return file.type == MediaType.image
-                        ? widget.local
-                            ? Image.file(
-                                File(file.path),
-                              )
-                            : CachedNetworkImage(
-                                imageUrl: file.path,
-                              )
-                        : widget.local
-                            ? WidgetPublicationVideoPreview(
-                                filePath: file.path,
-                                isPlayable: true,
-                              )
-                            : WidgetPublicationVideoPreview(
-                                networkUrl: file.path,
-                                isPlayable: true,
-                              );
-                  }).toList(),
+                  items: carouselItems,
                   options: CarouselOptions(
                     aspectRatio: 1,
                     viewportFraction: 1,
@@ -218,5 +201,45 @@ class _FullScreenPageState extends State<FullScreenPage> {
         ),
       ),
     );
+  }
+
+  void initCarouselItems() {
+    if (widget.localMediaFiles != null) {
+      carouselItems = widget.localMediaFiles!
+          .map((e) => _LocalFullScreenPublicationMediaWidget(e))
+          .toList();
+    } else if (widget.remoteMediaFiles != null) {
+      carouselItems = widget.remoteMediaFiles!
+          .map((e) => _RemoteFullScreenPublicationMediaWidget(e))
+          .toList();
+    } else {
+      throw ArgumentError();
+    }
+  }
+}
+
+class _LocalFullScreenPublicationMediaWidget extends StatelessWidget {
+  final LocalMediaFile file;
+
+  _LocalFullScreenPublicationMediaWidget(this.file);
+
+  @override
+  Widget build(BuildContext context) {
+    return file.type == MediaType.image
+        ? Image.file(file.previewImage)
+        : WidgetPublicationVideo(filePath: file.originalFile.path);
+  }
+}
+
+class _RemoteFullScreenPublicationMediaWidget extends StatelessWidget {
+  final RemoteMediaFile file;
+
+  _RemoteFullScreenPublicationMediaWidget(this.file);
+
+  @override
+  Widget build(BuildContext context) {
+    return file.type == MediaType.image
+        ? CachedNetworkImage(imageUrl: file.previewPath)
+        : WidgetPublicationVideo(networkUrl: file.path);
   }
 }

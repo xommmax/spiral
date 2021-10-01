@@ -7,6 +7,7 @@ import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -40,8 +41,10 @@ class NewHubViewModel extends BaseViewModel {
       Hub hub = await _hubRepository.createHub(
         name: viewData.name!,
         description: viewData.description!,
-        picture: MediaFile(
-          path: viewData.pictureUrl!,
+        picture: LocalMediaFile(
+          id: null,
+          originalFile: File(viewData.pictureUrl!),
+          previewImage: File(viewData.pictureUrl!),
           type: MediaType.image,
         ),
         isPrivate: false,
@@ -74,8 +77,8 @@ class NewHubViewModel extends BaseViewModel {
     if (pickedImage == null) return;
     File? croppedImage = await _cropImage(pickedImage.path);
     if (croppedImage == null) return;
-
-    viewData.pictureUrl = croppedImage.path;
+    File compressedImage = await compressImage(croppedImage.path, 25);
+    viewData.pictureUrl = compressedImage.path;
     notifyListeners();
   }
 

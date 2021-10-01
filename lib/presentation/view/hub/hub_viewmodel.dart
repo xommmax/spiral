@@ -183,12 +183,14 @@ class HubViewModel extends MultipleStreamViewModel {
           arguments: HubSettingsViewArguments(hub: hub));
   }
 
-  onUserClicked(User user) {
+  onUserClicked(User? user) {
+    if (user == null) return;
     _navigationService.navigateTo(Routes.userProfileView,
         arguments: UserProfileViewArguments(userId: user.id));
   }
 
-  onHubClicked(Hub hub) {
+  onHubClicked(Hub? hub) {
+    if (hub == null) return;
     _navigationService.navigateTo(Routes.hubView,
         arguments: HubViewArguments(hubId: hub.id, userId: hub.userId));
   }
