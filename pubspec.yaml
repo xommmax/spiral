@@ -104,6 +104,10 @@ dependencies:
   # fonts
   google_fonts: ^2.1.0
 
+  # links within text
+  url_launcher: ^6.0.10
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

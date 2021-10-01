@@ -28,8 +28,8 @@ import '../presentation/view/settings/settings_view.dart';
 import '../presentation/view/settings/support/support_view.dart';
 
 class Routes {
-  static const String authView = '/auth-view';
-  static const String mainView = '/';
+  static const String authView = '/';
+  static const String mainView = '/main-view';
   static const String newPublicationView = '/new-publication-view';
   static const String userProfileView = '/user-profile-view';
   static const String currentUserProfileView = '/current-user-profile-view';

@@ -1,4 +1,5 @@
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
@@ -15,6 +16,12 @@ class AuthViewModel extends BaseViewModel {
   final AuthViewData viewData = AuthViewData();
   final TextEditingController phoneNumberController = TextEditingController();
 
+  AuthViewModel() {
+    if (_userRepository.isCurrentUserExist()) {
+      _navigateMain();
+    }
+  }
+
   onGoogleSignUpClicked() =>
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Google));
 
@@ -23,7 +30,7 @@ class AuthViewModel extends BaseViewModel {
 
   void _loginWithSocial(SocialAuthRequest request) {
     _userRepository.loginWithSocial(request).then(
-          (result) => _navigateBack(),
+          (result) => _navigateMain(),
         );
   }
 
@@ -54,9 +61,9 @@ class AuthViewModel extends BaseViewModel {
   }
 
   onCodeVerificationRetrieved(String code) =>
-      _userRepository.verifySmsCode(code).then((result) => _navigateBack());
+      _userRepository.verifySmsCode(code).then((result) => _navigateMain());
 
-  void _navigateBack() => _navigationService.back(result: true);
+  void _navigateMain() => _navigationService.clearStackAndShow(Routes.mainView);
 
   @override
   void dispose() {
