@@ -1,5 +1,5 @@
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/domain/repository/user/user_repository.dart';
+import 'package:dairo/domain/repository/support/support_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/settings/support/support_viewdata.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
@@ -7,7 +7,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class SupportViewModel extends BaseViewModel {
-  final UserRepository _userRepository = locator<UserRepository>();
+  final SupportRepository _supportRepository = locator<SupportRepository>();
   final NavigationService _navigationService = locator<NavigationService>();
 
   final SupportViewData viewData = SupportViewData();
@@ -28,7 +28,7 @@ class SupportViewModel extends BaseViewModel {
     }
     setBusy(true);
     try {
-      await _userRepository.sendSupportRequest(
+      await _supportRepository.sendSupportRequest(
         subject: viewData.subjectController.text,
         description: viewData.descriptionController.text,
       );
