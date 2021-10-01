@@ -1,6 +1,6 @@
 import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
@@ -115,49 +115,54 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
       padding: EdgeInsets.all(8),
       child: Row(
         children: [
-          Row(
-            children: [
-              WidgetProfilePhoto(
-                photoUrl: viewModel.user?.photoURL,
-                width: 22,
-                height: 22,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 4),
-              ),
-              InkWell(
-                child: Text(
+          InkWell(
+            child: Row(
+              children: [
+                WidgetProfilePhoto(
+                  photoUrl: viewModel.user?.photoURL,
+                  width: 28,
+                  height: 28,
+                ),
+                SizedBox(width: 4),
+                Text(
                   viewModel.user?.name ??
                       viewModel.user?.username ??
                       viewModel.user?.email ??
                       '',
-                  style: TextStyles.black12,
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                onTap: viewModel.onUserClicked,
-              ),
-            ],
+              ],
+            ),
+            onTap: viewModel.onUserClicked,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 16),
+            padding: EdgeInsets.symmetric(horizontal: 6),
+            child: Text(Strings.inWord),
           ),
-          Row(
-            children: [
-              WidgetProfilePhoto(
-                photoUrl: viewModel.hub?.pictureUrl,
-                width: 22,
-                height: 22,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 4),
-              ),
-              InkWell(
-                child: Text(
-                  viewModel.hub?.name ?? '',
-                  style: TextStyles.black12,
+          InkWell(
+            child: Row(
+              children: [
+                WidgetProfilePhoto(
+                  photoUrl: viewModel.hub?.pictureUrl,
+                  width: 28,
+                  height: 28,
                 ),
-                onTap: viewModel.onHubClicked,
-              ),
-            ],
+                SizedBox(width: 4),
+                Text(
+                  viewModel.hub?.name ?? '',
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            onTap: viewModel.onHubClicked,
           ),
         ],
       ),
