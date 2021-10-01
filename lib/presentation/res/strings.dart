@@ -17,8 +17,8 @@ class Strings {
   /* Auth */
   static const welcomeToDairo = 'Welcome to Spiral';
   static const getStarted = 'Get started';
-  static const loginWithGoogle = 'Login with Google';
-  static const loginWithApple = 'Login with Apple';
+  static const loginWithGoogle = 'Sign in with Google';
+  static const loginWithApple = 'Sign in with Apple';
   static const signup = 'Sign Up';
 
   /* Errors */
