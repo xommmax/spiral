@@ -35,8 +35,10 @@ class WidgetUserProfileViewContent
                             icon: Icon(Icons.more_vert),
                             onPressed: () => showCupertinoModalPopup(
                                 context: context,
-                                builder: (context) =>
-                                    OptionsBottomSheet(viewModel.onReport)),
+                                builder: (context) => OptionsBottomSheet(
+                                      viewModel.onReport,
+                                      onBlock: viewModel.onBlock,
+                                    )),
                           ),
                         ],
                       ),
@@ -87,7 +89,12 @@ class WidgetUserProfileViewContent
                     ],
                   ),
                 ),
-                WidgetUserHubGrid()
+                (viewModel.isUserBlocked != null && !(viewModel.isUserBlocked!))
+                    ? WidgetUserHubGrid()
+                    : Text(
+                        "User is blocked",
+                        style: TextStyle(fontSize: 20),
+                      ),
               ],
             ),
           ),

@@ -6,6 +6,7 @@ class FirestoreKeys {
   static const String createdAt = 'createdAt';
   static const String users = 'users';
   static const String hubs = 'hubs';
+  static const String blockedUsers = 'blockedUsers';
   static const String followingsCount = 'followingsCount';
   static const String isPrivate = 'isPrivate';
 }

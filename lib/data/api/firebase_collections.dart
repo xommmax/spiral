@@ -7,6 +7,7 @@ class FirebaseCollections {
   static const String publicationComments = 'publicationComments';
   static const String usersSupportRequests = 'usersSupportRequests';
   static const String reportRequests = 'reportRequests';
+  static const String blockedUsers = 'blockedUsers';
   static const String usersFollowHubs = 'usersFollowHubs';
   static const String hubsFollowers = 'hubsFollowers';
   static const String userFeeds = 'userFeeds';

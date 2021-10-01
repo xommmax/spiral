@@ -159,6 +159,9 @@ class Strings {
   static const chooseOption = "Choose the option";
 
   static const reportSubmitted = "Your report has been submitted";
+  static const userBlocked = "User has been blocked";
+
+  static const block = "Block";
 
 /* Uncategorized */
 }

@@ -63,8 +63,9 @@ class AppDialog {
 
 class OptionsBottomSheet extends StatelessWidget {
   final Function() onReport;
+  final Function()? onBlock;
 
-  OptionsBottomSheet(this.onReport);
+  OptionsBottomSheet(this.onReport, {this.onBlock});
 
   @override
   Widget build(BuildContext context) => CupertinoActionSheet(
@@ -78,6 +79,15 @@ class OptionsBottomSheet extends StatelessWidget {
               onReport();
             },
           ),
+          if (onBlock != null)
+            CupertinoActionSheetAction(
+              child: Text(Strings.block),
+              isDestructiveAction: true,
+              onPressed: () {
+                Get.back();
+                onBlock!();
+              },
+            ),
         ],
         cancelButton: CupertinoActionSheetAction(
           child: Text(Strings.cancel),

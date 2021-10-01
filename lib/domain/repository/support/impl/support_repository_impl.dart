@@ -56,4 +56,16 @@ class SupportRepositoryImpl implements SupportRepository {
       createdAt: DateTime.now().millisecondsSinceEpoch,
     ));
   }
+
+  @override
+  Future<void> blockUser({required String userId}) {
+    final currentUserId = userRepository.getCurrentUserId();
+    return _remote.blockUser(currentUserId, userId);
+  }
+
+  @override
+  Future<bool> isUserBlockedByCurrentUser({required String userId}) {
+    final currentUserId = userRepository.getCurrentUserId();
+    return _remote.isUserBlockedByCurrentUser(currentUserId, userId);
+  }
 }

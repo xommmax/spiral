@@ -101,6 +101,6 @@ class _DairoAppState extends State<DairoApp> {
               color: Colors.black, //change your color here
             ),
             color: AppColors.primaryColor,
-            systemOverlayStyle: SystemUiOverlayStyle.light),
+            systemOverlayStyle: SystemUiOverlayStyle.dark),
       );
 }

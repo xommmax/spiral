@@ -13,4 +13,12 @@ abstract class SupportRepository {
     required String userId,
     required String reason,
   });
+
+  Future<void> blockUser({
+    required String userId,
+  });
+
+  Future<bool> isUserBlockedByCurrentUser({
+    required String userId,
+  });
 }

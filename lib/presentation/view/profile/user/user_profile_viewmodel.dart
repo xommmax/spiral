@@ -8,9 +8,17 @@ import 'package:dairo/presentation/view/tools/snackbar.dart';
 
 class UserProfileViewModel extends BaseProfileViewModel {
   final String userId;
+  bool? isUserBlocked;
   final SupportRepository _supportRepository = locator<SupportRepository>();
 
-  UserProfileViewModel(this.userId);
+  UserProfileViewModel(this.userId) {
+    _getUserStatus();
+  }
+
+  void _getUserStatus() async {
+    isUserBlocked =
+        await _supportRepository.isUserBlockedByCurrentUser(userId: userId);
+  }
 
   @override
   Stream<User?> userStream() => userRepository.getUser(userId);
@@ -18,8 +26,15 @@ class UserProfileViewModel extends BaseProfileViewModel {
   @override
   Stream<List<Hub>> hubListStream() => hubRepository.getHubs(userId);
 
-  onReport() {
+  void onReport() {
     _supportRepository.reportUser(userId: userId, reason: "TODO");
     AppSnackBar.showSnackBarSuccess(Strings.reportSubmitted);
+  }
+
+  void onBlock() async {
+    await _supportRepository.blockUser(userId: userId);
+    isUserBlocked = true;
+    notifyListeners();
+    AppSnackBar.showSnackBarSuccess(Strings.userBlocked);
   }
 }
