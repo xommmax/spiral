@@ -1,4 +1,3 @@
-import 'package:dairo/app/analytics.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
@@ -9,7 +8,8 @@ import 'package:stacked_services/stacked_services.dart';
 class MainViewModel extends IndexTrackingViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final UserRepository _userRepository = locator<UserRepository>();
-  final AnalyticsRepository _analyticsRepository = locator<AnalyticsRepository>();
+  final AnalyticsRepository _analyticsRepository =
+      locator<AnalyticsRepository>();
   int previousTab = -1;
 
   onFabPressed() async {
@@ -34,7 +34,7 @@ class MainViewModel extends IndexTrackingViewModel {
   }
 
   void _sendCurrentTabToAnalytics(int value) {
-    final currentTabName = value == 0 ? Routes.homeView : Routes.exploreView;
+    final currentTabName = value == 0 ? '/home-view' : '/explore-view';
     _analyticsRepository.setCurrentScreen(
       screenName: currentTabName,
     );

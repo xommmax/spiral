@@ -11,11 +11,9 @@ import 'package:stacked/stacked.dart';
 
 import '../domain/model/hub/hub.dart';
 import '../presentation/view/auth/auth_view.dart';
-import '../presentation/view/explore/explore_view.dart';
 import '../presentation/view/followers/followers_view.dart';
 import '../presentation/view/followers/followers_viewdata.dart';
 import '../presentation/view/followings/followings_view.dart';
-import '../presentation/view/home/home_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/hub/settings/hub_settings_view.dart';
 import '../presentation/view/main/main_view.dart';
@@ -44,8 +42,6 @@ class Routes {
   static const String accountDetailsView = '/account-details-view';
   static const String supportView = '/support-view';
   static const String followingsView = '/followings-view';
-  static const String homeView = '/home-view';
-  static const String exploreView = '/explore-view';
   static const String hubSettingsView = '/hub-settings-view';
   static const all = <String>{
     authView,
@@ -62,8 +58,6 @@ class Routes {
     accountDetailsView,
     supportView,
     followingsView,
-    homeView,
-    exploreView,
     hubSettingsView,
   };
 }
@@ -86,8 +80,6 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.accountDetailsView, page: AccountDetailsView),
     RouteDef(Routes.supportView, page: SupportView),
     RouteDef(Routes.followingsView, page: FollowingsView),
-    RouteDef(Routes.homeView, page: HomeView),
-    RouteDef(Routes.exploreView, page: ExploreView),
     RouteDef(Routes.hubSettingsView, page: HubSettingsView),
   ];
   @override
@@ -193,18 +185,6 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<FollowingsViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => FollowingsView(userIds: args.userIds),
-        settings: data,
-      );
-    },
-    HomeView: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => HomeView(),
-        settings: data,
-      );
-    },
-    ExploreView: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => ExploreView(),
         settings: data,
       );
     },

@@ -1,8 +1,6 @@
 import 'package:dairo/presentation/view/auth/auth_view.dart';
-import 'package:dairo/presentation/view/explore/explore_view.dart';
 import 'package:dairo/presentation/view/followers/followers_view.dart';
 import 'package:dairo/presentation/view/followings/followings_view.dart';
-import 'package:dairo/presentation/view/home/home_view.dart';
 import 'package:dairo/presentation/view/hub/hub_view.dart';
 import 'package:dairo/presentation/view/hub/settings/hub_settings_view.dart';
 import 'package:dairo/presentation/view/main/main_view.dart';
@@ -33,8 +31,6 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: AccountDetailsView),
     MaterialRoute(page: SupportView),
     MaterialRoute(page: FollowingsView),
-    MaterialRoute(page: HomeView),
-    MaterialRoute(page: ExploreView),
     MaterialRoute(page: HubSettingsView),
   ],
 )

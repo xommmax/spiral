@@ -17,7 +17,7 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
           child: IndexedStack(
             index: viewModel.currentIndex,
             children: [
-              HomeView(),
+              HomeView(() => viewModel.setIndex(1)),
               ExploreView(),
             ],
           ),
