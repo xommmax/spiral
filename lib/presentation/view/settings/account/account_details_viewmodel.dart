@@ -20,13 +20,13 @@ class AccountDetailsViewModel extends StreamViewModel<User?> {
   @override
   void onData(User? data) {
     if (data != null) {
-      if(data.name != null) {
+      if (data.name != null) {
         viewData.nameController.text = data.name!;
       }
-      if(data.username != null) {
+      if (data.username != null) {
         viewData.usernameController.text = data.username!;
       }
-      if(data.description != null) {
+      if (data.description != null) {
         viewData.descriptionController.text = data.description!;
       }
     }
@@ -39,25 +39,35 @@ class AccountDetailsViewModel extends StreamViewModel<User?> {
     super.onError(error);
   }
 
-  void onChangeAvatarClicked() => AppDialog.showConfirmationDialog(
-        title: Strings.chooseSource,
-        confirmText: Strings.gallery,
-        cancelText: Strings.camera,
-        onConfirm: (isConfirm) => _onSelectPhoto(
-            isConfirm ? ImageSource.gallery : ImageSource.camera),
-      );
+  void onChangeAvatarClicked() {
+    AppDialog.showChoiceDialog(
+      title: Strings.updatePhoto,
+      description: Strings.chooseSource,
+      choices: [Strings.gallery, Strings.camera],
+      onConfirm: _onSelectPhoto,
+    );
+  }
 
-  Future<void> _onSelectPhoto(ImageSource source) => _picker
-          .getImage(
-        source: source,
-      )
-          .then(
-        (result) {
-          viewData.photoUrl = result?.path;
-          viewData.isDataChanged = true;
-          notifyListeners();
-        },
-      );
+  Future<void> _onSelectPhoto(String source) {
+    ImageSource imageSource;
+    if (source == Strings.gallery)
+      imageSource = ImageSource.gallery;
+    else if (source == Strings.camera)
+      imageSource = ImageSource.camera;
+    else
+      throw ArgumentError();
+    return _picker
+        .getImage(
+      source: imageSource,
+    )
+        .then(
+      (result) {
+        viewData.photoUrl = result?.path;
+        viewData.isDataChanged = true;
+        notifyListeners();
+      },
+    );
+  }
 
   void onDoneClicked() async {
     setBusy(true);

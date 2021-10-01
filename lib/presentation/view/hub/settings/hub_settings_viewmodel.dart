@@ -24,14 +24,12 @@ class HubSettingsViewModel extends BaseViewModel {
   void onDeleteHubClicked() {
     AppDialog.showConfirmationDialog(
       title: Strings.deleteHub,
-      cancelText: Strings.no,
-      confirmText: Strings.yes,
+      description: Strings.confirmDeleteHub,
       onConfirm: _deleteHub,
     );
   }
 
-  void _deleteHub(isConfirm) {
-    if (!isConfirm) return;
+  void _deleteHub() {
     _hubRepository.deleteHub(viewData.hub);
     _navigationService.popUntil(
         (route) => route.settings.name == Routes.currentUserProfileView);

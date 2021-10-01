@@ -24,12 +24,11 @@ class ProfileSettingsViewModel extends BaseViewModel {
   }
 
   void onLogoutClicked() => AppDialog.showConfirmationDialog(
-        title: Strings.areYouSureYouWantToLogout,
-        onConfirm: (isConfirm) async {
-          if (isConfirm) {
-            await _userRepository.logoutUser();
-            _navigateToHomeScreen();
-          }
+        title: Strings.logout,
+        description: Strings.confirmLogout,
+        onConfirm: () async {
+          await _userRepository.logoutUser();
+          _navigateToHomeScreen();
         },
       );
 

@@ -87,6 +87,7 @@ class Strings {
 
   /* Hub */
   static const deleteHub = 'Delete hub';
+  static const confirmDeleteHub = 'Are you sure you want to delete this hub?';
   static const followers = 'followers';
   static const follow = 'Follow';
   static const following = 'Following';
@@ -119,10 +120,10 @@ class Strings {
   static const termsOfUsage = 'Terms of Usage';
   static const privacyPolicy = 'Privacy Policy';
   static const logout = 'Logout';
-  static const areYouSureYouWantToLogout = 'Are you sure you want to logout?';
+  static const confirmLogout = 'Are you sure you want to logout?';
 
   /* Account Details */
-  static const changePhoto = 'Change photo';
+  static const updatePhoto = 'Update photo';
   static const chooseSource = 'Choose image source';
   static const gallery = 'Gallery';
   static const camera = 'Camera';
