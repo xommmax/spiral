@@ -1,12 +1,14 @@
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
 import 'package:dairo/presentation/view/publication/widgets/widget_comment_input_field.dart';
 import 'package:dairo/presentation/view/publication/widgets/widget_comments.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -114,55 +116,69 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
     return Padding(
       padding: EdgeInsets.all(8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            child: Row(
-              children: [
-                WidgetProfilePhoto(
-                  photoUrl: viewModel.user?.photoURL,
-                  width: 28,
-                  height: 28,
+          Row(
+            children: [
+              InkWell(
+                child: Row(
+                  children: [
+                    WidgetProfilePhoto(
+                      photoUrl: viewModel.user?.photoURL,
+                      width: 28,
+                      height: 28,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      viewModel.user?.name ??
+                          viewModel.user?.username ??
+                          viewModel.user?.email ??
+                          '',
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 4),
-                Text(
-                  viewModel.user?.name ??
-                      viewModel.user?.username ??
-                      viewModel.user?.email ??
-                      '',
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                onTap: viewModel.onUserClicked,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 6),
+                child: Text(Strings.inWord),
+              ),
+              InkWell(
+                child: Row(
+                  children: [
+                    WidgetProfilePhoto(
+                      photoUrl: viewModel.hub?.pictureUrl,
+                      width: 28,
+                      height: 28,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      viewModel.hub?.name ?? '',
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            onTap: viewModel.onUserClicked,
+                onTap: viewModel.onHubClicked,
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Text(Strings.inWord),
-          ),
           InkWell(
-            child: Row(
-              children: [
-                WidgetProfilePhoto(
-                  photoUrl: viewModel.hub?.pictureUrl,
-                  width: 28,
-                  height: 28,
-                ),
-                SizedBox(width: 4),
-                Text(
-                  viewModel.hub?.name ?? '',
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+            child: Padding(
+              padding: EdgeInsets.only(left: 8),
+              child: Icon(Icons.more_vert),
             ),
-            onTap: viewModel.onHubClicked,
+            onTap: () => showCupertinoModalPopup(
+                context: context,
+                builder: (context) => OptionsBottomSheet(viewModel.onReport)),
           ),
         ],
       ),

@@ -6,17 +6,15 @@ part of 'user_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserRequest _$UserRequestFromJson(Map<String, dynamic> json) {
-  return UserRequest(
-    id: json['id'] as String,
-    name: json['name'] as String?,
-    email: json['email'] as String?,
-    phoneNumber: json['phoneNumber'] as String?,
-    photoURL: json['photoURL'] as String?,
-    username: json['username'] as String?,
-    description: json['description'] as String?,
-  );
-}
+UserRequest _$UserRequestFromJson(Map<String, dynamic> json) => UserRequest(
+      id: json['id'] as String,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      photoURL: json['photoURL'] as String?,
+      username: json['username'] as String?,
+      description: json['description'] as String?,
+    );
 
 Map<String, dynamic> _$UserRequestToJson(UserRequest instance) =>
     <String, dynamic>{

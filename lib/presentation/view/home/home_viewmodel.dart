@@ -5,9 +5,12 @@ import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
+import 'package:dairo/domain/repository/support/support_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
+import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/home/home_viewdata.dart';
+import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -23,6 +26,7 @@ class HomeViewModel extends MultipleStreamViewModel {
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
   final HubRepository _hubRepository = locator<HubRepository>();
+  final SupportRepository _supportRepository = locator<SupportRepository>();
 
   final HomeViewData viewData = HomeViewData();
 
@@ -145,5 +149,11 @@ class HomeViewModel extends MultipleStreamViewModel {
     if (hub == null) return;
     _navigationService.navigateTo(Routes.hubView,
         arguments: HubViewArguments(hubId: hub.id, userId: hub.userId));
+  }
+
+  onReport(Publication publication) async {
+    _supportRepository.reportPublication(
+        publicationId: publication.id, reason: "TODO");
+    AppSnackBar.showSnackBarSuccess(Strings.reportSubmitted);
   }
 }

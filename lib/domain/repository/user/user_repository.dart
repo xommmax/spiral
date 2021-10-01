@@ -27,10 +27,5 @@ abstract class UserRepository {
     String? photoURL,
   });
 
-  Future<void> sendSupportRequest({
-    required String subject,
-    required String description,
-  });
-
   bool isCurrentUser(String userId);
 }

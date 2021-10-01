@@ -4,10 +4,12 @@ import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/base/widget_like.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -20,6 +22,7 @@ class WidgetHubPublication extends StatelessWidget {
   final Function(Publication publication) onPublicationDetailsClicked;
   final Function(User? user) onUserClicked;
   final Function(Hub? hub) onHubClicked;
+  final Function(Publication publication) onReport;
 
   const WidgetHubPublication({
     Key? key,
@@ -29,6 +32,7 @@ class WidgetHubPublication extends StatelessWidget {
     required this.onPublicationLikeClicked,
     required this.onUsersLikedScreenClicked,
     required this.onPublicationDetailsClicked,
+    required this.onReport,
     required this.onUserClicked,
     required this.onHubClicked,
   }) : super(key: key);
@@ -41,52 +45,67 @@ class WidgetHubPublication extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  child: Row(
-                    children: [
-                      WidgetProfilePhoto(
-                        photoUrl: user?.photoURL,
-                        width: 28,
-                        height: 28,
+                Row(
+                  children: [
+                    InkWell(
+                      child: Row(
+                        children: [
+                          WidgetProfilePhoto(
+                            photoUrl: user?.photoURL,
+                            width: 28,
+                            height: 28,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            user?.name ?? user?.username ?? user?.email ?? '',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 4),
-                      Text(
-                        user?.name ?? user?.username ?? user?.email ?? '',
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      onTap: () => onUserClicked(user),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(Strings.inWord),
+                    ),
+                    InkWell(
+                      child: Row(
+                        children: [
+                          WidgetProfilePhoto(
+                            photoUrl: hub?.pictureUrl,
+                            width: 28,
+                            height: 28,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            hub?.name ?? '',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  onTap: () => onUserClicked(user),
+                      onTap: () => onHubClicked(hub),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text(Strings.inWord),
-                ),
                 InkWell(
-                  child: Row(
-                    children: [
-                      WidgetProfilePhoto(
-                        photoUrl: hub?.pictureUrl,
-                        width: 28,
-                        height: 28,
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        hub?.name ?? '',
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 8),
+                    child: Icon(Icons.more_vert),
                   ),
-                  onTap: () => onHubClicked(hub),
+                  onTap: () => showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) =>
+                          OptionsBottomSheet(() => onReport(publication))),
                 ),
               ],
             ),

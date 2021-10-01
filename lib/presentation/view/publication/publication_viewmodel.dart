@@ -6,6 +6,7 @@ import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
+import 'package:dairo/domain/repository/support/support_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
@@ -35,6 +36,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
   final UserRepository _userRepository = locator<UserRepository>();
   final HubRepository _hubRepository = locator<HubRepository>();
   final NavigationService navigationService = locator<NavigationService>();
+  final SupportRepository _supportRepository = locator<SupportRepository>();
 
   Publication? publication;
   User? user;
@@ -118,5 +120,11 @@ class PublicationViewModel extends MultipleStreamViewModel {
       navigationService.navigateTo(Routes.hubView,
           arguments: HubViewArguments(hubId: hub!.id, userId: user!.id));
     }
+  }
+
+  void onReport() async {
+    _supportRepository.reportPublication(
+        publicationId: publicationId, reason: "TODO");
+    AppSnackBar.showSnackBarSuccess(Strings.reportSubmitted);
   }
 }

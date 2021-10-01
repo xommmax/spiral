@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/firebase_collections.dart';
 import 'package:dairo/data/api/helper.dart';
-import 'package:dairo/data/api/model/request/support_request.dart';
 import 'package:dairo/data/api/model/request/user_request.dart';
 import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/domain/model/user/social_auth_exception.dart';
@@ -136,11 +135,6 @@ class UserRemoteRepository {
 
     return UserRequest.fromFirebase(firebaseUser);
   }
-
-  Future<void> sendSupportRequest(SupportRequest request) =>
-      FirebaseFirestore.instance
-          .collection(FirebaseCollections.usersSupportRequests)
-          .add(request.toJson());
 
   Stream<UserResponse> fetchUserStream(
     String userId,

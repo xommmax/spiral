@@ -6,18 +6,16 @@ part of 'user_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserResponse _$UserResponseFromJson(Map<String, dynamic> json) {
-  return UserResponse(
-    id: json['id'] as String,
-    name: json['name'] as String?,
-    username: json['username'] as String?,
-    description: json['description'] as String?,
-    email: json['email'] as String?,
-    phoneNumber: json['phoneNumber'] as String?,
-    photoURL: json['photoURL'] as String?,
-    followingsCount: json['followingsCount'] as int?,
-  );
-}
+UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
+      id: json['id'] as String,
+      name: json['name'] as String?,
+      username: json['username'] as String?,
+      description: json['description'] as String?,
+      email: json['email'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      photoURL: json['photoURL'] as String?,
+      followingsCount: json['followingsCount'] as int?,
+    );
 
 Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
     <String, dynamic>{

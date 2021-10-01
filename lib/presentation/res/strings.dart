@@ -153,5 +153,12 @@ class Strings {
 
   static const unknownMediaType = "Unknown media type";
 
+  static const report = "Report";
+
+  static const options = "Options";
+  static const chooseOption = "Choose the option";
+
+  static const reportSubmitted = "Your report has been submitted";
+
 /* Uncategorized */
 }

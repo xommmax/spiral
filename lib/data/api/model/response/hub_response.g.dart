@@ -6,19 +6,17 @@ part of 'hub_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HubResponse _$HubResponseFromJson(Map<String, dynamic> json) {
-  return HubResponse(
-    id: json['id'] as String,
-    userId: json['userId'] as String,
-    name: json['name'] as String,
-    description: json['description'] as String,
-    pictureUrl: json['pictureUrl'] as String,
-    createdAt: json['createdAt'] as int,
-    followersCount: json['followersCount'] as int,
-    isFollow: json['isFollow'] as bool,
-    isPrivate: json['isPrivate'] as bool,
-  );
-}
+HubResponse _$HubResponseFromJson(Map<String, dynamic> json) => HubResponse(
+      id: json['id'] as String,
+      userId: json['userId'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      pictureUrl: json['pictureUrl'] as String,
+      createdAt: json['createdAt'] as int,
+      followersCount: json['followersCount'] as int,
+      isFollow: json['isFollow'] as bool,
+      isPrivate: json['isPrivate'] as bool,
+    );
 
 Map<String, dynamic> _$HubResponseToJson(HubResponse instance) =>
     <String, dynamic>{

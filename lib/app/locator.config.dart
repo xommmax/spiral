@@ -13,13 +13,14 @@ import '../data/api/repository/explore_remote_repository.dart' as _i7;
 import '../data/api/repository/firebase_storage_repository.dart' as _i10;
 import '../data/api/repository/hub_remote_repository.dart' as _i12;
 import '../data/api/repository/publication_remote_repository.dart' as _i17;
-import '../data/api/repository/user_remote_repository.dart' as _i21;
+import '../data/api/repository/support_remote_repository.dart' as _i20;
+import '../data/api/repository/user_remote_repository.dart' as _i24;
 import '../data/db/dairo_database.dart' as _i6;
 import '../data/db/repository/hub_local_repository.dart' as _i11;
 import '../data/db/repository/publication_local_repository.dart' as _i16;
-import '../data/db/repository/user_local_repository.dart' as _i20;
-import '../di/database_module.dart' as _i24;
-import '../di/navigation_module.dart' as _i25;
+import '../data/db/repository/user_local_repository.dart' as _i23;
+import '../di/database_module.dart' as _i27;
+import '../di/navigation_module.dart' as _i28;
 import '../domain/repository/analytics/analytics_repository.dart' as _i3;
 import '../domain/repository/analytics/impl/analytics_repository_impl.dart'
     as _i4;
@@ -30,9 +31,11 @@ import '../domain/repository/hub/impl/hub_repository_impl.dart' as _i14;
 import '../domain/repository/publication/impl/publication_repository_impl.dart'
     as _i19;
 import '../domain/repository/publication/publication_repository.dart' as _i18;
-import '../domain/repository/user/impl/user_repository_impl.dart' as _i23;
+import '../domain/repository/support/impl/support_repository_impl.dart' as _i22;
+import '../domain/repository/support/support_repository.dart' as _i21;
+import '../domain/repository/user/impl/user_repository_impl.dart' as _i26;
 import '../domain/repository/user/user_repository.dart'
-    as _i22; // ignore_for_file: unnecessary_lambdas
+    as _i25; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -62,16 +65,19 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       () => _i17.PublicationRemoteRepository());
   gh.lazySingleton<_i18.PublicationRepository>(
       () => _i19.PublicationRepositoryImpl());
-  gh.lazySingleton<_i20.UserLocalRepository>(() => _i20.UserLocalRepository());
-  gh.lazySingleton<_i21.UserRemoteRepository>(
-      () => _i21.UserRemoteRepository());
-  gh.lazySingleton<_i22.UserRepository>(() => _i23.UserRepositoryImpl());
+  gh.lazySingleton<_i20.SupportRemoteRepository>(
+      () => _i20.SupportRemoteRepository());
+  gh.lazySingleton<_i21.SupportRepository>(() => _i22.SupportRepositoryImpl());
+  gh.lazySingleton<_i23.UserLocalRepository>(() => _i23.UserLocalRepository());
+  gh.lazySingleton<_i24.UserRemoteRepository>(
+      () => _i24.UserRemoteRepository());
+  gh.lazySingleton<_i25.UserRepository>(() => _i26.UserRepositoryImpl());
   return get;
 }
 
-class _$DatabaseModule extends _i24.DatabaseModule {}
+class _$DatabaseModule extends _i27.DatabaseModule {}
 
-class _$NavigationModule extends _i25.NavigationModule {
+class _$NavigationModule extends _i28.NavigationModule {
   @override
   _i15.NavigationService get navigationService => _i15.NavigationService();
 }

@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/firebase_storage_folder.dart';
-import 'package:dairo/data/api/model/request/support_request.dart';
 import 'package:dairo/data/api/model/request/user_request.dart';
 import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
@@ -149,22 +148,6 @@ class UserRepositoryImpl implements UserRepository {
       );
       await _local.updateUser(UserItemData.fromResponse(response));
     }
-  }
-
-  @override
-  Future<void> sendSupportRequest({
-    required String subject,
-    required String description,
-  }) async {
-    final currentUserId = getCurrentUserId();
-    await _remote.sendSupportRequest(
-      SupportRequest(
-        subject: subject,
-        description: description,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        userId: currentUserId,
-      ),
-    );
   }
 
   @override

@@ -6,23 +6,23 @@ part of 'publication_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PublicationResponse _$PublicationResponseFromJson(Map<String, dynamic> json) {
-  return PublicationResponse(
-    id: json['id'] as String,
-    hubId: json['hubId'] as String,
-    userId: json['userId'] as String,
-    text: json['text'] as String?,
-    likesCount: json['likesCount'] as int,
-    commentsCount: json['commentsCount'] as int,
-    isLiked: json['isLiked'] as bool,
-    mediaUrls:
-        (json['mediaUrls'] as List<dynamic>).map((e) => e as String).toList(),
-    previewUrls:
-        (json['previewUrls'] as List<dynamic>).map((e) => e as String).toList(),
-    createdAt: json['createdAt'] as int,
-    viewType: json['viewType'] as String,
-  );
-}
+PublicationResponse _$PublicationResponseFromJson(Map<String, dynamic> json) =>
+    PublicationResponse(
+      id: json['id'] as String,
+      hubId: json['hubId'] as String,
+      userId: json['userId'] as String,
+      text: json['text'] as String?,
+      likesCount: json['likesCount'] as int,
+      commentsCount: json['commentsCount'] as int,
+      isLiked: json['isLiked'] as bool,
+      mediaUrls:
+          (json['mediaUrls'] as List<dynamic>).map((e) => e as String).toList(),
+      previewUrls: (json['previewUrls'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      createdAt: json['createdAt'] as int,
+      viewType: json['viewType'] as String,
+    );
 
 Map<String, dynamic> _$PublicationResponseToJson(
         PublicationResponse instance) =>

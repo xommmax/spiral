@@ -60,3 +60,28 @@ class AppDialog {
             ));
   }
 }
+
+class OptionsBottomSheet extends StatelessWidget {
+  final Function() onReport;
+
+  OptionsBottomSheet(this.onReport);
+
+  @override
+  Widget build(BuildContext context) => CupertinoActionSheet(
+        title: Text(Strings.options),
+        actions: [
+          CupertinoActionSheetAction(
+            child: Text(Strings.report),
+            isDestructiveAction: true,
+            onPressed: () {
+              Get.back();
+              onReport();
+            },
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          child: Text(Strings.cancel),
+          onPressed: () => Get.back(),
+        ),
+      );
+}
