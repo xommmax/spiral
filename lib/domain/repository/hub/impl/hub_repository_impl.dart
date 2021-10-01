@@ -75,7 +75,7 @@ class HubRepositoryImpl implements HubRepository {
           ),
         );
 
-    return _local.getHub(hubId).map(
+    return _local.getHub(hubId).where((value) => value != null).map(
           (itemData) => Hub.fromItemData(itemData!),
         );
   }
