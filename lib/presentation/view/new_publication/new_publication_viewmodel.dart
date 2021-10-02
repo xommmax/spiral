@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:dairo/app/locator.dart';
-import 'package:dairo/app/router.router.dart';
-import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
-import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
@@ -27,36 +24,22 @@ import 'package:video_compress/video_compress.dart';
 import 'new_publication_viewdata.dart';
 
 class NewPublicationViewModel extends BaseViewModel {
-  static const String createHubItemValue = 'createHubItemValue';
   static const int maxMediaSize = 9;
-  String? hubId;
-  int mediaPreviewTypeIndex = 0;
+  final String hubId;
+  final CarouselController buttonCarouselController = CarouselController();
   MediaViewType mediaViewType = MediaViewType.values[0];
   int currentMediaCarouselIndex = 0;
-  final CarouselController buttonCarouselController = CarouselController();
+  int mediaPreviewTypeIndex = 0;
 
-  NewPublicationViewModel(this.hubId) {
-    if (hubId == null) {
-      _getHubs();
-    }
-  }
+  NewPublicationViewModel(this.hubId);
 
   final NavigationService _navigationService = locator<NavigationService>();
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
-  final HubRepository _hubRepository = locator<HubRepository>();
 
   final NewPublicationViewData viewData = NewPublicationViewData();
   final TextEditingController publicationTextController =
       TextEditingController();
-
-  List<Hub> hubs = [];
-
-  Future<void> _getHubs() =>
-      _hubRepository.getCurrentUserHubs().first.then((hubs) {
-        this.hubs = hubs;
-        notifyListeners();
-      });
 
   void onDonePressed() async {
     if (publicationTextController.text.isEmpty && viewData.mediaFiles.isEmpty) {
@@ -65,33 +48,13 @@ class NewPublicationViewModel extends BaseViewModel {
     }
 
     _publicationRepository.createPublication(
-      hubId: hubId!,
+      hubId: hubId,
       text: publicationTextController.text,
       mediaFiles: viewData.mediaFiles,
       viewType: mediaViewType,
     );
 
     _navigationService.back(result: true);
-  }
-
-  void onHubSelected(String? hubId) {
-    if (hubId == createHubItemValue) {
-      _navigationService.navigateTo(Routes.newHubView)?.then((result) {
-        if (result != null && result is String) {
-          this.hubId = result;
-          onDonePressed();
-        }
-      });
-      return;
-    }
-    this.hubId = hubId;
-    onDonePressed();
-  }
-
-  @override
-  void dispose() {
-    publicationTextController.dispose();
-    super.dispose();
   }
 
   void onMediaPreviewTypeIndexChanged(int index) {
@@ -176,5 +139,11 @@ class NewPublicationViewModel extends BaseViewModel {
             ),
           );
         });
+  }
+
+  @override
+  void dispose() {
+    publicationTextController.dispose();
+    super.dispose();
   }
 }

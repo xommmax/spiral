@@ -163,5 +163,9 @@ class Strings {
 
   static const block = "Block";
 
+  static const postTo = "Post to";
+
+  static const newHub = 'New hub';
+
 /* Uncategorized */
 }

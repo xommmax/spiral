@@ -18,6 +18,7 @@ import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/hub/settings/hub_settings_view.dart';
 import '../presentation/view/main/main_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
+import '../presentation/view/new_publication/new_pub_hub_selection/new_pub_hub_selection_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
 import '../presentation/view/profile/current_user/current_user_profile_view.dart';
 import '../presentation/view/profile/user/user_profile_view.dart';
@@ -43,6 +44,7 @@ class Routes {
   static const String supportView = '/support-view';
   static const String followingsView = '/followings-view';
   static const String hubSettingsView = '/hub-settings-view';
+  static const String newPubHubSelectionView = '/new-pub-hub-selection-view';
   static const all = <String>{
     authView,
     mainView,
@@ -59,6 +61,7 @@ class Routes {
     supportView,
     followingsView,
     hubSettingsView,
+    newPubHubSelectionView,
   };
 }
 
@@ -81,6 +84,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.supportView, page: SupportView),
     RouteDef(Routes.followingsView, page: FollowingsView),
     RouteDef(Routes.hubSettingsView, page: HubSettingsView),
+    RouteDef(Routes.newPubHubSelectionView, page: NewPubHubSelectionView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -98,9 +102,7 @@ class StackedRouter extends RouterBase {
       );
     },
     NewPublicationView: (data) {
-      var args = data.getArgs<NewPublicationViewArguments>(
-        orElse: () => NewPublicationViewArguments(),
-      );
+      var args = data.getArgs<NewPublicationViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => NewPublicationView(hubId: args.hubId),
         settings: data,
@@ -195,6 +197,12 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    NewPubHubSelectionView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => NewPubHubSelectionView(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -204,8 +212,8 @@ class StackedRouter extends RouterBase {
 
 /// NewPublicationView arguments holder class
 class NewPublicationViewArguments {
-  final String? hubId;
-  NewPublicationViewArguments({this.hubId});
+  final String hubId;
+  NewPublicationViewArguments({required this.hubId});
 }
 
 /// UserProfileView arguments holder class

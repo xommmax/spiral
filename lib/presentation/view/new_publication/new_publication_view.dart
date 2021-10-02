@@ -7,10 +7,11 @@ import 'new_publication_viewmodel.dart';
 
 class NewPublicationView extends StandardBaseView<NewPublicationViewModel> {
   NewPublicationView({
-    String? hubId,
-  }) : super(NewPublicationViewModel(hubId),
-    routeName: Routes.newPublicationView,
-  );
+    required String hubId,
+  }) : super(
+          NewPublicationViewModel(hubId),
+          routeName: Routes.newPublicationView,
+        );
 
   @override
   Widget getContent(BuildContext context) => WidgetNewPublicationContent();

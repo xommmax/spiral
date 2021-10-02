@@ -5,6 +5,7 @@ import 'package:dairo/presentation/view/hub/hub_view.dart';
 import 'package:dairo/presentation/view/hub/settings/hub_settings_view.dart';
 import 'package:dairo/presentation/view/main/main_view.dart';
 import 'package:dairo/presentation/view/new_hub/new_hub_view.dart';
+import 'package:dairo/presentation/view/new_publication/new_pub_hub_selection/new_pub_hub_selection_view.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_view.dart';
 import 'package:dairo/presentation/view/profile/current_user/current_user_profile_view.dart';
 import 'package:dairo/presentation/view/profile/user/user_profile_view.dart';
@@ -32,6 +33,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: SupportView),
     MaterialRoute(page: FollowingsView),
     MaterialRoute(page: HubSettingsView),
+    MaterialRoute(page: NewPubHubSelectionView),
   ],
 )
 class $AppRouter {}
