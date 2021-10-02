@@ -16,12 +16,6 @@ class AuthViewModel extends BaseViewModel {
   final AuthViewData viewData = AuthViewData();
   final TextEditingController phoneNumberController = TextEditingController();
 
-  AuthViewModel() {
-    if (_userRepository.isCurrentUserExist()) {
-      _navigateMain();
-    }
-  }
-
   onGoogleSignUpClicked() =>
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Google));
 

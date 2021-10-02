@@ -22,11 +22,35 @@
           }
         },
         {
+          "client_id": "428199076323-aa8f7nv2vl632ombi21uer7aqmbm5pn5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dairo.team.id",
+            "certificate_hash": "20cf7602bcf3b5d55dc615d4d5b8886f0fa3d644"
+          }
+        },
+        {
           "client_id": "428199076323-hf6h2qjovnfaebucfu9f6kvgfook6vvh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.dairo.team.id",
             "certificate_hash": "fb7b8f5c75c60960091497f079089b1970829b8b"
+          }
+        },
+        {
+          "client_id": "428199076323-kokmtmnn7ete13cun52lgiuf1m7qa058.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dairo.team.id",
+            "certificate_hash": "545cacce052e10a8dcb7d6cd5d1d6bedabcaecf3"
+          }
+        },
+        {
+          "client_id": "428199076323-tnobjke470i9f1at1vrihlgc480gofgc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dairo.team.id",
+            "certificate_hash": "3643138e46fcbd0eacd2326eab47a995a456c4cc"
           }
         },
         {

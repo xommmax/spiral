@@ -28,7 +28,7 @@ class ProfileSettingsViewModel extends BaseViewModel {
         description: Strings.confirmLogout,
         onConfirm: () async {
           await _userRepository.logoutUser();
-          _navigateToHomeScreen();
+          _navigateToAuthScreen();
         },
       );
 
@@ -51,6 +51,6 @@ class ProfileSettingsViewModel extends BaseViewModel {
         }
       });
 
-  void _navigateToHomeScreen() =>
-      _navigationService.clearStackAndShow(Routes.mainView);
+  void _navigateToAuthScreen() =>
+      _navigationService.clearStackAndShow(Routes.authView);
 }

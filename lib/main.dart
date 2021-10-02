@@ -58,16 +58,15 @@ class _DairoAppState extends State<DairoApp> {
     if (!_initialized) {
       return SizedBox.shrink();
     }
+    bool isCurrentUserExist = FirebaseAuth.instance.currentUser?.uid != null;
     final ThemeData theme = _getAppTheme();
     return MaterialApp(
-      onGenerateRoute: StackedRouter().onGenerateRoute,
       theme: theme.copyWith(
-        colorScheme:
-            theme.colorScheme.copyWith(secondary: AppColors.accentColor),
-      ),
-      navigatorObservers: [
-        widget.analyticsRepository.getObserver(),
-      ],
+          colorScheme:
+              theme.colorScheme.copyWith(secondary: AppColors.accentColor)),
+      onGenerateRoute: StackedRouter().onGenerateRoute,
+      initialRoute: isCurrentUserExist ? Routes.mainView : Routes.authView,
+      navigatorObservers: [widget.analyticsRepository.getObserver()],
       navigatorKey: StackedService.navigatorKey,
     );
   }

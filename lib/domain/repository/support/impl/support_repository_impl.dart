@@ -64,7 +64,8 @@ class SupportRepositoryImpl implements SupportRepository {
   }
 
   @override
-  Future<bool> isUserBlockedByCurrentUser({required String userId}) {
+  Future<bool> isUserBlockedByCurrentUser({required String userId}) async {
+    if (!userRepository.isCurrentUserExist()) return false;
     final currentUserId = userRepository.getCurrentUserId();
     return _remote.isUserBlockedByCurrentUser(currentUserId, userId);
   }

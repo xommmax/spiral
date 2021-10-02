@@ -17,7 +17,7 @@ import 'package:stacked/stacked_annotations.dart';
 
 @StackedApp(
   routes: [
-    MaterialRoute(page: AuthView, initial: true),
+    MaterialRoute(page: AuthView),
     MaterialRoute(page: MainView),
     MaterialRoute(page: NewPublicationView),
     MaterialRoute(page: UserProfileView),
