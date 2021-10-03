@@ -8,10 +8,10 @@ import 'package:dairo/domain/repository/publication/publication_repository.dart'
 import 'package:dairo/domain/repository/support/support_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/hub/hub_viewdata.dart';
 import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
-import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -202,6 +202,7 @@ class HubViewModel extends MultipleStreamViewModel {
   onReport(Publication publication) async {
     _supportRepository.reportPublication(
         publicationId: publication.id, reason: "TODO");
-    AppSnackBar.showSnackBarSuccess(Strings.reportSubmitted);
+    AppDialog.showInformDialog(
+        title: Strings.reported, description: Strings.reportedPublicationDesc);
   }
 }

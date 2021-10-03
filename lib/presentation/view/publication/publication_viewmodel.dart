@@ -9,6 +9,7 @@ import 'package:dairo/domain/repository/publication/publication_repository.dart'
 import 'package:dairo/domain/repository/support/support_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
@@ -125,6 +126,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
   void onReport() async {
     _supportRepository.reportPublication(
         publicationId: publicationId, reason: "TODO");
-    AppSnackBar.showSnackBarSuccess(Strings.reportSubmitted);
+    AppDialog.showInformDialog(
+        title: Strings.reported, description: Strings.reportedPublicationDesc);
   }
 }

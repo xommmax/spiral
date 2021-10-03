@@ -59,6 +59,24 @@ class AppDialog {
                   .toList(),
             ));
   }
+
+  static showInformDialog({
+    required title,
+    required description,
+  }) {
+    showCupertinoDialog(
+        context: StackedService.navigatorKey!.currentState!.context,
+        builder: (context) => CupertinoAlertDialog(
+              title: Text(title),
+              content: Text(description),
+              actions: [
+                CupertinoDialogAction(
+                  child: Text(Strings.ok),
+                  onPressed: () => Get.back(),
+                ),
+              ],
+            ));
+  }
 }
 
 class OptionsBottomSheet extends StatelessWidget {
