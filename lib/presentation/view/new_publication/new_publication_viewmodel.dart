@@ -180,7 +180,7 @@ class NewPublicationViewModel extends BaseViewModel {
   onTextMediaItemPicked() {
     isTextBlockVisible = !isTextBlockVisible;
     if (isTextBlockVisible) textBlockFocusNode.requestFocus();
-    isTypePickerCollapsed = true;
+    isTypePickerCollapsed = isTextBlockVisible;
 
     notifyListeners();
   }
@@ -188,7 +188,7 @@ class NewPublicationViewModel extends BaseViewModel {
   onLinkMediaItemPicked() {
     isLinkBlockVisible = !isLinkBlockVisible;
     if (isLinkBlockVisible) linkBlockFocusNode.requestFocus();
-    isTypePickerCollapsed = true;
+    isTypePickerCollapsed = isLinkBlockVisible;
     notifyListeners();
   }
 
