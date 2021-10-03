@@ -13,7 +13,7 @@ class Media {
   Size? size;
   DateTime? creationTime;
   String? title;
-  MediaType? mediaType;
+  PickerMediaType? mediaType;
 
   Media({
     this.id,
@@ -34,9 +34,15 @@ class Media {
     convertedMedia.title = media.title;
     convertedMedia.creationTime = media.createDateTime;
 
-    MediaType mediaType = MediaType.all;
-    if (media.type == AssetType.video) mediaType = MediaType.video;
-    if (media.type == AssetType.image) mediaType = MediaType.image;
+    PickerMediaType mediaType;
+    if (media.type == AssetType.video)
+      mediaType = PickerMediaType.video;
+    else if (media.type == AssetType.image)
+      mediaType = PickerMediaType.image;
+    else if (media.type == AssetType.audio)
+      mediaType = PickerMediaType.audio;
+    else
+      throw ArgumentError();
     convertedMedia.mediaType = mediaType;
 
     return convertedMedia;

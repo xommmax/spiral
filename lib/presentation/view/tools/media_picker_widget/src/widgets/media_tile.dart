@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -54,92 +55,23 @@ class _MediaTileState extends State<MediaTile>
         child: Stack(
           children: [
             Positioned.fill(
-              child: media!.thumbnail != null
-                  ? InkWell(
-                      onTap: () {
-                        setState(() => selected = !selected!);
-                        if (selected!)
-                          _animationController!.forward();
-                        else
-                          _animationController!.reverse();
-                        widget.onSelected(selected!, media!);
-                      },
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: ClipRect(
-                              child: AnimatedBuilder(
-                                  animation: _animation!,
-                                  builder: (context, child) {
-                                    return Transform.scale(
-                                      scale: _animation!.value,
-                                      child: Image.memory(
-                                        media!.thumbnail!,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                          Positioned.fill(
-                            child: AnimatedOpacity(
-                              opacity: selected! ? 1 : 0,
-                              curve: Curves.easeOut,
-                              duration: _duration,
-                              child: ClipRect(
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                      sigmaX: widget.decoration!.blurStrength,
-                                      sigmaY: widget.decoration!.blurStrength),
-                                  child: Container(
-                                    color: Colors.black26,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          if (widget.media.type == AssetType.video)
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 5, bottom: 5),
-                                child: Icon(
-                                  Icons.videocam,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    )
-                  : Center(
-                      child: Icon(
-                        Icons.error_outline,
-                        color: Colors.grey.shade400,
-                        size: 40,
-                      ),
-                    ),
+              child: InkWell(
+                onTap: () {
+                  setState(() => selected = !selected!);
+                  if (selected!)
+                    _animationController!.forward();
+                  else
+                    _animationController!.reverse();
+                  widget.onSelected(selected!, media!);
+                },
+                child: getTileItem(),
+              ),
             ),
             Align(
               alignment: Alignment.topRight,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: AnimatedOpacity(
-                  curve: Curves.easeOut,
-                  duration: _duration,
-                  opacity: selected! ? 1 : 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        shape: BoxShape.circle),
-                    padding: const EdgeInsets.all(5),
-                    child: Icon(
-                      Icons.done,
-                      size: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+                child: _SelectedItemLabel(_duration, selected!),
               ),
             ),
           ],
@@ -152,6 +84,192 @@ class _MediaTileState extends State<MediaTile>
     }
   }
 
+  Widget getTileItem() {
+    switch (media!.mediaType) {
+      case PickerMediaType.image:
+        return _ImageItem(
+          animation: _animation!,
+          media: media!,
+          selected: selected!,
+          duration: _duration,
+          blurStrength: widget.decoration!.blurStrength,
+        );
+      case PickerMediaType.video:
+        return _VideoItem(
+          animation: _animation!,
+          media: media!,
+          selected: selected!,
+          duration: _duration,
+          blurStrength: widget.decoration!.blurStrength,
+        );
+      case PickerMediaType.audio:
+        return _AudioItem(
+          media: media!,
+        );
+      default:
+        throw ArgumentError();
+    }
+  }
+
   @override
   bool get wantKeepAlive => true;
+}
+
+class _ImageItem extends StatelessWidget {
+  final Animation animation;
+  final Media media;
+  final bool selected;
+  final Duration duration;
+  final double blurStrength;
+
+  _ImageItem({
+    required this.animation,
+    required this.media,
+    required this.selected,
+    required this.duration,
+    required this.blurStrength,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: ClipRect(
+            child: AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: animation.value,
+                    child: Image.memory(
+                      media.thumbnail!,
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                }),
+          ),
+        ),
+        Positioned.fill(
+          child: AnimatedOpacity(
+            opacity: selected ? 1 : 0,
+            curve: Curves.easeOut,
+            duration: duration,
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                    sigmaX: blurStrength, sigmaY: blurStrength),
+                child: Container(
+                  color: Colors.black26,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _VideoItem extends StatelessWidget {
+  final Animation animation;
+  final Media media;
+  final bool selected;
+  final Duration duration;
+  final double blurStrength;
+
+  _VideoItem({
+    required this.animation,
+    required this.media,
+    required this.selected,
+    required this.duration,
+    required this.blurStrength,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: ClipRect(
+            child: AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: animation.value,
+                    child: Image.memory(
+                      media.thumbnail!,
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                }),
+          ),
+        ),
+        Positioned.fill(
+          child: AnimatedOpacity(
+            opacity: selected ? 1 : 0,
+            curve: Curves.easeOut,
+            duration: duration,
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                    sigmaX: blurStrength, sigmaY: blurStrength),
+                child: Container(
+                  color: Colors.black26,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 5, bottom: 5),
+            child: Icon(
+              Icons.videocam,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _AudioItem extends StatelessWidget {
+  final Media media;
+
+  _AudioItem({
+    required this.media,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(media.title ?? "Empty");
+  }
+}
+
+class _SelectedItemLabel extends StatelessWidget {
+  final Duration _duration;
+  final bool _selected;
+
+  _SelectedItemLabel(this._duration, this._selected);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      curve: Curves.easeOut,
+      duration: _duration,
+      opacity: _selected ? 1 : 0,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor, shape: BoxShape.circle),
+        padding: const EdgeInsets.all(5),
+        child: Icon(
+          Icons.done,
+          size: 16,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
 }

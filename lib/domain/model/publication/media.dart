@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart'
-    as picker_enums;
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart'
     as picker;
 
@@ -21,9 +20,13 @@ class LocalMediaFile {
   picker.Media toPickerMedia() => picker.Media(id: id);
 
   static LocalMediaFile fromPickerMedia(picker.Media media, File previewImage) {
-    MediaType mediaType = media.mediaType == picker_enums.MediaType.image
-        ? MediaType.image
-        : MediaType.video;
+    MediaType mediaType;
+    if (media.mediaType == PickerMediaType.image)
+      mediaType = MediaType.image;
+    else if (media.mediaType == PickerMediaType.video)
+      mediaType = MediaType.video;
+    else
+      throw ArgumentError();
     return LocalMediaFile(
       id: media.id,
       originalFile: media.file!,
@@ -87,6 +90,7 @@ class RemoteMediaFile {
 enum MediaType {
   image,
   video,
+  audio,
 }
 
 enum MediaViewType {

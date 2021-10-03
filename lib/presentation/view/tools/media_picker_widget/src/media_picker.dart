@@ -18,8 +18,8 @@ class MediaPicker extends StatefulWidget {
     required this.onPick,
     required this.mediaList,
     required this.onCancel,
+    required this.mediaType,
     this.mediaCount = MediaCount.multiple,
-    this.mediaType = MediaType.all,
     this.decoration,
     this.scrollController,
   });
@@ -28,7 +28,7 @@ class MediaPicker extends StatefulWidget {
   final List<Media> mediaList;
   final VoidCallback onCancel;
   final MediaCount mediaCount;
-  final MediaType mediaType;
+  final PickerMediaType mediaType;
   final PickerDecoration? decoration;
   final ScrollController? scrollController;
 
@@ -111,12 +111,17 @@ class _MediaPickerState extends State<MediaPicker> {
   }
 
   _fetchAlbums() async {
-    RequestType type = RequestType.common;
-    if (widget.mediaType == MediaType.all)
-      type = RequestType.common;
-    else if (widget.mediaType == MediaType.video)
+    RequestType type;
+    if (widget.mediaType == PickerMediaType.image)
+      type = RequestType.image;
+    else if (widget.mediaType == PickerMediaType.video)
       type = RequestType.video;
-    else if (widget.mediaType == MediaType.image) type = RequestType.image;
+    else if (widget.mediaType == PickerMediaType.audio)
+      type = RequestType.audio;
+    else if (widget.mediaType == PickerMediaType.common)
+      type = RequestType.common;
+    else
+      throw ArgumentError();
 
     var result = await PhotoManager.requestPermission();
     if (result) {

@@ -8,8 +8,7 @@ import 'package:dairo/domain/repository/publication/publication_repository.dart'
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart'
-    as picker_enums;
+import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart'
     as picker_media;
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/media_picker.dart';
@@ -68,9 +67,9 @@ class NewPublicationViewModel extends BaseViewModel {
 
     for (picker_media.Media media in pickerMedia) {
       File previewImage;
-      if (media.mediaType == picker_enums.MediaType.image)
+      if (media.mediaType == PickerMediaType.image)
         previewImage = await compressImage(media.file!.path, 25);
-      else if (media.mediaType == picker_enums.MediaType.video)
+      else if (media.mediaType == PickerMediaType.video)
         previewImage = await _getVideoThumbnail(media.file!.path);
       else
         throw ArgumentError();
@@ -103,7 +102,8 @@ class NewPublicationViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void openMediaPicker(BuildContext context) {
+  void _openMediaPicker(
+      BuildContext context, PickerMediaType mediaType, MediaCount mediaCount) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -119,9 +119,10 @@ class NewPublicationViewModel extends BaseViewModel {
               Navigator.pop(context);
             },
             onCancel: () => Navigator.pop(context),
-            mediaCount: picker_enums.MediaCount.multiple,
+            mediaCount: mediaCount,
+            mediaType: mediaType,
             decoration: PickerDecoration(
-              actionBarPosition: picker_enums.ActionBarPosition.top,
+              actionBarPosition: ActionBarPosition.top,
               albumTitleStyle: TextStyle(
                 color: AppColors.black,
               ),
@@ -145,5 +146,27 @@ class NewPublicationViewModel extends BaseViewModel {
   void dispose() {
     publicationTextController.dispose();
     super.dispose();
+  }
+
+  onPhotoMediaItemPicked(BuildContext context) {
+    _openMediaPicker(context, PickerMediaType.image, MediaCount.multiple);
+  }
+
+  onVideoMediaItemPicked(BuildContext context) {
+    _openMediaPicker(context, PickerMediaType.video, MediaCount.single);
+  }
+
+  onAudioMediaItemPicked(BuildContext context) {
+    // _openMediaPicker(context, PickerMediaType.audio, MediaCount.single);
+  }
+
+  onTextMediaItemPicked() {}
+
+  onLinkMediaItemPicked() {}
+
+  onFileMediaItemPicked() {}
+
+  onGalleryMediaItemPicked(BuildContext context) {
+    _openMediaPicker(context, PickerMediaType.common, MediaCount.multiple);
   }
 }
