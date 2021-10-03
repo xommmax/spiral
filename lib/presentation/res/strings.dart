@@ -74,6 +74,7 @@ class Strings {
   /* New publication */
   static const newPublication = 'New publication';
   static const whatsNew = 'What\'s new?';
+  static const writeMessage = 'Write a message';
 
   /* Main */
   static const home = 'Home';
@@ -166,6 +167,8 @@ class Strings {
   static const postTo = "Post to";
 
   static const newHub = 'New hub';
+
+  static const addUrl = 'Add URL';
 
 /* Uncategorized */
 }

@@ -26,9 +26,16 @@ class NewPublicationViewModel extends BaseViewModel {
   static const int maxMediaSize = 9;
   final String hubId;
   final CarouselController buttonCarouselController = CarouselController();
+  final FocusNode textBlockFocusNode = FocusNode();
+  final FocusNode linkBlockFocusNode = FocusNode();
   MediaViewType mediaViewType = MediaViewType.values[0];
   int currentMediaCarouselIndex = 0;
-  int mediaPreviewTypeIndex = 0;
+  int mediaViewTypeIndex = 0;
+  bool isTypePickerCollapsed = false;
+  bool isMediaBlockVisible = false;
+  bool isTextBlockVisible = false;
+  bool isLinkBlockVisible = false;
+  bool isFileBlockVisible = false;
 
   NewPublicationViewModel(this.hubId);
 
@@ -38,6 +45,8 @@ class NewPublicationViewModel extends BaseViewModel {
 
   final NewPublicationViewData viewData = NewPublicationViewData();
   final TextEditingController publicationTextController =
+      TextEditingController();
+  final TextEditingController publicationLinkController =
       TextEditingController();
 
   void onDonePressed() async {
@@ -56,8 +65,8 @@ class NewPublicationViewModel extends BaseViewModel {
     _navigationService.back(result: true);
   }
 
-  void onMediaPreviewTypeIndexChanged(int index) {
-    mediaPreviewTypeIndex = index;
+  void onMediaViewTypeIndexChanged(int index) {
+    mediaViewTypeIndex = index;
     mediaViewType = MediaViewType.values[index];
     notifyListeners();
   }
@@ -65,14 +74,18 @@ class NewPublicationViewModel extends BaseViewModel {
   void updateMediaList(List<picker_media.Media> pickerMedia) async {
     viewData.mediaFiles = [];
 
+    if (!isMediaBlockVisible) isMediaBlockVisible = true;
+    isTypePickerCollapsed = true;
+
     for (picker_media.Media media in pickerMedia) {
       File previewImage;
       if (media.mediaType == PickerMediaType.image)
         previewImage = await compressImage(media.file!.path, 25);
       else if (media.mediaType == PickerMediaType.video)
         previewImage = await _getVideoThumbnail(media.file!.path);
-      else
+      else {
         throw ArgumentError();
+      }
 
       LocalMediaFile mediaFile = LocalMediaFile(
           id: media.id,
@@ -145,28 +158,54 @@ class NewPublicationViewModel extends BaseViewModel {
   @override
   void dispose() {
     publicationTextController.dispose();
+    publicationLinkController.dispose();
+    textBlockFocusNode.dispose();
+    linkBlockFocusNode.dispose();
     super.dispose();
   }
 
-  onPhotoMediaItemPicked(BuildContext context) {
-    _openMediaPicker(context, PickerMediaType.image, MediaCount.multiple);
-  }
-
-  onVideoMediaItemPicked(BuildContext context) {
-    _openMediaPicker(context, PickerMediaType.video, MediaCount.single);
+  onGalleryMediaItemPicked(BuildContext context) {
+    if (isMediaBlockVisible) {
+      isMediaBlockVisible = false;
+      notifyListeners();
+    } else {
+      _openMediaPicker(context, PickerMediaType.common, MediaCount.multiple);
+    }
   }
 
   onAudioMediaItemPicked(BuildContext context) {
     // _openMediaPicker(context, PickerMediaType.audio, MediaCount.single);
   }
 
-  onTextMediaItemPicked() {}
+  onTextMediaItemPicked() {
+    isTextBlockVisible = !isTextBlockVisible;
+    if (isTextBlockVisible) textBlockFocusNode.requestFocus();
+    isTypePickerCollapsed = true;
 
-  onLinkMediaItemPicked() {}
+    notifyListeners();
+  }
+
+  onLinkMediaItemPicked() {
+    isLinkBlockVisible = !isLinkBlockVisible;
+    if (isLinkBlockVisible) linkBlockFocusNode.requestFocus();
+    isTypePickerCollapsed = true;
+    notifyListeners();
+  }
 
   onFileMediaItemPicked() {}
 
-  onGalleryMediaItemPicked(BuildContext context) {
-    _openMediaPicker(context, PickerMediaType.common, MediaCount.multiple);
+  void onContentPointerDown(PointerDownEvent event, BuildContext context) {
+    if (!isTypePickerCollapsed) {
+      isTypePickerCollapsed = true;
+      notifyListeners();
+    }
+  }
+
+  void onTypePickerPointerDown(PointerDownEvent event, BuildContext context) {
+    if (isTypePickerCollapsed) {
+      FocusScope.of(context).unfocus();
+      isTypePickerCollapsed = false;
+      notifyListeners();
+    }
   }
 }

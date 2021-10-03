@@ -17,7 +17,16 @@ class LocalMediaFile {
     required this.type,
   });
 
-  picker.Media toPickerMedia() => picker.Media(id: id);
+  picker.Media toPickerMedia() {
+    PickerMediaType pickerMediaType;
+    if (type == MediaType.image)
+      pickerMediaType = PickerMediaType.image;
+    else if (type == MediaType.video)
+      pickerMediaType = PickerMediaType.video;
+    else
+      throw ArgumentError();
+    return picker.Media(id: id, file: originalFile, mediaType: pickerMediaType);
+  }
 
   static LocalMediaFile fromPickerMedia(picker.Media media, File previewImage) {
     MediaType mediaType;

@@ -9,6 +9,7 @@ class AppColors {
   static const black = Color(0xFF000000);
   static const errorRedColor = Color(0xFFF7B5A5);
   static const lightGray = Color(0xFFE5E7E9);
+  static const disabledGray = Color(0xFFF5F6F7);
   static const gray = Color(0xFF9699A4);
   static const darkGray = Color(0xFF797D7F);
   static const textGray = Color(0xFF817E7E);
