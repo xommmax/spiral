@@ -16,6 +16,12 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
         ),
         centerTitle: false,
         automaticallyImplyLeading: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: viewModel.onDonePressed,
+          ),
+        ],
       );
 
   @override
