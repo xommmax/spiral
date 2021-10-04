@@ -12,7 +12,7 @@ class AppColors {
   static const disabledGray = Color(0xFFF5F6F7);
   static const gray = Color(0xFF9699A4);
   static const darkGray = Color(0xFF797D7F);
-  static const textGray = Color(0xFF817E7E);
   static const lightBlue = Color(0xFF329CE0);
   static const buttonColor = Color(0xFF7834A8);
+  static const linkText = Color(0xFF0645AD);
 }

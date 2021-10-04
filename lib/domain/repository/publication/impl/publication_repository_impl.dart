@@ -38,7 +38,9 @@ class PublicationRepositoryImpl implements PublicationRepository {
   @override
   Future<void> createPublication({
     required String hubId,
-    String? text,
+    required String? text,
+    required String? link,
+    required String? attachedFileUrl,
     List<LocalMediaFile>? mediaFiles,
     required MediaViewType viewType,
   }) async {
@@ -49,6 +51,8 @@ class PublicationRepositoryImpl implements PublicationRepository {
       text: text,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       viewType: describeEnum(viewType),
+      link: link,
+      attachedFileUrl: attachedFileUrl,
     );
     PublicationResponse response =
         await _remote.createPublication(request, mediaFiles);

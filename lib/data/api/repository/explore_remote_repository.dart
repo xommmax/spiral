@@ -96,7 +96,7 @@ class ExploreRemoteRepository {
               isLiked: false,
             ))
         .forEach((response) {
-      if (response.mediaUrls.isNotEmpty) urls.add(response.mediaUrls[0]);
+      if (response.previewUrls.isNotEmpty) urls.add(response.previewUrls[0]);
     });
     return urls;
   }

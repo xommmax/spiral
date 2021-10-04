@@ -3,7 +3,9 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/new_publication_media_preview.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -103,6 +105,10 @@ class LinkBlock extends ViewModelWidget<NewPublicationViewModel> {
           autofocus: false,
           controller: viewModel.publicationLinkController,
           decoration: InputDecoration(
+            icon: Icon(
+              Icons.link,
+              color: AppColors.linkText,
+            ),
             hintText: Strings.addUrl,
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
@@ -110,11 +116,57 @@ class LinkBlock extends ViewModelWidget<NewPublicationViewModel> {
             errorBorder: InputBorder.none,
             disabledBorder: InputBorder.none,
           ),
-          maxLines: null,
-          style: TextStyles.black14,
-          textInputAction: TextInputAction.newline,
-          keyboardType: TextInputType.multiline,
-          textCapitalization: TextCapitalization.sentences,
+          style: TextStyle(
+            color: AppColors.linkText,
+          ),
+          keyboardType: TextInputType.url,
         ),
       );
+}
+
+/*
+    File Block
+   */
+
+class FileBlock extends ViewModelWidget<NewPublicationViewModel> {
+  @override
+  Widget build(BuildContext context, NewPublicationViewModel viewModel) {
+    if (viewModel.viewData.attachedFile == null) return SizedBox.shrink();
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Container(
+            margin: EdgeInsets.only(right: 8),
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+                color: AppColors.accentColor, shape: BoxShape.circle),
+            child: Icon(
+              Icons.insert_drive_file,
+              color: AppColors.white,
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                viewModel.viewData.attachedFile!.name,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                getFileSizeString(viewModel.viewData.attachedFile!.size),
+                style: TextStyle(color: AppColors.darkGray, fontSize: 13),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }

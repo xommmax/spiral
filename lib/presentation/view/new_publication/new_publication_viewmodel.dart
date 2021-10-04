@@ -3,17 +3,18 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
-import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart'
     as picker_media;
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/media_picker.dart';
-import 'package:dairo/presentation/view/tools/media_picker_widget/src/picker_decoration.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
+import 'package:dairo/presentation/view/tools/string_tools.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -24,7 +25,8 @@ import 'new_publication_viewdata.dart';
 
 class NewPublicationViewModel extends BaseViewModel {
   static const int maxMediaSize = 9;
-  final String hubId;
+  static const double maxAttachedFileSizeInMb = 5;
+  final Hub hub;
   final CarouselController buttonCarouselController = CarouselController();
   final FocusNode textBlockFocusNode = FocusNode();
   final FocusNode linkBlockFocusNode = FocusNode();
@@ -37,7 +39,7 @@ class NewPublicationViewModel extends BaseViewModel {
   bool isLinkBlockVisible = false;
   bool isFileBlockVisible = false;
 
-  NewPublicationViewModel(this.hubId);
+  NewPublicationViewModel(this.hub);
 
   final NavigationService _navigationService = locator<NavigationService>();
   final PublicationRepository _publicationRepository =
@@ -50,20 +52,46 @@ class NewPublicationViewModel extends BaseViewModel {
       TextEditingController();
 
   void onDonePressed() async {
-    if (publicationTextController.text.isEmpty && viewData.mediaFiles.isEmpty) {
+    if (isLinkBlockVisible && !isLinkValid()) {
+      AppSnackBar.showSnackBarError(Strings.invalidLink);
+      return;
+    }
+    if (!isPublicationContentValid()) {
       AppSnackBar.showSnackBarError(Strings.errorPublicationCannotBeEmpty);
       return;
     }
 
+    final text =
+        (isTextBlockVisible && publicationTextController.text.isNotEmpty)
+            ? publicationTextController.text
+            : null;
+    final link = (isLinkBlockVisible && isLinkValid())
+        ? publicationLinkController.text
+        : null;
+
+    final attachedFileUrl =
+        (isFileBlockVisible) ? viewData.attachedFile!.path : null;
+    final mediaFiles =
+        (isMediaBlockVisible) ? viewData.mediaFiles : <LocalMediaFile>[];
+
     _publicationRepository.createPublication(
-      hubId: hubId,
-      text: publicationTextController.text,
-      mediaFiles: viewData.mediaFiles,
+      hubId: hub.id,
+      text: text,
+      link: link,
+      attachedFileUrl: attachedFileUrl,
+      mediaFiles: mediaFiles,
       viewType: mediaViewType,
     );
 
     _navigationService.back(result: true);
   }
+
+  bool isPublicationContentValid() {
+    return viewData.mediaFiles.isNotEmpty ||
+        publicationTextController.text.isNotEmpty;
+  }
+
+  bool isLinkValid() => validateUrl(publicationLinkController.text);
 
   void onMediaViewTypeIndexChanged(int index) {
     mediaViewTypeIndex = index;
@@ -134,25 +162,25 @@ class NewPublicationViewModel extends BaseViewModel {
             onCancel: () => Navigator.pop(context),
             mediaCount: mediaCount,
             mediaType: mediaType,
-            decoration: PickerDecoration(
-              actionBarPosition: ActionBarPosition.top,
-              albumTitleStyle: TextStyle(
-                color: AppColors.black,
-              ),
-              albumTextStyle: TextStyle(
-                color: AppColors.black,
-              ),
-              completeTextStyle: TextStyle(
-                color: AppColors.black,
-              ),
-              completeButtonStyle: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(AppColors.lightGray),
-              ),
-              cancelIcon: Icon(Icons.arrow_back),
-              completeText: 'Done',
-            ),
           );
         });
+  }
+
+  void _openFilePicker() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      PlatformFile platformFile = result.files.single;
+
+      if (platformFile.size > maxAttachedFileSizeInMb * 1024 * 1024) {
+        AppSnackBar.showSnackBarError(Strings.fileSizeLimitExceeded);
+      } else {
+        viewData.attachedFile = platformFile;
+        if (!isFileBlockVisible) isFileBlockVisible = true;
+        isTypePickerCollapsed = true;
+        notifyListeners();
+      }
+    }
   }
 
   @override
@@ -192,14 +220,27 @@ class NewPublicationViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onFileMediaItemPicked() {}
-
-  void onContentPointerDown(PointerDownEvent event, BuildContext context) {
-    if (!isTypePickerCollapsed) {
-      isTypePickerCollapsed = true;
+  onFileMediaItemPicked() {
+    if (isFileBlockVisible) {
+      isFileBlockVisible = false;
       notifyListeners();
+    } else {
+      _openFilePicker();
     }
   }
+
+  void onContentPointerDown(PointerDownEvent event, BuildContext context) {
+    if (isTypePickerCollapsed) return;
+    if (!isAnyBlockVisible()) return;
+    isTypePickerCollapsed = true;
+    notifyListeners();
+  }
+
+  bool isAnyBlockVisible() =>
+      isMediaBlockVisible ||
+      isTextBlockVisible ||
+      isLinkBlockVisible ||
+      isFileBlockVisible;
 
   void onTypePickerPointerDown(PointerDownEvent event, BuildContext context) {
     if (isTypePickerCollapsed) {

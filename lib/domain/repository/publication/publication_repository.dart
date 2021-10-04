@@ -7,7 +7,9 @@ import 'package:dairo/domain/model/publication/publication.dart';
 abstract class PublicationRepository {
   Future<void> createPublication({
     required String hubId,
-    String? text,
+    required String? text,
+    required String? link,
+    required String? attachedFileUrl,
     List<LocalMediaFile>? mediaFiles,
     required MediaViewType viewType,
   });

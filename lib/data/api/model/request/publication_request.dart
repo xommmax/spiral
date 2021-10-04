@@ -11,6 +11,8 @@ class PublicationRequest {
   List<String> mediaUrls = [];
   List<String> previewUrls = [];
   final String viewType;
+  final String? link;
+  String? attachedFileUrl;
 
   PublicationRequest({
     required this.hubId,
@@ -18,13 +20,15 @@ class PublicationRequest {
     required this.text,
     required this.createdAt,
     required this.viewType,
+    required this.link,
+    required this.attachedFileUrl,
   });
 
   Map<String, dynamic> toJson() => _$PublicationRequestToJson(this);
 
   @override
   String toString() {
-    return 'PublicationRequest{hubId: $hubId, userId: $userId, text: $text, createdAt: $createdAt, mediaUrls: $mediaUrls, previewUrls: $previewUrls, viewType: $viewType}';
+    return 'PublicationRequest{hubId: $hubId, userId: $userId, text: $text, createdAt: $createdAt, mediaUrls: $mediaUrls, previewUrls: $previewUrls, viewType: $viewType, link: $link, attachedFileUrl: $attachedFileUrl}';
   }
 
   @override
@@ -38,7 +42,9 @@ class PublicationRequest {
           createdAt == other.createdAt &&
           mediaUrls == other.mediaUrls &&
           previewUrls == other.previewUrls &&
-          viewType == other.viewType;
+          viewType == other.viewType &&
+          link == other.link &&
+          attachedFileUrl == other.attachedFileUrl;
 
   @override
   int get hashCode =>
@@ -48,5 +54,7 @@ class PublicationRequest {
       createdAt.hashCode ^
       mediaUrls.hashCode ^
       previewUrls.hashCode ^
-      viewType.hashCode;
+      viewType.hashCode ^
+      link.hashCode ^
+      attachedFileUrl.hashCode;
 }

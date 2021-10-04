@@ -50,7 +50,9 @@ class Strings {
   static const errorHubPictureMustBeSpecified = "Hub picture must be specified";
   static const errorHubDescMustBeSpecified =
       "Hub description must be specified";
-  static const errorPublicationCannotBeEmpty = 'Publication cannot be empty';
+  static const errorPublicationCannotBeEmpty =
+      'Either publication media or text should be provided';
+  static const invalidLink = 'Please enter the valid URL';
   static const errorSomethingWentWrongWhileSendingPublication =
       'Something went wrong while sending publication';
   static const cannotOpenHubPleaseContactUs =
@@ -178,6 +180,10 @@ class Strings {
       'Thank you for reporting this user, their profile will be reviewed. You may open their profile and block them from your feed as well';
   static const blockedProfileDesc =
       'The user and its content has been blocked. It will not appear on your feed';
+
+  static const fileSizeLimitExceeded = 'File size should be less than 5 mb';
+
+  static const whatWantToPost = 'What do you want to post?';
 
 /* Uncategorized */
 }

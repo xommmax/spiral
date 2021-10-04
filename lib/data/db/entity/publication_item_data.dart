@@ -17,6 +17,8 @@ class PublicationItemData {
   final int commentsCount;
   final int createdAt;
   final String viewType;
+  final String? link;
+  final String? attachedFileUrl;
 
   PublicationItemData({
     required this.id,
@@ -30,6 +32,8 @@ class PublicationItemData {
     required this.commentsCount,
     required this.createdAt,
     required this.viewType,
+    required this.link,
+    required this.attachedFileUrl,
   });
 
   factory PublicationItemData.fromResponse(PublicationResponse response) =>
@@ -45,11 +49,13 @@ class PublicationItemData {
         isLiked: response.isLiked,
         createdAt: response.createdAt,
         viewType: response.viewType,
+        link: response.link,
+        attachedFileUrl: response.attachedFileUrl,
       );
 
   @override
   String toString() {
-    return 'PublicationItemData{id: $id, hubId: $hubId, userId: $userId, text: $text, mediaUrls: $mediaUrls, previewUrls: $previewUrls, isLiked: $isLiked, likesCount: $likesCount, commentsCount: $commentsCount, createdAt: $createdAt, viewType: $viewType}';
+    return 'PublicationItemData{id: $id, hubId: $hubId, userId: $userId, text: $text, mediaUrls: $mediaUrls, previewUrls: $previewUrls, isLiked: $isLiked, likesCount: $likesCount, commentsCount: $commentsCount, createdAt: $createdAt, viewType: $viewType, link: $link, attachedFileUrl: $attachedFileUrl}';
   }
 
   @override
@@ -67,7 +73,9 @@ class PublicationItemData {
           likesCount == other.likesCount &&
           commentsCount == other.commentsCount &&
           createdAt == other.createdAt &&
-          viewType == other.viewType;
+          viewType == other.viewType &&
+          link == other.link &&
+          attachedFileUrl == other.attachedFileUrl;
 
   @override
   int get hashCode =>
@@ -81,5 +89,7 @@ class PublicationItemData {
       likesCount.hashCode ^
       commentsCount.hashCode ^
       createdAt.hashCode ^
-      viewType.hashCode;
+      viewType.hashCode ^
+      link.hashCode ^
+      attachedFileUrl.hashCode;
 }

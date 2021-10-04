@@ -57,27 +57,27 @@ class TextStyles {
   );
 
   static const gray14 = TextStyle(
-    color: AppColors.textGray,
+    color: AppColors.darkGray,
     fontSize: 14,
   );
 
   static const gray16 = TextStyle(
-    color: AppColors.textGray,
+    color: AppColors.darkGray,
     fontSize: 16,
   );
 
   static const gray18 = TextStyle(
-    color: AppColors.textGray,
+    color: AppColors.darkGray,
     fontSize: 18,
   );
 
   static const gray20 = TextStyle(
-    color: AppColors.textGray,
+    color: AppColors.darkGray,
     fontSize: 20,
   );
 
   static const gray22 = TextStyle(
-    color: AppColors.textGray,
+    color: AppColors.darkGray,
     fontSize: 22,
   );
 

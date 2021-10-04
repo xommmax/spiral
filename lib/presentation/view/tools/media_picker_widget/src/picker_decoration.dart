@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'enums.dart';
@@ -28,4 +29,24 @@ class PickerDecoration {
     this.loadingWidget,
     this.albumTextStyle,
   });
+}
+
+class DefaultPickerDecoration extends PickerDecoration {
+  DefaultPickerDecoration()
+      : super(
+          albumTitleStyle: TextStyle(
+            color: Colors.black,
+          ),
+          albumTextStyle: TextStyle(
+            color: Colors.black,
+          ),
+          completeTextStyle: TextStyle(
+            color: Colors.black,
+          ),
+          completeButtonStyle: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(AppColors.lightGray),
+          ),
+          cancelIcon: Icon(Icons.arrow_back),
+          completeText: 'Done',
+        );
 }

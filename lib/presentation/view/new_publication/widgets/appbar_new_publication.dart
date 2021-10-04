@@ -1,5 +1,4 @@
-import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +9,19 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
       AppBar(
-        title: Text(
-          Strings.newPublication,
-          style: TextStyles.toolbarTitle,
+        title: ListTile(
+          leading: CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(
+              viewModel.hub.pictureUrl,
+            ),
+          ),
+          title: Text(
+            viewModel.hub.name,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
         centerTitle: false,
         automaticallyImplyLeading: true,

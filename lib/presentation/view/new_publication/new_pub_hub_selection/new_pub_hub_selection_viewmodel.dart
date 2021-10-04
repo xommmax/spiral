@@ -9,9 +9,9 @@ class NewPubHubSelectionViewModel extends StreamViewModel<List<Hub>> {
   final NavigationService _navigationService = locator<NavigationService>();
   final HubRepository _hubRepository = locator<HubRepository>();
 
-  void onHubSelected(String hubId) => _navigationService.replaceWith(
+  void onHubSelected(Hub hub) => _navigationService.replaceWith(
         Routes.newPublicationView,
-        arguments: NewPublicationViewArguments(hubId: hubId),
+        arguments: NewPublicationViewArguments(hub: hub),
       );
 
   @override
@@ -19,7 +19,7 @@ class NewPubHubSelectionViewModel extends StreamViewModel<List<Hub>> {
 
   void onCreateHub() {
     _navigationService.navigateTo(Routes.newHubView)?.then((result) {
-      if (result != null && result is String) {
+      if (result != null && result is Hub) {
         onHubSelected(result);
       }
     });

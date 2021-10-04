@@ -112,10 +112,13 @@ class HubViewModel extends MultipleStreamViewModel {
       onOnboardingNextClicked();
   }
 
-  void onCreatePublicationClicked() => _navigationService.navigateTo(
+  void onCreatePublicationClicked() {
+    if (viewData.hub != null)
+      _navigationService.navigateTo(
         Routes.newPublicationView,
-        arguments: NewPublicationViewArguments(hubId: hubId),
+        arguments: NewPublicationViewArguments(hub: viewData.hub!),
       );
+  }
 
   void onOnboardingNextClicked() async {
     final SharedPreferences _sharedPreferences =

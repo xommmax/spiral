@@ -49,7 +49,7 @@ class NewHubViewModel extends BaseViewModel {
         ),
         isPrivate: false,
       );
-      _navigationService.back(result: hub.id);
+      _navigationService.back(result: hub);
     } catch (e) {
       AppSnackBar.showSnackBarError(e.toString());
     }

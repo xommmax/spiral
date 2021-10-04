@@ -22,6 +22,8 @@ PublicationResponse _$PublicationResponseFromJson(Map<String, dynamic> json) =>
           .toList(),
       createdAt: json['createdAt'] as int,
       viewType: json['viewType'] as String,
+      link: json['link'] as String?,
+      attachedFileUrl: json['attachedFileUrl'] as String?,
     );
 
 Map<String, dynamic> _$PublicationResponseToJson(
@@ -36,6 +38,8 @@ Map<String, dynamic> _$PublicationResponseToJson(
       'isLiked': instance.isLiked,
       'mediaUrls': instance.mediaUrls,
       'previewUrls': instance.previewUrls,
+      'link': instance.link,
+      'attachedFileUrl': instance.attachedFileUrl,
       'createdAt': instance.createdAt,
       'viewType': instance.viewType,
     };

@@ -1,7 +1,7 @@
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/followings/followings_viewmodel.dart';
-import 'package:dairo/presentation/view/tools/string_extensions.dart';
+import 'package:dairo/presentation/view/tools/string_tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';

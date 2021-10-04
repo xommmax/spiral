@@ -31,10 +31,13 @@ class PublicationRemoteRepository {
       PublicationRequest request, List<LocalMediaFile>? mediaFiles) async {
     List<String> mediaUrls = [];
     List<String> previewUrls = [];
+    String? uploadedAttachedFilePath;
 
+    // get user
     final String userId = _auth.currentUser!.uid;
     String folder = FirebaseStorageFolders.hubPublications;
 
+    // inner function
     Future _compressAndUploadVideo(LocalMediaFile mediaFile) async {
       File compressedVideoFile =
           await compressVideo(mediaFile.originalFile.path);
@@ -49,10 +52,12 @@ class PublicationRemoteRepository {
       previewUrls[mediaFiles.indexOf(mediaFile)] = uploadedPreviewPath;
     }
 
+    // upload media
     if (mediaFiles != null && mediaFiles.isNotEmpty) {
       mediaUrls = List.generate(mediaFiles.length, (index) => "");
       previewUrls = List.generate(mediaFiles.length, (index) => "");
 
+      // upload images
       await Future.wait(mediaFiles
           .where((mediaFile) => mediaFile.type == MediaType.image)
           .map<Future>((mediaFile) {
@@ -65,13 +70,22 @@ class PublicationRemoteRepository {
         });
       }));
 
+      // compress and upload videos
       await Future.forEach(
           mediaFiles.where((mediaFile) => mediaFile.type == MediaType.video),
           (LocalMediaFile mediaFile) => _compressAndUploadVideo(mediaFile));
     }
 
+    // upload attached files
+    if (request.attachedFileUrl != null) {
+      File file = File(request.attachedFileUrl!);
+      uploadedAttachedFilePath = await _firebaseStorageRepository.uploadFile(
+          file: file, userId: userId, folder: folder);
+    }
+
     request.mediaUrls = mediaUrls;
     request.previewUrls = previewUrls;
+    request.attachedFileUrl = uploadedAttachedFilePath;
     var requestJson = request.toJson();
     requestJson['likesCount'] = 0;
     requestJson['commentsCount'] = 0;

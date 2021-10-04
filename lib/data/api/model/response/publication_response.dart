@@ -13,6 +13,8 @@ class PublicationResponse {
   final bool isLiked;
   final List<String> mediaUrls;
   final List<String> previewUrls;
+  final String? link;
+  final String? attachedFileUrl;
 
   final int createdAt;
   final String viewType;
@@ -29,6 +31,8 @@ class PublicationResponse {
     required this.previewUrls,
     required this.createdAt,
     required this.viewType,
+    required this.link,
+    required this.attachedFileUrl,
   });
 
   factory PublicationResponse.fromJson(
@@ -48,7 +52,7 @@ class PublicationResponse {
 
   @override
   String toString() {
-    return 'PublicationResponse{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, isLiked: $isLiked, mediaUrls: $mediaUrls, previewUrls: $previewUrls, createdAt: $createdAt, viewType: $viewType}';
+    return 'PublicationResponse{id: $id, hubId: $hubId, userId: $userId, text: $text, likesCount: $likesCount, commentsCount: $commentsCount, isLiked: $isLiked, mediaUrls: $mediaUrls, previewUrls: $previewUrls, link: $link, attachedFileUrl: $attachedFileUrl, createdAt: $createdAt, viewType: $viewType}';
   }
 
   @override
@@ -65,6 +69,8 @@ class PublicationResponse {
           isLiked == other.isLiked &&
           mediaUrls == other.mediaUrls &&
           previewUrls == other.previewUrls &&
+          link == other.link &&
+          attachedFileUrl == other.attachedFileUrl &&
           createdAt == other.createdAt &&
           viewType == other.viewType;
 
@@ -79,6 +85,8 @@ class PublicationResponse {
       isLiked.hashCode ^
       mediaUrls.hashCode ^
       previewUrls.hashCode ^
+      link.hashCode ^
+      attachedFileUrl.hashCode ^
       createdAt.hashCode ^
       viewType.hashCode;
 }

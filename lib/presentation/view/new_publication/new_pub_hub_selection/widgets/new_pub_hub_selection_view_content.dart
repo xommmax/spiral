@@ -28,7 +28,7 @@ class NewPubHubSelectionViewContent
                 if (index == viewModel.data!.length) return _CreateNewHub();
                 return WidgetHubListItem(viewModel.data![index],
                     onOpenHubDetailsClicked: (hub) =>
-                        viewModel.onHubSelected(hub.id));
+                        viewModel.onHubSelected(hub));
               },
             ),
           ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path/path.dart' as p;
@@ -23,4 +24,13 @@ Future<File> compressVideo(String path) async {
     deleteOrigin: false,
   );
   return File(mediaInfo!.path!);
+}
+
+String getFileSizeString(int byteSize, {int decimals = 1}) {
+  if (byteSize <= 0) return "0 B";
+  const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  var i = (log(byteSize) / log(1024)).floor();
+  return ((byteSize / pow(1024, i)).toStringAsFixed(decimals)) +
+      ' ' +
+      suffixes[i];
 }

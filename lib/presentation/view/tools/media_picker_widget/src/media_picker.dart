@@ -37,7 +37,7 @@ class MediaPicker extends StatefulWidget {
 }
 
 class _MediaPickerState extends State<MediaPicker> {
-  PickerDecoration? decoration;
+  late final PickerDecoration decoration;
 
   AssetPathEntity? selectedAlbum;
   List<AssetPathEntity>? _albums;
@@ -48,7 +48,7 @@ class _MediaPickerState extends State<MediaPicker> {
   @override
   void initState() {
     _fetchAlbums();
-    decoration = widget.decoration ?? PickerDecoration();
+    decoration = widget.decoration ?? DefaultPickerDecoration();
     super.initState();
   }
 
@@ -58,13 +58,13 @@ class _MediaPickerState extends State<MediaPicker> {
       color: Colors.transparent,
       child: _albums == null
           ? LoadingWidget(
-              decoration: widget.decoration!,
+              decoration: decoration,
             )
           : _albums!.length == 0
               ? NoMedia()
               : Column(
                   children: [
-                    if (decoration!.actionBarPosition == ActionBarPosition.top)
+                    if (decoration.actionBarPosition == ActionBarPosition.top)
                       _buildHeader(),
                     Expanded(
                         child: Stack(
@@ -75,14 +75,14 @@ class _MediaPickerState extends State<MediaPicker> {
                             headerController: headerController,
                             previousList: widget.mediaList,
                             mediaCount: widget.mediaCount,
-                            decoration: widget.decoration,
+                            decoration: decoration,
                             scrollController: widget.scrollController,
                           ),
                         ),
                         AlbumSelector(
                           panelController: albumController,
                           albums: _albums!,
-                          decoration: widget.decoration!,
+                          decoration: decoration,
                           onSelect: (album) {
                             headerController.closeAlbumDrawer!();
                             setState(() => selectedAlbum = album);
@@ -90,7 +90,7 @@ class _MediaPickerState extends State<MediaPicker> {
                         ),
                       ],
                     )),
-                    if (decoration!.actionBarPosition ==
+                    if (decoration.actionBarPosition ==
                         ActionBarPosition.bottom)
                       _buildHeader(),
                   ],
