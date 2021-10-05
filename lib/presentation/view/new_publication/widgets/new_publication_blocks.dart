@@ -114,7 +114,6 @@ class LinkBlock extends ViewModelWidget<NewPublicationViewModel> {
                   ? AppColors.linkText
                   : AppColors.errorRedColor,
             ),
-            hintText: Strings.addUrl,
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -138,7 +137,7 @@ class FileBlock extends ViewModelWidget<NewPublicationViewModel> {
   Widget build(BuildContext context, NewPublicationViewModel viewModel) {
     if (viewModel.viewData.attachedFile == null) return SizedBox.shrink();
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(16),
       child: Row(
         children: [
           Container(

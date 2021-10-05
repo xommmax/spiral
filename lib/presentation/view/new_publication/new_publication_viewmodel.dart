@@ -49,7 +49,7 @@ class NewPublicationViewModel extends BaseViewModel {
   final TextEditingController publicationTextController =
       TextEditingController();
   final TextEditingController publicationLinkController =
-      TextEditingController();
+      TextEditingController(text: 'https://');
 
   void onDonePressed() async {
     if (isLinkBlockVisible && !isLinkValid()) {
@@ -91,7 +91,8 @@ class NewPublicationViewModel extends BaseViewModel {
         publicationTextController.text.isNotEmpty;
   }
 
-  bool isLinkValid() => isURL(publicationLinkController.text);
+  bool isLinkValid() =>
+      isURL(publicationLinkController.text, requireProtocol: true);
 
   void onMediaViewTypeIndexChanged(int index) {
     mediaViewTypeIndex = index;

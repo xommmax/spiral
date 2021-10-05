@@ -40,4 +40,6 @@ class FirebaseStorageRepository {
               '${FirebaseStorageFolders.users}/$userId/$folder/${basename(file.path)}')
           .putFile(file)
           .then((snapshot) => snapshot.ref.getDownloadURL());
+
+  String getFileName(String url) => _storage.refFromURL(url).name;
 }

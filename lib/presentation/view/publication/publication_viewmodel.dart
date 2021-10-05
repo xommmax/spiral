@@ -1,5 +1,6 @@
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
+import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
@@ -38,6 +39,8 @@ class PublicationViewModel extends MultipleStreamViewModel {
   final HubRepository _hubRepository = locator<HubRepository>();
   final NavigationService navigationService = locator<NavigationService>();
   final SupportRepository _supportRepository = locator<SupportRepository>();
+  final FirebaseStorageRepository _firebaseStorageRepository =
+      locator<FirebaseStorageRepository>();
 
   Publication? publication;
   User? user;
@@ -128,5 +131,12 @@ class PublicationViewModel extends MultipleStreamViewModel {
         publicationId: publicationId, reason: "TODO");
     AppDialog.showInformDialog(
         title: Strings.reported, description: Strings.reportedPublicationDesc);
+  }
+
+  String getAttachedFileName() =>
+      _firebaseStorageRepository.getFileName(publication!.attachedFileUrl!);
+
+  void downloadAttachedFile() {
+    AppSnackBar.showSnackBarError("Missing functionallity");
   }
 }
