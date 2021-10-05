@@ -5,7 +5,7 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:dairo/presentation/view/publication/comment/comment_viewmodel.dart';
-import 'package:dairo/presentation/view/publication/widgets/widget_comments.dart';
+import 'package:dairo/presentation/view/publication/comment/widget_comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';

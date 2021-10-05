@@ -13,12 +13,12 @@ import 'package:dairo/presentation/view/tools/media_picker_widget/src/media.dart
     as picker_media;
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/media_picker.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
-import 'package:dairo/presentation/view/tools/string_tools.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:validators/validators.dart';
 import 'package:video_compress/video_compress.dart';
 
 import 'new_publication_viewdata.dart';
@@ -91,7 +91,7 @@ class NewPublicationViewModel extends BaseViewModel {
         publicationTextController.text.isNotEmpty;
   }
 
-  bool isLinkValid() => validateUrl(publicationLinkController.text);
+  bool isLinkValid() => isURL(publicationLinkController.text);
 
   void onMediaViewTypeIndexChanged(int index) {
     mediaViewTypeIndex = index;

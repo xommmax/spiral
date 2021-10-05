@@ -71,6 +71,7 @@ class TextBlock extends ViewModelWidget<NewPublicationViewModel> {
       Padding(
         padding: const EdgeInsets.all(16.0),
         child: TextField(
+          scrollPadding: EdgeInsets.only(bottom: 88),
           focusNode: viewModel.textBlockFocusNode,
           autofocus: false,
           controller: viewModel.publicationTextController,
@@ -101,13 +102,17 @@ class LinkBlock extends ViewModelWidget<NewPublicationViewModel> {
       Padding(
         padding: const EdgeInsets.all(16.0),
         child: TextField(
+          scrollPadding: EdgeInsets.only(bottom: 88),
           focusNode: viewModel.linkBlockFocusNode,
           autofocus: false,
+          onChanged: (s) => viewModel.notifyListeners(),
           controller: viewModel.publicationLinkController,
           decoration: InputDecoration(
             icon: Icon(
               Icons.link,
-              color: AppColors.linkText,
+              color: viewModel.isLinkValid()
+                  ? AppColors.linkText
+                  : AppColors.errorRedColor,
             ),
             hintText: Strings.addUrl,
             border: InputBorder.none,
@@ -126,7 +131,7 @@ class LinkBlock extends ViewModelWidget<NewPublicationViewModel> {
 
 /*
     File Block
-   */
+ */
 
 class FileBlock extends ViewModelWidget<NewPublicationViewModel> {
   @override

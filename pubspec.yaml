@@ -108,6 +108,9 @@ dependencies:
   # links within text
   url_launcher: ^6.0.10
 
+  #utils
+  validators: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:

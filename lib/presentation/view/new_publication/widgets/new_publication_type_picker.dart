@@ -41,16 +41,25 @@ class _MediaTypePickerCollapsed
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _MediaTypePickerOption(
-              Icons.photo,
-              'Gallery',
-              () => viewModel.onGalleryMediaItemPicked(context),
-              viewModel.isMediaBlockVisible),
-          _MediaTypePickerOption(Icons.text_fields, 'Text',
-              viewModel.onTextMediaItemPicked, viewModel.isTextBlockVisible),
-          _MediaTypePickerOption(Icons.link, 'Link',
-              viewModel.onLinkMediaItemPicked, viewModel.isLinkBlockVisible),
-          _MediaTypePickerOption(Icons.attach_file, 'File',
-              viewModel.onFileMediaItemPicked, viewModel.isFileBlockVisible),
+            icon: Icons.photo,
+            label: 'Gallery',
+            isSelected: viewModel.isMediaBlockVisible,
+          ),
+          _MediaTypePickerOption(
+            icon: Icons.text_fields,
+            label: 'Text',
+            isSelected: viewModel.isTextBlockVisible,
+          ),
+          _MediaTypePickerOption(
+            icon: Icons.link,
+            label: 'Link',
+            isSelected: viewModel.isLinkBlockVisible,
+          ),
+          _MediaTypePickerOption(
+            icon: Icons.attach_file,
+            label: 'File',
+            isSelected: viewModel.isFileBlockVisible,
+          ),
         ],
       ),
     );
@@ -70,15 +79,16 @@ class _MediaTypePickerExpanded
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _MediaTypePickerOption(
-                    Icons.photo,
-                    'Gallery',
-                    () => viewModel.onGalleryMediaItemPicked(context),
-                    viewModel.isMediaBlockVisible),
+                  icon: Icons.photo,
+                  label: 'Gallery',
+                  isSelected: viewModel.isMediaBlockVisible,
+                  onPressed: () => viewModel.onGalleryMediaItemPicked(context),
+                ),
                 _MediaTypePickerOption(
-                  Icons.audiotrack_rounded,
-                  'Audio',
-                  () => viewModel.onAudioMediaItemPicked(context),
-                  false,
+                  icon: Icons.audiotrack_rounded,
+                  label: 'Audio',
+                  isSelected: false,
+                  onPressed: () => viewModel.onAudioMediaItemPicked(context),
                   isDisabled: true,
                 ),
               ],
@@ -88,20 +98,23 @@ class _MediaTypePickerExpanded
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _MediaTypePickerOption(
-                    Icons.text_fields,
-                    'Text',
-                    viewModel.onTextMediaItemPicked,
-                    viewModel.isTextBlockVisible),
+                  icon: Icons.text_fields,
+                  label: 'Text',
+                  isSelected: viewModel.isTextBlockVisible,
+                  onPressed: viewModel.onTextMediaItemPicked,
+                ),
                 _MediaTypePickerOption(
-                    Icons.link,
-                    'Link',
-                    viewModel.onLinkMediaItemPicked,
-                    viewModel.isLinkBlockVisible),
+                  icon: Icons.link,
+                  label: 'Link',
+                  isSelected: viewModel.isLinkBlockVisible,
+                  onPressed: viewModel.onLinkMediaItemPicked,
+                ),
                 _MediaTypePickerOption(
-                    Icons.attach_file,
-                    'File',
-                    viewModel.onFileMediaItemPicked,
-                    viewModel.isFileBlockVisible),
+                  icon: Icons.attach_file,
+                  label: 'File',
+                  isSelected: viewModel.isFileBlockVisible,
+                  onPressed: viewModel.onFileMediaItemPicked,
+                ),
               ],
             ),
           ],
@@ -112,12 +125,17 @@ class _MediaTypePickerExpanded
 class _MediaTypePickerOption extends ViewModelWidget<NewPublicationViewModel> {
   final IconData icon;
   final String label;
-  final Function() onPressed;
+  final VoidCallback? onPressed;
   final bool isSelected;
   final bool isDisabled;
 
-  _MediaTypePickerOption(this.icon, this.label, this.onPressed, this.isSelected,
-      {this.isDisabled = false});
+  _MediaTypePickerOption({
+    required this.icon,
+    required this.label,
+    required this.isSelected,
+    this.isDisabled = false,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) {
