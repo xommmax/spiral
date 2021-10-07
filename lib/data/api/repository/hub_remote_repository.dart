@@ -8,6 +8,7 @@ import 'package:dairo/data/api/firebase_storage_folder.dart';
 import 'package:dairo/data/api/firestore_keys.dart';
 import 'package:dairo/data/api/model/request/hub_request.dart';
 import 'package:dairo/data/api/model/response/hub_response.dart';
+import 'package:dairo/domain/model/hub/discussion.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -34,12 +35,27 @@ class HubRemoteRepository {
         .add(requestJson)
         .then((reference) => reference.get());
 
-    return HubResponse.fromJson(
+    final response = HubResponse.fromJson(
       snapshot.data(),
       id: snapshot.id,
       isFollow: false,
     );
+
+    await _createHubDiscussion(response);
+
+    return response;
   }
+
+  Future _createHubDiscussion(HubResponse hubResponse) =>
+      FirebaseFirestore.instance
+          .collection(FirebaseCollections.hubDiscussions)
+          .doc(hubResponse.id)
+          .set({
+        'createdAt': FieldValue.serverTimestamp(),
+        'imageUrl': hubResponse.pictureUrl,
+        'name': hubResponse.name,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
 
   Future<List<HubResponse>> fetchHubs(String userId) => _firestore
       .collection(FirebaseCollections.userHubs)
@@ -166,4 +182,10 @@ class HubRemoteRepository {
     await doc.delete();
     return response;
   }
+
+  Future<HubDiscussion> getHubDiscussion(String hubId) => _firestore
+      .collection(FirebaseCollections.hubDiscussions)
+      .doc(hubId)
+      .get()
+      .then((value) => HubDiscussion.fromJson(value.data()!, value.id));
 }

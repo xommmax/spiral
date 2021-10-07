@@ -108,6 +108,8 @@ dependencies:
   #utils
   validators: ^3.0.0
 
+  # chat
+  flutter_chat_ui: ^1.4.4
 
 dev_dependencies:
   flutter_test:

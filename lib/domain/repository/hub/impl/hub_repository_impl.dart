@@ -9,6 +9,7 @@ import 'package:dairo/data/api/model/response/hub_response.dart';
 import 'package:dairo/data/api/repository/hub_remote_repository.dart';
 import 'package:dairo/data/db/entity/hub_item_data.dart';
 import 'package:dairo/data/db/repository/hub_local_repository.dart';
+import 'package:dairo/domain/model/hub/discussion.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
@@ -147,4 +148,8 @@ class HubRepositoryImpl implements HubRepository {
   Future<void> deleteHub(Hub hub) => _remote.deleteHub(hub).then((response) {
         return _local.deleteHub(HubItemData.fromResponse(response));
       });
+
+  @override
+  Future<HubDiscussion> getHubDiscussion(String hubId) =>
+      _remote.getHubDiscussion(hubId);
 }

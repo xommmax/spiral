@@ -208,8 +208,9 @@ class StackedRouter extends RouterBase {
       );
     },
     HubDiscussionView: (data) {
+      var args = data.getArgs<HubDiscussionViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => HubDiscussionView(),
+        builder: (context) => HubDiscussionView(hub: args.hub),
         settings: data,
       );
     },
@@ -267,4 +268,10 @@ class FollowingsViewArguments {
 class HubSettingsViewArguments {
   final Hub hub;
   HubSettingsViewArguments({required this.hub});
+}
+
+/// HubDiscussionView arguments holder class
+class HubDiscussionViewArguments {
+  final Hub hub;
+  HubDiscussionViewArguments({required this.hub});
 }

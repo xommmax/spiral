@@ -12,4 +12,5 @@ class FirebaseCollections {
   static const String hubsFollowers = 'hubsFollowers';
   static const String userFeeds = 'userFeeds';
   static const String publications = 'publications';
+  static const String hubDiscussions = 'hubDiscussions';
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dairo/domain/model/hub/discussion.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 
@@ -32,4 +33,6 @@ abstract class HubRepository {
   Future<Hub> setHubPrivate(Hub hub, bool private);
 
   Future<void> deleteHub(Hub hub);
+
+  Future<HubDiscussion> getHubDiscussion(String hubId);
 }

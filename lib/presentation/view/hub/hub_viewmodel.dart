@@ -210,6 +210,7 @@ class HubViewModel extends MultipleStreamViewModel {
   }
 
   void openDiscussion() {
-    _navigationService.navigateTo(Routes.hubDiscussionView);
+    _navigationService.navigateTo(Routes.hubDiscussionView,
+        arguments: HubDiscussionViewArguments(hub: viewData.hub!));
   }
 }
