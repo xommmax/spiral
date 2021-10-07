@@ -69,8 +69,11 @@ class PublicationViewModel extends MultipleStreamViewModel {
       };
 
   Stream<User?> userStream() => _userRepository.getUser(userId);
+
   Stream<Hub?> hubStream() => _hubRepository.getHub(hubId);
+
   void _onUserRetrieved(User? user) => this.user = user;
+
   void _onHubRetrieved(Hub? hub) => this.hub = hub;
 
   Stream<Publication?> publicationStream() =>
@@ -91,19 +94,22 @@ class PublicationViewModel extends MultipleStreamViewModel {
     AppSnackBar.showSnackBarError(Strings.unableToGetPublication);
   }
 
-  void onSendCommentClicked() => _publicationRepository
-          .sendComment(
-        publicationId: publicationId,
-        text: commentsTextController.text,
-        createAt: DateTime.now().millisecondsSinceEpoch,
-        parentCommentId: commentToReply?.id,
-      )
-          .then(
-        (_) {
-          commentsTextController.clear();
-          setCommentToReply(null);
-        },
-      );
+  void onSendCommentClicked() {
+    if (commentsTextController.text.isEmpty) return;
+    _publicationRepository
+        .sendComment(
+      publicationId: publicationId,
+      text: commentsTextController.text,
+      createAt: DateTime.now().millisecondsSinceEpoch,
+      parentCommentId: commentToReply?.id,
+    )
+        .then(
+      (_) {
+        commentsTextController.clear();
+        setCommentToReply(null);
+      },
+    );
+  }
 
   bool isDataReady() => publication != null;
 

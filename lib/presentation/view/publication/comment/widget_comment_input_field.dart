@@ -7,7 +7,8 @@ import 'package:stacked/stacked.dart';
 
 import '../publication_viewmodel.dart';
 
-class WidgetCommentBottomInputField extends ViewModelWidget<PublicationViewModel> {
+class WidgetCommentBottomInputField
+    extends ViewModelWidget<PublicationViewModel> {
   @override
   Widget build(BuildContext context, PublicationViewModel viewModel) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,9 +44,9 @@ class WidgetCommentBottomInputField extends ViewModelWidget<PublicationViewModel
                                 style: TextStyles.gray14,
                                 children: [
                                   TextSpan(
-                                      text: viewModel.commentToReply!.user
-                                              .name ??
-                                          Strings.unknownUser,
+                                      text:
+                                          viewModel.commentToReply!.user.name ??
+                                              Strings.unknownUser,
                                       style: TextStyles.blue14)
                                 ],
                               ),
@@ -84,6 +85,7 @@ class WidgetCommentBottomInputField extends ViewModelWidget<PublicationViewModel
                 Expanded(
                   child: TextField(
                     controller: viewModel.commentsTextController,
+                    onChanged: (t) => viewModel.notifyListeners(),
                     decoration: InputDecoration(
                       hintText: Strings.addComment,
                       border: InputBorder.none,
@@ -101,7 +103,10 @@ class WidgetCommentBottomInputField extends ViewModelWidget<PublicationViewModel
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: Icon(Icons.send_rounded,
+                      color: viewModel.commentsTextController.text.isEmpty
+                          ? AppColors.gray
+                          : AppColors.black),
                   onPressed: viewModel.onSendCommentClicked,
                 ),
               ],
