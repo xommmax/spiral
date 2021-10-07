@@ -208,4 +208,8 @@ class HubViewModel extends MultipleStreamViewModel {
     AppDialog.showInformDialog(
         title: Strings.reported, description: Strings.reportedPublicationDesc);
   }
+
+  void openDiscussion() {
+    _navigationService.navigateTo(Routes.hubDiscussionView);
+  }
 }

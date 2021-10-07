@@ -14,6 +14,7 @@ import '../presentation/view/auth/auth_view.dart';
 import '../presentation/view/followers/followers_view.dart';
 import '../presentation/view/followers/followers_viewdata.dart';
 import '../presentation/view/followings/followings_view.dart';
+import '../presentation/view/hub/discussion/hub_discussion_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/hub/settings/hub_settings_view.dart';
 import '../presentation/view/main/main_view.dart';
@@ -45,6 +46,7 @@ class Routes {
   static const String followingsView = '/followings-view';
   static const String hubSettingsView = '/hub-settings-view';
   static const String newPubHubSelectionView = '/new-pub-hub-selection-view';
+  static const String hubDiscussionView = '/hub-discussion-view';
   static const all = <String>{
     authView,
     mainView,
@@ -62,6 +64,7 @@ class Routes {
     followingsView,
     hubSettingsView,
     newPubHubSelectionView,
+    hubDiscussionView,
   };
 }
 
@@ -85,6 +88,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.followingsView, page: FollowingsView),
     RouteDef(Routes.hubSettingsView, page: HubSettingsView),
     RouteDef(Routes.newPubHubSelectionView, page: NewPubHubSelectionView),
+    RouteDef(Routes.hubDiscussionView, page: HubDiscussionView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -200,6 +204,12 @@ class StackedRouter extends RouterBase {
     NewPubHubSelectionView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => NewPubHubSelectionView(),
+        settings: data,
+      );
+    },
+    HubDiscussionView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => HubDiscussionView(),
         settings: data,
       );
     },

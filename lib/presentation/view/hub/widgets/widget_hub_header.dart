@@ -13,6 +13,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Stack(
+            clipBehavior: Clip.none,
             children: [
               AspectRatio(
                 aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
@@ -125,10 +126,22 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   ],
                 ),
               ),
+              Positioned(
+                right: 16,
+                bottom: -24,
+                child: ElevatedButton(
+                  child: Icon(Icons.message_outlined),
+                  onPressed: viewModel.openDiscussion,
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(16),
+                  ),
+                ),
+              ),
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.fromLTRB(16, 16, 80, 16),
             child: Text(
               viewModel.viewData.hub!.description,
               textAlign: TextAlign.center,
