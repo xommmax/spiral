@@ -45,6 +45,7 @@ class WidgetAccountDetailsContent
                           alignment: Alignment.center,
                           child: WidgetAccountDetailsAvatar(),
                         ),
+                        SizedBox(height: 16),
                         WidgetAccountDetailsInputFields(),
                       ],
                     ),

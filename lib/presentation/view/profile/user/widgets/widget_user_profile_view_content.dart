@@ -46,8 +46,7 @@ class WidgetUserProfileViewContent
                         tag: 'profilePhoto',
                         child: WidgetProfilePhoto(
                           photoUrl: viewModel.getPhotoUrl(),
-                          width: 140,
-                          height: 140,
+                          radius: 70,
                         ),
                       ),
                       SizedBox(

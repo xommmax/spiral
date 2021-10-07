@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/settings/account/account_details_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -13,22 +14,36 @@ class WidgetAccountDetailsAvatar
       InkWell(
         onTap: viewModel.onChangeAvatarClicked,
         borderRadius: BorderRadius.circular(100),
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 16),
-          child: viewModel.viewData.photoUrl == null
-              ? WidgetProfilePhoto(
-                  width: 90,
-                  height: 90,
-                  photoUrl: viewModel.data?.photoURL,
-                )
-              : CircleAvatar(
-                  radius: 40,
-                  foregroundImage: Image.file(
-                    File(viewModel.viewData.photoUrl!),
-                    fit: BoxFit.fitWidth,
-                  ).image,
-                  backgroundColor: Colors.transparent,
+        child: Stack(
+          children: [
+            viewModel.viewData.photoUrl == null
+                ? WidgetProfilePhoto(
+                    radius: 48,
+                    photoUrl: viewModel.data?.photoURL,
+                  )
+                : CircleAvatar(
+                    radius: 48,
+                    foregroundImage: Image.file(
+                      File(viewModel.viewData.photoUrl!),
+                      fit: BoxFit.fitWidth,
+                    ).image,
+                    backgroundColor: Colors.transparent,
+                  ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                width: 30,
+                height: 30,
+                padding: EdgeInsets.all(0),
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.lightGray,
                 ),
+                child: Icon(Icons.edit, size: 16),
+              ),
+            ),
+          ],
         ),
       );
 }

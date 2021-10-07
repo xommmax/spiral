@@ -39,7 +39,7 @@ class AppBarHome extends ViewModelWidget<HomeViewModel> {
                   tag: 'profilePhoto',
                   child: WidgetProfilePhoto(
                     photoUrl: viewModel.viewData.user?.photoURL,
-                    width: 30,
+                    radius: 15,
                   ),
                 ),
               ),

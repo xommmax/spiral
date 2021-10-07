@@ -65,8 +65,7 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
                   children: [
                     WidgetProfilePhoto(
                       photoUrl: viewModel.user?.photoURL,
-                      width: 28,
-                      height: 28,
+                      radius: 14,
                     ),
                     SizedBox(width: 4),
                     Text(
@@ -93,8 +92,7 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
                   children: [
                     WidgetProfilePhoto(
                       photoUrl: viewModel.hub?.pictureUrl,
-                      width: 28,
-                      height: 28,
+                      radius: 14,
                     ),
                     SizedBox(width: 4),
                     Text(

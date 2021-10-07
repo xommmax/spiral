@@ -41,7 +41,7 @@ class WidgetAccountDetailsInputFields
             maxLength: 150,
             maxLines: 4,
             minLines: 1,
-            decoration: CustomInputDecoration(Strings.description),
+            decoration: CustomInputDecoration(Strings.bio),
           ),
         ],
       );

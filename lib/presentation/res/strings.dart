@@ -134,6 +134,7 @@ class Strings {
   static const username = 'Username';
   static const description = 'Description';
   static const accountUpdatedSuccessfully = 'Account successfully updated';
+  static const bio = 'Bio';
 
   /* Support */
   static const subject = 'Subject';

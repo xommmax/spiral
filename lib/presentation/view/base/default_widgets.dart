@@ -20,7 +20,7 @@ class DefaultHubImage extends StatelessWidget {
 }
 
 class DefaultProfileImage extends StatelessWidget {
-  final int radius;
+  final double radius;
 
   DefaultProfileImage({required this.radius});
 
