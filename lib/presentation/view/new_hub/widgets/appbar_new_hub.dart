@@ -1,6 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/view/base/progress.dart';
 import 'package:dairo/presentation/view/new_hub/new_hub_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,14 @@ class AppBarNewHub extends ViewModelWidget<NewHubViewModel>
             hintStyle: TextStyle(color: AppColors.gray),
           ),
         ),
+        actions: [
+          !viewModel.isBusy
+              ? IconButton(
+                  onPressed: viewModel.onDonePressed,
+                  icon: Icon(Icons.done),
+                )
+              : ActionProgressBar(),
+        ],
       );
 
   @override

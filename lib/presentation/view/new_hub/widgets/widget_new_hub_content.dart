@@ -14,52 +14,47 @@ class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
   Widget build(BuildContext context, NewHubViewModel viewModel) => Scaffold(
         appBar: AppBarNewHub(),
         body: SafeArea(
-          child: Column(
-            children: [
-              AspectRatio(
-                aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
-                child: InkWell(
-                  onTap: viewModel.onHubPictureSelected,
-                  child: viewModel.viewData.pictureUrl == null
-                      ? Container(
-                          child: Icon(
-                            Icons.add_a_photo_outlined,
-                            size: 50,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                AspectRatio(
+                  aspectRatio:
+                      Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
+                  child: InkWell(
+                    onTap: viewModel.onHubPictureSelected,
+                    child: viewModel.viewData.pictureUrl == null
+                        ? Container(
+                            child: Icon(
+                              Icons.add_a_photo_outlined,
+                              size: 50,
+                            ),
+                            color: AppColors.lightGray,
+                          )
+                        : Image.file(
+                            File(viewModel.viewData.pictureUrl!),
                           ),
-                          color: AppColors.lightGray,
-                        )
-                      : Image.file(
-                          File(viewModel.viewData.pictureUrl!),
-                        ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: TextField(
-                  controller: viewModel.descriptionController,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 1,
-                  maxLines: 3,
-                  maxLength: 100,
-                  decoration: new InputDecoration(
-                    hintText: Strings.hubDescription,
-                    hintStyle: TextStyle(color: AppColors.gray),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.accentColor, width: 2)),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: viewModel.descriptionController,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: 5,
+                    maxLength: 100,
+                    decoration: new InputDecoration(
+                      hintText: Strings.hubDescription,
+                      hintStyle: TextStyle(color: AppColors.gray),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.accentColor, width: 2)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.onDonePressed,
-          child: Icon(
-            viewModel.isBusy ? Icons.file_upload : Icons.check,
-            color: AppColors.black,
-          ),
-          backgroundColor: AppColors.primaryColor,
         ),
       );
 }
