@@ -7,9 +7,11 @@ import 'package:dairo/presentation/view/settings/account/account_details_viewdat
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class AccountDetailsViewModel extends StreamViewModel<User?> {
   final UserRepository _userRepository = locator<UserRepository>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   final AccountDetailsViewData viewData = AccountDetailsViewData();
   final _picker = ImagePicker();
@@ -78,7 +80,7 @@ class AccountDetailsViewModel extends StreamViewModel<User?> {
       description: viewData.descriptionController.text,
     );
     setBusy(false);
-    AppSnackBar.showSnackBarSuccess(Strings.accountUpdatedSuccessfully);
+    _navigationService.back(result: true);
   }
 
   void onNameChanged(String? name) {

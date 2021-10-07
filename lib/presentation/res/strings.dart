@@ -133,12 +133,12 @@ class Strings {
   static const name = 'Name';
   static const username = 'Username';
   static const description = 'Description';
-  static const accountUpdatedSuccessfully = 'Account successfully updated!';
+  static const accountUpdatedSuccessfully = 'Account successfully updated';
 
   /* Support */
   static const subject = 'Subject';
   static const supportRequestSuccessfullySent =
-      'Support request successfully sent!';
+      'Support request successfully sent';
 
   /* New hub */
   static const createHub = 'Create hub';
