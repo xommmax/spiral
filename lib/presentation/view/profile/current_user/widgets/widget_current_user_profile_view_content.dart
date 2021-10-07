@@ -86,6 +86,7 @@ class WidgetCurrentUserProfileViewContent
                             '${viewModel.viewData.user?.followingsCount ?? 0} followings',
                             style: TextStyle(
                               color: AppColors.black,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
