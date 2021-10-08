@@ -1,4 +1,5 @@
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/home/home_viewmodel.dart';
 import 'package:dairo/presentation/view/hub/widgets/widget_hub_publication.dart';
 import 'package:flutter/material.dart';
@@ -49,34 +50,40 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
     );
   }
 
-  _buildEmptyState() => Padding(
-        padding: EdgeInsets.all(36),
-        child: Column(children: [
-          Text(
-            "Welcome to Spiral",
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w900,
-            ),
+  _buildEmptyState() => Expanded(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(36, 0, 36, 56),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Text(
+                "Welcome to Spiral",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textBlack,
+                ),
+              ),
+              SizedBox(height: 24),
+              Text(
+                Strings.emptyHomeDesc,
+                style: TextStyle(
+                  color: AppColors.gray,
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 24),
+              TextButton(
+                onPressed: goToExplore,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(AppColors.accentColor),
+                ),
+                child: Text("Go to Explore",
+                    style: TextStyle(color: AppColors.white)),
+              ),
+            ]),
           ),
-          SizedBox(height: 24),
-          Text(
-            "Let's explore some people and hubs to follow now",
-            style: TextStyle(
-              color: AppColors.gray,
-              fontSize: 18,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 24),
-          TextButton(
-            onPressed: goToExplore,
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
-            ),
-            child:
-                Text("Go to Explore", style: TextStyle(color: AppColors.white)),
-          ),
-        ]),
+        ),
       );
 }

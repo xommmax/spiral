@@ -189,5 +189,8 @@ class Strings {
   static const errorCouldNotLaunchUrl = "Couldn't launch the URL";
 
   static const comingSoon = 'Coming soon';
+
+  static const emptyHomeDesc =
+      'It’s your home page. Here will be shown all updates from the hubs you follow. So let’s find a few';
 /* Uncategorized */
 }
