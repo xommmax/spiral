@@ -53,12 +53,12 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
   _buildEmptyState() => Expanded(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(36, 0, 36, 56),
+            padding: EdgeInsets.fromLTRB(30, 0, 30, 56),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Text(
                 "Welcome to Spiral",
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 29,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textBlack,
                 ),
@@ -68,7 +68,7 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
                 Strings.emptyHomeDesc,
                 style: TextStyle(
                   color: AppColors.gray,
-                  fontSize: 18,
+                  fontSize: 17,
                 ),
                 textAlign: TextAlign.center,
               ),

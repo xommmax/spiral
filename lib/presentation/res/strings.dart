@@ -192,5 +192,16 @@ class Strings {
 
   static const emptyHomeDesc =
       'It’s your home page. Here will be shown all updates from the hubs you follow. So let’s find a few';
+
+  static const contact = 'Contact';
+
+  static const blockedUsers = 'Blocked Users';
+
+  static const account = 'Account';
+
+  static const reportBug = 'Report a bug';
+
+  static const suggestImprovement = 'Suggest an improvement';
+
 /* Uncategorized */
 }

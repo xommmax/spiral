@@ -13,6 +13,7 @@ import 'package:dairo/presentation/view/profile/user/user_profile_view.dart';
 import 'package:dairo/presentation/view/publication/publication_view.dart';
 import 'package:dairo/presentation/view/search/search_view.dart';
 import 'package:dairo/presentation/view/settings/account/account_details_view.dart';
+import 'package:dairo/presentation/view/settings/contact/settings_contact_view.dart';
 import 'package:dairo/presentation/view/settings/settings_view.dart';
 import 'package:dairo/presentation/view/settings/support/support_view.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -36,6 +37,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: HubSettingsView),
     MaterialRoute(page: NewPubHubSelectionView),
     MaterialRoute(page: HubDiscussionView),
+    MaterialRoute(page: SettingsContactView),
   ],
 )
 class $AppRouter {}

@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../domain/model/hub/hub.dart';
 import '../presentation/view/auth/auth_view.dart';
@@ -26,6 +27,7 @@ import '../presentation/view/profile/user/user_profile_view.dart';
 import '../presentation/view/publication/publication_view.dart';
 import '../presentation/view/search/search_view.dart';
 import '../presentation/view/settings/account/account_details_view.dart';
+import '../presentation/view/settings/contact/settings_contact_view.dart';
 import '../presentation/view/settings/settings_view.dart';
 import '../presentation/view/settings/support/support_view.dart';
 
@@ -47,6 +49,7 @@ class Routes {
   static const String hubSettingsView = '/hub-settings-view';
   static const String newPubHubSelectionView = '/new-pub-hub-selection-view';
   static const String hubDiscussionView = '/hub-discussion-view';
+  static const String settingsContactView = '/settings-contact-view';
   static const all = <String>{
     authView,
     mainView,
@@ -65,6 +68,7 @@ class Routes {
     hubSettingsView,
     newPubHubSelectionView,
     hubDiscussionView,
+    settingsContactView,
   };
 }
 
@@ -89,51 +93,52 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.hubSettingsView, page: HubSettingsView),
     RouteDef(Routes.newPubHubSelectionView, page: NewPubHubSelectionView),
     RouteDef(Routes.hubDiscussionView, page: HubDiscussionView),
+    RouteDef(Routes.settingsContactView, page: SettingsContactView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
     AuthView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => AuthView(),
         settings: data,
       );
     },
     MainView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => MainView(),
         settings: data,
       );
     },
     NewPublicationView: (data) {
       var args = data.getArgs<NewPublicationViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => NewPublicationView(hub: args.hub),
         settings: data,
       );
     },
     UserProfileView: (data) {
       var args = data.getArgs<UserProfileViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => UserProfileView(userId: args.userId),
         settings: data,
       );
     },
     CurrentUserProfileView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => CurrentUserProfileView(),
         settings: data,
       );
     },
     NewHubView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => NewHubView(),
         settings: data,
       );
     },
     HubView: (data) {
       var args = data.getArgs<HubViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => HubView(
           hubId: args.hubId,
           userId: args.userId,
@@ -144,7 +149,7 @@ class StackedRouter extends RouterBase {
     },
     FollowersView: (data) {
       var args = data.getArgs<FollowersViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => FollowersView(
           userIds: args.userIds,
           type: args.type,
@@ -154,7 +159,7 @@ class StackedRouter extends RouterBase {
     },
     PublicationView: (data) {
       var args = data.getArgs<PublicationViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => PublicationView(
           args.publicationId,
           args.userId,
@@ -164,53 +169,59 @@ class StackedRouter extends RouterBase {
       );
     },
     SearchView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => SearchView(),
         settings: data,
       );
     },
     ProfileSettingsView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => ProfileSettingsView(),
         settings: data,
       );
     },
     AccountDetailsView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => AccountDetailsView(),
         settings: data,
       );
     },
     SupportView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => SupportView(),
         settings: data,
       );
     },
     FollowingsView: (data) {
       var args = data.getArgs<FollowingsViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => FollowingsView(userIds: args.userIds),
         settings: data,
       );
     },
     HubSettingsView: (data) {
       var args = data.getArgs<HubSettingsViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => HubSettingsView(args.hub),
         settings: data,
       );
     },
     NewPubHubSelectionView: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => NewPubHubSelectionView(),
         settings: data,
       );
     },
     HubDiscussionView: (data) {
       var args = data.getArgs<HubDiscussionViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => HubDiscussionView(hub: args.hub),
+        settings: data,
+      );
+    },
+    SettingsContactView: (data) {
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
+        builder: (context) => SettingsContactView(),
         settings: data,
       );
     },
