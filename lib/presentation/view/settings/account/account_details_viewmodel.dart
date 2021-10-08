@@ -4,6 +4,7 @@ import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/settings/account/account_details_viewdata.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
@@ -63,8 +64,9 @@ class AccountDetailsViewModel extends StreamViewModel<User?> {
       source: imageSource,
     )
         .then(
-      (result) {
-        viewData.photoUrl = result?.path;
+      (result) async {
+        if (result == null) return;
+        viewData.photoUrl = (await compressImage(result.path, 25)).path;
         viewData.isDataChanged = true;
         notifyListeners();
       },
