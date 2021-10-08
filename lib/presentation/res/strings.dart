@@ -187,5 +187,7 @@ class Strings {
   static const whatWantToPost = 'What do you want to post?';
 
   static const errorCouldNotLaunchUrl = "Couldn't launch the URL";
+
+  static const comingSoon = 'Coming soon';
 /* Uncategorized */
 }

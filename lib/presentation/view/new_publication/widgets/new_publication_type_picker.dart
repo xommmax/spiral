@@ -1,4 +1,5 @@
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -84,13 +85,32 @@ class _MediaTypePickerExpanded
                   isSelected: viewModel.isMediaBlockVisible,
                   onPressed: () => viewModel.onGalleryMediaItemPicked(context),
                 ),
-                _MediaTypePickerOption(
-                  icon: Icons.audiotrack_rounded,
-                  label: 'Audio',
-                  isSelected: false,
-                  onPressed: () => viewModel.onAudioMediaItemPicked(context),
-                  isDisabled: true,
-                ),
+                Stack(alignment: Alignment.center, children: [
+                  _MediaTypePickerOption(
+                    icon: Icons.audiotrack_rounded,
+                    label: 'Audio',
+                    isSelected: false,
+                    onPressed: () => viewModel.onAudioMediaItemPicked(context),
+                    isDisabled: true,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      color: Color(0x8047125D),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 2),
+                    child: Text(
+                      Strings.comingSoon,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ]),
               ],
             ),
             Divider(height: 48),
