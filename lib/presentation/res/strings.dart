@@ -72,6 +72,7 @@ class Strings {
   static const descriptionCannotBeEmpty = 'Description cannot be empty';
   static const pleaseFillInInputForm =
       'Please fill in input form to send support request';
+  static const enterCorrectEmail = 'Please enter the correct email';
 
   /* New publication */
   static const newPublication = 'New publication';
@@ -121,7 +122,9 @@ class Strings {
   static const support = 'Support';
   static const feedback = 'Feedback';
   static const termsOfUsage = 'Terms of Usage';
+  static const terms = 'Terms';
   static const privacyPolicy = 'Privacy Policy';
+  static const privacy = 'Privacy';
   static const logout = 'Logout';
   static const confirmLogout = 'Are you sure you want to logout?';
 
@@ -138,8 +141,8 @@ class Strings {
 
   /* Support */
   static const subject = 'Subject';
-  static const supportRequestSuccessfullySent =
-      'Support request successfully sent';
+  static const contactRequestSuccessfullySent =
+      'Your request has been successfully sent';
 
   /* New hub */
   static const createHub = 'Create hub';
@@ -202,6 +205,18 @@ class Strings {
   static const reportBug = 'Report a bug';
 
   static const suggestImprovement = 'Suggest an improvement';
+
+  static const askQuestion = 'Ask a question';
+
+  static const email = 'Email';
+  static const yourEmail = 'Your email';
+  static const question = 'Question';
+  static const suggestion = 'Suggestion';
+
+  static const yourIdea = 'Your idea';
+
+  static const privacyUrl = 'https://www.spiralapp.site/privacy-policy';
+  static const termsUrl = 'https://www.spiralapp.site/terms-and-conditions';
 
 /* Uncategorized */
 }

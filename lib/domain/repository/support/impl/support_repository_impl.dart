@@ -12,22 +12,6 @@ class SupportRepositoryImpl implements SupportRepository {
   final UserRepository userRepository = locator<UserRepository>();
 
   @override
-  Future<void> sendSupportRequest({
-    required String subject,
-    required String description,
-  }) {
-    final currentUserId = userRepository.getCurrentUserId();
-    return _remote.sendSupportRequest(
-      SupportRequest(
-        subject: subject,
-        description: description,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        userId: currentUserId,
-      ),
-    );
-  }
-
-  @override
   Future<void> reportPublication({
     required String publicationId,
     required String reason,
@@ -68,5 +52,25 @@ class SupportRepositoryImpl implements SupportRepository {
     if (!userRepository.isCurrentUserExist()) return false;
     final currentUserId = userRepository.getCurrentUserId();
     return _remote.isUserBlockedByCurrentUser(currentUserId, userId);
+  }
+
+  @override
+  Future<void> sendContactRequest({
+    required String type,
+    String? subject,
+    String? description,
+    String? email,
+  }) {
+    final currentUserId = userRepository.getCurrentUserId();
+    return _remote.sendContactRequest(
+      SupportRequest(
+        type: type,
+        subject: subject,
+        description: description,
+        email: email,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        userId: currentUserId,
+      ),
+    );
   }
 }

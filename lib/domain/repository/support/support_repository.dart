@@ -1,7 +1,9 @@
 abstract class SupportRepository {
-  Future<void> sendSupportRequest({
-    required String subject,
-    required String description,
+  Future<void> sendContactRequest({
+    required String type,
+    String? subject,
+    String? description,
+    String? email,
   });
 
   Future<void> reportPublication({

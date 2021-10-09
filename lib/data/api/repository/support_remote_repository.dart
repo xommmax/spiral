@@ -9,8 +9,8 @@ import 'package:injectable/injectable.dart';
 class SupportRemoteRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> sendSupportRequest(SupportRequest request) => _firestore
-      .collection(FirebaseCollections.usersSupportRequests)
+  Future<void> sendContactRequest(SupportRequest request) => _firestore
+      .collection(FirebaseCollections.contactRequests)
       .add(request.toJson());
 
   Future<void> sendReport(ReportRequest request) => _firestore

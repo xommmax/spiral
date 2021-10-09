@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
-import 'package:dairo/presentation/view/settings/account/account_details_viewmodel.dart';
+import 'package:dairo/presentation/view/settings/edit_account/account_details_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';

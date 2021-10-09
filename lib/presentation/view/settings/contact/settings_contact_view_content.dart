@@ -20,16 +20,16 @@ class SettingsContactViewContent
       body: ListView(
         children: [
           WidgetSettingsItem(
-            text: Strings.support,
+            text: Strings.askQuestion,
             onItemClicked: viewModel.onSupportItemClicked,
+          ),
+          WidgetSettingsItem(
+            text: Strings.suggestImprovement,
+            onItemClicked: viewModel.onSuggestionItemClicked,
           ),
           WidgetSettingsItem(
             text: Strings.reportBug,
             onItemClicked: viewModel.onReportBugItemClicked,
-          ),
-          WidgetSettingsItem(
-            text: Strings.suggestImprovement,
-            onItemClicked: viewModel.onImprovementItemClicked,
           ),
         ],
       ),

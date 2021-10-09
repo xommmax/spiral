@@ -79,7 +79,7 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                   ],
                 ),
                 Link(
-                    uri: Uri.parse('https://www.spiralapp.site/privacy-policy'),
+                    uri: Uri.parse(Strings.privacyUrl),
                     builder: (context, followLink) {
                       return RichText(
                         textAlign: TextAlign.center,
@@ -110,8 +110,7 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                   height: 20,
                 ),
                 Link(
-                  uri: Uri.parse(
-                      'https://www.spiralapp.site/terms-and-conditions'),
+                  uri: Uri.parse(Strings.termsUrl),
                   builder: (context, followLink) {
                     return RichText(
                       textAlign: TextAlign.center,

@@ -17,19 +17,47 @@ class ProfileSettingsViewContent
             style: TextStyles.toolbarTitle,
           ),
         ),
-        body: ListView(
+        body: Stack(
           children: [
-            WidgetSettingsItem(
-              text: Strings.contact,
-              onItemClicked: viewModel.onContactItemClicked,
+            ListView(
+              children: [
+                WidgetSettingsItem(
+                  text: Strings.contact,
+                  onItemClicked: viewModel.onContactItemClicked,
+                ),
+                WidgetSettingsItem(
+                  text: Strings.blockedUsers,
+                  onItemClicked: viewModel.onBlockedUsersItemClicked,
+                ),
+                WidgetSettingsItem(
+                  text: Strings.account,
+                  onItemClicked: viewModel.onAccountItemClicked,
+                ),
+              ],
             ),
-            WidgetSettingsItem(
-              text: Strings.blockedUsers,
-              onItemClicked: viewModel.onBlockedUsersItemClicked,
-            ),
-            WidgetSettingsItem(
-              text: Strings.account,
-              onItemClicked: viewModel.onAccountItemClicked,
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 24,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      child:
+                          Text(Strings.terms, style: TextStyle(fontSize: 15)),
+                      onTap: viewModel.onTermsClicked,
+                    ),
+                    SizedBox(width: 36),
+                    InkWell(
+                      child:
+                          Text(Strings.privacy, style: TextStyle(fontSize: 15)),
+                      onTap: viewModel.onPrivacyClicked,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

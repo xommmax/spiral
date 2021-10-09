@@ -1,7 +1,7 @@
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/base/input_decoration.dart';
-import 'package:dairo/presentation/view/settings/support/support_viewmodel.dart';
+import 'package:dairo/presentation/view/settings/contact/support/support_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -11,7 +11,7 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
   Widget build(BuildContext context, SupportViewModel viewModel) => Scaffold(
         appBar: AppBar(
           title: Text(
-            Strings.support,
+            Strings.askQuestion,
             style: TextStyles.toolbarTitle,
           ),
           actions: [
@@ -41,21 +41,20 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                     child: Column(
                       children: [
                         TextFormField(
-                          controller: viewModel.viewData.subjectController,
+                          controller: viewModel.viewData.emailController,
                           maxLength: 40,
                           maxLines: 1,
-                          decoration: CustomInputDecoration(Strings.subject),
+                          decoration: CustomInputDecoration(Strings.yourEmail),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 8),
                         ),
                         TextFormField(
-                          controller: viewModel.viewData.descriptionController,
+                          controller: viewModel.viewData.questionController,
                           maxLength: 350,
                           maxLines: 8,
                           minLines: 1,
-                          decoration:
-                              CustomInputDecoration(Strings.description),
+                          decoration: CustomInputDecoration(Strings.question),
                         ),
                       ],
                     ),

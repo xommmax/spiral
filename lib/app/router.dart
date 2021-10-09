@@ -12,10 +12,12 @@ import 'package:dairo/presentation/view/profile/current_user/current_user_profil
 import 'package:dairo/presentation/view/profile/user/user_profile_view.dart';
 import 'package:dairo/presentation/view/publication/publication_view.dart';
 import 'package:dairo/presentation/view/search/search_view.dart';
-import 'package:dairo/presentation/view/settings/account/account_details_view.dart';
+import 'package:dairo/presentation/view/settings/account/settings_account_view.dart';
 import 'package:dairo/presentation/view/settings/contact/settings_contact_view.dart';
+import 'package:dairo/presentation/view/settings/contact/suggestion/suggestion_view.dart';
+import 'package:dairo/presentation/view/settings/contact/support/support_view.dart';
+import 'package:dairo/presentation/view/settings/edit_account/account_details_view.dart';
 import 'package:dairo/presentation/view/settings/settings_view.dart';
-import 'package:dairo/presentation/view/settings/support/support_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 @StackedApp(
@@ -38,6 +40,8 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: NewPubHubSelectionView),
     MaterialRoute(page: HubDiscussionView),
     MaterialRoute(page: SettingsContactView),
+    MaterialRoute(page: SuggestionView),
+    MaterialRoute(page: SettingsAccountView),
   ],
 )
 class $AppRouter {}

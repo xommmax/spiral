@@ -1,27 +1,24 @@
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
-import 'package:dairo/presentation/view/settings/account/account_details_viewmodel.dart';
-import 'package:dairo/presentation/view/settings/account/widgets/widget_account_details_avatar.dart';
-import 'package:dairo/presentation/view/settings/account/widgets/widget_account_details_input_fields.dart';
+import 'package:dairo/presentation/view/base/input_decoration.dart';
+import 'package:dairo/presentation/view/settings/contact/suggestion/suggestion_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
-class WidgetAccountDetailsContent
-    extends ViewModelWidget<AccountDetailsViewModel> {
+class SuggestionViewContent extends ViewModelWidget<SuggestionViewModel> {
   @override
-  Widget build(BuildContext context, AccountDetailsViewModel viewModel) =>
-      Scaffold(
+  Widget build(BuildContext context, SuggestionViewModel viewModel) => Scaffold(
         appBar: AppBar(
           title: Text(
-            Strings.accountDetails,
+            Strings.suggestion,
             style: TextStyles.toolbarTitle,
           ),
           actions: [
-            viewModel.viewData.isDataChanged && !viewModel.isBusy
+            !viewModel.isBusy
                 ? Center(
                     child: IconButton(
-                      onPressed: viewModel.onDoneClicked,
+                      onPressed: viewModel.onSubmitMessageClicked,
                       icon: Icon(
                         Icons.done,
                       ),
@@ -32,21 +29,24 @@ class WidgetAccountDetailsContent
         ),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onPanDown: (_) => FocusScope.of(context).requestFocus(FocusNode()),
+          onPanDown: (_) => FocusScope.of(context).requestFocus(
+            FocusNode(),
+          ),
           child: Column(
             children: [
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(24.0),
                     child: Column(
                       children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: WidgetAccountDetailsAvatar(),
+                        TextFormField(
+                          controller: viewModel.suggestionController,
+                          maxLength: 350,
+                          maxLines: 8,
+                          minLines: 1,
+                          decoration: CustomInputDecoration(Strings.yourIdea),
                         ),
-                        SizedBox(height: 16),
-                        WidgetAccountDetailsInputFields(),
                       ],
                     ),
                   ),

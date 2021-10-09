@@ -1,6 +1,6 @@
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/input_decoration.dart';
-import 'package:dairo/presentation/view/settings/account/account_details_viewmodel.dart';
+import 'package:dairo/presentation/view/settings/edit_account/account_details_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';

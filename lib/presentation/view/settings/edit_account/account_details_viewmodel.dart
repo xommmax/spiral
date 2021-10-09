@@ -3,7 +3,7 @@ import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
-import 'package:dairo/presentation/view/settings/account/account_details_viewdata.dart';
+import 'package:dairo/presentation/view/settings/edit_account/account_details_viewdata.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:image_picker/image_picker.dart';

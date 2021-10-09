@@ -8,7 +8,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
 
 import '../domain/model/hub/hub.dart';
 import '../presentation/view/auth/auth_view.dart';
@@ -26,10 +25,12 @@ import '../presentation/view/profile/current_user/current_user_profile_view.dart
 import '../presentation/view/profile/user/user_profile_view.dart';
 import '../presentation/view/publication/publication_view.dart';
 import '../presentation/view/search/search_view.dart';
-import '../presentation/view/settings/account/account_details_view.dart';
+import '../presentation/view/settings/account/settings_account_view.dart';
 import '../presentation/view/settings/contact/settings_contact_view.dart';
+import '../presentation/view/settings/contact/suggestion/suggestion_view.dart';
+import '../presentation/view/settings/contact/support/support_view.dart';
+import '../presentation/view/settings/edit_account/account_details_view.dart';
 import '../presentation/view/settings/settings_view.dart';
-import '../presentation/view/settings/support/support_view.dart';
 
 class Routes {
   static const String authView = '/auth-view';
@@ -50,6 +51,8 @@ class Routes {
   static const String newPubHubSelectionView = '/new-pub-hub-selection-view';
   static const String hubDiscussionView = '/hub-discussion-view';
   static const String settingsContactView = '/settings-contact-view';
+  static const String suggestionView = '/suggestion-view';
+  static const String settingsAccountView = '/settings-account-view';
   static const all = <String>{
     authView,
     mainView,
@@ -69,6 +72,8 @@ class Routes {
     newPubHubSelectionView,
     hubDiscussionView,
     settingsContactView,
+    suggestionView,
+    settingsAccountView,
   };
 }
 
@@ -94,6 +99,8 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.newPubHubSelectionView, page: NewPubHubSelectionView),
     RouteDef(Routes.hubDiscussionView, page: HubDiscussionView),
     RouteDef(Routes.settingsContactView, page: SettingsContactView),
+    RouteDef(Routes.suggestionView, page: SuggestionView),
+    RouteDef(Routes.settingsAccountView, page: SettingsAccountView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -222,6 +229,18 @@ class StackedRouter extends RouterBase {
     SettingsContactView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SettingsContactView(),
+        settings: data,
+      );
+    },
+    SuggestionView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SuggestionView(),
+        settings: data,
+      );
+    },
+    SettingsAccountView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SettingsAccountView(),
         settings: data,
       );
     },
