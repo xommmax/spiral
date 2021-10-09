@@ -7,9 +7,8 @@ import 'package:dairo/domain/model/publication/media.dart';
 abstract class HubRepository {
   Future<Hub> createHub({
     required String name,
-    required String description,
-    required LocalMediaFile picture,
-    required bool isPrivate,
+    required String? description,
+    required LocalMediaFile? picture,
   });
 
   Stream<List<Hub>> getCurrentUserHubs();

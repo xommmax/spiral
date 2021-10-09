@@ -27,8 +27,10 @@ class NewHubViewModel extends BaseViewModel {
 
   void onDonePressed() async {
     if (isBusy) return;
-    viewData.name = nameController.text;
-    viewData.description = descriptionController.text;
+    viewData.name = nameController.text.isNotEmpty ? nameController.text : null;
+    viewData.description = descriptionController.text.isNotEmpty
+        ? descriptionController.text
+        : null;
 
     if (!_allDetailsSpecified()) return;
     _onCreateHub();
@@ -38,16 +40,19 @@ class NewHubViewModel extends BaseViewModel {
     setBusy(true);
     notifyListeners();
     try {
-      Hub hub = await _hubRepository.createHub(
-        name: viewData.name!,
-        description: viewData.description!,
-        picture: LocalMediaFile(
+      LocalMediaFile? picture;
+      if (viewData.pictureUrl != null) {
+        picture = LocalMediaFile(
           id: null,
           originalFile: File(viewData.pictureUrl!),
           previewImage: File(viewData.pictureUrl!),
           type: MediaType.image,
-        ),
-        isPrivate: false,
+        );
+      }
+      Hub hub = await _hubRepository.createHub(
+        name: viewData.name!,
+        description: viewData.description,
+        picture: picture,
       );
       _navigationService.back(result: hub);
     } catch (e) {
@@ -59,14 +64,6 @@ class NewHubViewModel extends BaseViewModel {
   bool _allDetailsSpecified() {
     if (viewData.name == null || viewData.name!.isEmpty) {
       AppSnackBar.showSnackBarError(Strings.errorHubNameMustBeSpecified);
-      return false;
-    }
-    if (viewData.pictureUrl == null) {
-      AppSnackBar.showSnackBarError(Strings.errorHubPictureMustBeSpecified);
-      return false;
-    }
-    if (viewData.description == null || viewData.description!.isEmpty) {
-      AppSnackBar.showSnackBarError(Strings.errorHubDescMustBeSpecified);
       return false;
     }
     return true;

@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -11,9 +11,7 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
       AppBar(
         title: ListTile(
           leading: CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(
-              viewModel.hub.pictureUrl,
-            ),
+            backgroundImage: getHubImageProvider(viewModel.hub),
           ),
           title: Text(
             viewModel.hub.name,

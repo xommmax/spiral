@@ -7,8 +7,8 @@ class HubItemData {
   final String id;
   final String userId;
   final String name;
-  final String description;
-  final String pictureUrl;
+  final String? description;
+  final String? pictureUrl;
   final int createdAt;
   final int followersCount;
   final bool isFollow;

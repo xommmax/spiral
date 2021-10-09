@@ -6,7 +6,7 @@ part 'hub_request.g.dart';
 class HubRequest {
   final String userId;
   final String name;
-  final String description;
+  final String? description;
   final int createdAt;
   final bool isPrivate;
   String? pictureUrl;

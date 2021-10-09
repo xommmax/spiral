@@ -9,7 +9,7 @@ part of 'hub_request.dart';
 HubRequest _$HubRequestFromJson(Map<String, dynamic> json) => HubRequest(
       userId: json['userId'] as String,
       name: json['name'] as String,
-      description: json['description'] as String,
+      description: json['description'] as String?,
       createdAt: json['createdAt'] as int,
       isPrivate: json['isPrivate'] as bool,
     )..pictureUrl = json['pictureUrl'] as String?;

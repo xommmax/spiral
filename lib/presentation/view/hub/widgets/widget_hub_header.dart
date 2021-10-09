@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/hub/hub_viewmodel.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -29,10 +29,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                       stops: [0, 0.5],
                     ),
                   ),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: viewModel.viewData.hub!.pictureUrl,
-                  ),
+                  child: getHubImageWidget(viewModel.viewData.hub!),
                 ),
               ),
               Positioned(
@@ -140,23 +137,25 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 80, 16),
-            child: Text(
-              viewModel.viewData.hub!.description,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.darkGray,
-                fontSize: 14,
+          if (viewModel.viewData.hub!.description != null)
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 80, 16),
+              child: Text(
+                viewModel.viewData.hub!.description!,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.darkGray,
+                  fontSize: 14,
+                ),
               ),
             ),
-          ),
-          Divider(
-            height: 1,
-            indent: 8,
-            endIndent: 8,
-            color: AppColors.lightGray,
-          ),
+          if (viewModel.viewData.hub!.description != null)
+            Divider(
+              height: 1,
+              indent: 8,
+              endIndent: 8,
+              color: AppColors.lightGray,
+            ),
         ],
       );
 }

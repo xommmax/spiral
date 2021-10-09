@@ -90,7 +90,7 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, `followingsCount` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, `isPrivate` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `pictureUrl` TEXT, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, `isPrivate` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `userId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `previewUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `viewType` TEXT NOT NULL, `link` TEXT, `attachedFileUrl` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
@@ -306,8 +306,8 @@ class _$HubDao extends HubDao {
             id: row['id'] as String,
             userId: row['userId'] as String,
             name: row['name'] as String,
-            description: row['description'] as String,
-            pictureUrl: row['pictureUrl'] as String,
+            description: row['description'] as String?,
+            pictureUrl: row['pictureUrl'] as String?,
             createdAt: row['createdAt'] as int,
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0,
@@ -324,8 +324,8 @@ class _$HubDao extends HubDao {
             id: row['id'] as String,
             userId: row['userId'] as String,
             name: row['name'] as String,
-            description: row['description'] as String,
-            pictureUrl: row['pictureUrl'] as String,
+            description: row['description'] as String?,
+            pictureUrl: row['pictureUrl'] as String?,
             createdAt: row['createdAt'] as int,
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0,
@@ -349,8 +349,8 @@ class _$HubDao extends HubDao {
             id: row['id'] as String,
             userId: row['userId'] as String,
             name: row['name'] as String,
-            description: row['description'] as String,
-            pictureUrl: row['pictureUrl'] as String,
+            description: row['description'] as String?,
+            pictureUrl: row['pictureUrl'] as String?,
             createdAt: row['createdAt'] as int,
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0,

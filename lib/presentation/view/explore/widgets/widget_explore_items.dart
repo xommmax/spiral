@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:flutter/material.dart';
 
@@ -86,9 +88,10 @@ class WidgetExploreHub extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: hub.pictureUrl,
-                    fit: BoxFit.cover,
+                  AspectRatio(
+                    aspectRatio:
+                        Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
+                    child: getHubImageWidget(hub),
                   ),
                   Positioned(
                     left: 4,
@@ -105,18 +108,19 @@ class WidgetExploreHub extends StatelessWidget {
                   )
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  hub.description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: AppColors.darkGray,
-                    fontSize: 14,
+              if (hub.description != null)
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    hub.description!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      color: AppColors.darkGray,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
-              ),
               AspectRatio(
                 aspectRatio: 3,
                 child: Row(

@@ -12,6 +12,8 @@ class DefaultHubImage extends StatelessWidget {
       width: radius * 2,
       height: radius * 2,
       decoration: BoxDecoration(
+        image: DecorationImage(
+            image: Image.asset('assets/images/default_hub_cover.png').image),
         color: AppColors.accentColor,
         shape: BoxShape.circle,
       ),

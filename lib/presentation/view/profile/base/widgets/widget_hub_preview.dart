@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -34,13 +34,7 @@ class WidgetHubPreview extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: _hub.pictureUrl,
-                    fit: BoxFit.fitHeight,
-                    errorWidget: (context, url, error) => Center(
-                      child: Icon(Icons.error),
-                    ),
-                  ),
+                  getHubImageWidget(_hub),
                   if (_hub.isFollow)
                     Positioned(
                       top: -45,
@@ -103,18 +97,19 @@ class WidgetHubPreview extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 2, 12, 0),
-            child: Text(
-              _hub.description,
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.black,
-                fontWeight: FontWeight.w400,
+          if (_hub.description != null)
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 2, 12, 0),
+              child: Text(
+                _hub.description!,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
         ],
       );
 }

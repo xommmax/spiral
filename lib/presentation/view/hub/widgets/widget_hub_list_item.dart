@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:flutter/material.dart';
 
 class WidgetHubListItem extends StatelessWidget {
@@ -16,7 +16,7 @@ class WidgetHubListItem extends StatelessWidget {
         onTap: () => onOpenHubDetailsClicked(_hub),
         child: ListTile(
           leading: CircleAvatar(
-            foregroundImage: CachedNetworkImageProvider(_hub.pictureUrl),
+            foregroundImage: getHubImageProvider(_hub),
             radius: 24,
           ),
           title: Text(
@@ -28,9 +28,9 @@ class WidgetHubListItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          subtitle: (_hub.description.isNotEmpty)
+          subtitle: (_hub.description != null && _hub.description!.isNotEmpty)
               ? Text(
-                  _hub.description,
+                  _hub.description!,
                   style: TextStyle(
                     color: AppColors.darkGray,
                   ),

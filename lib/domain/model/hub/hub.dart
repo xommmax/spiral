@@ -4,8 +4,8 @@ class Hub {
   final String id;
   final String userId;
   final String name;
-  final String description;
-  final String pictureUrl;
+  final String? description;
+  final String? pictureUrl;
   final int followersCount;
   final bool isFollow;
   final bool isPrivate;

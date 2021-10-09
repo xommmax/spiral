@@ -28,9 +28,8 @@ class HubRepositoryImpl implements HubRepository {
   @override
   Future<Hub> createHub({
     required String name,
-    required String description,
-    required LocalMediaFile picture,
-    required bool isPrivate,
+    required String? description,
+    required LocalMediaFile? picture,
   }) async {
     final currentUserId = _userRepository.getCurrentUserId();
     HubRequest request = HubRequest(
@@ -38,11 +37,12 @@ class HubRepositoryImpl implements HubRepository {
       name: name,
       description: description,
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      isPrivate: isPrivate,
+      isPrivate: false,
     );
 
-    HubResponse response =
-        await _remote.createHub(request, File(picture.previewImage.path));
+    File? pictureFile;
+    if (picture != null) pictureFile = File(picture.previewImage.path);
+    HubResponse response = await _remote.createHub(request, pictureFile);
     HubItemData itemData = HubItemData.fromResponse(response);
     await _local.addHub(itemData);
     final hub = Hub.fromItemData(itemData);
