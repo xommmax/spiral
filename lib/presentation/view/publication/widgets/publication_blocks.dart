@@ -75,26 +75,27 @@ class TextBlock extends ViewModelWidget<PublicationViewModel> {
 class LinkBlock extends ViewModelWidget<PublicationViewModel> {
   @override
   Widget build(BuildContext context, PublicationViewModel viewModel) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: InkWell(
-          child: Row(
-            children: [
-              Icon(
-                Icons.link,
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            Icon(
+              Icons.link,
+              color: AppColors.linkText,
+            ),
+            SizedBox(width: 4),
+            new Text(
+              viewModel.publication!.link!,
+              style: TextStyle(
                 color: AppColors.linkText,
               ),
-              SizedBox(width: 4),
-              new Text(
-                viewModel.publication!.link!,
-                style: TextStyle(
-                  color: AppColors.linkText,
-                ),
-              ),
-            ],
-          ),
-          onTap: () => launch(viewModel.publication!.link!).catchError((e) =>
-              AppSnackBar.showSnackBarError(Strings.errorCouldNotLaunchUrl))),
+            ),
+          ],
+        ),
+      ),
+      onTap: () => launch(viewModel.publication!.link!).catchError(
+          (e) => AppSnackBar.showSnackBarError(Strings.errorCouldNotLaunchUrl)),
     );
   }
 }
@@ -108,7 +109,7 @@ class FileBlock extends ViewModelWidget<PublicationViewModel> {
   Widget build(BuildContext context, PublicationViewModel viewModel) {
     return InkWell(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
             Container(

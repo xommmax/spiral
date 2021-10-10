@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -27,6 +28,7 @@ class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
                             child: Icon(
                               Icons.add_a_photo_outlined,
                               size: 50,
+                              color: AppColors.darkAccentColor,
                             ),
                             color: AppColors.lightGray,
                           )
@@ -43,13 +45,8 @@ class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
                     minLines: 1,
                     maxLines: 5,
                     maxLength: 100,
-                    decoration: new InputDecoration(
-                      hintText: Strings.hubDescription,
-                      hintStyle: TextStyle(color: AppColors.gray),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: AppColors.accentColor, width: 2)),
-                    ),
+                    decoration: CustomInputDecoration(Strings.hubDescription),
+                    style: TextStyle(color: AppColors.white),
                   ),
                 ),
               ],

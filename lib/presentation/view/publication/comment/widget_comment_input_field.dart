@@ -17,7 +17,7 @@ class WidgetCommentBottomInputField
               ? Container(
                   decoration: BoxDecoration(
                     border: Border(
-                      top: BorderSide(color: AppColors.gray, width: 1),
+                      top: BorderSide(color: AppColors.darkGray, width: 0.3),
                     ),
                   ),
                   padding: EdgeInsets.symmetric(
@@ -29,7 +29,7 @@ class WidgetCommentBottomInputField
                       Container(
                         height: 30,
                         width: 2,
-                        color: AppColors.gray,
+                        color: AppColors.darkGray,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 12),
@@ -47,7 +47,8 @@ class WidgetCommentBottomInputField
                                       text:
                                           viewModel.commentToReply!.user.name ??
                                               Strings.unknownUser,
-                                      style: TextStyles.blue14)
+                                      style:
+                                          TextStyle(color: AppColors.linkText)),
                                 ],
                               ),
                             ),
@@ -55,6 +56,7 @@ class WidgetCommentBottomInputField
                               viewModel.commentToReply!.text,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: AppColors.white),
                             ),
                           ],
                         ),
@@ -73,7 +75,9 @@ class WidgetCommentBottomInputField
           Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              border: Border.all(color: AppColors.gray, width: 1),
+              border: Border(
+                top: BorderSide(color: AppColors.darkGray, width: 0.3),
+              ),
             ),
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).padding.bottom,
@@ -93,10 +97,11 @@ class WidgetCommentBottomInputField
                       enabledBorder: InputBorder.none,
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
+                      hintStyle: TextStyle(color: AppColors.gray),
                     ),
                     maxLines: 5,
                     minLines: 1,
-                    style: TextStyles.black14,
+                    style: TextStyle(color: AppColors.white),
                     textInputAction: TextInputAction.newline,
                     keyboardType: TextInputType.multiline,
                     textCapitalization: TextCapitalization.sentences,

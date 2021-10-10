@@ -178,6 +178,8 @@ class Strings {
 
   static const reported = 'Reported';
   static const blocked = 'Blocked';
+  static const reportedMessageDesc =
+      'Thank you for reporting the message, its content will be reviewed. You may also block the profile who posted this message';
   static const reportedPublicationDesc =
       'Thank you for reporting the publication, its content will be reviewed. You may also block the profile who posted this publication';
   static const reportedProfileDesc =
@@ -217,6 +219,8 @@ class Strings {
 
   static const privacyUrl = 'https://www.spiralapp.site/privacy-policy';
   static const termsUrl = 'https://www.spiralapp.site/terms-and-conditions';
+
+  static const comments = 'Comments';
 
 /* Uncategorized */
 }

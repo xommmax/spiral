@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/publication/media.dart';
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_video.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class FullScreenPublicationMediaWidget extends StatelessWidget {
     required this.currentIndex,
     this.remoteMediaFiles,
     this.localMediaFiles,
-    this.backgroundColor = Colors.black,
+    this.backgroundColor = AppColors.darkAccentColor,
     this.backgroundIsTransparent = true,
     this.disposeLevel = DisposeLevel.Medium,
   });

@@ -31,15 +31,29 @@ class WidgetPublication extends ViewModelWidget<PublicationViewModel> {
                     if (viewModel.publication!.link != null) LinkBlock(),
                     if (viewModel.publication!.attachedFileUrl != null)
                       FileBlock(),
-                    Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: viewModel.comments != null
-                          ? WidgetComments(
-                              viewModel.comments!,
-                              setCommentToReply: viewModel.setCommentToReply,
-                            )
-                          : SizedBox.shrink(),
+                    Divider(
+                      thickness: 0.3,
+                      color: AppColors.darkGray,
+                      indent: 8,
+                      endIndent: 8,
                     ),
+                    if (viewModel.comments != null)
+                      Padding(
+                        padding: EdgeInsets.only(left: 8, bottom: 8, top: 4),
+                        child: Text(
+                          Strings.comments,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    if (viewModel.comments != null)
+                      WidgetComments(
+                        viewModel.comments!,
+                        setCommentToReply: viewModel.setCommentToReply,
+                      ),
                   ],
                 ),
               ),

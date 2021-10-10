@@ -107,7 +107,7 @@ class HubViewModel extends MultipleStreamViewModel {
 
   void onFabPressed() async {
     if (!onboarding)
-      onCreatePublicationClicked();
+      openDiscussion();
     else
       onOnboardingNextClicked();
   }

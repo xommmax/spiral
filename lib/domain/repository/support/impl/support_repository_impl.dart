@@ -12,6 +12,21 @@ class SupportRepositoryImpl implements SupportRepository {
   final UserRepository userRepository = locator<UserRepository>();
 
   @override
+  Future<void> reportMessage({
+    required String messageId,
+    required String reason,
+  }) {
+    final currentUserId = userRepository.getCurrentUserId();
+    return _remote.sendReport(ReportRequest(
+      subjectId: messageId,
+      subjectType: "message",
+      reporterId: currentUserId,
+      reason: reason,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    ));
+  }
+
+  @override
   Future<void> reportPublication({
     required String publicationId,
     required String reason,

@@ -89,7 +89,7 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                                 'By signing up you acknowledge that you have read the ',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color: AppColors.white,
                             ),
                           ),
                           TextSpan(
@@ -119,7 +119,7 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                           text: ' and agree to the ',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.black,
+                            color: AppColors.white,
                           ),
                         ),
                         TextSpan(

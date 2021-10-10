@@ -133,18 +133,6 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   ],
                 ),
               ),
-              // Positioned(
-              //   right: 16,
-              //   bottom: -24,
-              //   child: ElevatedButton(
-              //     child: Icon(Icons.message_outlined),
-              //     onPressed: viewModel.openDiscussion,
-              //     style: ElevatedButton.styleFrom(
-              //       shape: CircleBorder(),
-              //       padding: EdgeInsets.all(16),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
           if (viewModel.viewData.hub!.description != null)
@@ -154,7 +142,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                 viewModel.viewData.hub!.description!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.lightGray,
+                  color: AppColors.gray,
                   fontSize: 14,
                 ),
               ),

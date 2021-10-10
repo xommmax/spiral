@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/base/loading_widget.dart';
+import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/comment/comment_viewmodel.dart';
 import 'package:dairo/presentation/view/publication/comment/widget_comments.dart';
 import 'package:flutter/material.dart';
@@ -44,26 +44,9 @@ class WidgetComment extends ViewModelBuilderWidget<CommentViewModel> {
             leading: SizedBox(
               height: 40,
               width: 40,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: comment.user.photoURL != null
-                    ? CircleAvatar(
-                        child: CachedNetworkImage(
-                          imageUrl: comment.user.photoURL!,
-                        ),
-                      )
-                    : Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          color: AppColors.darkAccentColor,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Icon(
-                          Icons.person,
-                          color: AppColors.black,
-                        ),
-                      ),
+              child: WidgetProfilePhoto(
+                photoUrl: comment.user.photoURL,
+                radius: 70,
               ),
             ),
             title: Column(

@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/hub/discussion.dart';
+import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/hub/discussion/hub_discussion_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/flutter_firebase_chat_core/firebase_chat_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -42,10 +46,7 @@ class HubDiscussionViewContent extends ViewModelWidget<HubDiscussionViewModel> {
           ),
           title: Text(
             viewModel.discussion!.name!,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyles.toolbarTitle,
           ),
         ),
       ),
@@ -60,6 +61,12 @@ class HubDiscussionViewContent extends ViewModelWidget<HubDiscussionViewModel> {
               return SafeArea(
                 bottom: false,
                 child: Chat(
+                  onMessageLongPress: (m) => showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) =>
+                          OptionsBottomSheet(() => viewModel.onReport(m))),
+                  theme: DefaultChatTheme(
+                      backgroundColor: AppColors.darkAccentColor),
                   showUserAvatars: true,
                   showUserNames: true,
                   messages: snapshot.data ?? [],

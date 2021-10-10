@@ -37,17 +37,15 @@ class WidgetCurrentUserHubGrid
             onTap: () => viewModel.onCreateHubClicked(),
             child: Column(
               children: [
-                Card(
-                  color: AppColors.white,
-                  clipBehavior: Clip.antiAlias,
+                Container(
                   margin: EdgeInsets.fromLTRB(
                       WidgetHubPreview.paddingLeft,
                       WidgetHubPreview.paddingTop,
                       WidgetHubPreview.paddingRight,
                       WidgetHubPreview.paddingBottom),
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: AppColors.lightGray,
                   ),
                   child: AspectRatio(
                     aspectRatio:
@@ -55,7 +53,7 @@ class WidgetCurrentUserHubGrid
                     child: Icon(
                       Icons.add,
                       size: 26,
-                      color: AppColors.lightAccentColor,
+                      color: AppColors.darkAccentColor,
                     ),
                   ),
                 ),

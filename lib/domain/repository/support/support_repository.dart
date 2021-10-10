@@ -6,6 +6,11 @@ abstract class SupportRepository {
     String? email,
   });
 
+  Future<void> reportMessage({
+    required String messageId,
+    required String reason,
+  });
+
   Future<void> reportPublication({
     required String publicationId,
     required String reason,

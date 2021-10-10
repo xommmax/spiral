@@ -100,7 +100,7 @@ class WidgetExploreHub extends StatelessWidget {
                     child: Text(
                       hub.name,
                       style: TextStyle(
-                        color: AppColors.black,
+                        color: AppColors.white,
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                         overflow: TextOverflow.ellipsis,
@@ -117,7 +117,7 @@ class WidgetExploreHub extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
-                      color: AppColors.darkGray,
+                      color: AppColors.gray,
                       fontSize: 14,
                     ),
                   ),
