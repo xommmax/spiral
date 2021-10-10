@@ -22,6 +22,7 @@ class WidgetCurrentUserProfileViewContent
                       onPressed: viewModel.onBackPressed,
                       icon: Icon(
                         Icons.arrow_back,
+                        color: AppColors.white,
                       ),
                     ),
                     Row(
@@ -30,12 +31,14 @@ class WidgetCurrentUserProfileViewContent
                           onPressed: viewModel.onEditProfileClicked,
                           icon: Icon(
                             Icons.edit,
+                            color: AppColors.white,
                           ),
                         ),
                         IconButton(
                           onPressed: viewModel.onSettingsClicked,
                           icon: Icon(
                             Icons.settings,
+                            color: AppColors.white,
                           ),
                         ),
                       ],
@@ -62,7 +65,7 @@ class WidgetCurrentUserProfileViewContent
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 36,
-                          color: AppColors.black,
+                          color: AppColors.white,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -72,7 +75,7 @@ class WidgetCurrentUserProfileViewContent
                           child: Text(
                             viewModel.viewData.user!.description!,
                             style: TextStyle(
-                              color: AppColors.black,
+                              color: AppColors.white,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -85,8 +88,8 @@ class WidgetCurrentUserProfileViewContent
                           child: Text(
                             '${viewModel.viewData.user?.followingsCount ?? 0} followings',
                             style: TextStyle(
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w500,
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),

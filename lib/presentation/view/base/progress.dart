@@ -10,7 +10,7 @@ class ActionProgressBar extends StatelessWidget {
         height: 36,
         padding: EdgeInsets.all(8),
         child: CircularProgressIndicator(
-          color: AppColors.black,
+          color: AppColors.white,
           strokeWidth: 3,
         ),
       ),

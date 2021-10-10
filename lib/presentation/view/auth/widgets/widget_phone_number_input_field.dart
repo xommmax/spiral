@@ -41,15 +41,15 @@ class _WidgetPhoneNumberInputFieldState
             children: [
               CountryCodePicker(
                 boxDecoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: AppColors.black,
                 ),
                 padding: EdgeInsets.zero,
-                textStyle: TextStyle(fontSize: 15, color: AppColors.black),
+                textStyle: TextStyle(fontSize: 15, color: AppColors.white),
                 onChanged: (code) => updateCountryCode(code.dialCode),
                 showFlagDialog: false,
                 builder: (code) => Text(
                   _selectedCountryCode ?? '',
-                  style: TextStyle(fontSize: 15, color: AppColors.black),
+                  style: TextStyle(fontSize: 15, color: AppColors.white),
                 ),
               ),
               Expanded(
@@ -61,7 +61,7 @@ class _WidgetPhoneNumberInputFieldState
             padding: const EdgeInsets.only(top: 38.0),
             child: Container(
               decoration:
-              BoxDecoration(border: Border(bottom: BorderSide(width: 1))),
+                  BoxDecoration(border: Border(bottom: BorderSide(width: 1))),
             ),
           ),
         ],
@@ -69,12 +69,12 @@ class _WidgetPhoneNumberInputFieldState
 
   Widget _phoneTextInputField(BuildContext context) => TextFormField(
         controller: widget.controller,
-        style: TextStyle(fontSize: 15, color: AppColors.black),
+        style: TextStyle(fontSize: 15, color: AppColors.white),
         keyboardType: TextInputType.number,
-        cursorColor: AppColors.black,
+        cursorColor: AppColors.white,
         cursorWidth: 1.5,
         decoration: InputDecoration(
-          fillColor: AppColors.black,
+          fillColor: AppColors.white,
           contentPadding: EdgeInsets.symmetric(horizontal: 4),
           hintText: '95 010 22 11',
           border: InputBorder.none,

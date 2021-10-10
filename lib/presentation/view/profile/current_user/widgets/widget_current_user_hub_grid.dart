@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_preview.dart';
 import 'package:dairo/presentation/view/profile/current_user/current_user_profile_viewmodel.dart';
@@ -37,6 +38,7 @@ class WidgetCurrentUserHubGrid
             child: Column(
               children: [
                 Card(
+                  color: AppColors.white,
                   clipBehavior: Clip.antiAlias,
                   margin: EdgeInsets.fromLTRB(
                       WidgetHubPreview.paddingLeft,
@@ -53,6 +55,7 @@ class WidgetCurrentUserHubGrid
                     child: Icon(
                       Icons.add,
                       size: 26,
+                      color: AppColors.lightAccentColor,
                     ),
                   ),
                 ),

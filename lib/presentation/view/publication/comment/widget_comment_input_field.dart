@@ -63,7 +63,7 @@ class WidgetCommentBottomInputField
                         onPressed: () => viewModel.setCommentToReply(null),
                         icon: Icon(
                           Icons.close,
-                          color: AppColors.black,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
@@ -106,7 +106,7 @@ class WidgetCommentBottomInputField
                   icon: Icon(Icons.send_rounded,
                       color: viewModel.commentsTextController.text.isEmpty
                           ? AppColors.gray
-                          : AppColors.black),
+                          : AppColors.white),
                   onPressed: viewModel.onSendCommentClicked,
                 ),
               ],

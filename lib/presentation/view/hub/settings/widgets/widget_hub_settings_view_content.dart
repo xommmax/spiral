@@ -25,7 +25,7 @@ class WidgetHubSettingsContent extends ViewModelWidget<HubSettingsViewModel> {
                   Expanded(
                     child: Text(
                       Strings.privateHub,
-                      style: TextStyle(color: AppColors.black, fontSize: 15),
+                      style: TextStyle(color: AppColors.white, fontSize: 15),
                     ),
                   ),
                   Switch(

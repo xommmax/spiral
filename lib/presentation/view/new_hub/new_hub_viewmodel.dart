@@ -87,7 +87,7 @@ class NewHubViewModel extends BaseViewModel {
       aspectRatio: CropAspectRatio(
           ratioX: Dimens.hubPictureRatioX, ratioY: Dimens.hubPictureRatioY),
       androidUiSettings: AndroidUiSettings(
-        activeControlsWidgetColor: AppColors.primaryColor,
+        activeControlsWidgetColor: AppColors.darkAccentColor,
       ),
       iosUiSettings: IOSUiSettings(
         rotateButtonsHidden: true,

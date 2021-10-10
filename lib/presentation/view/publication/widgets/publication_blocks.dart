@@ -60,7 +60,10 @@ class TextBlock extends ViewModelWidget<PublicationViewModel> {
   Widget build(BuildContext context, PublicationViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text(viewModel.publication!.text!),
+      child: Text(viewModel.publication!.text!,
+          style: TextStyle(
+            color: AppColors.white,
+          )),
     );
   }
 }
@@ -125,6 +128,7 @@ class FileBlock extends ViewModelWidget<PublicationViewModel> {
                   viewModel.getAttachedFileName(),
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
+                    color: AppColors.white,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

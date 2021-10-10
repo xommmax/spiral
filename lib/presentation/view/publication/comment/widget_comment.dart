@@ -56,12 +56,12 @@ class WidgetComment extends ViewModelBuilderWidget<CommentViewModel> {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
+                          color: AppColors.darkAccentColor,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Icon(
                           Icons.person,
-                          color: AppColors.white,
+                          color: AppColors.black,
                         ),
                       ),
               ),

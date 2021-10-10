@@ -44,7 +44,7 @@ class _WidgetSwitchMediaPreviewType
               icon: Icon(Icons.view_carousel_outlined),
               iconSize: 28,
               color: viewModel.mediaViewTypeIndex == 0
-                  ? AppColors.black
+                  ? AppColors.white
                   : AppColors.gray,
               onPressed: () => viewModel.onMediaViewTypeIndexChanged(0),
             ),
@@ -52,7 +52,7 @@ class _WidgetSwitchMediaPreviewType
               icon: Icon(Icons.grid_on),
               iconSize: 28,
               color: viewModel.mediaViewTypeIndex == 1
-                  ? AppColors.black
+                  ? AppColors.white
                   : AppColors.gray,
               onPressed: () => viewModel.onMediaViewTypeIndexChanged(1),
             ),
@@ -147,7 +147,7 @@ class FileBlock extends ViewModelWidget<NewPublicationViewModel> {
                 color: AppColors.accentColor, shape: BoxShape.circle),
             child: Icon(
               Icons.insert_drive_file,
-              color: AppColors.white,
+              color: AppColors.black,
             ),
           ),
           Column(

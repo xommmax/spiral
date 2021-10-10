@@ -12,7 +12,7 @@ class ButtonSignUp extends ViewModelWidget<AuthViewModel> {
         margin: EdgeInsets.only(top: 24),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: AppColors.primaryColor,
+          color: AppColors.darkAccentColor,
         ),
         child: ElevatedButton(
           style: ButtonStyle(
@@ -21,7 +21,7 @@ class ButtonSignUp extends ViewModelWidget<AuthViewModel> {
             Strings.signup,
             style: TextStyle(
               fontSize: 18,
-              color: AppColors.black,
+              color: AppColors.white,
             ),
           ),
           onPressed: viewModel.onPhoneSignUpClicked,

@@ -28,12 +28,12 @@ class WidgetNewPublicationMediaPreview
             left: 4,
             top: 4,
             child: CircleAvatar(
-              backgroundColor: AppColors.white,
+              backgroundColor: AppColors.black,
               radius: 16,
               child: IconButton(
                 icon: Icon(
                   Icons.close,
-                  color: AppColors.black,
+                  color: AppColors.white,
                   size: 16,
                 ),
                 onPressed: () => viewModel.removeMedia(index),
@@ -47,7 +47,7 @@ class WidgetNewPublicationMediaPreview
                     backgroundColor: Color(0x80000000),
                     child: Icon(
                       Icons.play_arrow,
-                      color: AppColors.white,
+                      color: AppColors.black,
                     ),
                   ),
                 )
@@ -116,7 +116,7 @@ class WidgetNewPublicationMediaCarouselPreview
               child: Text(
                 "${viewModel.currentMediaCarouselIndex + 1}/${viewModel.viewData.mediaFiles.length}",
                 style: TextStyle(
-                  color: AppColors.white,
+                  color: AppColors.black,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -134,7 +134,7 @@ class WidgetNewPublicationMediaCarouselPreview
                         child: IconButton(
                           icon: Icon(
                             Icons.keyboard_arrow_left,
-                            color: AppColors.white,
+                            color: AppColors.black,
                           ),
                           onPressed: () =>
                               viewModel.buttonCarouselController.previousPage(),
@@ -149,7 +149,7 @@ class WidgetNewPublicationMediaCarouselPreview
                         child: IconButton(
                           icon: Icon(
                             Icons.keyboard_arrow_right,
-                            color: AppColors.white,
+                            color: AppColors.black,
                           ),
                           onPressed: () =>
                               viewModel.buttonCarouselController.nextPage(),

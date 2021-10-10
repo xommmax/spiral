@@ -26,7 +26,7 @@ class WidgetProfileListItem extends StatelessWidget {
           title: Text(
             _user.name ?? _user.email ?? _user.phoneNumber ?? Strings.unknown,
             style: TextStyle(
-              color: AppColors.black,
+              color: AppColors.white,
               fontWeight: FontWeight.w500,
             ),
             maxLines: 1,

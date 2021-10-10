@@ -60,14 +60,14 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
                 style: TextStyle(
                   fontSize: 29,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textBlack,
+                  color: AppColors.white,
                 ),
               ),
               SizedBox(height: 24),
               Text(
                 Strings.emptyHomeDesc,
                 style: TextStyle(
-                  color: AppColors.gray,
+                  color: AppColors.lightGray,
                   fontSize: 17,
                 ),
                 textAlign: TextAlign.center,
@@ -77,7 +77,7 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
                 onPressed: goToExplore,
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(AppColors.accentColor),
+                      MaterialStateProperty.all(AppColors.lightAccentColor),
                 ),
                 child: Text("Go to Explore",
                     style: TextStyle(color: AppColors.white)),

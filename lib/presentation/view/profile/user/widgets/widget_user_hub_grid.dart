@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_preview.dart';
@@ -42,7 +43,12 @@ class WidgetUserHubGrid extends ViewModelWidget<UserProfileViewModel> {
   _buildEmptyState() => Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24),
-          child: Text(Strings.no_user_hubs),
+          child: Text(Strings.no_user_hubs,
+              style: TextStyle(
+                color: AppColors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              )),
         ),
       );
 }

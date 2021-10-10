@@ -114,7 +114,7 @@ class Strings {
   static const unknownUser = 'Unknown User';
   static const showReplies = 'Show replies';
   static const hideReplies = 'Hide replies';
-  static const yourAnswer = 'Your answer ';
+  static const yourAnswer = 'Your answer to ';
 
   /* Settings */
   static const settings = 'Settings';

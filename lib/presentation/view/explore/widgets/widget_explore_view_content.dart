@@ -11,9 +11,9 @@ class WidgetExploreViewContent extends ViewModelWidget<ExploreViewModel> {
         slivers: [
           SliverAppBar(
             floating: true,
-            backgroundColor: AppColors.white,
+            backgroundColor: AppColors.darkAccentColor,
             leading: Icon(Icons.search),
-            iconTheme: IconThemeData(color: AppColors.black),
+            iconTheme: IconThemeData(color: AppColors.white),
             title: TextField(
               readOnly: true,
               onTap: viewModel.onSearchPressed,
@@ -34,7 +34,7 @@ class WidgetExploreViewContent extends ViewModelWidget<ExploreViewModel> {
                 child: Text(
                   "Popular hubs",
                   style: TextStyle(
-                    color: AppColors.black,
+                    color: AppColors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
@@ -46,7 +46,7 @@ class WidgetExploreViewContent extends ViewModelWidget<ExploreViewModel> {
                 child: Text(
                   "Popular publications",
                   style: TextStyle(
-                    color: AppColors.black,
+                    color: AppColors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),

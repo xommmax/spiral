@@ -29,9 +29,10 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
                 onPressed: viewModel.onFabPressed,
                 child: Icon(
                   !viewModel.onboarding ? Icons.add : Icons.arrow_forward,
-                  color: AppColors.black,
+                  color: AppColors.darkAccentColor,
                 ),
-                backgroundColor: AppColors.primaryColor,
+
+                backgroundColor: AppColors.white,
 
                 // elevation: 0,
               )

@@ -12,8 +12,8 @@ class WidgetSearchViewContent extends ViewModelWidget<SearchViewModel> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors.white,
-          iconTheme: IconThemeData(color: AppColors.black),
+          backgroundColor: AppColors.darkAccentColor,
+          iconTheme: IconThemeData(color: AppColors.white),
           title: TextField(
             autofocus: true,
             textInputAction: TextInputAction.search,
@@ -33,10 +33,11 @@ class WidgetSearchViewContent extends ViewModelWidget<SearchViewModel> {
               Tab(text: Strings.accounts),
               Tab(text: Strings.hubs),
             ],
-            labelColor: AppColors.black,
+            labelColor: AppColors.white,
             unselectedLabelColor: AppColors.gray,
             indicator: UnderlineTabIndicator(
-              borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
+              borderSide:
+                  BorderSide(color: AppColors.darkAccentColor, width: 2),
             ),
           ),
         ),

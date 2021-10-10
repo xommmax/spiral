@@ -74,7 +74,7 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
                           viewModel.user?.email ??
                           '',
                       style: TextStyle(
-                        color: AppColors.black,
+                        color: AppColors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -85,7 +85,10 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 6),
-                child: Text(Strings.inWord),
+                child: Text(Strings.inWord,
+                    style: TextStyle(
+                      color: AppColors.white,
+                    )),
               ),
               InkWell(
                 child: Row(
@@ -98,7 +101,7 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
                     Text(
                       viewModel.hub?.name ?? '',
                       style: TextStyle(
-                        color: AppColors.black,
+                        color: AppColors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -112,7 +115,7 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
           InkWell(
             child: Padding(
               padding: EdgeInsets.only(left: 8),
-              child: Icon(Icons.more_vert),
+              child: Icon(Icons.more_vert, color: AppColors.white),
             ),
             onTap: () => showCupertinoModalPopup(
                 context: context,

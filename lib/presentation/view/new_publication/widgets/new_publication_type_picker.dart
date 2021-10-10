@@ -11,7 +11,7 @@ class MediaTypePickerContainer
   Widget build(BuildContext context, NewPublicationViewModel viewModel) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.black,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -105,7 +105,7 @@ class _MediaTypePickerExpanded
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.white,
+                        color: AppColors.black,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -173,8 +173,8 @@ class _MediaTypePickerOption extends ViewModelWidget<NewPublicationViewModel> {
     }
     if (isSelected) {
       buttonColor = AppColors.accentColor;
-      iconColor = AppColors.white;
-      textColor = AppColors.black;
+      iconColor = AppColors.black;
+      textColor = AppColors.white;
     } else if (isDisabled) {
       buttonColor = AppColors.disabledGray;
       iconColor = AppColors.lightGray;

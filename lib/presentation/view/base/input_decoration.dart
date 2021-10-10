@@ -5,11 +5,12 @@ class CustomInputDecoration extends InputDecoration {
   CustomInputDecoration(String label)
       : super(
           labelText: label,
-          labelStyle: TextStyle(color: AppColors.accentColor),
+          labelStyle: TextStyle(color: AppColors.gray),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.accentColor, width: 2)),
+              borderSide: BorderSide(color: AppColors.white, width: 2)),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.accentColor, width: 1)),
+              borderSide: BorderSide(color: AppColors.gray, width: 1)),
+          counterStyle: TextStyle(color: AppColors.white),
         );
 }

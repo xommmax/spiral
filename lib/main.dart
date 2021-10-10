@@ -60,6 +60,11 @@ class _DairoAppState extends State<DairoApp> {
     }
     bool isCurrentUserExist = FirebaseAuth.instance.currentUser?.uid != null;
     final ThemeData theme = _getAppTheme();
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      systemNavigationBarColor: AppColors.darkAccentColor,
+    ));
+
     return MaterialApp(
       theme: theme.copyWith(
           colorScheme:
@@ -92,14 +97,15 @@ class _DairoAppState extends State<DairoApp> {
   }
 
   ThemeData _getAppTheme() => ThemeData(
-        primaryColor: AppColors.primaryColor,
+        primaryColor: AppColors.darkAccentColor,
         backgroundColor: AppColors.baseBackgroundColor,
         scaffoldBackgroundColor: AppColors.baseBackgroundColor,
+        bottomAppBarColor: AppColors.darkAccentColor,
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
-              color: Colors.black, //change your color here
+              color: AppColors.white, //change your color here
             ),
-            color: AppColors.primaryColor,
-            systemOverlayStyle: SystemUiOverlayStyle.dark),
+            color: AppColors.darkAccentColor,
+            systemOverlayStyle: SystemUiOverlayStyle.light),
       );
 }

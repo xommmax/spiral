@@ -157,4 +157,6 @@ class HomeViewModel extends MultipleStreamViewModel {
     AppDialog.showInformDialog(
         title: Strings.reported, description: Strings.reportedPublicationDesc);
   }
+
+  void onMessageIconClicked() {}
 }

@@ -42,7 +42,7 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                                 Strings.welcomeToDairo,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: AppColors.black,
+                                  color: AppColors.white,
                                 ),
                               ),
                             ),
@@ -57,7 +57,7 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                                 Strings.or,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: AppColors.black,
+                                  color: AppColors.white,
                                 ),
                               ),
                             ),

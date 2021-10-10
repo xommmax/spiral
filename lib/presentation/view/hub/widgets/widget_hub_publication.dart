@@ -60,7 +60,7 @@ class WidgetHubPublication extends StatelessWidget {
                           Text(
                             user?.name ?? user?.username ?? user?.email ?? '',
                             style: TextStyle(
-                              color: AppColors.black,
+                              color: AppColors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -71,7 +71,8 @@ class WidgetHubPublication extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(Strings.inWord),
+                      child: Text(Strings.inWord,
+                          style: TextStyle(color: AppColors.white)),
                     ),
                     InkWell(
                       child: Row(
@@ -84,7 +85,7 @@ class WidgetHubPublication extends StatelessWidget {
                           Text(
                             hub?.name ?? '',
                             style: TextStyle(
-                              color: AppColors.black,
+                              color: AppColors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -98,7 +99,10 @@ class WidgetHubPublication extends StatelessWidget {
                 InkWell(
                   child: Padding(
                     padding: EdgeInsets.only(left: 8),
-                    child: Icon(Icons.more_vert),
+                    child: Icon(
+                      Icons.more_vert,
+                      color: AppColors.white,
+                    ),
                   ),
                   onTap: () => showCupertinoModalPopup(
                       context: context,
@@ -143,12 +147,13 @@ class _WidgetHubPublicationText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => text != null && text!.isNotEmpty
       ? Padding(
-          padding: const EdgeInsets.only(left: 8, top: 8),
-          child: Text(
-            text!,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
+          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+          child: Text(text!,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: AppColors.white,
+              )),
         )
       : SizedBox.shrink();
 }
@@ -237,7 +242,7 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
             ),
             Icon(
               Icons.messenger_outline,
-              color: AppColors.black,
+              color: AppColors.white,
             ),
           ],
         ),

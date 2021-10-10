@@ -42,7 +42,7 @@ class _WidgetLikeState extends State<WidgetLike> {
               onPressed: _onLikeTap,
               icon: Icon(
                 _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                color: AppColors.black,
+                color: AppColors.white,
               ),
             ),
             _likesCount != 0

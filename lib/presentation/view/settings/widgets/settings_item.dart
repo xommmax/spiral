@@ -21,12 +21,12 @@ class WidgetSettingsItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   text,
-                  style: TextStyle(color: AppColors.black, fontSize: 15),
+                  style: TextStyle(color: AppColors.white, fontSize: 15),
                 ),
               ),
               Icon(
                 Icons.keyboard_arrow_right,
-                color: AppColors.black,
+                color: AppColors.white,
               )
             ],
           ),

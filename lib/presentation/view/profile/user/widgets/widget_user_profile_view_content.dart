@@ -29,10 +29,14 @@ class WidgetUserProfileViewContent
                             onPressed: viewModel.onBackPressed,
                             icon: Icon(
                               Icons.arrow_back,
+                              color: AppColors.white,
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.more_vert),
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: AppColors.white,
+                            ),
                             onPressed: () => showCupertinoModalPopup(
                                 context: context,
                                 builder: (context) => OptionsBottomSheet(
@@ -57,7 +61,7 @@ class WidgetUserProfileViewContent
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 36,
-                          color: AppColors.black,
+                          color: AppColors.white,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -67,7 +71,7 @@ class WidgetUserProfileViewContent
                           child: Text(
                             viewModel.viewData.user!.description!,
                             style: TextStyle(
-                              color: AppColors.black,
+                              color: AppColors.white,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -80,8 +84,8 @@ class WidgetUserProfileViewContent
                           child: Text(
                             '${viewModel.viewData.user?.followingsCount ?? 0} followings',
                             style: TextStyle(
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w500,
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
@@ -89,12 +93,12 @@ class WidgetUserProfileViewContent
                     ],
                   ),
                 ),
-                (viewModel.isUserBlocked != null && !(viewModel.isUserBlocked!))
-                    ? WidgetUserHubGrid()
-                    : Text(
+                (viewModel.isUserBlocked != null && (viewModel.isUserBlocked!))
+                    ? Text(
                         "User is blocked",
                         style: TextStyle(fontSize: 20),
-                      ),
+                      )
+                    : WidgetUserHubGrid(),
               ],
             ),
           ),

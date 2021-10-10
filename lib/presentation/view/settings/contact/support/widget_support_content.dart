@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/base/input_decoration.dart';
@@ -44,6 +45,7 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                           controller: viewModel.viewData.emailController,
                           maxLength: 40,
                           maxLines: 1,
+                          style: TextStyle(color: AppColors.white),
                           decoration: CustomInputDecoration(Strings.yourEmail),
                         ),
                         Padding(
@@ -54,6 +56,7 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                           maxLength: 350,
                           maxLines: 8,
                           minLines: 1,
+                          style: TextStyle(color: AppColors.white),
                           decoration: CustomInputDecoration(Strings.question),
                         ),
                       ],

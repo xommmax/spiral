@@ -21,67 +21,65 @@ class WidgetHubPreview extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Card(
-            clipBehavior: Clip.antiAlias,
+          Container(
             margin: EdgeInsets.fromLTRB(
                 paddingLeft, paddingTop, paddingRight, paddingBottom),
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
             child: AspectRatio(
               aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  getHubImageWidget(_hub),
-                  if (_hub.isFollow)
-                    Positioned(
-                      top: -45,
-                      right: -45,
-                      child: Transform.rotate(
-                        angle: math.pi / 4,
-                        child: Container(
-                          color: AppColors.accentColor,
-                          height: 80,
-                          width: 80,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    getHubImageWidget(_hub),
+                    if (_hub.isFollow)
+                      Positioned(
+                        top: -45,
+                        right: -45,
+                        child: Transform.rotate(
+                          angle: math.pi / 4,
+                          child: Container(
+                            color: AppColors.accentColor,
+                            height: 80,
+                            width: 80,
+                          ),
                         ),
                       ),
-                    ),
-                  if (_hub.isFollow)
-                    Positioned(
-                      top: 5,
-                      right: 5,
-                      child: Icon(
-                        Icons.check,
-                        size: 20,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  if (_hub.isPrivate)
-                    Positioned(
-                      bottom: -45,
-                      left: -45,
-                      child: Transform.rotate(
-                        angle: math.pi / 4,
-                        child: Container(
-                          color: AppColors.black,
-                          height: 80,
-                          width: 80,
+                    if (_hub.isFollow)
+                      Positioned(
+                        top: 5,
+                        right: 5,
+                        child: Icon(
+                          Icons.check,
+                          size: 20,
+                          color: AppColors.white,
                         ),
                       ),
-                    ),
-                  if (_hub.isPrivate)
-                    Positioned(
-                      bottom: 5,
-                      left: 5,
-                      child: Icon(
-                        Icons.lock_rounded,
-                        size: 20,
-                        color: AppColors.white,
+                    if (_hub.isPrivate)
+                      Positioned(
+                        bottom: -45,
+                        left: -45,
+                        child: Transform.rotate(
+                          angle: math.pi / 4,
+                          child: Container(
+                            color: AppColors.black,
+                            height: 80,
+                            width: 80,
+                          ),
+                        ),
                       ),
-                    ),
-                ],
+                    if (_hub.isPrivate)
+                      Positioned(
+                        bottom: 5,
+                        left: 5,
+                        child: Icon(
+                          Icons.lock_rounded,
+                          size: 20,
+                          color: AppColors.white,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -91,7 +89,7 @@ class WidgetHubPreview extends StatelessWidget {
               _hub.name,
               style: TextStyle(
                 fontSize: 15,
-                color: AppColors.black,
+                color: AppColors.white,
                 fontWeight: FontWeight.w500,
               ),
               overflow: TextOverflow.ellipsis,
@@ -104,7 +102,7 @@ class WidgetHubPreview extends StatelessWidget {
                 _hub.description!,
                 style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.black,
+                  color: AppColors.white,
                   fontWeight: FontWeight.w400,
                 ),
                 overflow: TextOverflow.ellipsis,

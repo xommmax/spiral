@@ -35,26 +35,36 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
               Positioned(
                 top: 4,
                 left: 4,
-                child: IconButton(
-                  icon: Icon(
+                child: ElevatedButton(
+                  child: Icon(
                     Icons.arrow_back,
                     size: 24,
                     color: AppColors.white,
                   ),
                   onPressed: viewModel.onBackPressed,
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(8),
+                    primary: Color(0x60000000),
+                  ),
                 ),
               ),
               if (viewModel.isCurrentUser())
                 Positioned(
                   top: 4,
                   right: 4,
-                  child: IconButton(
-                    icon: Icon(
+                  child: ElevatedButton(
+                    child: Icon(
                       Icons.settings,
                       size: 24,
                       color: AppColors.white,
                     ),
                     onPressed: viewModel.onSettingsPressed,
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      primary: Color(0x60000000),
+                    ),
                   ),
                 ),
               if (!viewModel.isCurrentUser())
@@ -67,9 +77,9 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: viewModel.viewData.hub!.isFollow
                           ? BoxDecoration(
-                              color: AppColors.buttonColor,
+                              color: AppColors.lightAccentColor,
                               border: Border.all(
-                                color: AppColors.buttonColor,
+                                color: AppColors.gray,
                               ),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -123,28 +133,28 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   ],
                 ),
               ),
-              Positioned(
-                right: 16,
-                bottom: -24,
-                child: ElevatedButton(
-                  child: Icon(Icons.message_outlined),
-                  onPressed: viewModel.openDiscussion,
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(16),
-                  ),
-                ),
-              ),
+              // Positioned(
+              //   right: 16,
+              //   bottom: -24,
+              //   child: ElevatedButton(
+              //     child: Icon(Icons.message_outlined),
+              //     onPressed: viewModel.openDiscussion,
+              //     style: ElevatedButton.styleFrom(
+              //       shape: CircleBorder(),
+              //       padding: EdgeInsets.all(16),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           if (viewModel.viewData.hub!.description != null)
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 16, 80, 16),
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
               child: Text(
                 viewModel.viewData.hub!.description!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.darkGray,
+                  color: AppColors.lightGray,
                   fontSize: 14,
                 ),
               ),

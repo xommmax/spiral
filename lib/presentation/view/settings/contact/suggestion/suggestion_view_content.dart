@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/base/input_decoration.dart';
@@ -45,6 +46,7 @@ class SuggestionViewContent extends ViewModelWidget<SuggestionViewModel> {
                           maxLength: 350,
                           maxLines: 8,
                           minLines: 1,
+                          style: TextStyle(color: AppColors.white),
                           decoration: CustomInputDecoration(Strings.yourIdea),
                         ),
                       ],

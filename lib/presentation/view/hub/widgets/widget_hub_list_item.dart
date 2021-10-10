@@ -22,7 +22,7 @@ class WidgetHubListItem extends StatelessWidget {
           title: Text(
             _hub.name,
             style: TextStyle(
-              color: AppColors.black,
+              color: AppColors.white,
               fontWeight: FontWeight.w500,
             ),
             maxLines: 1,

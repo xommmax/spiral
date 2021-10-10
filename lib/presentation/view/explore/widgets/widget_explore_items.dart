@@ -40,7 +40,7 @@ class WidgetExplorePublication extends StatelessWidget {
                       backgroundColor: Color(0x80000000),
                       child: Icon(
                         Icons.play_arrow,
-                        color: AppColors.white,
+                        color: AppColors.black,
                       ),
                     ),
                   )
@@ -77,13 +77,14 @@ class WidgetExploreHub extends StatelessWidget {
       onTap: () => onHubClicked(hub),
       child: Padding(
         padding: EdgeInsets.only(bottom: 8),
-        child: Card(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.darkGray, width: 0.3),
+            color: AppColors.darkAccentColor,
+          ),
           clipBehavior: Clip.antiAlias,
           margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
           child: Column(
             children: [
               Stack(
@@ -99,7 +100,7 @@ class WidgetExploreHub extends StatelessWidget {
                     child: Text(
                       hub.name,
                       style: TextStyle(
-                        color: AppColors.white,
+                        color: AppColors.black,
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                         overflow: TextOverflow.ellipsis,

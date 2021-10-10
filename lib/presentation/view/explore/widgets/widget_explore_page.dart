@@ -15,7 +15,7 @@ class WidgetExplorePage extends ViewModelWidget<ExploreViewModel> {
         Text(
           "Popular hubs",
           style: TextStyle(
-            color: AppColors.black,
+            color: AppColors.white,
           ),
         ),
         Container(
@@ -25,7 +25,7 @@ class WidgetExplorePage extends ViewModelWidget<ExploreViewModel> {
         Text(
           "Popular publications",
           style: TextStyle(
-            color: AppColors.black,
+            color: AppColors.white,
           ),
         ),
         WidgetExplorePublicationsGrid(),
@@ -77,7 +77,10 @@ class WidgetExploreHubCarousel extends ViewModelWidget<ExploreViewModel> {
     return CarouselSlider(
       items: items,
       options: CarouselOptions(
-        height: cardHeaderImageHeight + description + cardMediaPreviewHeight + cardBottomPadding,
+        height: cardHeaderImageHeight +
+            description +
+            cardMediaPreviewHeight +
+            cardBottomPadding,
         viewportFraction: 0.7,
         initialPage: 0,
         enableInfiniteScroll: false,

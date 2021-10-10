@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/settings/edit_account/account_details_viewmodel.dart';
@@ -24,6 +25,7 @@ class WidgetAccountDetailsContent
                       onPressed: viewModel.onDoneClicked,
                       icon: Icon(
                         Icons.done,
+                        color: AppColors.white,
                       ),
                     ),
                   )

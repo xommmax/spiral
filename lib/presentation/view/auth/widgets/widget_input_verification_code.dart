@@ -7,8 +7,7 @@ import 'package:stacked/stacked.dart';
 
 class WidgetInputVerificationCode extends ViewModelWidget<AuthViewModel> {
   @override
-  Widget build(BuildContext context, AuthViewModel viewModel) =>
-      Padding(
+  Widget build(BuildContext context, AuthViewModel viewModel) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: PinCodeTextField(
           appContext: context,
@@ -19,8 +18,8 @@ class WidgetInputVerificationCode extends ViewModelWidget<AuthViewModel> {
           animationType: AnimationType.none,
           animationDuration: Duration.zero,
           pinTheme: PinTheme(
-            activeColor: AppColors.primaryColor,
-            inactiveColor: AppColors.black,
+            activeColor: AppColors.darkAccentColor,
+            inactiveColor: AppColors.white,
             fieldHeight: 24,
             fieldWidth: 24,
           ),

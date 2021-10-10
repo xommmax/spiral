@@ -4,54 +4,54 @@ import 'package:flutter/material.dart';
 
 class TextStyles {
   static const black12 = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 12,
   );
 
   static const black12Bold = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontWeight: FontWeight.bold,
     fontSize: 12,
   );
 
   static const black14 = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
   );
 
   static const black16 = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 16,
   );
 
   static const black16Bold = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 16,
     fontWeight: FontWeight.bold,
   );
 
   static const black18 = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 18,
   );
 
   static const black18Bold = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 
   static const black20 = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 20,
   );
 
   static const black22 = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 22,
   );
 
   static const black22Bold = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 22,
     fontWeight: FontWeight.bold,
   );
@@ -82,22 +82,22 @@ class TextStyles {
   );
 
   static const white12 = TextStyle(
-    color: AppColors.white,
+    color: AppColors.black,
     fontSize: 12,
   );
 
   static const white16 = TextStyle(
-    color: AppColors.white,
+    color: AppColors.black,
     fontSize: 16,
   );
 
   static const white18 = TextStyle(
-    color: AppColors.white,
+    color: AppColors.black,
     fontSize: 18,
   );
 
   static const white22Bold = TextStyle(
-    color: AppColors.white,
+    color: AppColors.black,
     fontSize: 22,
     fontWeight: FontWeight.bold,
   );
@@ -113,12 +113,12 @@ class TextStyles {
   );
 
   static const primary16 = TextStyle(
-    color: AppColors.primaryColor,
+    color: AppColors.darkAccentColor,
     fontSize: 16,
   );
 
   static const toolbarTitle = TextStyle(
-    color: AppColors.black,
+    color: AppColors.white,
     fontSize: 21,
     fontWeight: FontWeight.w800,
   );

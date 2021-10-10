@@ -55,7 +55,7 @@ class _WidgetVideoPreviewState extends State<WidgetPublicationVideo> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: AppColors.black,
+        backgroundColor: AppColors.white,
         body: Column(
           children: <Widget>[
             Expanded(

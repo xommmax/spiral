@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/settings/settings_viewmodel.dart';
@@ -45,14 +46,20 @@ class ProfileSettingsViewContent
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     InkWell(
-                      child:
-                          Text(Strings.terms, style: TextStyle(fontSize: 15)),
+                      child: Text(Strings.terms,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.white,
+                          )),
                       onTap: viewModel.onTermsClicked,
                     ),
                     SizedBox(width: 36),
                     InkWell(
-                      child:
-                          Text(Strings.privacy, style: TextStyle(fontSize: 15)),
+                      child: Text(Strings.privacy,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.white,
+                          )),
                       onTap: viewModel.onPrivacyClicked,
                     ),
                   ],

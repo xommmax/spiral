@@ -29,7 +29,7 @@ class WidgetPublicationMediaPreview extends StatelessWidget {
                     backgroundColor: Color(0x80000000),
                     child: Icon(
                       Icons.play_arrow,
-                      color: AppColors.white,
+                      color: AppColors.black,
                     ),
                   ),
                 )
@@ -100,24 +100,25 @@ class WidgetPublicationMediaCarouselPreviewState
               onPageChanged: onCarouselPageChanged,
             ),
           ),
-          Positioned(
-            right: 8,
-            top: 8,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              decoration: BoxDecoration(
-                color: Color(0xFF000000),
-                borderRadius: BorderRadius.all(Radius.circular(24)),
-              ),
-              child: Text(
-                "${currentMediaCarouselIndex + 1}/${widget.mediaFiles.length}",
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w500,
+          if (widget.mediaFiles.length > 1)
+            Positioned(
+              right: 8,
+              top: 8,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                decoration: BoxDecoration(
+                  color: Color(0x80000000),
+                  borderRadius: BorderRadius.all(Radius.circular(24)),
+                ),
+                child: Text(
+                  "${currentMediaCarouselIndex + 1}/${widget.mediaFiles.length}",
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
-          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: Row(

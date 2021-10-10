@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/input_decoration.dart';
 import 'package:dairo/presentation/view/settings/edit_account/account_details_viewmodel.dart';
@@ -19,6 +20,7 @@ class WidgetAccountDetailsInputFields
             onChanged: viewModel.onNameChanged,
             autofocus: false,
             maxLines: 1,
+            style: TextStyle(color: AppColors.white),
             decoration: CustomInputDecoration(Strings.name),
           ),
           Padding(
@@ -29,6 +31,7 @@ class WidgetAccountDetailsInputFields
             onChanged: viewModel.onUsernameChanged,
             autofocus: false,
             maxLines: 1,
+            style: TextStyle(color: AppColors.white),
             decoration: CustomInputDecoration(Strings.username),
           ),
           Padding(
@@ -41,6 +44,7 @@ class WidgetAccountDetailsInputFields
             maxLength: 150,
             maxLines: 4,
             minLines: 1,
+            style: TextStyle(color: AppColors.white),
             decoration: CustomInputDecoration(Strings.bio),
           ),
         ],
