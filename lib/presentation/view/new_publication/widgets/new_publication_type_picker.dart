@@ -11,19 +11,13 @@ class MediaTypePickerContainer
   Widget build(BuildContext context, NewPublicationViewModel viewModel) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 0),
-            color: AppColors.gray,
-            spreadRadius: 0,
-            blurRadius: 4,
+        color: AppColors.darkAccentColor,
+        border: Border(
+          top: BorderSide(
+            color: AppColors.darkGray,
+            width: 0.3,
           ),
-        ],
+        ),
       ),
       child: viewModel.isTypePickerCollapsed
           ? _MediaTypePickerCollapsed()
@@ -105,7 +99,7 @@ class _MediaTypePickerExpanded
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.black,
+                        color: AppColors.lightGray,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -165,7 +159,7 @@ class _MediaTypePickerOption extends ViewModelWidget<NewPublicationViewModel> {
     Color iconColor;
     Color textColor;
     if (viewModel.isTypePickerCollapsed) {
-      buttonSize = 24;
+      buttonSize = 36;
       iconSize = 20;
     } else {
       buttonSize = 48;
@@ -173,16 +167,16 @@ class _MediaTypePickerOption extends ViewModelWidget<NewPublicationViewModel> {
     }
     if (isSelected) {
       buttonColor = AppColors.accentColor;
-      iconColor = AppColors.black;
+      iconColor = AppColors.white;
       textColor = AppColors.white;
     } else if (isDisabled) {
-      buttonColor = AppColors.disabledGray;
+      buttonColor = AppColors.darkGray;
+      iconColor = AppColors.gray;
+      textColor = AppColors.gray;
+    } else {
+      buttonColor = AppColors.darkestGray;
       iconColor = AppColors.lightGray;
       textColor = AppColors.lightGray;
-    } else {
-      buttonColor = AppColors.lightGray;
-      iconColor = AppColors.darkGray;
-      textColor = AppColors.darkGray;
     }
 
     return Column(

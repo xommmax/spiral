@@ -28,7 +28,7 @@ class WidgetNewPublicationMediaPreview
             left: 4,
             top: 4,
             child: CircleAvatar(
-              backgroundColor: AppColors.black,
+              backgroundColor: AppColors.darkAccentColor,
               radius: 16,
               child: IconButton(
                 icon: Icon(
@@ -44,10 +44,10 @@ class WidgetNewPublicationMediaPreview
               ? Align(
                   child: CircleAvatar(
                     radius: 24,
-                    backgroundColor: Color(0x80000000),
+                    backgroundColor: Color(0x801A151E),
                     child: Icon(
                       Icons.play_arrow,
-                      color: AppColors.black,
+                      color: AppColors.white,
                     ),
                   ),
                 )
@@ -110,13 +110,13 @@ class WidgetNewPublicationMediaCarouselPreview
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               decoration: BoxDecoration(
-                color: Color(0xFF000000),
+                color: AppColors.darkAccentColor,
                 borderRadius: BorderRadius.all(Radius.circular(24)),
               ),
               child: Text(
                 "${viewModel.currentMediaCarouselIndex + 1}/${viewModel.viewData.mediaFiles.length}",
                 style: TextStyle(
-                  color: AppColors.black,
+                  color: AppColors.white,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -130,11 +130,11 @@ class WidgetNewPublicationMediaCarouselPreview
                 (viewModel.currentMediaCarouselIndex != 0)
                     ? CircleAvatar(
                         radius: 20,
-                        backgroundColor: Color(0x40000000),
+                        backgroundColor: Color(0x801A151E),
                         child: IconButton(
                           icon: Icon(
                             Icons.keyboard_arrow_left,
-                            color: AppColors.black,
+                            color: AppColors.white,
                           ),
                           onPressed: () =>
                               viewModel.buttonCarouselController.previousPage(),
@@ -145,11 +145,11 @@ class WidgetNewPublicationMediaCarouselPreview
                         viewModel.viewData.mediaFiles.length - 1)
                     ? CircleAvatar(
                         radius: 20,
-                        backgroundColor: Color(0x40000000),
+                        backgroundColor: Color(0x801A151E),
                         child: IconButton(
                           icon: Icon(
                             Icons.keyboard_arrow_right,
-                            color: AppColors.black,
+                            color: AppColors.white,
                           ),
                           onPressed: () =>
                               viewModel.buttonCarouselController.nextPage(),

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/tools/media_picker_widget/src/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -262,12 +263,12 @@ class _SelectedItemLabel extends StatelessWidget {
       opacity: _selected ? 1 : 0,
       child: Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor, shape: BoxShape.circle),
+            color: AppColors.darkAccentColor, shape: BoxShape.circle),
         padding: const EdgeInsets.all(5),
         child: Icon(
           Icons.done,
           size: 16,
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
     );

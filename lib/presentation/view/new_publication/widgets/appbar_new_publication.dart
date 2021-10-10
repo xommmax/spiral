@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,10 +16,7 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
           ),
           title: Text(
             viewModel.hub.name,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyles.toolbarTitle,
           ),
         ),
         centerTitle: false,
