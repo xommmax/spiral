@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:stacked/stacked.dart';
+import 'package:tuple/tuple.dart';
 
 /*
   Media Block
@@ -68,7 +69,14 @@ class TextBlock extends ViewModelWidget<NewPublicationViewModel> {
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
       Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(
+            16,
+            ((viewModel.isTextEditorPanelVisible &&
+                    !viewModel.isMediaBlockVisible)
+                ? 72
+                : 16),
+            16,
+            16),
         child: quill.QuillEditor(
           controller: viewModel.textEditorController,
           scrollController: viewModel.scrollController,
@@ -77,9 +85,21 @@ class TextBlock extends ViewModelWidget<NewPublicationViewModel> {
           autoFocus: false,
           readOnly: false,
           expands: false,
-          padding: EdgeInsets.only(top: 56),
+          padding: EdgeInsets.zero,
           keyboardAppearance: Brightness.dark,
           scrollBottomInset: 88,
+          placeholder: 'Write a message',
+          customStyles: quill.DefaultStyles(
+            placeHolder: quill.DefaultTextBlockStyle(
+              TextStyle(
+                fontSize: 16,
+                color: AppColors.gray,
+              ),
+              const Tuple2(0, 0),
+              const Tuple2(0, 0),
+              null,
+            ),
+          ),
         ),
       );
 }
