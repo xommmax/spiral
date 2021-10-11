@@ -29,6 +29,14 @@
 				<string>app-1-428199076323-ios-024889712a03fcad39c0d6</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.428199076323-hr04c5u6lcfvhn0snhe08defcnbks7ob</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -53,6 +61,11 @@
 	<string>To record videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To choose media for publications</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
