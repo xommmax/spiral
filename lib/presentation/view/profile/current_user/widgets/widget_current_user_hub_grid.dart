@@ -1,4 +1,3 @@
-import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_preview.dart';
 import 'package:dairo/presentation/view/profile/current_user/current_user_profile_viewmodel.dart';
@@ -30,37 +29,7 @@ class WidgetCurrentUserHubGrid
               child: WidgetHubPreview(hub),
             ),
           )
-          .toList()
-        ..insert(
-          0,
-          InkWell(
-            onTap: () => viewModel.onCreateHubClicked(),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                      WidgetHubPreview.paddingLeft,
-                      WidgetHubPreview.paddingTop,
-                      WidgetHubPreview.paddingRight,
-                      WidgetHubPreview.paddingBottom),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColors.lightGray,
-                  ),
-                  child: AspectRatio(
-                    aspectRatio:
-                        Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
-                    child: Icon(
-                      Icons.add,
-                      size: 26,
-                      color: AppColors.darkAccentColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+          .toList(),
     );
   }
 }

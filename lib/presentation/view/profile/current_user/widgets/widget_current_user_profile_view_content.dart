@@ -102,5 +102,13 @@ class WidgetCurrentUserProfileViewContent
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.darkestGray,
+          onPressed: viewModel.onCreateHubClicked,
+          child: Icon(
+            Icons.add,
+            color: AppColors.white,
+          ),
+        ),
       );
 }
