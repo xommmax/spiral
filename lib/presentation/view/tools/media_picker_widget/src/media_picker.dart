@@ -125,8 +125,12 @@ class _MediaPickerState extends State<MediaPicker> {
 
     var result = await PhotoManager.requestPermission();
     if (result) {
-      List<AssetPathEntity> albums =
-          await PhotoManager.getAssetPathList(type: type);
+      final filterOption = FilterOptionGroup()
+        ..addOrderOption(
+          const OrderOption(type: OrderOptionType.createDate),
+        );
+      List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+          type: type, filterOption: filterOption);
       setState(() {
         int recentIndex = albums.indexWhere(
             (element) => element.name == 'Recents' || element.name == 'Recent');
