@@ -1,7 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
+import 'package:dairo/presentation/view/base/default_widgets.dart';
 import 'package:dairo/presentation/view/home/home_viewmodel.dart';
-import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';

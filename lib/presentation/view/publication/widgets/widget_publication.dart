@@ -1,7 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/default_widgets.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
-import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/comment/widget_comment_input_field.dart';
 import 'package:dairo/presentation/view/publication/comment/widget_comments.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
@@ -107,7 +107,7 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
               InkWell(
                 child: Row(
                   children: [
-                    WidgetProfilePhoto(
+                    WidgetHubPhoto(
                       photoUrl: viewModel.hub?.pictureUrl,
                       radius: 14,
                     ),

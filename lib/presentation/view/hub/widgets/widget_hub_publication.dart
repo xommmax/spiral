@@ -4,9 +4,9 @@ import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/view/base/default_widgets.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/base/widget_like.dart';
-import 'package:dairo/presentation/view/profile/base/widgets/widget_profile_photo.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:flutter/cupertino.dart';
@@ -77,7 +77,7 @@ class WidgetHubPublication extends StatelessWidget {
                     InkWell(
                       child: Row(
                         children: [
-                          WidgetProfilePhoto(
+                          WidgetHubPhoto(
                             photoUrl: hub?.pictureUrl,
                             radius: 14,
                           ),
