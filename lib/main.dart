@@ -96,11 +96,12 @@ class _DairoAppState extends State<DairoApp> {
     }
   }
 
-  ThemeData _getAppTheme() => ThemeData(
+  ThemeData _getAppTheme() => ThemeData.dark().copyWith(
         primaryColor: AppColors.darkAccentColor,
         backgroundColor: AppColors.baseBackgroundColor,
         scaffoldBackgroundColor: AppColors.baseBackgroundColor,
         bottomAppBarColor: AppColors.darkAccentColor,
+        toggleableActiveColor: AppColors.accentColor,
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
               color: AppColors.white, //change your color here

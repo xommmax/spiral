@@ -16,6 +16,7 @@ import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:validators/validators.dart';
@@ -28,8 +29,11 @@ class NewPublicationViewModel extends BaseViewModel {
   static const double maxAttachedFileSizeInMb = 5;
   final Hub hub;
   final CarouselController buttonCarouselController = CarouselController();
+  final quill.QuillController textEditorController =
+      quill.QuillController.basic();
   final FocusNode textBlockFocusNode = FocusNode();
   final FocusNode linkBlockFocusNode = FocusNode();
+  final ScrollController scrollController = ScrollController();
   MediaViewType mediaViewType = MediaViewType.values[0];
   int currentMediaCarouselIndex = 0;
   int mediaViewTypeIndex = 0;
@@ -38,16 +42,20 @@ class NewPublicationViewModel extends BaseViewModel {
   bool isTextBlockVisible = false;
   bool isLinkBlockVisible = false;
   bool isFileBlockVisible = false;
+  bool isTextEditorPanelVisible = false;
 
-  NewPublicationViewModel(this.hub);
+  NewPublicationViewModel(this.hub) {
+    textBlockFocusNode.addListener(() {
+      isTextEditorPanelVisible = textBlockFocusNode.hasFocus;
+      notifyListeners();
+    });
+  }
 
   final NavigationService _navigationService = locator<NavigationService>();
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
 
   final NewPublicationViewData viewData = NewPublicationViewData();
-  final TextEditingController publicationTextController =
-      TextEditingController();
   final TextEditingController publicationLinkController =
       TextEditingController(text: 'https://');
 
@@ -61,10 +69,11 @@ class NewPublicationViewModel extends BaseViewModel {
       return;
     }
 
-    final text =
-        (isTextBlockVisible && publicationTextController.text.isNotEmpty)
-            ? publicationTextController.text
-            : null;
+    final text = (isTextBlockVisible &&
+            textEditorController.document.toPlainText().isNotEmpty)
+        // ? publicationTextController.text
+        ? null
+        : null;
     final link = (isLinkBlockVisible && isLinkValid())
         ? publicationLinkController.text
         : null;
@@ -88,7 +97,7 @@ class NewPublicationViewModel extends BaseViewModel {
 
   bool isPublicationContentValid() {
     return viewData.mediaFiles.isNotEmpty ||
-        publicationTextController.text.isNotEmpty;
+        textEditorController.document.toPlainText().isNotEmpty;
   }
 
   bool isLinkValid() =>
@@ -186,10 +195,11 @@ class NewPublicationViewModel extends BaseViewModel {
 
   @override
   void dispose() {
-    publicationTextController.dispose();
+    textEditorController.dispose();
     publicationLinkController.dispose();
     textBlockFocusNode.dispose();
     linkBlockFocusNode.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 

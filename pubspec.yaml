@@ -111,6 +111,9 @@ dependencies:
   # chat
   flutter_chat_ui: ^1.4.4
 
+  # text editor
+  flutter_quill: ^2.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

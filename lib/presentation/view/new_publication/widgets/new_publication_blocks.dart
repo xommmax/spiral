@@ -1,12 +1,11 @@
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/new_publication_media_preview.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:stacked/stacked.dart';
 
 /*
@@ -70,24 +69,17 @@ class TextBlock extends ViewModelWidget<NewPublicationViewModel> {
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
       Padding(
         padding: const EdgeInsets.all(16.0),
-        child: TextField(
-          scrollPadding: EdgeInsets.only(bottom: 88),
+        child: quill.QuillEditor(
+          controller: viewModel.textEditorController,
+          scrollController: viewModel.scrollController,
+          scrollable: false,
           focusNode: viewModel.textBlockFocusNode,
-          autofocus: false,
-          controller: viewModel.publicationTextController,
-          decoration: InputDecoration(
-            hintText: Strings.writeMessage,
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-          ),
-          maxLines: null,
-          style: TextStyles.black14,
-          textInputAction: TextInputAction.newline,
-          keyboardType: TextInputType.multiline,
-          textCapitalization: TextCapitalization.sentences,
+          autoFocus: false,
+          readOnly: false,
+          expands: false,
+          padding: EdgeInsets.only(top: 56),
+          keyboardAppearance: Brightness.dark,
+          scrollBottomInset: 88,
         ),
       );
 }
