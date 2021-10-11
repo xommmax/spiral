@@ -1,6 +1,7 @@
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
+import 'package:dairo/presentation/view/tools/string_tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -15,8 +16,10 @@ class AppBarNewPublication extends ViewModelWidget<NewPublicationViewModel>
             backgroundImage: getHubImageProvider(viewModel.hub),
           ),
           title: Text(
-            viewModel.hub.name,
+            viewModel.hub.name.overflow,
             style: TextStyles.toolbarTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         centerTitle: false,
