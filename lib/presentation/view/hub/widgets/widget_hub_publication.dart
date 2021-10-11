@@ -114,11 +114,13 @@ class WidgetHubPublication extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 8),
             ),
-            _WidgetHubPublicationMedia(
-              publication.mediaUrls,
-              publication.previewUrls,
-              publication.viewType,
-              key: UniqueKey(),
+            IgnorePointer(
+              child: _WidgetHubPublicationMedia(
+                publication.mediaUrls,
+                publication.previewUrls,
+                publication.viewType,
+                key: UniqueKey(),
+              ),
             ),
             _WidgetHubPublicationText(
               publication.text,
