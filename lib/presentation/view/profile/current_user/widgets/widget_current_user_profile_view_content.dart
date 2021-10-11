@@ -104,7 +104,7 @@ class WidgetCurrentUserProfileViewContent
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.darkestGray,
-          onPressed: viewModel.onCreateHubClicked,
+          onPressed: viewModel.onCreateButtonClicked,
           child: Icon(
             Icons.add,
             color: AppColors.white,

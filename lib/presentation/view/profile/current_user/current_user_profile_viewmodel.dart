@@ -16,7 +16,8 @@ class CurrentUserProfileViewModel extends BaseProfileViewModel {
   @override
   Stream<List<Hub>> hubListStream() => hubRepository.getCurrentUserHubs();
 
-  onCreateHubClicked() => _navigationService.navigateTo(Routes.newHubView);
+  onCreateButtonClicked() =>
+      _navigationService.navigateTo(Routes.newPubHubSelectionView);
 
   void onEditProfileClicked() {
     _navigationService.navigateTo(Routes.accountDetailsView)?.then((result) {
