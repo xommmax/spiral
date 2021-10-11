@@ -60,7 +60,7 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
-          margin: EdgeInsets.only(top: 36),
+          margin: EdgeInsets.only(top: 24),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.darkGray, width: 0.5),
             shape: BoxShape.circle,
