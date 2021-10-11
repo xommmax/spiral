@@ -41,7 +41,7 @@ class _WidgetPhoneNumberInputFieldState
             children: [
               CountryCodePicker(
                 boxDecoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: AppColors.darkAccentColor,
                 ),
                 padding: EdgeInsets.zero,
                 textStyle: TextStyle(fontSize: 15, color: AppColors.white),
