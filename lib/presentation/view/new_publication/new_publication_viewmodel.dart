@@ -150,6 +150,10 @@ class NewPublicationViewModel extends BaseViewModel {
         currentMediaCarouselIndex > 0) {
       currentMediaCarouselIndex = viewData.mediaFiles.length - 1;
     }
+    if (viewData.mediaFiles.length == 0) {
+      currentMediaCarouselIndex = 0;
+      isMediaBlockVisible = false;
+    }
     notifyListeners();
   }
 
