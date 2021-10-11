@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
@@ -13,6 +15,7 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -25,6 +28,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
   final String publicationId;
   final String userId;
   final String hubId;
+  quill.QuillController? textController;
 
   PublicationViewModel({
     required this.publicationId,
@@ -82,8 +86,24 @@ class PublicationViewModel extends MultipleStreamViewModel {
   Stream<List<Comment>?> commentsStream() =>
       _publicationRepository.getComments(publicationId);
 
-  void _onPublicationRetrieved(Publication? publication) =>
-      this.publication = publication;
+  void _onPublicationRetrieved(Publication? publication) {
+    List textJson = [];
+    try {
+      if (publication != null &&
+          publication.text != null &&
+          publication.text!.isNotEmpty) {
+        textJson = jsonDecode(publication.text!);
+        textController = quill.QuillController(
+            document: quill.Document.fromJson(textJson),
+            selection: TextSelection.collapsed(offset: 0));
+      } else {
+        textController = quill.QuillController.basic();
+      }
+    } catch (e) {
+      textController = quill.QuillController.basic();
+    }
+    this.publication = publication;
+  }
 
   void _onCommentsRetrieved(List<Comment>? comments) =>
       this.comments = comments;

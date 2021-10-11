@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_controller.dart';
@@ -71,8 +72,7 @@ class NewPublicationViewModel extends BaseViewModel {
 
     final text = (isTextBlockVisible &&
             textEditorController.document.toPlainText().isNotEmpty)
-        // ? publicationTextController.text
-        ? null
+        ? jsonEncode(textEditorController.document.toDelta().toJson())
         : null;
     final link = (isLinkBlockVisible && isLinkValid())
         ? publicationLinkController.text

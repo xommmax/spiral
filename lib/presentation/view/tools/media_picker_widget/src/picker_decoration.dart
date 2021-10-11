@@ -35,18 +35,21 @@ class DefaultPickerDecoration extends PickerDecoration {
   DefaultPickerDecoration()
       : super(
           albumTitleStyle: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
           albumTextStyle: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
           completeTextStyle: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
           completeButtonStyle: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(AppColors.lightGray),
+            backgroundColor: MaterialStateProperty.all(AppColors.darkGray),
           ),
-          cancelIcon: Icon(Icons.arrow_back),
+          cancelIcon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           completeText: 'Done',
         );
 }
