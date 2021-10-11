@@ -36,6 +36,8 @@ class WidgetNewPublicationContent
               onPointerDown: (event) =>
                   viewModel.onContentPointerDown(event, context),
               child: SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 controller: viewModel.scrollController,
                 padding: EdgeInsets.only(bottom: 56),
                 child: Builder(builder: (context) {
