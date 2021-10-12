@@ -24,6 +24,8 @@ class NewHubViewModel extends BaseViewModel {
   final TextEditingController descriptionController = TextEditingController();
   final _picker = ImagePicker();
   final NewHubViewData viewData = NewHubViewData();
+  bool isPrivate = false;
+  bool isDiscussionEnabled = true;
 
   void onDonePressed() async {
     if (isBusy) return;
@@ -53,6 +55,8 @@ class NewHubViewModel extends BaseViewModel {
         name: viewData.name!,
         description: viewData.description,
         picture: picture,
+        isPrivate: isPrivate,
+        isDiscussionEnabled: isDiscussionEnabled,
       );
       _navigationService.back(result: hub);
     } catch (e) {
@@ -98,5 +102,15 @@ class NewHubViewModel extends BaseViewModel {
     nameController.dispose();
     descriptionController.dispose();
     super.dispose();
+  }
+
+  void onPrivateSwitchChanged(bool value) {
+    isPrivate = value;
+    notifyListeners();
+  }
+
+  void onDiscussionSwitchChanged(bool value) {
+    isDiscussionEnabled = value;
+    notifyListeners();
   }
 }

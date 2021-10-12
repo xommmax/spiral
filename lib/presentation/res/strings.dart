@@ -225,5 +225,7 @@ class Strings {
 
   static const changeHubCover = 'Change Cover Photo';
 
+  static String discussion = 'Discussion';
+
 /* Uncategorized */
 }

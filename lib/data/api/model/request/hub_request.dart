@@ -9,6 +9,7 @@ class HubRequest {
   final String? description;
   final int createdAt;
   final bool isPrivate;
+  final bool isDiscussionEnabled;
   String? pictureUrl;
 
   HubRequest({
@@ -17,13 +18,14 @@ class HubRequest {
     required this.description,
     required this.createdAt,
     required this.isPrivate,
+    required this.isDiscussionEnabled,
   });
 
   Map<String, dynamic> toJson() => _$HubRequestToJson(this);
 
   @override
   String toString() {
-    return 'HubRequest{userId: $userId, name: $name, description: $description, createdAt: $createdAt, isPrivate: $isPrivate, pictureUrl: $pictureUrl}';
+    return 'HubRequest{userId: $userId, name: $name, description: $description, createdAt: $createdAt, isPrivate: $isPrivate, isDiscussionEnabled: $isDiscussionEnabled, pictureUrl: $pictureUrl}';
   }
 
   @override
@@ -36,6 +38,7 @@ class HubRequest {
           description == other.description &&
           createdAt == other.createdAt &&
           isPrivate == other.isPrivate &&
+          isDiscussionEnabled == other.isDiscussionEnabled &&
           pictureUrl == other.pictureUrl;
 
   @override
@@ -45,5 +48,6 @@ class HubRequest {
       description.hashCode ^
       createdAt.hashCode ^
       isPrivate.hashCode ^
+      isDiscussionEnabled.hashCode ^
       pictureUrl.hashCode;
 }

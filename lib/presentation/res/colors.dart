@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const lightestAccentColor = Color(0xFF7834A8);
   static const lightAccentColor = Color(0xFF440067);
   static const accentColor = Color(0xFF33004e);
   static const darkAccentColor = Color(0xFF1A151E);
@@ -17,7 +18,6 @@ class AppColors {
   static const shadowGray = Color(0xFF626567);
   static const darkestGray = Color(0xFF303030);
   static const lightBlue = Color(0xFF329CE0);
-  static const buttonColor = Color(0xFF7834A8);
   static const linkText = Color(0xFF0645AD);
   static const transparent = Color(0x00000000);
 }

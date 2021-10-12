@@ -24,18 +24,19 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
                   ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.onFabPressed,
-          child: Icon(
-            !viewModel.onboarding
-                ? Icons.message_outlined
-                : Icons.arrow_forward,
-            color: AppColors.darkAccentColor,
-          ),
-
-          backgroundColor: AppColors.white,
-
-          // elevation: 0,
-        ),
+        floatingActionButton: (!viewModel.onboarding &&
+                viewModel.viewData.hub != null &&
+                viewModel.viewData.hub!.isDiscussionEnabled)
+            ? FloatingActionButton(
+                onPressed: viewModel.onFabPressed,
+                child: Icon(
+                  !viewModel.onboarding
+                      ? Icons.message_outlined
+                      : Icons.arrow_forward,
+                  color: AppColors.darkAccentColor,
+                ),
+                backgroundColor: AppColors.white,
+              )
+            : null,
       );
 }

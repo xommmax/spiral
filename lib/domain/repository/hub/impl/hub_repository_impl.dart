@@ -30,6 +30,8 @@ class HubRepositoryImpl implements HubRepository {
     required String name,
     required String? description,
     required LocalMediaFile? picture,
+    required bool isPrivate,
+    required bool isDiscussionEnabled,
   }) async {
     final currentUserId = _userRepository.getCurrentUserId();
     HubRequest request = HubRequest(
@@ -37,7 +39,8 @@ class HubRepositoryImpl implements HubRepository {
       name: name,
       description: description,
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      isPrivate: false,
+      isPrivate: isPrivate,
+      isDiscussionEnabled: isDiscussionEnabled,
     );
 
     File? pictureFile;

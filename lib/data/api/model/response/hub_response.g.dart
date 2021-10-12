@@ -15,7 +15,8 @@ HubResponse _$HubResponseFromJson(Map<String, dynamic> json) => HubResponse(
       createdAt: json['createdAt'] as int,
       followersCount: json['followersCount'] as int,
       isFollow: json['isFollow'] as bool,
-      isPrivate: json['isPrivate'] as bool,
+      isPrivate: json['isPrivate'] as bool? ?? false,
+      isDiscussionEnabled: json['isDiscussionEnabled'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$HubResponseToJson(HubResponse instance) =>
@@ -29,4 +30,5 @@ Map<String, dynamic> _$HubResponseToJson(HubResponse instance) =>
       'followersCount': instance.followersCount,
       'isFollow': instance.isFollow,
       'isPrivate': instance.isPrivate,
+      'isDiscussionEnabled': instance.isDiscussionEnabled,
     };

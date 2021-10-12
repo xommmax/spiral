@@ -31,6 +31,7 @@ class WidgetHubSettingsContent extends ViewModelWidget<HubSettingsViewModel> {
                   Switch(
                     value: viewModel.viewData.hub.isPrivate,
                     onChanged: viewModel.onPrivateHubSwitchChanged,
+                    activeColor: AppColors.lightestAccentColor,
                   )
                 ],
               ),
