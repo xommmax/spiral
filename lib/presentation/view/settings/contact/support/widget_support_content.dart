@@ -46,7 +46,8 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                           maxLength: 40,
                           maxLines: 1,
                           style: TextStyle(color: AppColors.white),
-                          decoration: CustomInputDecoration(Strings.yourEmail),
+                          decoration: CustomInputDecoration.withLabel(
+                              Strings.yourEmail),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 8),
@@ -57,7 +58,8 @@ class WidgetSupportContent extends ViewModelWidget<SupportViewModel> {
                           maxLines: 8,
                           minLines: 1,
                           style: TextStyle(color: AppColors.white),
-                          decoration: CustomInputDecoration(Strings.question),
+                          decoration:
+                              CustomInputDecoration.withLabel(Strings.question),
                         ),
                       ],
                     ),

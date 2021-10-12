@@ -150,9 +150,10 @@ class Strings {
   static const myShowcase = 'My Showcase';
   static const showcase = 'Showcase';
 
-  static const enterHubname = 'Enter Hubname';
+  static const enterHubname = 'Add Title';
 
   static const hubDescription = 'Hub description';
+  static const whatHubAbout = 'What is this hub about?';
 
   static const privateHub = 'Private hub';
 
@@ -221,6 +222,8 @@ class Strings {
   static const termsUrl = 'https://www.spiralapp.site/terms-and-conditions';
 
   static const comments = 'Comments';
+
+  static const changeHubCover = 'Change Cover Photo';
 
 /* Uncategorized */
 }

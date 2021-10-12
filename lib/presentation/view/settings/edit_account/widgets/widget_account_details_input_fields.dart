@@ -21,7 +21,7 @@ class WidgetAccountDetailsInputFields
             autofocus: false,
             maxLines: 1,
             style: TextStyle(color: AppColors.white),
-            decoration: CustomInputDecoration(Strings.name),
+            decoration: CustomInputDecoration.withLabel(Strings.name),
           ),
           Padding(
             padding: EdgeInsets.only(top: 8),
@@ -32,7 +32,7 @@ class WidgetAccountDetailsInputFields
             autofocus: false,
             maxLines: 1,
             style: TextStyle(color: AppColors.white),
-            decoration: CustomInputDecoration(Strings.username),
+            decoration: CustomInputDecoration.withLabel(Strings.username),
           ),
           Padding(
             padding: EdgeInsets.only(top: 8),
@@ -45,7 +45,7 @@ class WidgetAccountDetailsInputFields
             maxLines: 4,
             minLines: 1,
             style: TextStyle(color: AppColors.white),
-            decoration: CustomInputDecoration(Strings.bio),
+            decoration: CustomInputDecoration.withLabel(Strings.bio),
           ),
         ],
       );

@@ -21,12 +21,13 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   foregroundDecoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color(0x90000000),
+                        Color(0xAA000000),
+                        Color(0x60000000),
                         Color(0x00000000),
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
-                      stops: [0, 0.5],
+                      stops: [0, 0.25, 0.5],
                     ),
                   ),
                   child: getHubImageWidget(viewModel.viewData.hub!),
@@ -34,7 +35,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
               ),
               Positioned(
                 top: 4,
-                left: 4,
+                left: 0,
                 child: ElevatedButton(
                   child: Icon(
                     Icons.arrow_back,
@@ -45,14 +46,14 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),
                     padding: EdgeInsets.all(8),
-                    primary: Color(0x60000000),
+                    primary: AppColors.black.withOpacity(0.3),
                   ),
                 ),
               ),
               if (viewModel.isCurrentUser())
                 Positioned(
                   top: 4,
-                  right: 4,
+                  right: 0,
                   child: ElevatedButton(
                     child: Icon(
                       Icons.settings,
@@ -63,7 +64,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       padding: EdgeInsets.all(8),
-                      primary: Color(0x60000000),
+                      primary: AppColors.black.withOpacity(0.3),
                     ),
                   ),
                 ),
@@ -104,8 +105,8 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                   ),
                 ),
               Positioned(
-                left: 8,
-                bottom: 10,
+                left: 20,
+                bottom: 16,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -114,7 +115,14 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                       style: TextStyle(
                         color: AppColors.white,
                         fontSize: 32,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w900,
+                        shadows: <Shadow>[
+                          Shadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 12,
+                            color: AppColors.darkGray,
+                          ),
+                        ],
                       ),
                     ),
                     InkWell(
@@ -126,6 +134,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                           '${viewModel.viewData.hub!.followersCount.toString()} followers',
                           style: TextStyle(
                             color: AppColors.white,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),

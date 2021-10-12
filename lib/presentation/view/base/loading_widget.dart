@@ -1,3 +1,4 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/tools/global_variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progressIndicator = CircularProgressIndicator();
+    final progressIndicator = CircularProgressIndicator(color: AppColors.white);
     return alignment == ProgressBarAlignment.Center
         ? Container(
             height: getScreenHeight(context),

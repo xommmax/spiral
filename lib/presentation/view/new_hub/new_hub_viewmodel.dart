@@ -74,7 +74,7 @@ class NewHubViewModel extends BaseViewModel {
     if (pickedImage == null) return;
     File? croppedImage = await _cropImage(pickedImage.path);
     if (croppedImage == null) return;
-    File compressedImage = await compressImage(croppedImage.path, 25);
+    File compressedImage = await compressImage(croppedImage.path, 35);
     viewData.pictureUrl = compressedImage.path;
     notifyListeners();
   }

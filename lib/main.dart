@@ -102,6 +102,8 @@ class _DairoAppState extends State<DairoApp> {
         scaffoldBackgroundColor: AppColors.baseBackgroundColor,
         bottomAppBarColor: AppColors.darkAccentColor,
         toggleableActiveColor: AppColors.accentColor,
+        textSelectionTheme:
+            TextSelectionThemeData(cursorColor: AppColors.white),
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
               color: AppColors.white, //change your color here

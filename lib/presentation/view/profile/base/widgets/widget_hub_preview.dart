@@ -88,7 +88,7 @@ class WidgetHubPreview extends StatelessWidget {
             child: Text(
               _hub.name,
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 15.5,
                 color: AppColors.white,
                 fontWeight: FontWeight.w500,
               ),
@@ -102,7 +102,7 @@ class WidgetHubPreview extends StatelessWidget {
                 _hub.description!,
                 style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.white,
+                  color: AppColors.white.withOpacity(0.8),
                   fontWeight: FontWeight.w400,
                 ),
                 overflow: TextOverflow.ellipsis,

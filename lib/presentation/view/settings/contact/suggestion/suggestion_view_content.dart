@@ -47,7 +47,8 @@ class SuggestionViewContent extends ViewModelWidget<SuggestionViewModel> {
                           maxLines: 8,
                           minLines: 1,
                           style: TextStyle(color: AppColors.white),
-                          decoration: CustomInputDecoration(Strings.yourIdea),
+                          decoration:
+                              CustomInputDecoration.withLabel(Strings.yourIdea),
                         ),
                       ],
                     ),
