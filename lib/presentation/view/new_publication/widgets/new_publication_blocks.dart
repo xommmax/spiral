@@ -112,7 +112,7 @@ class LinkBlock extends ViewModelWidget<NewPublicationViewModel> {
   @override
   Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
       Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: TextField(
           scrollPadding: EdgeInsets.only(bottom: 88),
           focusNode: viewModel.linkBlockFocusNode,
@@ -149,7 +149,7 @@ class FileBlock extends ViewModelWidget<NewPublicationViewModel> {
   Widget build(BuildContext context, NewPublicationViewModel viewModel) {
     if (viewModel.viewData.attachedFile == null) return SizedBox.shrink();
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
           Container(
@@ -159,7 +159,7 @@ class FileBlock extends ViewModelWidget<NewPublicationViewModel> {
                 color: AppColors.accentColor, shape: BoxShape.circle),
             child: Icon(
               Icons.insert_drive_file,
-              color: AppColors.black,
+              color: AppColors.white,
             ),
           ),
           Column(

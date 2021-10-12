@@ -80,7 +80,8 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                           ? BoxDecoration(
                               color: AppColors.lightAccentColor,
                               border: Border.all(
-                                color: AppColors.gray,
+                                color: AppColors.darkGray,
+                                width: 0.5,
                               ),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -151,8 +152,9 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                 viewModel.viewData.hub!.description!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.gray,
+                  color: AppColors.lightGray,
                   fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

@@ -127,10 +127,7 @@ class WidgetHubPublication extends StatelessWidget {
               key: UniqueKey(),
             ),
             _WidgetHubPublicationFooter(
-              publicationId: publication.id,
-              isLiked: publication.isLiked,
-              likesCount: publication.likesCount,
-              commentsCount: publication.commentsCount,
+              publication: publication,
               onPublicationLikeClicked: onPublicationLikeClicked,
               onUsersLikedScreenClicked: () =>
                   onUsersLikedScreenClicked(publication.id),
@@ -208,18 +205,12 @@ class _WidgetHubPublicationMedia extends StatelessWidget {
 }
 
 class _WidgetHubPublicationFooter extends StatelessWidget {
-  final String publicationId;
-  final bool isLiked;
-  final int likesCount;
-  final int commentsCount;
+  final Publication publication;
   final Function(String, bool) onPublicationLikeClicked;
   final Function onUsersLikedScreenClicked;
 
   const _WidgetHubPublicationFooter({
-    required this.publicationId,
-    required this.isLiked,
-    required this.likesCount,
-    required this.commentsCount,
+    required this.publication,
     required this.onPublicationLikeClicked,
     required this.onUsersLikedScreenClicked,
     Key? key,
@@ -229,22 +220,68 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         height: 40,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            WidgetLike(
-              isLiked,
-              likesCount,
-              onPublicationLikeClicked: (isLiked) => onPublicationLikeClicked(
-                publicationId,
-                isLiked,
-              ),
-              onUsersLikedScreenClicked: onUsersLikedScreenClicked,
+            Row(
+              children: [
+                WidgetLike(
+                  publication.isLiked,
+                  publication.likesCount,
+                  onPublicationLikeClicked: (isLiked) =>
+                      onPublicationLikeClicked(
+                    publication.id,
+                    isLiked,
+                  ),
+                  onUsersLikedScreenClicked: onUsersLikedScreenClicked,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 12),
+                ),
+                Icon(
+                  Icons.messenger_outline,
+                  color: AppColors.white,
+                ),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 12),
-            ),
-            Icon(
-              Icons.messenger_outline,
-              color: AppColors.white,
+            Row(
+              children: [
+                if (publication.mediaUrls.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3),
+                    child: Icon(
+                      Icons.photo,
+                      color: AppColors.lightestAccentColor,
+                      size: 16,
+                    ),
+                  ),
+                if (publication.text != null && publication.text!.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3),
+                    child: Icon(
+                      Icons.text_fields,
+                      color: AppColors.lightestAccentColor,
+                      size: 16,
+                    ),
+                  ),
+                if (publication.link != null)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3),
+                    child: Icon(
+                      Icons.link,
+                      color: AppColors.lightestAccentColor,
+                      size: 16,
+                    ),
+                  ),
+                if (publication.attachedFileUrl != null)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3),
+                    child: Icon(
+                      Icons.attach_file,
+                      color: AppColors.lightestAccentColor,
+                      size: 16,
+                    ),
+                  ),
+              ],
             ),
           ],
         ),

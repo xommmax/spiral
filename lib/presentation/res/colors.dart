@@ -18,6 +18,6 @@ class AppColors {
   static const shadowGray = Color(0xFF626567);
   static const darkestGray = Color(0xFF303030);
   static const lightBlue = Color(0xFF329CE0);
-  static const linkText = Color(0xFF0645AD);
+  static const linkText = lightestAccentColor;
   static const transparent = Color(0x00000000);
 }

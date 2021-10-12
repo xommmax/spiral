@@ -27,7 +27,9 @@ class WidgetPublication extends ViewModelWidget<PublicationViewModel> {
                     WidgetPublicationHeader(),
                     if (viewModel.publication!.mediaUrls.isNotEmpty)
                       MediaBlock(),
-                    if (viewModel.publication!.text != null) TextBlock(),
+                    if (viewModel.publication!.text != null &&
+                        viewModel.publication!.text!.isNotEmpty)
+                      TextBlock(),
                     if (viewModel.publication!.link != null) LinkBlock(),
                     if (viewModel.publication!.attachedFileUrl != null)
                       FileBlock(),
