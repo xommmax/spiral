@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
@@ -13,6 +11,7 @@ import 'package:dairo/domain/repository/support/support_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -87,21 +86,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
       _publicationRepository.getComments(publicationId);
 
   void _onPublicationRetrieved(Publication? publication) {
-    List textJson = [];
-    try {
-      if (publication != null &&
-          publication.text != null &&
-          publication.text!.isNotEmpty) {
-        textJson = jsonDecode(publication.text!);
-        textController = quill.QuillController(
-            document: quill.Document.fromJson(textJson),
-            selection: TextSelection.collapsed(offset: 0));
-      } else {
-        textController = quill.QuillController.basic();
-      }
-    } catch (e) {
-      textController = quill.QuillController.basic();
-    }
+    textController = initTextController(publication);
     this.publication = publication;
   }
 
@@ -164,5 +149,12 @@ class PublicationViewModel extends MultipleStreamViewModel {
 
   void downloadAttachedFile() {
     AppSnackBar.showSnackBarError("Missing functionallity");
+  }
+
+  @override
+  void dispose() {
+    textController?.dispose();
+    commentsTextController.dispose();
+    super.dispose();
   }
 }

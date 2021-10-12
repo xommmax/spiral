@@ -12,6 +12,7 @@ import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class WidgetHubPublication extends StatelessWidget {
   final User? user;
@@ -23,6 +24,7 @@ class WidgetHubPublication extends StatelessWidget {
   final Function(User? user) onUserClicked;
   final Function(Hub? hub) onHubClicked;
   final Function(Publication publication) onReport;
+  final quill.QuillController textController;
 
   const WidgetHubPublication({
     Key? key,
@@ -35,6 +37,7 @@ class WidgetHubPublication extends StatelessWidget {
     required this.onReport,
     required this.onUserClicked,
     required this.onHubClicked,
+    required this.textController,
   }) : super(key: key);
 
   @override
@@ -123,7 +126,7 @@ class WidgetHubPublication extends StatelessWidget {
               ),
             ),
             _WidgetHubPublicationText(
-              publication.text,
+              textController,
               key: UniqueKey(),
             ),
             _WidgetHubPublicationFooter(
@@ -139,22 +142,19 @@ class WidgetHubPublication extends StatelessWidget {
 }
 
 class _WidgetHubPublicationText extends StatelessWidget {
-  final String? text;
+  final quill.QuillController textController;
 
-  const _WidgetHubPublicationText(this.text, {Key? key}) : super(key: key);
+  const _WidgetHubPublicationText(this.textController, {Key? key})
+      : super(key: key);
 
   @override
-  Widget build(BuildContext context) => text != null && text!.isNotEmpty
-      ? Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          child: Text(text!,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: AppColors.white,
-              )),
-        )
-      : SizedBox.shrink();
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: quill.QuillEditor.basic(
+          controller: textController,
+          readOnly: true,
+        ),
+      );
 }
 
 class _WidgetHubPublicationMedia extends StatelessWidget {

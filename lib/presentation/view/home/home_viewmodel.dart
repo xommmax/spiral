@@ -11,6 +11,7 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/home/home_viewdata.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -78,6 +79,10 @@ class HomeViewModel extends MultipleStreamViewModel {
   void _onUserRetrieved(User? user) => viewData.user = user;
 
   void _onFeedPublicationsRetrieved(List<Publication?> data) {
+    viewData.textControllers.forEach((controller) => controller.dispose());
+    viewData.textControllers = [];
+    data.forEach((publication) =>
+        viewData.textControllers.add(initTextController(publication)));
     viewData.publications = data;
 
     _getUsersStream(data.map((publication) => publication!.userId).toList())
@@ -159,4 +164,10 @@ class HomeViewModel extends MultipleStreamViewModel {
   }
 
   void onMessageIconClicked() {}
+
+  @override
+  void dispose() {
+    viewData.textControllers.forEach((controller) => controller.dispose());
+    super.dispose();
+  }
 }

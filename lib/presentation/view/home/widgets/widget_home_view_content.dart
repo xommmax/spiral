@@ -39,6 +39,8 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
                     onUserClicked: viewModel.onUserClicked,
                     onHubClicked: viewModel.onHubClicked,
                     onReport: viewModel.onReport,
+                    textController:
+                        viewModel.viewData.textControllers[position],
                   ),
                   separatorBuilder: (context, position) => Divider(
                     height: 14,

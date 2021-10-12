@@ -11,6 +11,7 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/hub/hub_viewdata.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
@@ -89,8 +90,13 @@ class HubViewModel extends MultipleStreamViewModel {
 
   void _onUserRetrieved(User? user) => viewData.user = user;
 
-  void _onPublicationsRetrieved(List<Publication> publications) =>
-      viewData.publications = publications;
+  void _onPublicationsRetrieved(List<Publication> publications) {
+    viewData.textControllers.forEach((controller) => controller.dispose());
+    viewData.textControllers = [];
+    publications.forEach((publication) =>
+        viewData.textControllers.add(initTextController(publication)));
+    viewData.publications = publications;
+  }
 
   void _onHubRetrieved(Hub? hub) => viewData.hub = hub;
 
@@ -212,5 +218,11 @@ class HubViewModel extends MultipleStreamViewModel {
   void openDiscussion() {
     _navigationService.navigateTo(Routes.hubDiscussionView,
         arguments: HubDiscussionViewArguments(hub: viewData.hub!));
+  }
+
+  @override
+  void dispose() {
+    viewData.textControllers.forEach((controller) => controller.dispose());
+    super.dispose();
   }
 }
