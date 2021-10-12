@@ -122,6 +122,48 @@ class WidgetNewHubViewContent extends ViewModelWidget<NewHubViewModel> {
                     style: TextStyle(color: AppColors.white),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(left: 24),
+                  child: Row(
+                    children: [
+                      Switch(
+                        value: viewModel.isPrivate,
+                        onChanged: viewModel.onPrivateSwitchChanged,
+                        activeColor: AppColors.lightestAccentColor,
+                      ),
+                      SizedBox(width: 16),
+                      Text(
+                        Strings.private,
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 24),
+                  child: Row(
+                    children: [
+                      Switch(
+                        value: viewModel.isDiscussionEnabled,
+                        onChanged: viewModel.onDiscussionSwitchChanged,
+                        activeColor: AppColors.lightestAccentColor,
+                      ),
+                      SizedBox(width: 16),
+                      Text(
+                        Strings.discussion,
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
