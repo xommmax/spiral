@@ -1,15 +1,19 @@
 import 'dart:async';
 
 import 'package:dairo/app/locator.dart';
+import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
+import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class CommentViewModel extends BaseViewModel {
   final String publicationId;
   final String parentCommentId;
+  final NavigationService _navigationService = locator<NavigationService>();
 
   CommentViewModel({
     required this.publicationId,
@@ -47,7 +51,7 @@ class CommentViewModel extends BaseViewModel {
   }
 
   void onReplyToThisCommentClicked() {
-    if(!isRepliesShown) {
+    if (!isRepliesShown) {
       _getCommentReplies();
     }
   }
@@ -59,4 +63,8 @@ class CommentViewModel extends BaseViewModel {
     _repliesStreamSubscription?.cancel();
     super.dispose();
   }
+
+  void onAvatarPressed(User user) =>
+      _navigationService.navigateTo(Routes.userProfileView,
+          arguments: UserProfileViewArguments(userId: user.id));
 }

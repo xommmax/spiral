@@ -39,7 +39,8 @@ class WidgetPublication extends ViewModelWidget<PublicationViewModel> {
                       indent: 8,
                       endIndent: 8,
                     ),
-                    if (viewModel.comments != null)
+                    if (viewModel.comments != null &&
+                        viewModel.comments!.isNotEmpty)
                       Padding(
                         padding: EdgeInsets.only(left: 8, bottom: 8, top: 4),
                         child: Text(
@@ -51,7 +52,8 @@ class WidgetPublication extends ViewModelWidget<PublicationViewModel> {
                           ),
                         ),
                       ),
-                    if (viewModel.comments != null)
+                    if (viewModel.comments != null &&
+                        viewModel.comments!.isNotEmpty)
                       WidgetComments(
                         viewModel.comments!,
                         setCommentToReply: viewModel.setCommentToReply,

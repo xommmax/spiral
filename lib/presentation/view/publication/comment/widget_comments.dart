@@ -14,14 +14,14 @@ class WidgetComments extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ListView.separated(
+  Widget build(BuildContext context) => ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) => WidgetComment(
           comments[index],
           setCommentToReply: setCommentToReply,
+          key: Key(comments[index].id),
         ),
-        separatorBuilder: (context, index) => Divider(height: 10),
         itemCount: comments.length,
       );
 }

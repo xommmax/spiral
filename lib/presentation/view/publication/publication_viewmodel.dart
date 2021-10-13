@@ -90,8 +90,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
     this.publication = publication;
   }
 
-  void _onCommentsRetrieved(List<Comment>? comments) =>
-      this.comments = comments;
+  void _onCommentsRetrieved(List<Comment>? comments) => this.comments = comments;
 
   @override
   void onError(String key, error) {
