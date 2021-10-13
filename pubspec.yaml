@@ -109,7 +109,8 @@ dependencies:
   validators: ^3.0.0
 
   # chat
-  flutter_chat_ui: ^1.4.4
+  flutter_chat_ui:
+    path: libs/flutter_chat_ui
 
   # text editor
   flutter_quill: ^2.0.6

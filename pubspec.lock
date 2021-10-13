@@ -485,9 +485,9 @@ packages:
   flutter_chat_ui:
     dependency: "direct main"
     description:
-      name: flutter_chat_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "libs/flutter_chat_ui"
+      relative: true
+    source: path
     version: "1.4.4"
   flutter_colorpicker:
     dependency: transitive
