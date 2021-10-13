@@ -65,8 +65,10 @@ class HubDiscussionViewContent extends ViewModelWidget<HubDiscussionViewModel> {
                       context: context,
                       builder: (context) =>
                           OptionsBottomSheet(() => viewModel.onReport(m))),
+                  onAvatarPressed: viewModel.onAvatarPressed,
                   theme: DefaultChatTheme(
-                      backgroundColor: AppColors.darkAccentColor),
+                    backgroundColor: AppColors.darkAccentColor,
+                  ),
                   showUserAvatars: true,
                   showUserNames: true,
                   messages: snapshot.data ?? [],

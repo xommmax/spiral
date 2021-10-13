@@ -33,9 +33,9 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
                   !viewModel.onboarding
                       ? Icons.message_outlined
                       : Icons.arrow_forward,
-                  color: AppColors.darkAccentColor,
+                  color: AppColors.white,
                 ),
-                backgroundColor: AppColors.white,
+                backgroundColor: AppColors.darkestGray,
               )
             : null,
       );
