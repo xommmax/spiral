@@ -30,9 +30,9 @@ class WidgetPublication extends ViewModelWidget<PublicationViewModel> {
                     if (viewModel.publication!.text != null &&
                         viewModel.publication!.text!.isNotEmpty)
                       TextBlock(),
-                    if (viewModel.publication!.link != null) LinkBlock(),
                     if (viewModel.publication!.attachedFileUrl != null)
                       FileBlock(),
+                    if (viewModel.publication!.link != null) LinkBlock(),
                     Divider(
                       thickness: 0.3,
                       color: AppColors.darkGray,

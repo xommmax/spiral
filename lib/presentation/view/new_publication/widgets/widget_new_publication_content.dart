@@ -46,8 +46,8 @@ class WidgetNewPublicationContent
                     children: [
                       if (viewModel.isMediaBlockVisible) MediaBlock(),
                       if (viewModel.isTextBlockVisible) TextBlock(),
-                      if (viewModel.isLinkBlockVisible) LinkBlock(),
                       if (viewModel.isFileBlockVisible) FileBlock(),
+                      if (viewModel.isLinkBlockVisible) LinkBlock(),
                     ],
                   );
                 }),

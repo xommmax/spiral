@@ -46,14 +46,14 @@ class _MediaTypePickerCollapsed
             isSelected: viewModel.isTextBlockVisible,
           ),
           _MediaTypePickerOption(
-            icon: Icons.link,
-            label: 'Link',
-            isSelected: viewModel.isLinkBlockVisible,
-          ),
-          _MediaTypePickerOption(
             icon: Icons.attach_file,
             label: 'File',
             isSelected: viewModel.isFileBlockVisible,
+          ),
+          _MediaTypePickerOption(
+            icon: Icons.link,
+            label: 'Link',
+            isSelected: viewModel.isLinkBlockVisible,
           ),
         ],
       ),
@@ -118,16 +118,16 @@ class _MediaTypePickerExpanded
                   onPressed: viewModel.onTextMediaItemPicked,
                 ),
                 _MediaTypePickerOption(
-                  icon: Icons.link,
-                  label: 'Link',
-                  isSelected: viewModel.isLinkBlockVisible,
-                  onPressed: viewModel.onLinkMediaItemPicked,
-                ),
-                _MediaTypePickerOption(
                   icon: Icons.attach_file,
                   label: 'File',
                   isSelected: viewModel.isFileBlockVisible,
                   onPressed: viewModel.onFileMediaItemPicked,
+                ),
+                _MediaTypePickerOption(
+                  icon: Icons.link,
+                  label: 'Link',
+                  isSelected: viewModel.isLinkBlockVisible,
+                  onPressed: viewModel.onLinkMediaItemPicked,
                 ),
               ],
             ),
