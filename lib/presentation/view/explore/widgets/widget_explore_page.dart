@@ -37,6 +37,14 @@ class WidgetExplorePage extends ViewModelWidget<ExploreViewModel> {
 class WidgetExplorePublicationsGrid extends ViewModelWidget<ExploreViewModel> {
   @override
   Widget build(context, viewModel) {
+    List<Widget> children = [];
+    for (int i = 0; i < viewModel.viewData.explorePublications.length; i++) {
+      children.add(WidgetExplorePublication(
+        publication: viewModel.viewData.explorePublications[i],
+        textController: viewModel.viewData.textControllers[i],
+        onPublicationClicked: viewModel.onPublicationClicked,
+      ));
+    }
     return GridView.count(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -44,11 +52,7 @@ class WidgetExplorePublicationsGrid extends ViewModelWidget<ExploreViewModel> {
       childAspectRatio: 1,
       crossAxisSpacing: 3,
       mainAxisSpacing: 3,
-      children: viewModel.viewData.explorePublications
-          .map((publication) => WidgetExplorePublication(
-              publication: publication,
-              onPublicationClicked: viewModel.onPublicationClicked))
-          .toList(),
+      children: children,
     );
   }
 }

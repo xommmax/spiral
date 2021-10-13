@@ -6,16 +6,22 @@ import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/widgets/simple_viewer.dart';
 
 class WidgetExplorePublication extends StatelessWidget {
   final Publication publication;
   final Function(Publication publication) onPublicationClicked;
+  final quill.QuillController textController;
 
-  const WidgetExplorePublication(
-      {Key? key,
-      required this.publication,
-      required this.onPublicationClicked});
+  const WidgetExplorePublication({
+    Key? key,
+    required this.publication,
+    required this.onPublicationClicked,
+    required this.textController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +55,23 @@ class WidgetExplorePublication extends StatelessWidget {
         ),
       );
     } else if (publication.text != null) {
+      var truncateScale = 0.4;
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => onPublicationClicked(publication),
-        child: Text(publication.text!),
+        child: LayoutBuilder(
+          builder: (context, constraints) => OverflowBox(
+            maxWidth: constraints.maxWidth / truncateScale,
+            child: QuillSimpleViewer(
+              controller: textController,
+              readOnly: true,
+              truncate: true,
+              truncateWidth: constraints.maxWidth,
+              truncateScale: truncateScale,
+              customStyles: getPublicationTextStyle(context),
+            ),
+          ),
+        ),
       );
     } else
       return Text(Strings.errorLoadingPublication);

@@ -4,6 +4,7 @@ import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/repository/explore/explore_repository.dart';
 import 'package:dairo/presentation/view/explore/explore_viewdata.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -20,6 +21,10 @@ class ExploreViewModel extends BaseViewModel {
   getExplorePublications() async {
     viewData.explorePublications =
         await _exploreRepository.getExplorePublications();
+    viewData.textControllers.forEach((controller) => controller.dispose());
+    viewData.textControllers = [];
+    viewData.explorePublications.forEach((publication) =>
+        viewData.textControllers.add(initTextController(publication)));
     notifyListeners();
   }
 
@@ -54,5 +59,11 @@ class ExploreViewModel extends BaseViewModel {
         userId: hub.userId,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    viewData.textControllers.forEach((controller) => controller.dispose());
+    super.dispose();
   }
 }
