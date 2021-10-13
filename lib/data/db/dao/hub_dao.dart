@@ -9,6 +9,9 @@ abstract class HubDao {
   @Query('SELECT * FROM hub WHERE id = :id')
   Stream<HubItemData?> getHub(String id);
 
+  @Query('SELECT * FROM hub WHERE id = :id')
+  Future<HubItemData?> getHubById(String id);
+
   @Query('SELECT * FROM hub WHERE id IN (:hubIds) ORDER BY createdAt DESC')
   Stream<List<HubItemData>> getHubsByIds(List<String> hubIds);
 
@@ -37,5 +40,13 @@ abstract class HubDao {
   Future<void> updateHubs(List<HubItemData> hubs, String userId) async {
     await deleteHubsById(userId);
     await insertHubs(hubs);
+  }
+
+  @transaction
+  Future<void> updateFollowStatus(String hubId, bool follow) async {
+    HubItemData? hub = await getHubById(hubId);
+    if (hub == null) return;
+    hub.isFollow = follow;
+    return updateHub(hub);
   }
 }

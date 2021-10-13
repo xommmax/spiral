@@ -11,7 +11,7 @@ class HubItemData {
   final String? pictureUrl;
   final int createdAt;
   final int followersCount;
-  final bool isFollow;
+  bool isFollow;
   final bool isPrivate;
   final bool isDiscussionEnabled;
 

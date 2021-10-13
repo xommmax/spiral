@@ -98,16 +98,22 @@ class HubRepositoryImpl implements HubRepository {
   }
 
   @override
-  Future<void> onFollow(String hubId) => _remote.onFollow(
-        userId: _userRepository.getCurrentUserId(),
-        hubId: hubId,
-      );
+  Future<void> onFollow(String hubId) {
+    _local.updateFollowStatus(hubId, true);
+    return _remote.onFollow(
+      userId: _userRepository.getCurrentUserId(),
+      hubId: hubId,
+    );
+  }
 
   @override
-  Future<void> onUnfollow(String hubId) => _remote.onUnfollow(
-        userId: _userRepository.getCurrentUserId(),
-        hubId: hubId,
-      );
+  Future<void> onUnfollow(String hubId) {
+    _local.updateFollowStatus(hubId, false);
+    return _remote.onUnfollow(
+      userId: _userRepository.getCurrentUserId(),
+      hubId: hubId,
+    );
+  }
 
   @override
   Future<List<String>> getHubFollowersIds(String hubId) =>

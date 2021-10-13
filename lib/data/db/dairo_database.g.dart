@@ -340,6 +340,23 @@ class _$HubDao extends HubDao {
   }
 
   @override
+  Future<HubItemData?> getHubById(String id) async {
+    return _queryAdapter.query('SELECT * FROM hub WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => HubItemData(
+            id: row['id'] as String,
+            userId: row['userId'] as String,
+            name: row['name'] as String,
+            description: row['description'] as String?,
+            pictureUrl: row['pictureUrl'] as String?,
+            createdAt: row['createdAt'] as int,
+            followersCount: row['followersCount'] as int,
+            isFollow: (row['isFollow'] as int) != 0,
+            isPrivate: (row['isPrivate'] as int) != 0,
+            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0),
+        arguments: [id]);
+  }
+
+  @override
   Stream<List<HubItemData>> getHubsByIds(List<String> hubIds) {
     const offset = 1;
     final _sqliteVariablesForHubIds =
@@ -417,6 +434,20 @@ class _$HubDao extends HubDao {
         final transactionDatabase = _$DairoDatabase(changeListener)
           ..database = transaction;
         await transactionDatabase.hubDao.updateHubs(hubs, userId);
+      });
+    }
+  }
+
+  @override
+  Future<void> updateFollowStatus(String hubId, bool follow) async {
+    if (database is sqflite.Transaction) {
+      await super.updateFollowStatus(hubId, follow);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.hubDao.updateFollowStatus(hubId, follow);
       });
     }
   }

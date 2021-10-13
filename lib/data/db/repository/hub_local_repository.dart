@@ -27,4 +27,7 @@ class HubLocalRepository {
       _database.hubDao.updateHubs(hubs, userId);
 
   Future<void> deleteHub(HubItemData hub) => _database.hubDao.deleteHub(hub);
+
+  Future<void> updateFollowStatus(String hubId, bool follow) =>
+      _database.hubDao.updateFollowStatus(hubId, follow);
 }
