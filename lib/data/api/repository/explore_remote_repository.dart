@@ -65,6 +65,7 @@ class ExploreRemoteRepository {
 
   Future<List<HubResponse>> fetchExploreHubs() => _firestore
       .collection(FirebaseCollections.userHubs)
+      .where('isPrivate', isEqualTo: false)
       .orderBy(FirestoreKeys.createdAt, descending: true)
       .limit(3)
       .get()
