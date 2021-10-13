@@ -32,34 +32,25 @@ class WidgetNewPublicationContent
                   ),
                 ),
               ),
-            Listener(
-              onPointerDown: (event) =>
-                  viewModel.onContentPointerDown(event, context),
-              child: SingleChildScrollView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                controller: viewModel.scrollController,
-                padding: EdgeInsets.only(bottom: 56),
-                child: Builder(builder: (context) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (viewModel.isMediaBlockVisible) MediaBlock(),
-                      if (viewModel.isTextBlockVisible) TextBlock(),
-                      if (viewModel.isFileBlockVisible) FileBlock(),
-                      if (viewModel.isLinkBlockVisible) LinkBlock(),
-                    ],
-                  );
-                }),
-              ),
+            SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              controller: viewModel.scrollController,
+              padding: EdgeInsets.only(bottom: 56),
+              child: Builder(builder: (context) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (viewModel.isMediaBlockVisible) MediaBlock(),
+                    if (viewModel.isTextBlockVisible) TextBlock(),
+                    if (viewModel.isFileBlockVisible) FileBlock(),
+                    if (viewModel.isLinkBlockVisible) LinkBlock(),
+                  ],
+                );
+              }),
             ),
-            Listener(
-              onPointerDown: (event) =>
-                  viewModel.onTypePickerPointerDown(event, context),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: MediaTypePickerContainer(),
-              ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: MediaTypePickerContainer(),
             ),
             if (viewModel.isTextEditorPanelVisible)
               Align(

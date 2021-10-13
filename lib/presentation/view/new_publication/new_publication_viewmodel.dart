@@ -210,6 +210,9 @@ class NewPublicationViewModel extends BaseViewModel {
   onGalleryMediaItemPicked(BuildContext context) {
     if (isMediaBlockVisible) {
       isMediaBlockVisible = false;
+      if (!isAnyBlockVisible()) {
+        isTypePickerCollapsed = false;
+      }
       notifyListeners();
     } else {
       _openMediaPicker(context, PickerMediaType.common, MediaCount.multiple);
@@ -223,7 +226,15 @@ class NewPublicationViewModel extends BaseViewModel {
   onTextMediaItemPicked() {
     isTextBlockVisible = !isTextBlockVisible;
     if (isTextBlockVisible) textBlockFocusNode.requestFocus();
-    isTypePickerCollapsed = isTextBlockVisible;
+
+    if (isTextBlockVisible) {
+      isTypePickerCollapsed = true;
+    } else {
+      textBlockFocusNode.unfocus();
+      if (!isAnyBlockVisible()) {
+        isTypePickerCollapsed = false;
+      }
+    }
 
     notifyListeners();
   }
@@ -231,24 +242,29 @@ class NewPublicationViewModel extends BaseViewModel {
   onLinkMediaItemPicked() {
     isLinkBlockVisible = !isLinkBlockVisible;
     if (isLinkBlockVisible) linkBlockFocusNode.requestFocus();
-    isTypePickerCollapsed = isLinkBlockVisible;
+
+    if (isLinkBlockVisible) {
+      isTypePickerCollapsed = true;
+    } else {
+      linkBlockFocusNode.unfocus();
+      if (!isAnyBlockVisible()) {
+        isTypePickerCollapsed = false;
+      }
+    }
+
     notifyListeners();
   }
 
   onFileMediaItemPicked() {
     if (isFileBlockVisible) {
       isFileBlockVisible = false;
+      if (!isAnyBlockVisible()) {
+        isTypePickerCollapsed = false;
+      }
       notifyListeners();
     } else {
       _openFilePicker();
     }
-  }
-
-  void onContentPointerDown(PointerDownEvent event, BuildContext context) {
-    if (isTypePickerCollapsed) return;
-    if (!isAnyBlockVisible()) return;
-    isTypePickerCollapsed = true;
-    notifyListeners();
   }
 
   bool isAnyBlockVisible() =>
@@ -256,12 +272,4 @@ class NewPublicationViewModel extends BaseViewModel {
       isTextBlockVisible ||
       isLinkBlockVisible ||
       isFileBlockVisible;
-
-  void onTypePickerPointerDown(PointerDownEvent event, BuildContext context) {
-    if (isTypePickerCollapsed) {
-      FocusScope.of(context).unfocus();
-      isTypePickerCollapsed = false;
-      notifyListeners();
-    }
-  }
 }
