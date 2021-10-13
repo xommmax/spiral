@@ -35,5 +35,39 @@ quill.DefaultStyles getPublicationTextStyle(BuildContext context) {
     defaultStyles.paragraph!.decoration,
   );
 
-  return quill.DefaultStyles(paragraph: newParagraphStyle);
+  quill.DefaultTextBlockStyle newH1Style = quill.DefaultTextBlockStyle(
+    defaultStyles.h1!.style.copyWith(fontSize: 30, fontWeight: FontWeight.w400),
+    defaultStyles.h1!.verticalSpacing,
+    defaultStyles.h1!.lineSpacing,
+    defaultStyles.h1!.decoration,
+  );
+
+  quill.DefaultTextBlockStyle newH2Style = quill.DefaultTextBlockStyle(
+    defaultStyles.h2!.style.copyWith(fontSize: 24),
+    defaultStyles.h2!.verticalSpacing,
+    defaultStyles.h2!.lineSpacing,
+    defaultStyles.h2!.decoration,
+  );
+
+  quill.DefaultTextBlockStyle newH3Style = quill.DefaultTextBlockStyle(
+    defaultStyles.h3!.style.copyWith(fontSize: 19),
+    defaultStyles.h3!.verticalSpacing,
+    defaultStyles.h3!.lineSpacing,
+    defaultStyles.h3!.decoration,
+  );
+
+  quill.DefaultTextBlockStyle newPlaceholderStyle = quill.DefaultTextBlockStyle(
+    defaultStyles.placeHolder!.style.copyWith(fontSize: 15),
+    defaultStyles.placeHolder!.verticalSpacing,
+    defaultStyles.placeHolder!.lineSpacing,
+    defaultStyles.placeHolder!.decoration,
+  );
+
+  return quill.DefaultStyles(
+    paragraph: newParagraphStyle,
+    h1: newH1Style,
+    h2: newH2Style,
+    h3: newH3Style,
+    placeHolder: newPlaceholderStyle,
+  );
 }

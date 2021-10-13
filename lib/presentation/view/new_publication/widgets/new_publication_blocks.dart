@@ -2,12 +2,12 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/new_publication_media_preview.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:stacked/stacked.dart';
-import 'package:tuple/tuple.dart';
 
 /*
   Media Block
@@ -89,17 +89,7 @@ class TextBlock extends ViewModelWidget<NewPublicationViewModel> {
           keyboardAppearance: Brightness.dark,
           scrollBottomInset: 88,
           placeholder: 'Write a message',
-          customStyles: quill.DefaultStyles(
-            placeHolder: quill.DefaultTextBlockStyle(
-              TextStyle(
-                fontSize: 16,
-                color: AppColors.gray,
-              ),
-              const Tuple2(0, 0),
-              const Tuple2(0, 0),
-              null,
-            ),
-          ),
+          customStyles: getPublicationTextStyle(context),
         ),
       );
 }
