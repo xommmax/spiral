@@ -9,10 +9,13 @@ import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/base/widget_like.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/widgets/simple_viewer.dart';
 
 class WidgetHubPublication extends StatelessWidget {
   final User? user;
@@ -47,114 +50,172 @@ class WidgetHubPublication extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      child: Row(
-                        children: [
-                          WidgetProfilePhoto(
-                            photoUrl: user?.photoURL,
-                            radius: 14,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            user?.name ?? user?.username ?? user?.email ?? '',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () => onUserClicked(user),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(Strings.inWord,
-                          style: TextStyle(color: AppColors.white)),
-                    ),
-                    InkWell(
-                      child: Row(
-                        children: [
-                          WidgetHubPhoto(
-                            photoUrl: hub?.pictureUrl,
-                            radius: 14,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            hub?.name ?? '',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () => onHubClicked(hub),
-                    ),
-                  ],
-                ),
-                InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8),
-                    child: Icon(
-                      Icons.more_vert,
-                      color: AppColors.white,
-                    ),
-                  ),
-                  onTap: () => showCupertinoModalPopup(
-                      context: context,
-                      builder: (context) =>
-                          OptionsBottomSheet(() => onReport(publication))),
-                ),
-              ],
-            ),
             Padding(
-              padding: EdgeInsets.only(top: 8),
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      InkWell(
+                        child: Row(
+                          children: [
+                            WidgetProfilePhoto(
+                              photoUrl: user?.photoURL,
+                              radius: 14,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              user?.name ?? user?.username ?? user?.email ?? '',
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () => onUserClicked(user),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6),
+                        child: Text(Strings.inWord,
+                            style: TextStyle(color: AppColors.white)),
+                      ),
+                      InkWell(
+                        child: Row(
+                          children: [
+                            WidgetHubPhoto(
+                              photoUrl: hub?.pictureUrl,
+                              radius: 14,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              hub?.name ?? '',
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () => onHubClicked(hub),
+                      ),
+                    ],
+                  ),
+                  InkWell(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Icon(
+                        Icons.more_vert,
+                        color: AppColors.white,
+                      ),
+                    ),
+                    onTap: () => showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) =>
+                            OptionsBottomSheet(() => onReport(publication))),
+                  ),
+                ],
+              ),
             ),
             IgnorePointer(
               child: _WidgetHubPublicationMedia(
                 publication.mediaUrls,
                 publication.previewUrls,
                 publication.viewType,
-                key: UniqueKey(),
               ),
             ),
             _WidgetHubPublicationText(
               textController,
-              key: UniqueKey(),
             ),
             _WidgetHubPublicationFooter(
               publication: publication,
               onPublicationLikeClicked: onPublicationLikeClicked,
               onUsersLikedScreenClicked: () =>
                   onUsersLikedScreenClicked(publication.id),
-              key: UniqueKey(),
             ),
           ],
         ),
       );
 }
 
-class _WidgetHubPublicationText extends StatelessWidget {
+class _WidgetHubPublicationText extends StatefulWidget {
   final quill.QuillController textController;
 
-  const _WidgetHubPublicationText(this.textController, {Key? key})
-      : super(key: key);
+  _WidgetHubPublicationText(this.textController, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: quill.QuillEditor.basic(
-          controller: textController,
-          readOnly: true,
-        ),
-      );
+  State<StatefulWidget> createState() => _WidgetHubPublicationTextState();
+}
+
+class _WidgetHubPublicationTextState extends State<_WidgetHubPublicationText> {
+  static const double maxTextHeight = 300;
+  final GlobalKey stickyKey = GlobalKey();
+  double? textHeight;
+
+  @override
+  void initState() {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      var tempHeight = stickyKey.currentContext?.size?.height;
+      if (textHeight != tempHeight) {
+        setState(() => textHeight = tempHeight);
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool hasOverflow = (textHeight != null && textHeight! >= maxTextHeight);
+    Widget child = Container(
+      key: stickyKey,
+      constraints: BoxConstraints(maxHeight: maxTextHeight),
+      child: QuillSimpleViewer(
+        controller: widget.textController,
+        readOnly: true,
+        truncate: true,
+        customStyles: getPublicationTextStyle(context),
+      ),
+    );
+    return Padding(
+      padding: EdgeInsets.all(16),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          (hasOverflow)
+              ? ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        AppColors.transparent,
+                        AppColors.white.withOpacity(0.05),
+                        AppColors.white.withOpacity(0.6),
+                        AppColors.white.withOpacity(1),
+                      ],
+                      stops: [
+                        0.0,
+                        0.1,
+                        0.3,
+                        0.4,
+                      ],
+                    ).createShader(bounds);
+                  },
+                  child: child,
+                )
+              : child,
+          if (hasOverflow)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Icon(Icons.keyboard_arrow_down),
+            ),
+        ],
+      ),
+    );
+  }
 }
 
 class _WidgetHubPublicationMedia extends StatelessWidget {
@@ -194,13 +255,20 @@ class _WidgetHubPublicationMedia extends StatelessWidget {
       }
     }
 
-    if (viewType == MediaViewType.carousel) {
-      return WidgetPublicationMediaCarouselPreview(mediaFiles);
-    } else if (viewType == MediaViewType.grid) {
-      return WidgetPublicationMediaGridPreview(mediaFiles);
-    } else {
-      throw ArgumentError(Strings.unknownMediaType);
-    }
+    return Padding(
+      padding: EdgeInsets.only(top: 8),
+      child: Builder(
+        builder: (context) {
+          if (viewType == MediaViewType.carousel) {
+            return WidgetPublicationMediaCarouselPreview(mediaFiles);
+          } else if (viewType == MediaViewType.grid) {
+            return WidgetPublicationMediaGridPreview(mediaFiles);
+          } else {
+            throw ArgumentError(Strings.unknownMediaType);
+          }
+        },
+      ),
+    );
   }
 }
 
@@ -245,24 +313,6 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
             ),
             Row(
               children: [
-                if (publication.mediaUrls.isNotEmpty)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3),
-                    child: Icon(
-                      Icons.photo,
-                      color: AppColors.lightestAccentColor,
-                      size: 16,
-                    ),
-                  ),
-                if (publication.text != null && publication.text!.isNotEmpty)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3),
-                    child: Icon(
-                      Icons.text_fields,
-                      color: AppColors.lightestAccentColor,
-                      size: 16,
-                    ),
-                  ),
                 if (publication.link != null)
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 3),

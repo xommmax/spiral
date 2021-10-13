@@ -21,7 +21,7 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
             ? _buildEmptyState()
             : Expanded(
                 child: ListView.separated(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.only(top: 8),
                   itemBuilder: (context, position) => WidgetHubPublication(
                     key:
                         ValueKey(viewModel.viewData.publications[position]!.id),

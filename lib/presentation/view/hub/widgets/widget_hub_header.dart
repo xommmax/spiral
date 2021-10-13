@@ -165,6 +165,7 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
               endIndent: 8,
               color: AppColors.lightGray,
             ),
+          SizedBox(height: 8),
         ],
       );
 }

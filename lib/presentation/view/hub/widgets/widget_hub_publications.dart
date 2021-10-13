@@ -8,7 +8,6 @@ class WidgetHubPublications extends ViewModelWidget<HubViewModel> {
   @override
   Widget build(BuildContext context, HubViewModel viewModel) =>
       ListView.separated(
-        padding: EdgeInsets.all(8),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, position) => WidgetHubPublication(

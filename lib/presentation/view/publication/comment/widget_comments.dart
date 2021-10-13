@@ -20,7 +20,6 @@ class WidgetComments extends StatelessWidget {
         itemBuilder: (context, index) => WidgetComment(
           comments[index],
           setCommentToReply: setCommentToReply,
-          key: UniqueKey(),
         ),
         separatorBuilder: (context, index) => Divider(height: 10),
         itemCount: comments.length,

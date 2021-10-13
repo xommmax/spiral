@@ -4,10 +4,11 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
+import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/widgets/simple_viewer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,9 +62,12 @@ class TextBlock extends ViewModelWidget<PublicationViewModel> {
   Widget build(BuildContext context, PublicationViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: quill.QuillEditor.basic(
+      child: QuillSimpleViewer(
         controller: viewModel.textController!,
         readOnly: true,
+        truncate: false,
+        padding: EdgeInsets.zero,
+        customStyles: getPublicationTextStyle(context),
       ),
     );
   }

@@ -30,11 +30,9 @@ class WidgetComment extends ViewModelBuilderWidget<CommentViewModel> {
   Widget builder(
           BuildContext context, CommentViewModel viewModel, Widget? child) =>
       Column(
-        key: UniqueKey(),
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            key: UniqueKey(),
             onTap: () => comment.parentCommentId == null
                 ? {
                     setCommentToReply!(comment),
@@ -50,7 +48,6 @@ class WidgetComment extends ViewModelBuilderWidget<CommentViewModel> {
               ),
             ),
             title: Column(
-              key: UniqueKey(),
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -72,7 +69,6 @@ class WidgetComment extends ViewModelBuilderWidget<CommentViewModel> {
           ),
           viewModel.areRepliesNotEmpty() || comment.repliesCount != 0
               ? GestureDetector(
-                  key: UniqueKey(),
                   onTap: viewModel.onShowRepliesClicked,
                   behavior: HitTestBehavior.translucent,
                   child: Padding(
