@@ -199,6 +199,7 @@ class Strings {
   static const emptyHomeDesc =
       'It’s your home page. Here will be shown all updates from the hubs you follow. So let’s find a few';
 
+  static const messagingDesc = 'Coming Soon';
   static const contact = 'Contact';
 
   static const blockedUsers = 'Blocked Users';
@@ -225,7 +226,9 @@ class Strings {
 
   static const changeHubCover = 'Change Cover Photo';
 
-  static String discussion = 'Discussion';
+  static const discussion = 'Discussion';
+
+  static const messaging = 'Messaging';
 
 /* Uncategorized */
 }

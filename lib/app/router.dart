@@ -5,6 +5,7 @@ import 'package:dairo/presentation/view/hub/discussion/hub_discussion_view.dart'
 import 'package:dairo/presentation/view/hub/hub_view.dart';
 import 'package:dairo/presentation/view/hub/settings/hub_settings_view.dart';
 import 'package:dairo/presentation/view/main/main_view.dart';
+import 'package:dairo/presentation/view/messaging/messaging_view.dart';
 import 'package:dairo/presentation/view/new_hub/new_hub_view.dart';
 import 'package:dairo/presentation/view/new_publication/new_pub_hub_selection/new_pub_hub_selection_view.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_view.dart';
@@ -42,6 +43,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: SettingsContactView),
     MaterialRoute(page: SuggestionView),
     MaterialRoute(page: SettingsAccountView),
+    MaterialRoute(page: MessagingView),
   ],
 )
 class $AppRouter {}

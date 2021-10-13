@@ -46,16 +46,16 @@ class AppBarHome extends ViewModelWidget<HomeViewModel> {
                   ],
                 ),
               ),
-              // Align(
-              //   alignment: Alignment.centerRight,
-              //   child: IconButton(
-              //     onPressed: viewModel.onMessageIconClicked,
-              //     icon: Icon(
-              //       Icons.message_outlined,
-              //       color: AppColors.white,
-              //     ),
-              //   ),
-              // ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  onPressed: viewModel.onMessageIconClicked,
+                  icon: Icon(
+                    Icons.message_outlined,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

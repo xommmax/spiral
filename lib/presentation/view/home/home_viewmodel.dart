@@ -163,7 +163,8 @@ class HomeViewModel extends MultipleStreamViewModel {
         title: Strings.reported, description: Strings.reportedPublicationDesc);
   }
 
-  void onMessageIconClicked() {}
+  void onMessageIconClicked() =>
+      _navigationService.navigateTo(Routes.messagingView);
 
   @override
   void dispose() {

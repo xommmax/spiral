@@ -18,6 +18,7 @@ import '../presentation/view/hub/discussion/hub_discussion_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/hub/settings/hub_settings_view.dart';
 import '../presentation/view/main/main_view.dart';
+import '../presentation/view/messaging/messaging_view.dart';
 import '../presentation/view/new_hub/new_hub_view.dart';
 import '../presentation/view/new_publication/new_pub_hub_selection/new_pub_hub_selection_view.dart';
 import '../presentation/view/new_publication/new_publication_view.dart';
@@ -53,6 +54,7 @@ class Routes {
   static const String settingsContactView = '/settings-contact-view';
   static const String suggestionView = '/suggestion-view';
   static const String settingsAccountView = '/settings-account-view';
+  static const String messagingView = '/messaging-view';
   static const all = <String>{
     authView,
     mainView,
@@ -74,6 +76,7 @@ class Routes {
     settingsContactView,
     suggestionView,
     settingsAccountView,
+    messagingView,
   };
 }
 
@@ -101,6 +104,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.settingsContactView, page: SettingsContactView),
     RouteDef(Routes.suggestionView, page: SuggestionView),
     RouteDef(Routes.settingsAccountView, page: SettingsAccountView),
+    RouteDef(Routes.messagingView, page: MessagingView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -241,6 +245,12 @@ class StackedRouter extends RouterBase {
     SettingsAccountView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SettingsAccountView(),
+        settings: data,
+      );
+    },
+    MessagingView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => MessagingView(),
         settings: data,
       );
     },
