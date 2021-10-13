@@ -56,11 +56,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To take a picture</string>
+	<string>This lets you take photos and record videos</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>To record videos</string>
+	<string>This lets you include audio with your videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To choose media for publications</string>
+	<string>This lets you share photos and videos from your library</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
