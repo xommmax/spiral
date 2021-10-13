@@ -127,19 +127,16 @@ class FileBlock extends ViewModelWidget<PublicationViewModel> {
                 color: AppColors.white,
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  viewModel.getAttachedFileName(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+            Expanded(
+              child: Text(
+                viewModel.getAttachedFileName(),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
                 ),
-              ],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

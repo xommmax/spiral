@@ -311,27 +311,30 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
-              children: [
-                if (publication.link != null)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3),
-                    child: Icon(
-                      Icons.link,
-                      color: AppColors.lightestAccentColor,
-                      size: 16,
+            Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: Row(
+                children: [
+                  if (publication.link != null)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3),
+                      child: Icon(
+                        Icons.link,
+                        color: AppColors.lightestAccentColor,
+                        size: 16,
+                      ),
                     ),
-                  ),
-                if (publication.attachedFileUrl != null)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3),
-                    child: Icon(
-                      Icons.attach_file,
-                      color: AppColors.lightestAccentColor,
-                      size: 16,
+                  if (publication.attachedFileUrl != null)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3),
+                      child: Icon(
+                        Icons.attach_file,
+                        color: AppColors.lightestAccentColor,
+                        size: 16,
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
