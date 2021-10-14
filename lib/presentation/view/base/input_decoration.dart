@@ -20,7 +20,6 @@ class CustomInputDecoration extends InputDecoration {
           hintStyle: TextStyle(color: AppColors.gray),
           focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppColors.white, width: 2)),
-          floatingLabelBehavior: FloatingLabelBehavior.auto,
           enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppColors.gray, width: 1)),
           counterStyle: TextStyle(color: AppColors.white),

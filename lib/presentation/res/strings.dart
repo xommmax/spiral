@@ -230,5 +230,7 @@ class Strings {
 
   static const messaging = 'Messaging';
 
+  static const next = 'Next';
+
 /* Uncategorized */
 }

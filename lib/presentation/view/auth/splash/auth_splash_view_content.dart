@@ -86,19 +86,21 @@ class AuthSplashViewContent extends ViewModelWidget<AuthSplashViewModel> {
                           'Get Started',
                           style: TextStyle(
                             fontSize: 20,
-                            color: AppColors.darkAccentColor,
+                            color: AppColors.lightGray,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(AppColors.lightGray),
-                            minimumSize: MaterialStateProperty.all(
-                                Size(double.infinity, 56)),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
+                          backgroundColor: MaterialStateProperty.all(
+                              AppColors.darkAccentColor.withOpacity(0.8)),
+                          minimumSize: MaterialStateProperty.all(
+                              Size(double.infinity, 56)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(36.0),
-                            ))),
+                            ),
+                          ),
+                        ),
                       ),
                       _bottomLinks(),
                     ],
@@ -120,14 +122,14 @@ class AuthSplashViewContent extends ViewModelWidget<AuthSplashViewModel> {
             TextSpan(
               text: 'By tapping on "Get Started", you agree to our \n',
               style: TextStyle(
-                color: AppColors.lightGray,
+                color: AppColors.lightGray.withOpacity(0.8),
                 fontSize: 14.5,
               ),
             ),
             TextSpan(
               text: 'Terms of Use',
               style: TextStyle(
-                color: AppColors.lightGray,
+                color: AppColors.lightGray.withOpacity(0.8),
                 fontWeight: FontWeight.w900,
                 fontSize: 14.5,
               ),
@@ -137,14 +139,14 @@ class AuthSplashViewContent extends ViewModelWidget<AuthSplashViewModel> {
             TextSpan(
               text: ' and ',
               style: TextStyle(
-                color: AppColors.lightGray,
+                color: AppColors.lightGray.withOpacity(0.8),
                 fontSize: 14.5,
               ),
             ),
             TextSpan(
               text: 'Privacy Policy',
               style: TextStyle(
-                color: AppColors.lightGray,
+                color: AppColors.lightGray.withOpacity(0.8),
                 fontWeight: FontWeight.w900,
                 fontSize: 14.5,
               ),
