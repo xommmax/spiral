@@ -14,7 +14,7 @@ class SettingsAccountViewModel extends BaseViewModel {
         description: Strings.confirmLogout,
         onConfirm: () async {
           await _userRepository.logoutUser();
-          _navigationService.clearStackAndShow(Routes.authView);
+          _navigationService.clearStackAndShow(Routes.authSplashView);
         },
       );
 }

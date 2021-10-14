@@ -106,7 +106,7 @@ class HomeViewModel extends MultipleStreamViewModel {
     if (_userRepository.isCurrentUserExist()) {
       _navigationService.navigateTo(Routes.currentUserProfileView);
     } else {
-      _navigationService.navigateTo(Routes.authView)?.then((result) {
+      _navigationService.navigateTo(Routes.authSplashView)?.then((result) {
         if (result != null && result is bool && result) {
           notifySourceChanged(clearOldData: true);
           initialise();

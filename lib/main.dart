@@ -70,7 +70,8 @@ class _DairoAppState extends State<DairoApp> {
           colorScheme:
               theme.colorScheme.copyWith(secondary: AppColors.accentColor)),
       onGenerateRoute: StackedRouter().onGenerateRoute,
-      initialRoute: isCurrentUserExist ? Routes.mainView : Routes.authView,
+      initialRoute:
+          isCurrentUserExist ? Routes.mainView : Routes.authSplashView,
       navigatorObservers: [widget.analyticsRepository.getObserver()],
       navigatorKey: StackedService.navigatorKey,
     );

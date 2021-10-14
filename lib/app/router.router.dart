@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../domain/model/hub/hub.dart';
-import '../presentation/view/auth/auth_view.dart';
+import '../presentation/view/auth/method/auth_method_view.dart';
+import '../presentation/view/auth/splash/auth_splash_view.dart';
 import '../presentation/view/followers/followers_view.dart';
 import '../presentation/view/followers/followers_viewdata.dart';
 import '../presentation/view/followings/followings_view.dart';
@@ -34,7 +35,8 @@ import '../presentation/view/settings/edit_account/account_details_view.dart';
 import '../presentation/view/settings/settings_view.dart';
 
 class Routes {
-  static const String authView = '/auth-view';
+  static const String authSplashView = '/auth-splash-view';
+  static const String authMethodView = '/auth-method-view';
   static const String mainView = '/main-view';
   static const String newPublicationView = '/new-publication-view';
   static const String userProfileView = '/user-profile-view';
@@ -56,7 +58,8 @@ class Routes {
   static const String settingsAccountView = '/settings-account-view';
   static const String messagingView = '/messaging-view';
   static const all = <String>{
-    authView,
+    authSplashView,
+    authMethodView,
     mainView,
     newPublicationView,
     userProfileView,
@@ -84,7 +87,8 @@ class StackedRouter extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(Routes.authView, page: AuthView),
+    RouteDef(Routes.authSplashView, page: AuthSplashView),
+    RouteDef(Routes.authMethodView, page: AuthMethodView),
     RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
     RouteDef(Routes.userProfileView, page: UserProfileView),
@@ -109,9 +113,15 @@ class StackedRouter extends RouterBase {
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
-    AuthView: (data) {
+    AuthSplashView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AuthView(),
+        builder: (context) => AuthSplashView(),
+        settings: data,
+      );
+    },
+    AuthMethodView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AuthMethodView(),
         settings: data,
       );
     },

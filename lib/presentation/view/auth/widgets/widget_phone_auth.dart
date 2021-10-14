@@ -1,4 +1,4 @@
-import 'package:dairo/presentation/view/auth/auth_viewmodel.dart';
+import 'package:dairo/presentation/view/auth/method/auth_method_viewmodel.dart';
 import 'package:dairo/presentation/view/auth/widgets/button_signup.dart';
 import 'package:dairo/presentation/view/auth/widgets/widget_input_verification_code.dart';
 import 'package:dairo/presentation/view/auth/widgets/widget_phone_number_input_field.dart';

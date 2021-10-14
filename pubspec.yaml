@@ -124,9 +124,18 @@ dev_dependencies:
   retrofit_generator: ^2.0.0
   floor_generator: ^1.1.0
   stacked_generator: ^0.5.2
+
 flutter:
   assets:
     - assets/images/
     - .prod.env
     - .dev.env
   uses-material-design: true
+  fonts:
+    - family: Sofia-Pro
+      fonts:
+        - asset: assets/fonts/Sofia-Pro-Regular.otf
+        - asset: assets/fonts/Sofia-Pro-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Sofia-Pro-Black.otf
+          weight: 900

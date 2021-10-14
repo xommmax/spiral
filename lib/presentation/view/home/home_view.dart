@@ -7,7 +7,7 @@ import 'home_viewmodel.dart';
 class HomeView extends StandardBaseView<HomeViewModel> {
   final Function() goToExplore;
 
-  HomeView(this.goToExplore) : super(HomeViewModel());
+  HomeView(this.goToExplore) : super(HomeViewModel(), routeName: '/home');
 
   @override
   Widget getContent(BuildContext context) => WidgetHomeViewContent(goToExplore);

@@ -1,6 +1,6 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/auth/auth_viewmodel.dart';
+import 'package:dairo/presentation/view/auth/method/auth_method_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';

@@ -11,7 +11,7 @@ abstract class StandardBaseView<T extends BaseViewModel>
 
   StandardBaseView(
     this.viewModel, {
-    this.routeName,
+    required this.routeName,
   });
 
   Widget getContent(BuildContext context);

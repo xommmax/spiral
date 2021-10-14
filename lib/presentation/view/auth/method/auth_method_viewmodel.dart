@@ -5,7 +5,7 @@ import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/auth/auth_viewdata.dart';
+import 'package:dairo/presentation/view/auth/method/auth_method_viewdata.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';

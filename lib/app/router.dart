@@ -1,4 +1,5 @@
-import 'package:dairo/presentation/view/auth/auth_view.dart';
+import 'package:dairo/presentation/view/auth/method/auth_method_view.dart';
+import 'package:dairo/presentation/view/auth/splash/auth_splash_view.dart';
 import 'package:dairo/presentation/view/followers/followers_view.dart';
 import 'package:dairo/presentation/view/followings/followings_view.dart';
 import 'package:dairo/presentation/view/hub/discussion/hub_discussion_view.dart';
@@ -23,7 +24,8 @@ import 'package:stacked/stacked_annotations.dart';
 
 @StackedApp(
   routes: [
-    MaterialRoute(page: AuthView),
+    MaterialRoute(page: AuthSplashView),
+    MaterialRoute(page: AuthMethodView),
     MaterialRoute(page: MainView),
     MaterialRoute(page: NewPublicationView),
     MaterialRoute(page: UserProfileView),

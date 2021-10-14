@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'explore_viewmodel.dart';
 
 class ExploreView extends StandardBaseView<ExploreViewModel> {
-  ExploreView() : super(ExploreViewModel());
+  ExploreView() : super(ExploreViewModel(), routeName: '/explore');
 
   @override
   Widget getContent(BuildContext context) => WidgetExploreViewContent();

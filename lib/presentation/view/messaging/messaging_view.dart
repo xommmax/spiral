@@ -1,3 +1,4 @@
+import 'package:dairo/app/router.router.dart';
 import 'package:dairo/presentation/view/base/standard_base_view.dart';
 import 'package:dairo/presentation/view/messaging/messaging_view_content.dart';
 import 'package:dairo/presentation/view/messaging/messaging_viewmodel.dart';
@@ -7,5 +8,6 @@ class MessagingView extends StandardBaseView<MessagingViewModel> {
   @override
   Widget getContent(BuildContext context) => MessagingViewContent();
 
-  MessagingView() : super(MessagingViewModel());
+  MessagingView()
+      : super(MessagingViewModel(), routeName: Routes.messagingView);
 }

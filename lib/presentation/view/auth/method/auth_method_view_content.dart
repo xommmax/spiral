@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/auth/auth_viewmodel.dart';
+import 'package:dairo/presentation/view/auth/method/auth_method_viewmodel.dart';
 import 'package:dairo/presentation/view/auth/widgets/widget_phone_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:stacked/stacked.dart';
-import 'package:url_launcher/link.dart';
 
-class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
+class AuthMethodViewContent extends ViewModelWidget<AuthViewModel> {
   @override
   Widget build(BuildContext context, AuthViewModel viewModel) => Scaffold(
         body: SafeArea(
@@ -77,65 +75,6 @@ class WidgetAuthViewContent extends ViewModelWidget<AuthViewModel> {
                       ),
                     ),
                   ],
-                ),
-                Link(
-                    uri: Uri.parse(Strings.privacyUrl),
-                    builder: (context, followLink) {
-                      return RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text:
-                                'By signing up you acknowledge that you have read the ',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: AppColors.white,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Privacy Policy',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = followLink,
-                          ),
-                        ]),
-                      );
-                    }),
-                SizedBox(
-                  height: 20,
-                ),
-                Link(
-                  uri: Uri.parse(Strings.termsUrl),
-                  builder: (context, followLink) {
-                    return RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: [
-                        TextSpan(
-                          text: ' and agree to the ',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.white,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Terms of Use',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = followLink,
-                        ),
-                      ]),
-                    );
-                  },
                 ),
               ],
             ),
