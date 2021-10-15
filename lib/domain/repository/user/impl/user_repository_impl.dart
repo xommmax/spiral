@@ -9,7 +9,6 @@ import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
 import 'package:dairo/data/api/repository/user_remote_repository.dart';
 import 'package:dairo/data/db/entity/user_item_data.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
-import 'package:dairo/domain/model/user/sign_up_method.dart';
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
@@ -29,37 +28,15 @@ class UserRepositoryImpl implements UserRepository {
       locator<AnalyticsRepository>();
 
   @override
-  Future<void> loginWithSocial(SocialAuthRequest socialAuthRequest) async {
-    UserRequest request = await _remote.loginWithSocial(socialAuthRequest);
-    UserResponse? response = await _remote.fetchUser(request.id);
-    final authMethod = socialAuthRequest.type == SocialAuthType.Google
-        ? AuthMethod.Google
-        : AuthMethod.Apple;
-    if (response == null) {
-      response = await _remote.saveUser(request);
-      _analyticsRepository.logSignUp(authMethod: authMethod);
-    } else {
-      _analyticsRepository.logLogin(authMethod: authMethod);
-    }
-    await _local.addUser(UserItemData.fromResponse(response));
-  }
+  Future<void> loginWithSocial(SocialAuthRequest socialAuthRequest) =>
+      _remote.loginWithSocial(socialAuthRequest);
 
   @override
   Future<void> registerWithPhone(String phoneNumber) =>
       _remote.registerWithPhone(phoneNumber);
 
   @override
-  Future<void> verifySmsCode(String code) async {
-    UserRequest request = await _remote.verifySmsCode(code);
-    UserResponse? response = await _remote.fetchUser(request.id);
-    if (response == null) {
-      response = await _remote.saveUser(request);
-      _analyticsRepository.logSignUp(authMethod: AuthMethod.Phone);
-    } else {
-      _analyticsRepository.logLogin(authMethod: AuthMethod.Phone);
-    }
-    await _local.addUser(UserItemData.fromResponse(response));
-  }
+  Future<void> verifySmsCode(String code) => _remote.verifySmsCode(code);
 
   @override
   Stream<User?> getCurrentUser() => getUser(getCurrentUserId());
@@ -135,7 +112,7 @@ class UserRepositoryImpl implements UserRepository {
           folder: FirebaseStorageFolders.profile,
         );
       }
-      UserResponse response = await _remote.saveUser(
+      UserResponse response = await _remote.saveFirebaseUser(
         UserRequest(
           id: user.id,
           photoURL: remoteUrl ?? user.photoURL,
@@ -152,4 +129,8 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   bool isCurrentUser(String userId) => _auth.currentUser?.uid == userId;
+
+  @override
+  Future<bool> isFirebaseUserExist(firebase.User user) =>
+      _remote.isFirebaseUserExist(user);
 }

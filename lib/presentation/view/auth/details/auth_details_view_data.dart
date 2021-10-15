@@ -1,0 +1,3 @@
+class AuthDetailsViewData {
+  String? title;
+}

@@ -1,5 +1,6 @@
 import 'package:dairo/domain/model/user/social_auth_request.dart';
 import 'package:dairo/domain/model/user/user.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 abstract class UserRepository {
   Future<void> loginWithSocial(SocialAuthRequest request);
@@ -28,4 +29,6 @@ abstract class UserRepository {
   });
 
   bool isCurrentUser(String userId);
+
+  Future<bool> isFirebaseUserExist(firebase.User user);
 }

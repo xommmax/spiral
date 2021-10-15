@@ -8,7 +8,7 @@ import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/auth/method/auth_method_viewdata.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -18,13 +18,13 @@ class AuthMethodViewModel extends BaseViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   final AuthViewData viewData = AuthViewData();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
   late final TextEditingController phoneNumberController;
   late final StreamSubscription? authStateChangesSubscription;
 
   AuthMethodViewModel() {
     authStateChangesSubscription = _auth.authStateChanges().listen((user) {
-      if (user != null) _navigateMain();
+      if (user != null) processUser(user);
     });
     phoneNumberController = TextEditingController(
         text: CountryCodes.dialCode(CountryCodes.getDeviceLocale())
@@ -38,11 +38,8 @@ class AuthMethodViewModel extends BaseViewModel {
   onAppleSignUpClicked() =>
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Apple));
 
-  void _loginWithSocial(SocialAuthRequest request) {
-    _userRepository.loginWithSocial(request).then(
-          (result) => _navigateMain(),
-        );
-  }
+  void _loginWithSocial(SocialAuthRequest request) =>
+      _userRepository.loginWithSocial(request);
 
   onPhoneNextClicked() async {
     String number = phoneNumberController.text;
@@ -63,10 +60,16 @@ class AuthMethodViewModel extends BaseViewModel {
   }
 
   onCodeVerificationRetrieved(String code) =>
-      _userRepository.verifySmsCode(code).then((result) => _navigateMain());
+      _userRepository.verifySmsCode(code);
 
-  void _navigate
-  // void _navigateMain() => _navigationService.clearStackAndShow(Routes.mainView);
+  void processUser(firebase.User user) async {
+    var userExists = await _userRepository.isFirebaseUserExist(user);
+    if (userExists) {
+      _navigationService.clearStackAndShow(Routes.mainView);
+    } else {
+      _navigationService.replaceWith(Routes.authDetailsView);
+    }
+  }
 
   @override
   void dispose() {

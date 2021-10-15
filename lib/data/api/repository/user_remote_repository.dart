@@ -16,20 +16,19 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class UserRemoteRepository {
   String? codeVerificationId;
   final ApiHelper apiHelper = locator<ApiHelper>();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<UserResponse?> fetchUser(String userId) => FirebaseFirestore.instance
-      .collection(FirebaseCollections.users)
-      .doc(userId)
-      .get()
-      .then(
-        (snapshot) => snapshot.exists
-            ? UserResponse.fromJson(snapshot.data(), id: snapshot.id)
-            : null,
-      );
+  Future<UserResponse?> fetchUser(String userId) =>
+      _firestore.collection(FirebaseCollections.users).doc(userId).get().then(
+            (snapshot) => snapshot.exists
+                ? UserResponse.fromJson(snapshot.data(), id: snapshot.id)
+                : null,
+          );
 
   Future<List<UserResponse>> fetchUsers(List<String> userIds) => Future.wait(
         userIds.map(
-          (userId) => FirebaseFirestore.instance
+          (userId) => _firestore
               .collection(FirebaseCollections.users)
               .where(FieldPath.documentId, isEqualTo: userId)
               .get()
@@ -41,10 +40,9 @@ class UserRemoteRepository {
         ),
       );
 
-  Future<UserResponse> saveUser(UserRequest request) async {
-    final reference = FirebaseFirestore.instance
-        .collection(FirebaseCollections.users)
-        .doc(request.id);
+  Future<UserResponse> saveFirebaseUser(UserRequest request) async {
+    final reference =
+        _firestore.collection(FirebaseCollections.users).doc(request.id);
     var snapshot = await reference.get();
     var requestJson = request.toJson();
     requestJson['followingsCount'] = snapshot.data()?['followingsCount'] ?? 0;
@@ -139,10 +137,13 @@ class UserRemoteRepository {
   Stream<UserResponse> fetchUserStream(
     String userId,
   ) =>
-      FirebaseFirestore.instance
-          .doc('${FirebaseCollections.users}/$userId')
-          .snapshots()
-          .map(
+      _firestore.doc('${FirebaseCollections.users}/$userId').snapshots().map(
             (snap) => UserResponse.fromJson(snap.data(), id: snap.id),
           );
+
+  Future<bool> isFirebaseUserExist(User user) => _firestore
+      .collection(FirebaseCollections.users)
+      .doc(user.uid)
+      .get()
+      .then((value) => value.exists);
 }

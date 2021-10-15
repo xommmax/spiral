@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../domain/model/hub/hub.dart';
+import '../presentation/view/auth/details/auth_details_view.dart';
 import '../presentation/view/auth/method/auth_method_view.dart';
 import '../presentation/view/auth/splash/auth_splash_view.dart';
 import '../presentation/view/followers/followers_view.dart';
@@ -37,6 +38,7 @@ import '../presentation/view/settings/settings_view.dart';
 class Routes {
   static const String authSplashView = '/auth-splash-view';
   static const String authMethodView = '/auth-method-view';
+  static const String authDetailsView = '/auth-details-view';
   static const String mainView = '/main-view';
   static const String newPublicationView = '/new-publication-view';
   static const String userProfileView = '/user-profile-view';
@@ -60,6 +62,7 @@ class Routes {
   static const all = <String>{
     authSplashView,
     authMethodView,
+    authDetailsView,
     mainView,
     newPublicationView,
     userProfileView,
@@ -89,6 +92,7 @@ class StackedRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.authSplashView, page: AuthSplashView),
     RouteDef(Routes.authMethodView, page: AuthMethodView),
+    RouteDef(Routes.authDetailsView, page: AuthDetailsView),
     RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
     RouteDef(Routes.userProfileView, page: UserProfileView),
@@ -122,6 +126,12 @@ class StackedRouter extends RouterBase {
     AuthMethodView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => AuthMethodView(),
+        settings: data,
+      );
+    },
+    AuthDetailsView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AuthDetailsView(),
         settings: data,
       );
     },
