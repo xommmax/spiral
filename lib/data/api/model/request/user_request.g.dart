@@ -14,6 +14,7 @@ UserRequest _$UserRequestFromJson(Map<String, dynamic> json) => UserRequest(
       photoURL: json['photoURL'] as String?,
       username: json['username'] as String?,
       description: json['description'] as String?,
+      age: json['age'] as int?,
     );
 
 Map<String, dynamic> _$UserRequestToJson(UserRequest instance) =>
@@ -25,4 +26,5 @@ Map<String, dynamic> _$UserRequestToJson(UserRequest instance) =>
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
       'photoURL': instance.photoURL,
+      'age': instance.age,
     };

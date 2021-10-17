@@ -114,6 +114,10 @@ dependencies:
   # text editor
   flutter_quill: ^2.0.6
 
+  # misc
+  introduction_screen: ^2.1.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

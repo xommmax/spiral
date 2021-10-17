@@ -12,6 +12,7 @@ class UserRequest {
   final String? email;
   final String? phoneNumber;
   final String? photoURL;
+  final int? age;
 
   UserRequest({
     required this.id,
@@ -21,6 +22,7 @@ class UserRequest {
     required this.photoURL,
     this.username,
     this.description,
+    this.age,
   });
 
   factory UserRequest.fromFirebase(firebase.User firebaseUser) => UserRequest(
@@ -35,7 +37,7 @@ class UserRequest {
 
   @override
   String toString() {
-    return 'UserRequest{id: $id, displayName: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL}';
+    return 'UserRequest{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, age: $age}';
   }
 
   @override
@@ -49,7 +51,8 @@ class UserRequest {
           description == other.description &&
           email == other.email &&
           phoneNumber == other.phoneNumber &&
-          photoURL == other.photoURL;
+          photoURL == other.photoURL &&
+          age == other.age;
 
   @override
   int get hashCode =>
@@ -59,5 +62,6 @@ class UserRequest {
       description.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
-      photoURL.hashCode;
+      photoURL.hashCode ^
+      age.hashCode;
 }

@@ -8,10 +8,12 @@ abstract class StandardBaseView<T extends BaseViewModel>
     extends StatelessWidget {
   final T viewModel;
   final String? routeName;
+  final bool disposeViewModel;
 
   StandardBaseView(
     this.viewModel, {
     required this.routeName,
+    this.disposeViewModel = true,
   });
 
   Widget getContent(BuildContext context);
@@ -21,6 +23,9 @@ abstract class StandardBaseView<T extends BaseViewModel>
     final content = ViewModelBuilder.nonReactive(
       builder: (context, viewModel, child) => getContent(context),
       viewModelBuilder: () => viewModel,
+      disposeViewModel: disposeViewModel,
+      fireOnModelReadyOnce: !disposeViewModel,
+      initialiseSpecialViewModelsOnce: !disposeViewModel,
     );
 
     return routeName != null

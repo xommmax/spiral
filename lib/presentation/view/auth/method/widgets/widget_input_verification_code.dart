@@ -7,24 +7,26 @@ import 'package:stacked/stacked.dart';
 
 class WidgetInputVerificationCode extends ViewModelWidget<AuthMethodViewModel> {
   @override
-  Widget build(BuildContext context, AuthMethodViewModel viewModel) =>
-      PinCodeTextField(
-        appContext: context,
-        length: 6,
-        onChanged: (_) {},
-        onCompleted: viewModel.onCodeVerificationRetrieved,
-        autoFocus: true,
-        animationType: AnimationType.scale,
-        animationDuration: Duration(milliseconds: 150),
-        keyboardType: TextInputType.number,
-        pinTheme: PinTheme(
-          shape: PinCodeFieldShape.box,
-          borderRadius: BorderRadius.circular(8),
-          fieldHeight: 50,
-          fieldWidth: 40,
-          activeColor: AppColors.darkGray,
-          selectedColor: AppColors.white,
-          inactiveColor: AppColors.gray,
+  Widget build(BuildContext context, AuthMethodViewModel viewModel) => Padding(
+        padding: EdgeInsets.only(bottom: 156),
+        child: PinCodeTextField(
+          appContext: context,
+          length: 6,
+          onChanged: (_) {},
+          onCompleted: viewModel.onCodeVerificationRetrieved,
+          autoFocus: false,
+          animationType: AnimationType.scale,
+          animationDuration: Duration(milliseconds: 150),
+          keyboardType: TextInputType.number,
+          pinTheme: PinTheme(
+            shape: PinCodeFieldShape.box,
+            borderRadius: BorderRadius.circular(8),
+            fieldHeight: 50,
+            fieldWidth: 40,
+            activeColor: AppColors.darkGray,
+            selectedColor: AppColors.white,
+            inactiveColor: AppColors.gray,
+          ),
         ),
       );
 }

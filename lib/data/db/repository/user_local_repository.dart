@@ -7,8 +7,11 @@ import 'package:injectable/injectable.dart';
 class UserLocalRepository {
   final DairoDatabase _database = locator<DairoDatabase>();
 
-  Stream<UserItemData?> getUser(String userId) =>
+  Stream<UserItemData?> getUserStream(String userId) =>
       _database.userDao.getUserStream(userId);
+
+  Future<UserItemData?> getUser(String userId) =>
+      _database.userDao.getUser(userId);
 
   Stream<List<UserItemData>> getUsers(List<String> userIds) =>
       _database.userDao.getUsersStream(userIds);

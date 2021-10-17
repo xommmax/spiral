@@ -9,6 +9,7 @@ class User {
   final String? phoneNumber;
   final String? photoURL;
   final int? followingsCount;
+  final int? age;
 
   User._({
     required this.id,
@@ -19,6 +20,7 @@ class User {
     required this.phoneNumber,
     required this.photoURL,
     required this.followingsCount,
+    required this.age,
   });
 
   factory User.fromItemData(UserItemData itemData) => User._(
@@ -30,11 +32,12 @@ class User {
         phoneNumber: itemData.phoneNumber,
         photoURL: itemData.photoURL,
         followingsCount: itemData.followingsCount,
+        age: itemData.age,
       );
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, followingsCount: $followingsCount}';
+    return 'User{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, followingsCount: $followingsCount, age: $age}';
   }
 
   @override
@@ -49,7 +52,8 @@ class User {
           email == other.email &&
           phoneNumber == other.phoneNumber &&
           photoURL == other.photoURL &&
-          followingsCount == other.followingsCount;
+          followingsCount == other.followingsCount &&
+          age == other.age;
 
   @override
   int get hashCode =>
@@ -60,5 +64,6 @@ class User {
       email.hashCode ^
       phoneNumber.hashCode ^
       photoURL.hashCode ^
-      followingsCount.hashCode;
+      followingsCount.hashCode ^
+      age.hashCode;
 }

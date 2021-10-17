@@ -21,6 +21,18 @@ abstract class UserRepository {
 
   String getCurrentUserId();
 
+  Future<void> saveUser({
+    required String id,
+    required String name,
+    required String username,
+    required int age,
+    String? photoURL,
+    String? defaultPhotoUrl,
+    String? phoneNumber,
+    String? email,
+    String? description,
+  });
+
   Future<void> updateUser({
     String? name,
     String? username,

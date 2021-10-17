@@ -49,7 +49,7 @@ class UserRepositoryImpl implements UserRepository {
           ),
         );
 
-    final stream = _local.getUser(userId).map((itemData) {
+    final stream = _local.getUserStream(userId).map((itemData) {
       if (itemData == null) return null;
       return User.fromItemData(itemData);
     });
@@ -93,6 +93,44 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<void> saveUser({
+    required String id,
+    required String name,
+    required String username,
+    required int age,
+    String? photoURL,
+    String? defaultPhotoUrl,
+    String? phoneNumber,
+    String? email,
+    String? description,
+  }) async {
+    String? remoteUrl;
+    if (photoURL != null) {
+      File file = File(photoURL);
+      remoteUrl = await _firebaseStorageRepository.uploadFile(
+        file: file,
+        userId: id,
+        folder: FirebaseStorageFolders.profile,
+      );
+    } else {
+      remoteUrl = defaultPhotoUrl;
+    }
+    UserResponse response = await _remote.saveFirebaseUser(
+      UserRequest(
+        id: id,
+        name: name,
+        photoURL: remoteUrl,
+        phoneNumber: phoneNumber,
+        email: email,
+        username: username,
+        description: description,
+        age: age,
+      ),
+    );
+    await _local.addUser(UserItemData.fromResponse(response));
+  }
+
+  @override
   Future<void> updateUser({
     String? name,
     String? username,
@@ -101,7 +139,7 @@ class UserRepositoryImpl implements UserRepository {
   }) async {
     String? remoteUrl;
     final currentUserId = getCurrentUserId();
-    final UserItemData? itemData = await _local.getUser(currentUserId).first;
+    final UserItemData? itemData = await _local.getUser(currentUserId);
     if (itemData != null) {
       User user = User.fromItemData(itemData);
       if (photoURL != null) {

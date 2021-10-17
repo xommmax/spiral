@@ -17,7 +17,6 @@ class UserRemoteRepository {
   String? codeVerificationId;
   final ApiHelper apiHelper = locator<ApiHelper>();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<UserResponse?> fetchUser(String userId) =>
       _firestore.collection(FirebaseCollections.users).doc(userId).get().then(
@@ -137,7 +136,11 @@ class UserRemoteRepository {
   Stream<UserResponse> fetchUserStream(
     String userId,
   ) =>
-      _firestore.doc('${FirebaseCollections.users}/$userId').snapshots().map(
+      _firestore
+          .doc('${FirebaseCollections.users}/$userId')
+          .snapshots()
+          .where((snap) => snap.data() != null)
+          .map(
             (snap) => UserResponse.fromJson(snap.data(), id: snap.id),
           );
 
