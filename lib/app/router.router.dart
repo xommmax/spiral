@@ -8,9 +8,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../domain/model/hub/hub.dart';
-import '../presentation/view/auth/details/auth_details_view.dart';
+import '../presentation/view/auth/details/auth_details_age_view.dart';
+import '../presentation/view/auth/details/auth_details_name_view.dart';
+import '../presentation/view/auth/details/auth_details_picture_view.dart';
 import '../presentation/view/auth/method/auth_method_view.dart';
 import '../presentation/view/auth/splash/auth_splash_view.dart';
 import '../presentation/view/followers/followers_view.dart';
@@ -38,7 +41,9 @@ import '../presentation/view/settings/settings_view.dart';
 class Routes {
   static const String authSplashView = '/auth-splash-view';
   static const String authMethodView = '/auth-method-view';
-  static const String authDetailsView = '/auth-details-view';
+  static const String authDetailsNameView = '/auth-details-name-view';
+  static const String authDetailsAgeView = '/auth-details-age-view';
+  static const String authDetailsPictureView = '/auth-details-picture-view';
   static const String mainView = '/main-view';
   static const String newPublicationView = '/new-publication-view';
   static const String userProfileView = '/user-profile-view';
@@ -62,7 +67,9 @@ class Routes {
   static const all = <String>{
     authSplashView,
     authMethodView,
-    authDetailsView,
+    authDetailsNameView,
+    authDetailsAgeView,
+    authDetailsPictureView,
     mainView,
     newPublicationView,
     userProfileView,
@@ -92,7 +99,9 @@ class StackedRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.authSplashView, page: AuthSplashView),
     RouteDef(Routes.authMethodView, page: AuthMethodView),
-    RouteDef(Routes.authDetailsView, page: AuthDetailsView),
+    RouteDef(Routes.authDetailsNameView, page: AuthDetailsNameView),
+    RouteDef(Routes.authDetailsAgeView, page: AuthDetailsAgeView),
+    RouteDef(Routes.authDetailsPictureView, page: AuthDetailsPictureView),
     RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.newPublicationView, page: NewPublicationView),
     RouteDef(Routes.userProfileView, page: UserProfileView),
@@ -129,9 +138,21 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    AuthDetailsView: (data) {
+    AuthDetailsNameView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AuthDetailsView(),
+        builder: (context) => AuthDetailsNameView(),
+        settings: data,
+      );
+    },
+    AuthDetailsAgeView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AuthDetailsAgeView(),
+        settings: data,
+      );
+    },
+    AuthDetailsPictureView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AuthDetailsPictureView(),
         settings: data,
       );
     },

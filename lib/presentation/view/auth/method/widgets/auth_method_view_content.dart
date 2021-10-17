@@ -5,6 +5,7 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/auth/method/auth_method_viewmodel.dart';
 import 'package:dairo/presentation/view/auth/method/widgets/widget_input_verification_code.dart';
 import 'package:dairo/presentation/view/auth/method/widgets/widget_phone_number_input_field.dart';
+import 'package:dairo/presentation/view/auth/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -28,7 +29,6 @@ class AuthMethodViewContent extends ViewModelWidget<AuthMethodViewModel> {
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                       fontFamily: 'Sofia-Pro',
-                      // fontStyle: FontStyle.italic,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -38,24 +38,7 @@ class AuthMethodViewContent extends ViewModelWidget<AuthMethodViewModel> {
                       : WidgetInputVerificationCode(),
                   SizedBox(height: 8),
                   if (!viewModel.viewData.isCodeSent)
-                    TextButton(
-                      onPressed: viewModel.onPhoneNextClicked,
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(horizontal: 36)),
-                        backgroundColor:
-                            MaterialStateProperty.all(AppColors.white),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        Strings.next,
-                        style: TextStyle(color: AppColors.darkAccentColor),
-                      ),
-                    ),
+                    NextButton(onPressed: viewModel.onPhoneNextClicked),
                   if ((Platform.isAndroid || Platform.isIOS) &&
                       !viewModel.viewData.isCodeSent)
                     Padding(

@@ -67,7 +67,7 @@ class AuthMethodViewModel extends BaseViewModel {
     if (userExists) {
       _navigationService.clearStackAndShow(Routes.mainView);
     } else {
-      _navigationService.replaceWith(Routes.authDetailsView);
+      _navigationService.replaceWith(Routes.authDetailsNameView);
     }
   }
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:country_codes/country_codes.dart';
+import 'package:dairo/data/db/repository/user_local_repository.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,6 +39,8 @@ void main() async {
 class DairoApp extends StatefulWidget {
   final AnalyticsRepository analyticsRepository =
       locator<AnalyticsRepository>();
+  final UserLocalRepository _localUserRepository =
+      locator<UserLocalRepository>();
 
   @override
   _DairoAppState createState() => _DairoAppState();
@@ -45,10 +48,11 @@ class DairoApp extends StatefulWidget {
 
 class _DairoAppState extends State<DairoApp> {
   bool _initialized = false;
+  bool _isCurrentUserExist = false;
 
   @override
   void initState() {
-    initializeFlutterFire();
+    initializeApp();
     widget.analyticsRepository.logAppOpen();
     super.initState();
   }
@@ -58,7 +62,6 @@ class _DairoAppState extends State<DairoApp> {
     if (!_initialized) {
       return SizedBox.shrink();
     }
-    bool isCurrentUserExist = FirebaseAuth.instance.currentUser?.uid != null;
     final ThemeData theme = _getAppTheme();
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
@@ -71,20 +74,31 @@ class _DairoAppState extends State<DairoApp> {
               theme.colorScheme.copyWith(secondary: AppColors.accentColor)),
       onGenerateRoute: StackedRouter().onGenerateRoute,
       initialRoute:
-          isCurrentUserExist ? Routes.mainView : Routes.authSplashView,
+          _isCurrentUserExist ? Routes.mainView : Routes.authSplashView,
       navigatorObservers: [widget.analyticsRepository.getObserver()],
       navigatorKey: StackedService.navigatorKey,
     );
   }
 
-  void initializeFlutterFire() async {
-    try {
-      await Firebase.initializeApp();
-      await _setupLocalFirebaseEnvironment();
-      setState(() => _initialized = true);
-    } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
+  void initializeApp() async {
+    await initializeFlutterFire();
+    await initializeUser();
+    setState(() => _initialized = true);
+  }
+
+  Future<void> initializeFlutterFire() async {
+    await Firebase.initializeApp();
+    await _setupLocalFirebaseEnvironment();
+  }
+
+  Future<void> initializeUser() async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) {
+      _isCurrentUserExist = false;
+    } else {
+      var firebaseUserId = firebaseUser.uid;
+      var localUser = await widget._localUserRepository.getUser(firebaseUserId);
+      _isCurrentUserExist = localUser != null;
     }
   }
 
