@@ -24,15 +24,12 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
                   ),
           ),
         ),
-        floatingActionButton: (!viewModel.onboarding &&
-                viewModel.viewData.hub != null &&
+        floatingActionButton: (viewModel.viewData.hub != null &&
                 viewModel.viewData.hub!.isDiscussionEnabled)
             ? FloatingActionButton(
                 onPressed: viewModel.onFabPressed,
                 child: Icon(
-                  !viewModel.onboarding
-                      ? Icons.message_outlined
-                      : Icons.arrow_forward,
+                  Icons.message_outlined,
                   color: AppColors.white,
                 ),
                 backgroundColor: AppColors.darkestGray,

@@ -8,13 +8,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
 
 import '../domain/model/hub/hub.dart';
 import '../presentation/view/auth/details/auth_details_age_view.dart';
 import '../presentation/view/auth/details/auth_details_name_view.dart';
 import '../presentation/view/auth/details/auth_details_picture_view.dart';
 import '../presentation/view/auth/method/auth_method_view.dart';
+import '../presentation/view/auth/onboarding/onboarding_view.dart';
 import '../presentation/view/auth/splash/auth_splash_view.dart';
 import '../presentation/view/followers/followers_view.dart';
 import '../presentation/view/followers/followers_viewdata.dart';
@@ -64,6 +64,7 @@ class Routes {
   static const String suggestionView = '/suggestion-view';
   static const String settingsAccountView = '/settings-account-view';
   static const String messagingView = '/messaging-view';
+  static const String onboardingView = '/onboarding-view';
   static const all = <String>{
     authSplashView,
     authMethodView,
@@ -90,6 +91,7 @@ class Routes {
     suggestionView,
     settingsAccountView,
     messagingView,
+    onboardingView,
   };
 }
 
@@ -122,6 +124,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.suggestionView, page: SuggestionView),
     RouteDef(Routes.settingsAccountView, page: SettingsAccountView),
     RouteDef(Routes.messagingView, page: MessagingView),
+    RouteDef(Routes.onboardingView, page: OnboardingView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -194,7 +197,6 @@ class StackedRouter extends RouterBase {
         builder: (context) => HubView(
           hubId: args.hubId,
           userId: args.userId,
-          onboarding: args.onboarding,
         ),
         settings: data,
       );
@@ -295,6 +297,12 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    OnboardingView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => OnboardingView(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -318,9 +326,7 @@ class UserProfileViewArguments {
 class HubViewArguments {
   final String hubId;
   final String userId;
-  final bool onboarding;
-  HubViewArguments(
-      {required this.hubId, required this.userId, this.onboarding = false});
+  HubViewArguments({required this.hubId, required this.userId});
 }
 
 /// FollowersView arguments holder class

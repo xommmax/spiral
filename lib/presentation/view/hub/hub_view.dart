@@ -9,12 +9,10 @@ class HubView extends StandardBaseView<HubViewModel> {
   HubView({
     required String hubId,
     required String userId,
-    bool onboarding = false,
   }) : super(
           HubViewModel(
             hubId: hubId,
             userId: userId,
-            onboarding: onboarding,
           ),
           routeName: Routes.hubView,
         );

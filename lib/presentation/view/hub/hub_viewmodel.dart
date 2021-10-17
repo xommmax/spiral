@@ -12,8 +12,6 @@ import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/hub/hub_viewdata.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';
-import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -21,18 +19,13 @@ class HubViewModel extends MultipleStreamViewModel {
   static const PUBLICATIONS_STREAM_KEY = 'PUBLICATIONS_STREAM_KEY';
   static const USER_STREAM_KEY = 'USER_STREAM_KEY';
   static const HUB_STREAM_KEY = 'HUB_STREAM_KEY';
-  static const ONBOARDING_HUB_STREAM_KEY = 'ONBOARDING_HUB_STREAM_KEY';
-  static const ONBOARDING_PUBLICATIONS_STREAM_KEY =
-      'ONBOARDING_PUBLICATIONS_STREAM_KEY';
 
   final String hubId;
   final String userId;
-  final bool onboarding;
 
   HubViewModel({
     required this.hubId,
     required this.userId,
-    this.onboarding = false,
   });
 
   final PublicationRepository _publicationRepository =
@@ -45,10 +38,7 @@ class HubViewModel extends MultipleStreamViewModel {
   final HubViewData viewData = HubViewData();
 
   @override
-  Map<String, StreamData> get streamsMap =>
-      !onboarding ? _getHubStreamsMap() : _getOnboardingStreamsMap();
-
-  Map<String, StreamData> _getHubStreamsMap() => {
+  Map<String, StreamData> get streamsMap => {
         USER_STREAM_KEY: StreamData<User?>(
           userStream(),
           onData: _onUserRetrieved,
@@ -63,17 +53,6 @@ class HubViewModel extends MultipleStreamViewModel {
         ),
       };
 
-  _getOnboardingStreamsMap() => {
-        ONBOARDING_HUB_STREAM_KEY: StreamData<Hub?>(
-          _getOnboardingHubStream(),
-          onData: _onOnboardingHubRetrieved,
-        ),
-        ONBOARDING_PUBLICATIONS_STREAM_KEY: StreamData<List<Publication?>>(
-          _getOnboardingPublicationsStream(),
-          onData: _onOnboardingPublicationsRetrieved,
-        ),
-      };
-
   Stream<User?> userStream() => _userRepository.getUser(userId);
 
   Stream<List<Publication>?> publicationsStream() =>
@@ -82,11 +61,6 @@ class HubViewModel extends MultipleStreamViewModel {
   Stream<Hub?> hubStream() => _hubRepository.getHub(hubId);
 
   Stream<User?> getUser(String userId) => _userRepository.getUser(userId);
-
-  Stream<Hub?> _getOnboardingHubStream() => _hubRepository.getOnboardingHub();
-
-  Stream<List<Publication?>> _getOnboardingPublicationsStream() =>
-      _publicationRepository.getOnboardingPublications();
 
   void _onUserRetrieved(User? user) => viewData.user = user;
 
@@ -100,22 +74,14 @@ class HubViewModel extends MultipleStreamViewModel {
 
   void _onHubRetrieved(Hub? hub) => viewData.hub = hub;
 
-  void _onOnboardingHubRetrieved(Hub? hub) => viewData.hub = hub;
-
-  void _onOnboardingPublicationsRetrieved(List<Publication> publications) =>
-      viewData.publications = publications;
-
   void onSettingsClicked() {
     _navigationService.navigateTo(
       Routes.hubSettingsView,
     );
   }
 
-  void onFabPressed() async {
-    if (!onboarding)
-      openDiscussion();
-    else
-      onOnboardingNextClicked();
+  void onFabPressed() {
+    openDiscussion();
   }
 
   void onCreatePublicationClicked() {
@@ -124,14 +90,6 @@ class HubViewModel extends MultipleStreamViewModel {
         Routes.newPublicationView,
         arguments: NewPublicationViewArguments(hub: viewData.hub!),
       );
-  }
-
-  void onOnboardingNextClicked() async {
-    final SharedPreferences _sharedPreferences =
-        await SharedPreferences.getInstance();
-    await _sharedPreferences.setBool(
-        SharedPreferencesKeys.isOnboardingCompleted, true);
-    _navigationService.clearStackAndShow(Routes.mainView);
   }
 
   void onPublicationLikeClicked(String publicationId, bool isLiked) =>
@@ -164,7 +122,7 @@ class HubViewModel extends MultipleStreamViewModel {
 
   void onFollowClicked() {
     final hub = viewData.hub;
-    if (onboarding || hub == null) return;
+    if (hub == null) return;
     hub.isFollow
         ? _hubRepository.onUnfollow(hub.id)
         : _hubRepository.onFollow(hub.id);

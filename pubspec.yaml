@@ -131,6 +131,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - assets/images/onboarding/
     - .prod.env
     - .dev.env
   uses-material-design: true

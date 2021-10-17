@@ -6,12 +6,14 @@ import 'package:country_codes/country_codes.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app/env.dart';
@@ -49,6 +51,7 @@ class DairoApp extends StatefulWidget {
 class _DairoAppState extends State<DairoApp> {
   bool _initialized = false;
   bool _isCurrentUserExist = false;
+  bool isOnboardingCompleted = true;
 
   @override
   void initState() {
@@ -73,8 +76,9 @@ class _DairoAppState extends State<DairoApp> {
           colorScheme:
               theme.colorScheme.copyWith(secondary: AppColors.accentColor)),
       onGenerateRoute: StackedRouter().onGenerateRoute,
-      initialRoute:
-          _isCurrentUserExist ? Routes.mainView : Routes.authSplashView,
+      initialRoute: !isOnboardingCompleted
+          ? Routes.onboardingView
+          : (_isCurrentUserExist ? Routes.mainView : Routes.authSplashView),
       navigatorObservers: [widget.analyticsRepository.getObserver()],
       navigatorKey: StackedService.navigatorKey,
     );
@@ -83,6 +87,7 @@ class _DairoAppState extends State<DairoApp> {
   void initializeApp() async {
     await initializeFlutterFire();
     await initializeUser();
+    await initializePreferences();
     setState(() => _initialized = true);
   }
 
@@ -100,6 +105,13 @@ class _DairoAppState extends State<DairoApp> {
       var localUser = await widget._localUserRepository.getUser(firebaseUserId);
       _isCurrentUserExist = localUser != null;
     }
+  }
+
+  Future<void> initializePreferences() async {
+    final preferences = await SharedPreferences.getInstance();
+    isOnboardingCompleted =
+        preferences.getBool(SharedPreferencesKeys.isOnboardingCompleted) ??
+            false;
   }
 
   Future<void> _setupLocalFirebaseEnvironment() async {

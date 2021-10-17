@@ -2,6 +2,7 @@ import 'package:dairo/presentation/view/auth/details/auth_details_age_view.dart'
 import 'package:dairo/presentation/view/auth/details/auth_details_name_view.dart';
 import 'package:dairo/presentation/view/auth/details/auth_details_picture_view.dart';
 import 'package:dairo/presentation/view/auth/method/auth_method_view.dart';
+import 'package:dairo/presentation/view/auth/onboarding/onboarding_view.dart';
 import 'package:dairo/presentation/view/auth/splash/auth_splash_view.dart';
 import 'package:dairo/presentation/view/followers/followers_view.dart';
 import 'package:dairo/presentation/view/followings/followings_view.dart';
@@ -52,6 +53,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: SuggestionView),
     MaterialRoute(page: SettingsAccountView),
     MaterialRoute(page: MessagingView),
+    MaterialRoute(page: OnboardingView),
   ],
 )
 class $AppRouter {}
