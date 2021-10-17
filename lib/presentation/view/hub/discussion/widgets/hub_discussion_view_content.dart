@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/hub/discussion.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
+import 'package:dairo/presentation/view/base/default_widgets.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/hub/discussion/hub_discussion_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/flutter_firebase_chat_core/firebase_chat_core.dart';
@@ -39,10 +39,9 @@ class HubDiscussionViewContent extends ViewModelWidget<HubDiscussionViewModel> {
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
-          leading: CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(
-              viewModel.discussion!.imageUrl!,
-            ),
+          leading: WidgetHubPhoto(
+            photoUrl: viewModel.discussion!.imageUrl,
+            radius: 20,
           ),
           title: Text(
             viewModel.discussion!.name!,
