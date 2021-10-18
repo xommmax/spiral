@@ -19,17 +19,24 @@ class AuthMethodViewModel extends BaseViewModel {
 
   final AuthViewData viewData = AuthViewData();
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
-  late final TextEditingController phoneNumberController;
+  late final TextEditingController phoneNumberController =
+      TextEditingController();
   late final StreamSubscription? authStateChangesSubscription;
 
   AuthMethodViewModel() {
+    setupCountryCode();
     authStateChangesSubscription = _auth.authStateChanges().listen((user) {
       if (user != null) processUser(user);
     });
-    phoneNumberController = TextEditingController(
-        text: CountryCodes.dialCode(CountryCodes.getDeviceLocale())
+  }
+
+  Future<void> setupCountryCode() async {
+    await CountryCodes.init();
+
+    phoneNumberController.text =
+        CountryCodes.dialCode(CountryCodes.getDeviceLocale())
                 ?.replaceFirst('+', '') ??
-            '1');
+            '1';
   }
 
   onGoogleSignUpClicked() =>

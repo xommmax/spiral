@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:country_codes/country_codes.dart';
 import 'package:dairo/data/db/repository/user_local_repository.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/presentation/res/colors.dart';
@@ -24,7 +23,6 @@ void main() async {
   await $ENV.load();
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
-  await CountryCodes.init();
   FlutterError.onError = (details) {
     print(details.exceptionAsString());
     print(details.stack.toString());
@@ -70,7 +68,6 @@ class _DairoAppState extends State<DairoApp> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       systemNavigationBarColor: AppColors.darkAccentColor,
     ));
-
     return MaterialApp(
       theme: theme.copyWith(
           colorScheme:
