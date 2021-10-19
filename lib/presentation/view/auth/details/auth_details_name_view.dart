@@ -41,7 +41,7 @@ class AuthDetailsNameViewContent extends ViewModelWidget<AuthDetailsViewModel> {
                   SizedBox(height: 16),
                   TextFormField(
                     controller: viewModel.nameController,
-                    autofocus: true,
+                    autofocus: false,
                     textCapitalization: TextCapitalization.words,
                     style: TextStyle(
                       fontSize: 28,

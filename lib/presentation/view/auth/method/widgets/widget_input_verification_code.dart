@@ -14,7 +14,7 @@ class WidgetInputVerificationCode extends ViewModelWidget<AuthMethodViewModel> {
           length: 6,
           onChanged: (_) {},
           onCompleted: viewModel.onCodeVerificationRetrieved,
-          autoFocus: false,
+          autoFocus: true,
           animationType: AnimationType.scale,
           animationDuration: Duration(milliseconds: 150),
           keyboardType: TextInputType.number,

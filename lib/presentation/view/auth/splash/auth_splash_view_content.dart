@@ -123,15 +123,15 @@ class AuthSplashViewContent extends ViewModelWidget<AuthSplashViewModel> {
               text: 'By tapping on "Get Started", you agree to our \n',
               style: TextStyle(
                 color: AppColors.lightGray.withOpacity(0.8),
-                fontSize: 14.5,
+                fontSize: 13,
               ),
             ),
             TextSpan(
               text: 'Terms of Use',
               style: TextStyle(
                 color: AppColors.lightGray.withOpacity(0.8),
-                fontWeight: FontWeight.w900,
-                fontSize: 14.5,
+                fontWeight: FontWeight.w800,
+                fontSize: 13,
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () => launch(Strings.termsUrl),
@@ -140,15 +140,15 @@ class AuthSplashViewContent extends ViewModelWidget<AuthSplashViewModel> {
               text: ' and ',
               style: TextStyle(
                 color: AppColors.lightGray.withOpacity(0.8),
-                fontSize: 14.5,
+                fontSize: 13,
               ),
             ),
             TextSpan(
               text: 'Privacy Policy',
               style: TextStyle(
                 color: AppColors.lightGray.withOpacity(0.8),
-                fontWeight: FontWeight.w900,
-                fontSize: 14.5,
+                fontWeight: FontWeight.w800,
+                fontSize: 13,
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () => launch(Strings.privacyUrl),

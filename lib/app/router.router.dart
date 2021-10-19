@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../domain/model/hub/hub.dart';
 import '../presentation/view/auth/details/auth_details_age_view.dart';
