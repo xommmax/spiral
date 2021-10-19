@@ -230,7 +230,7 @@ class Strings {
 
   static const discussion = 'Discussion';
 
-  static const messaging = 'Messaging';
+  static const messages = 'Messages';
 
   static const next = 'Next';
 

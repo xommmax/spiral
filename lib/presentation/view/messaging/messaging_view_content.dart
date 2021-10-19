@@ -10,34 +10,32 @@ class MessagingViewContent extends ViewModelWidget<MessagingViewModel> {
   @override
   Widget build(BuildContext context, MessagingViewModel viewModel) => Scaffold(
         appBar: AppBar(
-          title: Text(Strings.messaging, style: TextStyles.toolbarTitle),
+          title: Text(Strings.messages, style: TextStyles.toolbarTitle),
           centerTitle: false,
         ),
         body: SafeArea(
-          child: Expanded(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 56),
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Text(
-                    Strings.messaging,
-                    style: TextStyle(
-                      fontSize: 29,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.white,
-                    ),
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 56),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Text(
+                  Strings.messages,
+                  style: TextStyle(
+                    fontSize: 29,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.white,
                   ),
-                  SizedBox(height: 24),
-                  Text(
-                    Strings.messagingDesc,
-                    style: TextStyle(
-                      color: AppColors.lightGray,
-                      fontSize: 17,
-                    ),
-                    textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 24),
+                Text(
+                  Strings.messagingDesc,
+                  style: TextStyle(
+                    color: AppColors.lightGray,
+                    fontSize: 17,
                   ),
-                ]),
-              ),
+                  textAlign: TextAlign.center,
+                ),
+              ]),
             ),
           ),
         ),
