@@ -71,7 +71,7 @@ class NewPublicationViewModel extends BaseViewModel {
     }
 
     final text = (isTextBlockVisible &&
-            textEditorController.document.toPlainText().isNotEmpty)
+            textEditorController.document.toPlainText().trim().isNotEmpty)
         ? jsonEncode(textEditorController.document.toDelta().toJson())
         : null;
     final link = (isLinkBlockVisible && isLinkValid())
@@ -97,7 +97,7 @@ class NewPublicationViewModel extends BaseViewModel {
 
   bool isPublicationContentValid() {
     return viewData.mediaFiles.isNotEmpty ||
-        textEditorController.document.toPlainText().isNotEmpty;
+        textEditorController.document.toPlainText().trim().isNotEmpty;
   }
 
   bool isLinkValid() =>
