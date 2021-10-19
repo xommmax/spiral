@@ -38,7 +38,10 @@ class AuthMethodViewContent extends ViewModelWidget<AuthMethodViewModel> {
                       : WidgetInputVerificationCode(),
                   SizedBox(height: 8),
                   if (!viewModel.viewData.isCodeSent)
-                    NextButton(onPressed: viewModel.onPhoneNextClicked),
+                    NextButton(
+                      onPressed: viewModel.onPhoneNextClicked,
+                      enabled: viewModel.phoneNumberController.text.isNotEmpty,
+                    ),
                   if ((Platform.isAndroid || Platform.isIOS) &&
                       !viewModel.viewData.isCodeSent)
                     Padding(

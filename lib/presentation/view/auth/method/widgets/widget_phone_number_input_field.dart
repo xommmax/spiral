@@ -10,6 +10,7 @@ class WidgetPhoneNumberInputField extends ViewModelWidget<AuthMethodViewModel> {
   @override
   Widget build(BuildContext context, AuthMethodViewModel viewModel) {
     return TextFormField(
+      onChanged: (s) => viewModel.notifyListeners(),
       controller: viewModel.phoneNumberController,
       autofocus: false,
       style: TextStyle(

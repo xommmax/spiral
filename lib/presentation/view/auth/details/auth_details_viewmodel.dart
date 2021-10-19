@@ -65,9 +65,20 @@ class AuthDetailsViewModel extends BaseViewModel {
   }
 
   void onBioNextClicked() {
-    if (bioController.text.isNotEmpty) {
+    if (isBusy) return;
+    setBusy(true);
+    if (bioController.text.isEmpty) {
+      AppSnackBar.showSnackBarError("Please enter your bio");
+      setBusy(false);
+    } else {
       viewData.bio = bioController.text;
+      createUser();
     }
+  }
+
+  void onBioSkipClicked() {
+    if (isBusy) return;
+    setBusy(true);
     createUser();
   }
 
@@ -101,20 +112,25 @@ class AuthDetailsViewModel extends BaseViewModel {
     );
   }
 
-  void createUser() {
-    _userRepository
+  void createUser() async {
+    await _userRepository
         .saveUser(
-          id: user!.uid,
-          name: viewData.name!,
-          age: viewData.age!,
-          photoURL: viewData.photoUrl,
-          defaultPhotoUrl: viewData.defaultPhotoUrl,
-          phoneNumber: user!.phoneNumber,
-          email: user!.email,
-          description: viewData.bio,
-          username: generateUsername(viewData.name!),
-        )
-        .then((value) => _navigationService.clearStackAndShow(Routes.mainView));
+      id: user!.uid,
+      name: viewData.name!,
+      age: viewData.age!,
+      photoURL: viewData.photoUrl,
+      defaultPhotoUrl: viewData.defaultPhotoUrl,
+      phoneNumber: user!.phoneNumber,
+      email: user!.email,
+      description: viewData.bio,
+      username: generateUsername(viewData.name!),
+    )
+        .then((value) {
+      setBusy(false);
+      _navigationService.clearStackAndShow(Routes.mainView);
+    }).catchError((onError) {
+      setBusy(false);
+    });
   }
 
   String generateUsername(String name) =>

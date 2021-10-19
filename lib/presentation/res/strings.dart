@@ -232,5 +232,7 @@ class Strings {
 
   static const next = 'Next';
 
+  static const skip = 'Skip';
+
 /* Uncategorized */
 }

@@ -39,6 +39,7 @@ class AuthDetailsAgeViewContent extends ViewModelWidget<AuthDetailsViewModel> {
                       )),
                   SizedBox(height: 16),
                   TextFormField(
+                    onChanged: (s) => viewModel.notifyListeners(),
                     controller: viewModel.ageController,
                     autofocus: true,
                     style: TextStyle(
@@ -61,7 +62,10 @@ class AuthDetailsAgeViewContent extends ViewModelWidget<AuthDetailsViewModel> {
                     textInputAction: TextInputAction.done,
                   ),
                   SizedBox(height: 8),
-                  NextButton(onPressed: viewModel.onAgeNextClicked),
+                  NextButton(
+                    onPressed: viewModel.onAgeNextClicked,
+                    enabled: viewModel.ageController.text.isNotEmpty,
+                  ),
                 ],
               ),
             ),

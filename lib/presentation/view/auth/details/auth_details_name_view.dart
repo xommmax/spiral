@@ -40,6 +40,7 @@ class AuthDetailsNameViewContent extends ViewModelWidget<AuthDetailsViewModel> {
                       )),
                   SizedBox(height: 16),
                   TextFormField(
+                    onChanged: (s) => viewModel.notifyListeners(),
                     controller: viewModel.nameController,
                     autofocus: false,
                     textCapitalization: TextCapitalization.words,
@@ -66,7 +67,10 @@ class AuthDetailsNameViewContent extends ViewModelWidget<AuthDetailsViewModel> {
                     ],
                   ),
                   SizedBox(height: 8),
-                  NextButton(onPressed: viewModel.onNameNextClicked),
+                  NextButton(
+                    onPressed: viewModel.onNameNextClicked,
+                    enabled: viewModel.nameController.text.isNotEmpty,
+                  ),
                 ],
               ),
             ),
