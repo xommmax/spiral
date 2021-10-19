@@ -33,6 +33,8 @@ class HubRemoteRepository {
     var requestJson = hubRequest.toJson();
     requestJson['followersCount'] = 0;
 
+    requestJson['orderIndex'] = 0;
+
     final snapshot = await _firestore
         .collection(FirebaseCollections.userHubs)
         .add(requestJson)
@@ -191,4 +193,10 @@ class HubRemoteRepository {
       .doc(hubId)
       .get()
       .then((value) => HubDiscussion.fromJson(value.data()!, value.id));
+
+  Future<void> reorderHubs(List<Hub> hubs) =>
+      Future.wait(hubs.map((hub) => _firestore
+          .collection(FirebaseCollections.userHubs)
+          .doc(hub.id)
+          .update({'orderIndex': hub.orderIndex})));
 }

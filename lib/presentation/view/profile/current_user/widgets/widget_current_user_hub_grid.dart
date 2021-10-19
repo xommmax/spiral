@@ -3,6 +3,7 @@ import 'package:dairo/presentation/view/profile/base/widgets/widget_hub_preview.
 import 'package:dairo/presentation/view/profile/current_user/current_user_profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:stacked/stacked.dart';
 
 class WidgetCurrentUserHubGrid
@@ -27,7 +28,8 @@ class WidgetCurrentUserHubGrid
             WidgetHubPreview.paddingTop +
             WidgetHubPreview.paddingBottom +
             WidgetHubPreview.textHeight;
-    return GridView.count(
+    return ReorderableGridView.count(
+      onReorder: viewModel.onHubReorder,
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       crossAxisCount: 2,
@@ -36,6 +38,7 @@ class WidgetCurrentUserHubGrid
       children: viewModel.viewData.hubs
           .map(
             (hub) => InkWell(
+              key: Key(hub.id),
               onTap: () => viewModel.onOpenHubClicked(hub),
               child: WidgetHubPreview(hub),
             ),

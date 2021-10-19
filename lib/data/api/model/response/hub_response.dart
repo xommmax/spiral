@@ -14,6 +14,7 @@ class HubResponse {
   final bool isFollow;
   final bool isPrivate;
   final bool isDiscussionEnabled;
+  final int orderIndex;
 
   HubResponse({
     required this.id,
@@ -24,8 +25,9 @@ class HubResponse {
     required this.createdAt,
     required this.followersCount,
     required this.isFollow,
-    this.isPrivate = false,
-    this.isDiscussionEnabled = false,
+    required this.orderIndex,
+    required this.isPrivate,
+    required this.isDiscussionEnabled,
   });
 
   factory HubResponse.fromJson(
@@ -42,7 +44,7 @@ class HubResponse {
 
   @override
   String toString() {
-    return 'HubResponse{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, createdAt: $createdAt, followersCount: $followersCount, isFollow: $isFollow, isPrivate: $isPrivate, isDiscussionEnabled: $isDiscussionEnabled}';
+    return 'HubResponse{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, createdAt: $createdAt, followersCount: $followersCount, isFollow: $isFollow, isPrivate: $isPrivate, isDiscussionEnabled: $isDiscussionEnabled, orderIndex: $orderIndex}';
   }
 
   @override
@@ -59,7 +61,8 @@ class HubResponse {
           followersCount == other.followersCount &&
           isFollow == other.isFollow &&
           isPrivate == other.isPrivate &&
-          isDiscussionEnabled == other.isDiscussionEnabled;
+          isDiscussionEnabled == other.isDiscussionEnabled &&
+          orderIndex == other.orderIndex;
 
   @override
   int get hashCode =>
@@ -72,5 +75,6 @@ class HubResponse {
       followersCount.hashCode ^
       isFollow.hashCode ^
       isPrivate.hashCode ^
-      isDiscussionEnabled.hashCode;
+      isDiscussionEnabled.hashCode ^
+      orderIndex.hashCode;
 }

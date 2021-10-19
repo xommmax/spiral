@@ -3,7 +3,7 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class HubDao {
-  @Query('SELECT * FROM hub WHERE userId = :userId ORDER BY createdAt DESC')
+  @Query('SELECT * FROM hub WHERE userId = :userId ORDER BY orderIndex ASC')
   Stream<List<HubItemData>> getHubs(String userId);
 
   @Query('SELECT * FROM hub WHERE id = :id')

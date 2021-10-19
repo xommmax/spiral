@@ -72,7 +72,7 @@ class _$DairoDatabase extends DairoDatabase {
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 2,
+      version: 3,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -90,7 +90,7 @@ class _$DairoDatabase extends DairoDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, `followingsCount` INTEGER, `age` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `pictureUrl` TEXT, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, `isPrivate` INTEGER NOT NULL, `isDiscussionEnabled` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `pictureUrl` TEXT, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, `isPrivate` INTEGER NOT NULL, `isDiscussionEnabled` INTEGER NOT NULL, `orderIndex` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `publication` (`id` TEXT NOT NULL, `hubId` TEXT NOT NULL, `userId` TEXT NOT NULL, `text` TEXT, `mediaUrls` TEXT NOT NULL, `previewUrls` TEXT NOT NULL, `isLiked` INTEGER NOT NULL, `likesCount` INTEGER NOT NULL, `commentsCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `viewType` TEXT NOT NULL, `link` TEXT, `attachedFileUrl` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
@@ -274,7 +274,8 @@ class _$HubDao extends HubDao {
                   'followersCount': item.followersCount,
                   'isFollow': item.isFollow ? 1 : 0,
                   'isPrivate': item.isPrivate ? 1 : 0,
-                  'isDiscussionEnabled': item.isDiscussionEnabled ? 1 : 0
+                  'isDiscussionEnabled': item.isDiscussionEnabled ? 1 : 0,
+                  'orderIndex': item.orderIndex
                 },
             changeListener),
         _hubItemDataDeletionAdapter = DeletionAdapter(
@@ -291,7 +292,8 @@ class _$HubDao extends HubDao {
                   'followersCount': item.followersCount,
                   'isFollow': item.isFollow ? 1 : 0,
                   'isPrivate': item.isPrivate ? 1 : 0,
-                  'isDiscussionEnabled': item.isDiscussionEnabled ? 1 : 0
+                  'isDiscussionEnabled': item.isDiscussionEnabled ? 1 : 0,
+                  'orderIndex': item.orderIndex
                 },
             changeListener);
 
@@ -308,7 +310,7 @@ class _$HubDao extends HubDao {
   @override
   Stream<List<HubItemData>> getHubs(String userId) {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM hub WHERE userId = ?1 ORDER BY createdAt DESC',
+        'SELECT * FROM hub WHERE userId = ?1 ORDER BY orderIndex ASC',
         mapper: (Map<String, Object?> row) => HubItemData(
             id: row['id'] as String,
             userId: row['userId'] as String,
@@ -319,7 +321,8 @@ class _$HubDao extends HubDao {
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0,
             isPrivate: (row['isPrivate'] as int) != 0,
-            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0),
+            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0,
+            orderIndex: row['orderIndex'] as int),
         arguments: [userId],
         queryableName: 'hub',
         isView: false);
@@ -338,7 +341,8 @@ class _$HubDao extends HubDao {
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0,
             isPrivate: (row['isPrivate'] as int) != 0,
-            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0),
+            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0,
+            orderIndex: row['orderIndex'] as int),
         arguments: [id],
         queryableName: 'hub',
         isView: false);
@@ -357,7 +361,8 @@ class _$HubDao extends HubDao {
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0,
             isPrivate: (row['isPrivate'] as int) != 0,
-            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0),
+            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0,
+            orderIndex: row['orderIndex'] as int),
         arguments: [id]);
   }
 
@@ -381,7 +386,8 @@ class _$HubDao extends HubDao {
             followersCount: row['followersCount'] as int,
             isFollow: (row['isFollow'] as int) != 0,
             isPrivate: (row['isPrivate'] as int) != 0,
-            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0),
+            isDiscussionEnabled: (row['isDiscussionEnabled'] as int) != 0,
+            orderIndex: row['orderIndex'] as int),
         arguments: [...hubIds],
         queryableName: 'hub',
         isView: false);

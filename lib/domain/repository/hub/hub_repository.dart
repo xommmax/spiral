@@ -36,4 +36,6 @@ abstract class HubRepository {
   Future<void> deleteHub(Hub hub);
 
   Future<HubDiscussion> getHubDiscussion(String hubId);
+
+  Future<void> reorderHubs(List<Hub> hubs);
 }

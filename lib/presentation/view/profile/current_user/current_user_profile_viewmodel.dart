@@ -26,4 +26,14 @@ class CurrentUserProfileViewModel extends BaseProfileViewModel {
       }
     });
   }
+
+  void onHubReorder(int oldIndex, int newIndex) {
+    final element = viewData.hubs.removeAt(oldIndex);
+    viewData.hubs.insert(newIndex, element);
+    for (int i = 0; i < viewData.hubs.length; i++) {
+      viewData.hubs[i].orderIndex = i;
+    }
+    hubRepository.reorderHubs(viewData.hubs);
+    notifyListeners();
+  }
 }

@@ -45,12 +45,25 @@ class HubRepositoryImpl implements HubRepository {
 
     File? pictureFile;
     if (picture != null) pictureFile = File(picture.previewImage.path);
+
+    await _shiftHubsIndexBeforeCreate();
+
     HubResponse response = await _remote.createHub(request, pictureFile);
     HubItemData itemData = HubItemData.fromResponse(response);
     await _local.addHub(itemData);
     final hub = Hub.fromItemData(itemData);
     _sendHubCreatedEvent(hub);
     return hub;
+  }
+
+  Future<void> _shiftHubsIndexBeforeCreate() async {
+    var hubResponses =
+        await _remote.fetchHubs(_userRepository.getCurrentUserId());
+    var hubs = hubResponses
+        .map((e) => Hub.fromItemData(HubItemData.fromResponse(e)))
+        .toList();
+    hubs.forEach((hub) => hub.orderIndex++);
+    await reorderHubs(hubs);
   }
 
   Stream<List<Hub>> getCurrentUserHubs() =>
@@ -154,11 +167,35 @@ class HubRepositoryImpl implements HubRepository {
       });
 
   @override
-  Future<void> deleteHub(Hub hub) => _remote.deleteHub(hub).then((response) {
-        return _local.deleteHub(HubItemData.fromResponse(response));
-      });
+  Future<void> deleteHub(Hub hub) async {
+    var hubResponse = await _remote.deleteHub(hub);
+    await _local.deleteHub(HubItemData.fromResponse(hubResponse));
+    await _shiftHubsIndexAfterDelete();
+  }
+
+  Future<void> _shiftHubsIndexAfterDelete() async {
+    var hubResponses =
+        await _remote.fetchHubs(_userRepository.getCurrentUserId());
+    var hubs = hubResponses
+        .map((e) => Hub.fromItemData(HubItemData.fromResponse(e)))
+        .toList();
+    for (int i = 0; i < hubs.length; i++) {
+      hubs[i].orderIndex = i;
+    }
+    await reorderHubs(hubs);
+  }
 
   @override
   Future<HubDiscussion> getHubDiscussion(String hubId) =>
       _remote.getHubDiscussion(hubId);
+
+  @override
+  Future<void> reorderHubs(List<Hub> hubs) async {
+    await _remote.reorderHubs(hubs);
+    _remote.fetchHubs(_userRepository.getCurrentUserId()).then((response) {
+      final itemDataList =
+          response.map((e) => HubItemData.fromResponse(e)).toList();
+      _local.updateHubs(itemDataList, _userRepository.getCurrentUserId());
+    });
+  }
 }

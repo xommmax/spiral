@@ -14,6 +14,7 @@ class HubItemData {
   bool isFollow;
   final bool isPrivate;
   final bool isDiscussionEnabled;
+  final int orderIndex;
 
   HubItemData({
     required this.id,
@@ -26,6 +27,7 @@ class HubItemData {
     required this.isFollow,
     required this.isPrivate,
     required this.isDiscussionEnabled,
+    required this.orderIndex,
   });
 
   factory HubItemData.fromResponse(HubResponse response) => HubItemData(
@@ -39,11 +41,12 @@ class HubItemData {
         isFollow: response.isFollow,
         isPrivate: response.isPrivate,
         isDiscussionEnabled: response.isDiscussionEnabled,
+        orderIndex: response.orderIndex,
       );
 
   @override
   String toString() {
-    return 'HubItemData{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, createdAt: $createdAt, followersCount: $followersCount, isFollow: $isFollow, isPrivate: $isPrivate, isDiscussionEnabled: $isDiscussionEnabled}';
+    return 'HubItemData{id: $id, userId: $userId, name: $name, description: $description, pictureUrl: $pictureUrl, createdAt: $createdAt, followersCount: $followersCount, isFollow: $isFollow, isPrivate: $isPrivate, isDiscussionEnabled: $isDiscussionEnabled, orderIndex: $orderIndex}';
   }
 
   @override
@@ -60,7 +63,8 @@ class HubItemData {
           followersCount == other.followersCount &&
           isFollow == other.isFollow &&
           isPrivate == other.isPrivate &&
-          isDiscussionEnabled == other.isDiscussionEnabled;
+          isDiscussionEnabled == other.isDiscussionEnabled &&
+          orderIndex == other.orderIndex;
 
   @override
   int get hashCode =>
@@ -73,5 +77,6 @@ class HubItemData {
       followersCount.hashCode ^
       isFollow.hashCode ^
       isPrivate.hashCode ^
-      isDiscussionEnabled.hashCode;
+      isDiscussionEnabled.hashCode ^
+      orderIndex.hashCode;
 }

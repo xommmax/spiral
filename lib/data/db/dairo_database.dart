@@ -15,7 +15,7 @@ import 'entity/user_item_data.dart';
 
 part 'dairo_database.g.dart';
 
-@Database(version: 2, entities: [
+@Database(version: 3, entities: [
   UserItemData,
   HubItemData,
   PublicationItemData,
