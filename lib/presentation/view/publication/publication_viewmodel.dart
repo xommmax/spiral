@@ -14,9 +14,12 @@ import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:open_file/open_file.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PublicationViewModel extends MultipleStreamViewModel {
   static const PUBLICATION_STREAM_KEY = 'PUBLICATION_STREAM_KEY';
@@ -147,8 +150,15 @@ class PublicationViewModel extends MultipleStreamViewModel {
   String getAttachedFileName() =>
       _firebaseStorageRepository.getFileName(publication!.attachedFileUrl!);
 
-  void downloadAttachedFile() {
-    AppSnackBar.showSnackBarError("Missing functionallity");
+  void onLinkClicked() {
+    launch(publication!.link!).catchError(
+        (e) => AppSnackBar.showSnackBarError(Strings.errorCouldNotLaunchUrl));
+  }
+
+  void onFileClicked() async {
+    var file = await DefaultCacheManager()
+        .getSingleFile(publication!.attachedFileUrl!);
+    await OpenFile.open(file.path);
   }
 
   @override

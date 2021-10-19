@@ -5,12 +5,10 @@ import 'package:dairo/presentation/view/publication/media/widget_publication_med
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';
-import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/widgets/simple_viewer.dart';
 import 'package:stacked/stacked.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /*
   Media Block
@@ -99,8 +97,7 @@ class LinkBlock extends ViewModelWidget<PublicationViewModel> {
           ],
         ),
       ),
-      onTap: () => launch(viewModel.publication!.link!).catchError(
-          (e) => AppSnackBar.showSnackBarError(Strings.errorCouldNotLaunchUrl)),
+      onTap: viewModel.onLinkClicked,
     );
   }
 }
@@ -141,7 +138,7 @@ class FileBlock extends ViewModelWidget<PublicationViewModel> {
           ],
         ),
       ),
-      onTap: viewModel.downloadAttachedFile,
+      onTap: viewModel.onFileClicked,
     );
   }
 }
