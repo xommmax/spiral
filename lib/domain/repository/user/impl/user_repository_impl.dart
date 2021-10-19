@@ -171,4 +171,12 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<bool> isFirebaseUserExist(firebase.User user) =>
       _remote.isFirebaseUserExist(user);
+
+  @override
+  Future<void> deleteUser() async {
+    final currentUserId = getCurrentUserId();
+    await _remote.deleteUser(currentUserId);
+    await _local.deleteUserById(currentUserId);
+    await _auth.currentUser!.delete().catchError((onError) {});
+  }
 }

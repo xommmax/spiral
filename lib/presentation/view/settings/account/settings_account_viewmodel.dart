@@ -17,4 +17,13 @@ class SettingsAccountViewModel extends BaseViewModel {
           _navigationService.clearStackAndShow(Routes.authSplashView);
         },
       );
+
+  void onDeleteAccountClicked() => AppDialog.showConfirmationDialog(
+        title: Strings.deleteAccount,
+        description: Strings.confirmDeleteAccount,
+        onConfirm: () async {
+          await _userRepository.deleteUser();
+          _navigationService.clearStackAndShow(Routes.authSplashView);
+        },
+      );
 }

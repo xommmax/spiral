@@ -23,6 +23,10 @@ class SettingsAccountViewContent
             text: Strings.logout,
             onItemClicked: viewModel.onLogoutClicked,
           ),
+          WidgetSettingsItem(
+            text: Strings.deleteAccount,
+            onItemClicked: viewModel.onDeleteAccountClicked,
+          ),
         ],
       ),
     );

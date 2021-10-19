@@ -149,4 +149,7 @@ class UserRemoteRepository {
       .doc(user.uid)
       .get()
       .then((value) => value.exists);
+
+  Future<void> deleteUser(String userId) =>
+      _firestore.doc('${FirebaseCollections.users}/$userId').delete();
 }

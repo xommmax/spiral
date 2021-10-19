@@ -43,4 +43,6 @@ abstract class UserRepository {
   bool isCurrentUser(String userId);
 
   Future<bool> isFirebaseUserExist(firebase.User user);
+
+  Future<void> deleteUser();
 }

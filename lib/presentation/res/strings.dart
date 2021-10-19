@@ -127,6 +127,8 @@ class Strings {
   static const privacy = 'Privacy';
   static const logout = 'Logout';
   static const confirmLogout = 'Are you sure you want to logout?';
+  static const confirmDeleteAccount =
+      'Are you sure you want to delete your account?';
 
   /* Account Details */
   static const updatePhoto = 'Update photo';
@@ -233,6 +235,8 @@ class Strings {
   static const next = 'Next';
 
   static const skip = 'Skip';
+
+  static const deleteAccount = 'Delete Account';
 
 /* Uncategorized */
 }
