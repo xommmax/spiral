@@ -14,7 +14,7 @@ class WidgetUserHubGrid extends ViewModelWidget<UserProfileViewModel> {
     return _buildGrid(context, viewModel);
   }
 
-  _buildGrid(BuildContext context, UserProfileViewModel viewModel) {
+  Widget _buildGrid(BuildContext context, UserProfileViewModel viewModel) {
     double width = MediaQuery.of(context).size.width / 2;
     double height =
         (width - WidgetHubPreview.paddingLeft - WidgetHubPreview.paddingRight) /
@@ -40,7 +40,7 @@ class WidgetUserHubGrid extends ViewModelWidget<UserProfileViewModel> {
     );
   }
 
-  _buildEmptyState() => Center(
+  Widget _buildEmptyState() => Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24),
           child: Text(Strings.no_user_hubs,
