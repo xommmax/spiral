@@ -4,7 +4,7 @@ import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/base/default_widgets.dart';
+import 'package:dairo/presentation/view/base/default_images.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/base/widget_like.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';

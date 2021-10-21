@@ -1,7 +1,7 @@
 import 'package:dairo/domain/model/hub/discussion.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
-import 'package:dairo/presentation/view/base/default_widgets.dart';
+import 'package:dairo/presentation/view/base/default_images.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/hub/discussion/hub_discussion_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/flutter_firebase_chat_core/firebase_chat_core.dart';

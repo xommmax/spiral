@@ -83,32 +83,37 @@ class _MediaTypePickerExpanded
                   isSelected: viewModel.isMediaBlockVisible,
                   onPressed: () => viewModel.onGalleryMediaItemPicked(context),
                 ),
-                Stack(alignment: Alignment.center, children: [
-                  _MediaTypePickerOption(
-                    icon: Icons.audiotrack_rounded,
-                    label: 'Audio',
-                    isSelected: false,
-                    onPressed: () => viewModel.onAudioMediaItemPicked(context),
-                    isDisabled: true,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      color: Color(0x8047125D),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 2),
-                    child: Text(
-                      Strings.comingSoon,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.lightGray,
-                        fontWeight: FontWeight.w500,
+                InkWell(
+                  onTap: () => viewModel.onAudioMediaItemPicked(context),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      _MediaTypePickerOption(
+                        icon: Icons.audiotrack_rounded,
+                        label: 'Music',
+                        isSelected: false,
+                        isDisabled: true,
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          color: Color(0x8047125D),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 2),
+                        child: Text(
+                          Strings.comingSoon,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.lightGray,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ]),
+                ),
               ],
             ),
             Divider(height: 48),

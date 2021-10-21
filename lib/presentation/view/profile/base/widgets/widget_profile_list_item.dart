@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/base/default_widgets.dart';
+import 'package:dairo/presentation/view/base/default_images.dart';
 import 'package:flutter/material.dart';
 
 class WidgetProfileListItem extends StatelessWidget {

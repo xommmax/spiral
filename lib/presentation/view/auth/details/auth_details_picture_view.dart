@@ -6,7 +6,7 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/auth/details/auth_details_viewmodel.dart';
 import 'package:dairo/presentation/view/auth/widgets/buttons.dart';
-import 'package:dairo/presentation/view/base/default_widgets.dart';
+import 'package:dairo/presentation/view/base/default_images.dart';
 import 'package:dairo/presentation/view/base/standard_base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

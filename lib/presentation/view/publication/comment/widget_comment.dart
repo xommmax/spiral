@@ -2,7 +2,7 @@ import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
-import 'package:dairo/presentation/view/base/default_widgets.dart';
+import 'package:dairo/presentation/view/base/default_images.dart';
 import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:dairo/presentation/view/publication/comment/comment_viewmodel.dart';
 import 'package:dairo/presentation/view/publication/comment/widget_comments.dart';

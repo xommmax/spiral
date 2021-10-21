@@ -1,5 +1,5 @@
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/view/base/default_widgets.dart';
+import 'package:dairo/presentation/view/base/default_images.dart';
 import 'package:dairo/presentation/view/profile/current_user/current_user_profile_viewmodel.dart';
 import 'package:dairo/presentation/view/profile/current_user/widgets/widget_current_user_hub_grid.dart';
 import 'package:flutter/material.dart';

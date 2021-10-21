@@ -1,6 +1,6 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
-import 'package:dairo/presentation/view/base/default_widgets.dart';
+import 'package:dairo/presentation/view/base/default_images.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/publication/comment/widget_comment_input_field.dart';
 import 'package:dairo/presentation/view/publication/comment/widget_comments.dart';

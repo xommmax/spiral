@@ -66,7 +66,8 @@ class NewPublicationViewModel extends BaseViewModel {
       return;
     }
     if (!isPublicationContentValid()) {
-      AppSnackBar.showSnackBarError(Strings.errorPublicationCannotBeEmpty);
+      AppSnackBar.showSnackBarError(Strings.errorPublicationCannotBeEmpty,
+          title: 'Empty publication');
       return;
     }
 
@@ -220,7 +221,9 @@ class NewPublicationViewModel extends BaseViewModel {
   }
 
   onAudioMediaItemPicked(BuildContext context) {
-    // _openMediaPicker(context, PickerMediaType.audio, MediaCount.single);
+    AppSnackBar.showSnackBarSuccess(
+        'For now you can paste a link to your favorite music into Link block',
+        title: 'Coming soon');
   }
 
   onTextMediaItemPicked() {
