@@ -10,7 +10,7 @@ class HubRequest {
   final int createdAt;
   final bool isPrivate;
   final bool isDiscussionEnabled;
-  String? pictureUrl;
+  final String? pictureUrl;
 
   HubRequest({
     required this.userId,
@@ -19,6 +19,7 @@ class HubRequest {
     required this.createdAt,
     required this.isPrivate,
     required this.isDiscussionEnabled,
+    required this.pictureUrl,
   });
 
   Map<String, dynamic> toJson() => _$HubRequestToJson(this);

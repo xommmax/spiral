@@ -10,12 +10,20 @@ class AppBarNewHub extends ViewModelWidget<NewHubViewModel>
     implements ObstructingPreferredSizeWidget {
   @override
   Widget build(BuildContext context, NewHubViewModel viewModel) => AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: viewModel.onBackButtonPressed,
+        ),
         title: Text(Strings.newHub, style: TextStyles.toolbarTitle),
         actions: [
           !viewModel.isBusy
               ? IconButton(
-                  onPressed: viewModel.onDonePressed,
-                  icon: Icon(Icons.done),
+                  onPressed: viewModel.pageIndex == 0
+                      ? viewModel.onNextPressed
+                      : viewModel.onDonePressed,
+                  icon: viewModel.pageIndex == 0
+                      ? Icon(Icons.arrow_forward)
+                      : Icon(Icons.done),
                 )
               : ActionProgressBar(),
         ],

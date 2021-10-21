@@ -8,10 +8,12 @@ abstract class HubRepository {
   Future<Hub> createHub({
     required String name,
     required String? description,
-    required LocalMediaFile? picture,
+    required String? pictureUrl,
     required bool isPrivate,
     required bool isDiscussionEnabled,
   });
+
+  Future<String> uploadHubPicture(LocalMediaFile hubPicture);
 
   Stream<List<Hub>> getCurrentUserHubs();
 

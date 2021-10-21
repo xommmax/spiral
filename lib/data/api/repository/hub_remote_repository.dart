@@ -22,17 +22,12 @@ class HubRemoteRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final UserRepository _userRepository = locator<UserRepository>();
 
-  Future<HubResponse> createHub(HubRequest hubRequest, File? hubPicture) async {
-    if (hubPicture != null) {
-      List<String> uploadedUrls = await _firebaseStorageRepository
-          .uploadMultipleFiles(
-              [hubPicture], FirebaseStorageFolders.hubPictures);
-      hubRequest.pictureUrl = uploadedUrls[0];
-    }
+  Future<String> uploadHubPicture(File hubPicture) => _firebaseStorageRepository
+      .uploadFile(file: hubPicture, folder: FirebaseStorageFolders.hubPictures);
 
+  Future<HubResponse> createHub(HubRequest hubRequest) async {
     var requestJson = hubRequest.toJson();
     requestJson['followersCount'] = 0;
-
     requestJson['orderIndex'] = 0;
 
     final snapshot = await _firestore

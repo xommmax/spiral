@@ -109,7 +109,6 @@ class UserRepositoryImpl implements UserRepository {
       File file = File(photoURL);
       remoteUrl = await _firebaseStorageRepository.uploadFile(
         file: file,
-        userId: id,
         folder: FirebaseStorageFolders.profile,
       );
     } else {
@@ -146,7 +145,6 @@ class UserRepositoryImpl implements UserRepository {
         File file = File(photoURL);
         remoteUrl = await _firebaseStorageRepository.uploadFile(
           file: file,
-          userId: currentUserId,
           folder: FirebaseStorageFolders.profile,
         );
       }

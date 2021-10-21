@@ -26,35 +26,48 @@ class NewHubViewModel extends BaseViewModel {
   final NewHubViewData viewData = NewHubViewData();
   bool isPrivate = false;
   bool isDiscussionEnabled = true;
+  int pageIndex = 0;
+  Future<String>? hubPictureFuture;
 
-  void onDonePressed() async {
+  void onDonePressed() {
     if (isBusy) return;
+    _onCreateHub();
+  }
+
+  void onNextPressed() {
     viewData.name = nameController.text.isNotEmpty ? nameController.text : null;
     viewData.description = descriptionController.text.isNotEmpty
         ? descriptionController.text
         : null;
 
     if (!_allDetailsSpecified()) return;
-    _onCreateHub();
+
+    if (viewData.pictureUrl != null) {
+      LocalMediaFile picture = LocalMediaFile(
+        id: null,
+        originalFile: File(viewData.pictureUrl!),
+        previewImage: File(viewData.pictureUrl!),
+        type: MediaType.image,
+      );
+      hubPictureFuture = _hubRepository.uploadHubPicture(picture);
+    }
+
+    pageIndex = 1;
+    notifyListeners();
   }
 
   void _onCreateHub() async {
     setBusy(true);
     notifyListeners();
+    String? pictureUrl;
+    if (hubPictureFuture != null) {
+      pictureUrl = await hubPictureFuture;
+    }
     try {
-      LocalMediaFile? picture;
-      if (viewData.pictureUrl != null) {
-        picture = LocalMediaFile(
-          id: null,
-          originalFile: File(viewData.pictureUrl!),
-          previewImage: File(viewData.pictureUrl!),
-          type: MediaType.image,
-        );
-      }
       Hub hub = await _hubRepository.createHub(
         name: viewData.name!,
         description: viewData.description,
-        picture: picture,
+        pictureUrl: pictureUrl,
         isPrivate: isPrivate,
         isDiscussionEnabled: isDiscussionEnabled,
       );
@@ -112,5 +125,14 @@ class NewHubViewModel extends BaseViewModel {
   void onDiscussionSwitchChanged(bool value) {
     isDiscussionEnabled = value;
     notifyListeners();
+  }
+
+  void onBackButtonPressed() {
+    if (pageIndex == 0) {
+      _navigationService.back();
+    } else {
+      pageIndex--;
+      notifyListeners();
+    }
   }
 }

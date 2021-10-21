@@ -12,34 +12,25 @@ class FirebaseStorageRepository {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<List<String>> uploadMultipleFiles(
-    List<File> files,
-    String folder,
-  ) async {
+  Future<List<String>> uploadMultipleFiles(List<File> files, String folder) =>
+      Future.wait(
+        files.map(
+          (file) => uploadFile(
+            file: file,
+            folder: folder,
+          ),
+        ),
+      );
+
+  Future<String> uploadFile({required File file, required String folder}) {
     final String? userId = _auth.currentUser?.uid;
     if (userId == null) throw UnauthorizedException();
-
-    return Future.wait(
-      files.map(
-        (file) => uploadFile(
-          file: file,
-          userId: userId,
-          folder: folder,
-        ),
-      ),
-    );
+    return _storage
+        .ref(
+            '${FirebaseStorageFolders.users}/$userId/$folder/${basename(file.path)}')
+        .putFile(file)
+        .then((snapshot) => snapshot.ref.getDownloadURL());
   }
-
-  Future<String> uploadFile({
-    required File file,
-    required String userId,
-    required String folder,
-  }) =>
-      _storage
-          .ref(
-              '${FirebaseStorageFolders.users}/$userId/$folder/${basename(file.path)}')
-          .putFile(file)
-          .then((snapshot) => snapshot.ref.getDownloadURL());
 
   String getFileName(String url) => _storage.refFromURL(url).name;
 }

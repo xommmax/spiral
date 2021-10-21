@@ -29,10 +29,12 @@ class HubRepositoryImpl implements HubRepository {
   Future<Hub> createHub({
     required String name,
     required String? description,
-    required LocalMediaFile? picture,
+    required String? pictureUrl,
     required bool isPrivate,
     required bool isDiscussionEnabled,
   }) async {
+    _shiftHubsIndexBeforeCreate();
+
     final currentUserId = _userRepository.getCurrentUserId();
     HubRequest request = HubRequest(
       userId: currentUserId,
@@ -41,19 +43,21 @@ class HubRepositoryImpl implements HubRepository {
       createdAt: DateTime.now().millisecondsSinceEpoch,
       isPrivate: isPrivate,
       isDiscussionEnabled: isDiscussionEnabled,
+      pictureUrl: pictureUrl,
     );
 
-    File? pictureFile;
-    if (picture != null) pictureFile = File(picture.previewImage.path);
-
-    await _shiftHubsIndexBeforeCreate();
-
-    HubResponse response = await _remote.createHub(request, pictureFile);
+    HubResponse response = await _remote.createHub(request);
     HubItemData itemData = HubItemData.fromResponse(response);
-    await _local.addHub(itemData);
+    _local.addHub(itemData);
     final hub = Hub.fromItemData(itemData);
     _sendHubCreatedEvent(hub);
     return hub;
+  }
+
+  @override
+  Future<String> uploadHubPicture(LocalMediaFile hubPicture) {
+    File pictureFile = File(hubPicture.previewImage.path);
+    return _remote.uploadHubPicture(pictureFile);
   }
 
   Future<void> _shiftHubsIndexBeforeCreate() async {

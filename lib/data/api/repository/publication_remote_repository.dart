@@ -34,21 +34,19 @@ class PublicationRemoteRepository {
     String? uploadedAttachedFilePath;
 
     // get user
-    final String userId = _auth.currentUser!.uid;
     String folder = FirebaseStorageFolders.hubPublications;
 
     // inner function
     Future _compressAndUploadVideo(LocalMediaFile mediaFile) async {
       File compressedVideoFile =
           await compressVideo(mediaFile.originalFile.path);
-      String uploadedCompressedVideoPath =
-          await _firebaseStorageRepository.uploadFile(
-              file: compressedVideoFile, userId: userId, folder: folder);
+      String uploadedCompressedVideoPath = await _firebaseStorageRepository
+          .uploadFile(file: compressedVideoFile, folder: folder);
 
       mediaUrls[mediaFiles!.indexOf(mediaFile)] = uploadedCompressedVideoPath;
 
       String uploadedPreviewPath = await _firebaseStorageRepository.uploadFile(
-          file: mediaFile.previewImage, userId: userId, folder: folder);
+          file: mediaFile.previewImage, folder: folder);
       previewUrls[mediaFiles.indexOf(mediaFile)] = uploadedPreviewPath;
     }
 
@@ -62,8 +60,7 @@ class PublicationRemoteRepository {
           .where((mediaFile) => mediaFile.type == MediaType.image)
           .map<Future>((mediaFile) {
         return _firebaseStorageRepository
-            .uploadFile(
-                file: mediaFile.previewImage, userId: userId, folder: folder)
+            .uploadFile(file: mediaFile.previewImage, folder: folder)
             .then((uploadedPath) {
           mediaUrls[mediaFiles.indexOf(mediaFile)] = uploadedPath;
           previewUrls[mediaFiles.indexOf(mediaFile)] = uploadedPath;
@@ -80,7 +77,7 @@ class PublicationRemoteRepository {
     if (request.attachedFileUrl != null) {
       File file = File(request.attachedFileUrl!);
       uploadedAttachedFilePath = await _firebaseStorageRepository.uploadFile(
-          file: file, userId: userId, folder: folder);
+          file: file, folder: folder);
     }
 
     request.mediaUrls = mediaUrls;
