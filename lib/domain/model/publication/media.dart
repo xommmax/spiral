@@ -25,23 +25,7 @@ class LocalMediaFile {
       pickerMediaType = PickerMediaType.video;
     else
       throw ArgumentError();
-    return picker.Media(id: id, file: originalFile, mediaType: pickerMediaType);
-  }
-
-  static LocalMediaFile fromPickerMedia(picker.Media media, File previewImage) {
-    MediaType mediaType;
-    if (media.mediaType == PickerMediaType.image)
-      mediaType = MediaType.image;
-    else if (media.mediaType == PickerMediaType.video)
-      mediaType = MediaType.video;
-    else
-      throw ArgumentError();
-    return LocalMediaFile(
-      id: media.id,
-      originalFile: media.file!,
-      previewImage: previewImage,
-      type: mediaType,
-    );
+    return picker.Media(id: id, mediaType: pickerMediaType);
   }
 
   @override

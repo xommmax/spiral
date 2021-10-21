@@ -18,6 +18,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:photo_manager/photo_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:validators/validators.dart';
@@ -117,18 +118,19 @@ class NewPublicationViewModel extends BaseViewModel {
     isTypePickerCollapsed = true;
 
     for (picker_media.Media media in pickerMedia) {
+      File originFile = (await (await AssetEntity.fromId(media.id!))!.file)!;
       File previewImage;
       if (media.mediaType == PickerMediaType.image)
-        previewImage = await compressImage(media.file!.path, 25);
+        previewImage = await compressImage(originFile.path, 25);
       else if (media.mediaType == PickerMediaType.video)
-        previewImage = await _getVideoThumbnail(media.file!.path);
+        previewImage = await _getVideoThumbnail(originFile.path);
       else {
         throw ArgumentError();
       }
 
       LocalMediaFile mediaFile = LocalMediaFile(
           id: media.id,
-          originalFile: media.file!,
+          originalFile: originFile,
           previewImage: previewImage,
           type: media.mediaType!.toPubMediaType());
 

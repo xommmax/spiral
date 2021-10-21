@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:photo_manager/photo_manager.dart';
 import 'enums.dart';
 
 class Media {
-  File? file;
   String? id;
   Uint8List? thumbnail;
   Size? size;
@@ -17,7 +15,6 @@ class Media {
 
   Media({
     this.id,
-    this.file,
     this.thumbnail,
     this.size,
     this.creationTime,
@@ -27,7 +24,6 @@ class Media {
 
   static Future<Media> fromAssetEntity({required AssetEntity media}) async {
     Media convertedMedia = Media();
-    convertedMedia.file = await media.file;
     convertedMedia.thumbnail = await media.thumbDataWithSize(200, 200);
     convertedMedia.id = media.id;
     convertedMedia.size = media.size;
