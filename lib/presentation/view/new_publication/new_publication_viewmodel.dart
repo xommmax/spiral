@@ -154,6 +154,9 @@ class NewPublicationViewModel extends BaseViewModel {
     if (viewData.mediaFiles.length == 0) {
       currentMediaCarouselIndex = 0;
       isMediaBlockVisible = false;
+      if (!isAnyBlockVisible()) {
+        isTypePickerCollapsed = false;
+      }
     }
     notifyListeners();
   }
