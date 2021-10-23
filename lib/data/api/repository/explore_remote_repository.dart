@@ -47,7 +47,7 @@ class ExploreRemoteRepository {
       );
 
   Future<List<PublicationResponse>> fetchExplorePublications() => _firestore
-      .collection(FirebaseCollections.hubPublications)
+      .collection(FirebaseCollections.explorePublications)
       .orderBy(FirestoreKeys.createdAt, descending: true)
       .get()
       .then(
@@ -64,10 +64,8 @@ class ExploreRemoteRepository {
       );
 
   Future<List<HubResponse>> fetchExploreHubs() => _firestore
-      .collection(FirebaseCollections.userHubs)
-      .where('isPrivate', isEqualTo: false)
+      .collection(FirebaseCollections.exploreHubs)
       .orderBy(FirestoreKeys.createdAt, descending: true)
-      .limit(3)
       .get()
       .then(
         (snapshot) => Future.wait(

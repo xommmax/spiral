@@ -13,4 +13,6 @@ class FirebaseCollections {
   static const String userFeeds = 'userFeeds';
   static const String publications = 'publications';
   static const String hubDiscussions = 'hubDiscussions';
+  static const String explorePublications = 'explorePublications';
+  static const String exploreHubs = 'exploreHubs';
 }
