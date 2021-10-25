@@ -21,6 +21,7 @@ import '../presentation/view/followers/followers_view.dart';
 import '../presentation/view/followers/followers_viewdata.dart';
 import '../presentation/view/followings/followings_view.dart';
 import '../presentation/view/hub/discussion/hub_discussion_view.dart';
+import '../presentation/view/hub/edit_hub/edit_hub_view.dart';
 import '../presentation/view/hub/hub_view.dart';
 import '../presentation/view/hub/settings/hub_settings_view.dart';
 import '../presentation/view/main/main_view.dart';
@@ -66,6 +67,7 @@ class Routes {
   static const String settingsAccountView = '/settings-account-view';
   static const String messagingView = '/messaging-view';
   static const String onboardingView = '/onboarding-view';
+  static const String editHubView = '/edit-hub-view';
   static const all = <String>{
     authSplashView,
     authMethodView,
@@ -93,6 +95,7 @@ class Routes {
     settingsAccountView,
     messagingView,
     onboardingView,
+    editHubView,
   };
 }
 
@@ -126,6 +129,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.settingsAccountView, page: SettingsAccountView),
     RouteDef(Routes.messagingView, page: MessagingView),
     RouteDef(Routes.onboardingView, page: OnboardingView),
+    RouteDef(Routes.editHubView, page: EditHubView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -304,6 +308,13 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    EditHubView: (data) {
+      var args = data.getArgs<EditHubViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => EditHubView(args.hub),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -362,4 +373,10 @@ class HubSettingsViewArguments {
 class HubDiscussionViewArguments {
   final Hub hub;
   HubDiscussionViewArguments({required this.hub});
+}
+
+/// EditHubView arguments holder class
+class EditHubViewArguments {
+  final Hub hub;
+  EditHubViewArguments({required this.hub});
 }

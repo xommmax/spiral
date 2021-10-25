@@ -187,4 +187,10 @@ class HubViewModel extends MultipleStreamViewModel {
     viewData.textControllers.forEach((controller) => controller.dispose());
     super.dispose();
   }
+
+  void onEditHubClicked() {
+    if (viewData.hub == null) return;
+    _navigationService.navigateTo(Routes.editHubView,
+        arguments: EditHubViewArguments(hub: viewData.hub!));
+  }
 }

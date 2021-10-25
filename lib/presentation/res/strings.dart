@@ -176,6 +176,7 @@ class Strings {
   static const postTo = "Post to";
 
   static const newHub = 'New hub';
+  static const editHub = 'Edit hub';
 
   static const addUrl = 'Add URL';
 

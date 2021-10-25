@@ -54,18 +54,35 @@ class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
                 Positioned(
                   top: 4,
                   right: 0,
-                  child: ElevatedButton(
-                    child: Icon(
-                      Icons.settings,
-                      size: 24,
-                      color: AppColors.white,
-                    ),
-                    onPressed: viewModel.onSettingsPressed,
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(8),
-                      primary: AppColors.black.withOpacity(0.3),
-                    ),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        child: Icon(
+                          Icons.edit,
+                          size: 24,
+                          color: AppColors.white,
+                        ),
+                        onPressed: viewModel.onEditHubClicked,
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(8),
+                          primary: AppColors.black.withOpacity(0.3),
+                        ),
+                      ),
+                      ElevatedButton(
+                        child: Icon(
+                          Icons.settings,
+                          size: 24,
+                          color: AppColors.white,
+                        ),
+                        onPressed: viewModel.onSettingsPressed,
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(8),
+                          primary: AppColors.black.withOpacity(0.3),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               if (!viewModel.isCurrentUser())

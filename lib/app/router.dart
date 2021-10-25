@@ -7,6 +7,7 @@ import 'package:dairo/presentation/view/auth/splash/auth_splash_view.dart';
 import 'package:dairo/presentation/view/followers/followers_view.dart';
 import 'package:dairo/presentation/view/followings/followings_view.dart';
 import 'package:dairo/presentation/view/hub/discussion/hub_discussion_view.dart';
+import 'package:dairo/presentation/view/hub/edit_hub/edit_hub_view.dart';
 import 'package:dairo/presentation/view/hub/hub_view.dart';
 import 'package:dairo/presentation/view/hub/settings/hub_settings_view.dart';
 import 'package:dairo/presentation/view/main/main_view.dart';
@@ -54,6 +55,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: SettingsAccountView),
     MaterialRoute(page: MessagingView),
     MaterialRoute(page: OnboardingView),
+    MaterialRoute(page: EditHubView),
   ],
 )
 class $AppRouter {}
