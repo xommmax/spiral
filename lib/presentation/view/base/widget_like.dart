@@ -1,7 +1,6 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class WidgetLike extends StatefulWidget {
@@ -29,30 +28,24 @@ class _WidgetLikeState extends State<WidgetLike> {
   _WidgetLikeState(this._likesCount, this._isLiked);
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onLongPressStart: _likesCount > 0
-            ? (details) {
-                HapticFeedback.heavyImpact();
-                widget.onUsersLikedScreenClicked();
-              }
-            : null,
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: _onLikeTap,
-              icon: Icon(
-                _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                color: AppColors.white,
+  Widget build(BuildContext context) => Row(
+        children: [
+          IconButton(
+            onPressed: _onLikeTap,
+            icon: Icon(
+              _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+              color: AppColors.white,
+            ),
+          ),
+          if (_likesCount != 0)
+            InkWell(
+              onTap: () => widget.onUsersLikedScreenClicked(),
+              child: Text(
+                _likesCount.toString(),
+                style: TextStyles.black12,
               ),
             ),
-            _likesCount != 0
-                ? Text(
-                    _likesCount.toString(),
-                    style: TextStyles.black12,
-                  )
-                : SizedBox.shrink(),
-          ],
-        ),
+        ],
       );
 
   void _setIsLiked(bool isLiked) => setState(() {
