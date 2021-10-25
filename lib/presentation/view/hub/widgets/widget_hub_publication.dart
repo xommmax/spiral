@@ -176,6 +176,7 @@ class _WidgetHubPublicationTextState extends State<_WidgetHubPublicationText> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.textController.document.isEmpty()) return SizedBox.shrink();
     bool hasOverflow = (textHeight != null && textHeight! >= maxTextHeight);
     Widget child = Container(
       key: stickyKey,
@@ -309,13 +310,6 @@ class _WidgetHubPublicationFooter extends StatelessWidget {
                     isLiked,
                   ),
                   onUsersLikedScreenClicked: onUsersLikedScreenClicked,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 12),
-                ),
-                Icon(
-                  Icons.messenger_outline,
-                  color: AppColors.white,
                 ),
               ],
             ),

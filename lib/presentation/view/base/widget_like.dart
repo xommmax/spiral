@@ -1,5 +1,4 @@
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -41,8 +40,13 @@ class _WidgetLikeState extends State<WidgetLike> {
             InkWell(
               onTap: () => widget.onUsersLikedScreenClicked(),
               child: Text(
-                _likesCount.toString(),
-                style: TextStyles.black12,
+                _likesCount.toString() +
+                    ((_likesCount == 1) ? ' like' : ' likes'),
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
         ],
