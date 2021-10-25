@@ -7,6 +7,7 @@ import 'package:dairo/data/api/model/response/publication_response.dart';
 import 'package:dairo/data/api/model/response/user_response.dart';
 import 'package:dairo/data/api/repository/hub_remote_repository.dart';
 import 'package:dairo/data/api/repository/publication_remote_repository.dart';
+import 'package:dairo/presentation/view/tools/string_tools.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
@@ -17,34 +18,113 @@ class ExploreRemoteRepository {
   final HubRemoteRepository _hubRemoteRepository =
       locator<HubRemoteRepository>();
 
-  Future<List<UserResponse>> searchProfiles(String searchQuery) => _firestore
-      .collection(FirebaseCollections.users)
-      .where(FirestoreKeys.name,
-          isGreaterThanOrEqualTo: searchQuery,
-          isLessThanOrEqualTo: searchQuery + '\uf8ff')
-      .get()
-      .then((snapshot) => snapshot.docs
-          .map((doc) => UserResponse.fromJson(doc.data(), id: doc.id))
-          .toList());
+  Future<List<UserResponse>> searchProfiles(String searchQuery) async {
+    List<UserResponse> result = [];
+    final nameMatchCase = await _firestore
+        .collection(FirebaseCollections.users)
+        .where(FirestoreKeys.name,
+            isGreaterThanOrEqualTo: searchQuery,
+            isLessThanOrEqualTo: searchQuery + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) => UserResponse.fromJson(doc.data(), id: doc.id))
+            .toList());
 
-  Future<List<HubResponse>> searchHubs(String searchQuery) => _firestore
-      .collection(FirebaseCollections.userHubs)
-      .where(FirestoreKeys.isPrivate, isEqualTo: false)
-      .where(FirestoreKeys.name,
-          isGreaterThanOrEqualTo: searchQuery,
-          isLessThanOrEqualTo: searchQuery + '\uf8ff')
-      .get()
-      .then(
-        (snapshot) => Future.wait(
-          snapshot.docs.map(
-            (doc) async => HubResponse.fromJson(
-              doc.data(),
-              id: doc.id,
-              isFollow: await _hubRemoteRepository.isCurrentUserFollows(doc.id),
-            ),
-          ),
-        ),
-      );
+    final nameCapitalize = await _firestore
+        .collection(FirebaseCollections.users)
+        .where(FirestoreKeys.name,
+            isGreaterThanOrEqualTo: searchQuery.capitalize(),
+            isLessThanOrEqualTo: searchQuery.capitalize() + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) => UserResponse.fromJson(doc.data(), id: doc.id))
+            .toList());
+
+    final descMatchCase = await _firestore
+        .collection(FirebaseCollections.users)
+        .where(FirestoreKeys.description,
+            isGreaterThanOrEqualTo: searchQuery,
+            isLessThanOrEqualTo: searchQuery + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) => UserResponse.fromJson(doc.data(), id: doc.id))
+            .toList());
+
+    final descCapitalize = await _firestore
+        .collection(FirebaseCollections.users)
+        .where(FirestoreKeys.description,
+            isGreaterThanOrEqualTo: searchQuery.capitalize(),
+            isLessThanOrEqualTo: searchQuery.capitalize() + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) => UserResponse.fromJson(doc.data(), id: doc.id))
+            .toList());
+
+    result.addAll(nameMatchCase);
+    result.addAll(nameCapitalize);
+    result.addAll(descMatchCase);
+    result.addAll(descCapitalize);
+
+    return result;
+  }
+
+  Future<List<HubResponse>> searchHubs(String searchQuery) async {
+    List<HubResponse> result = [];
+    final nameMatchCase = await _firestore
+        .collection(FirebaseCollections.userHubs)
+        .where(FirestoreKeys.isPrivate, isEqualTo: false)
+        .where(FirestoreKeys.name,
+            isGreaterThanOrEqualTo: searchQuery,
+            isLessThanOrEqualTo: searchQuery + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) =>
+                HubResponse.fromJson(doc.data(), id: doc.id, isFollow: false))
+            .toList());
+
+    final nameCapitalize = await _firestore
+        .collection(FirebaseCollections.userHubs)
+        .where(FirestoreKeys.isPrivate, isEqualTo: false)
+        .where(FirestoreKeys.name,
+            isGreaterThanOrEqualTo: searchQuery.capitalize(),
+            isLessThanOrEqualTo: searchQuery.capitalize() + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) =>
+                HubResponse.fromJson(doc.data(), id: doc.id, isFollow: false))
+            .toList());
+
+    final descMatchCase = await _firestore
+        .collection(FirebaseCollections.userHubs)
+        .where(FirestoreKeys.isPrivate, isEqualTo: false)
+        .where(FirestoreKeys.description,
+            isGreaterThanOrEqualTo: searchQuery,
+            isLessThanOrEqualTo: searchQuery + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) =>
+                HubResponse.fromJson(doc.data(), id: doc.id, isFollow: false))
+            .toList());
+
+    final descCapitalize = await _firestore
+        .collection(FirebaseCollections.userHubs)
+        .where(FirestoreKeys.isPrivate, isEqualTo: false)
+        .where(FirestoreKeys.description,
+            isGreaterThanOrEqualTo: searchQuery.capitalize(),
+            isLessThanOrEqualTo: searchQuery.capitalize() + '\uf8ff')
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((doc) =>
+                HubResponse.fromJson(doc.data(), id: doc.id, isFollow: false))
+            .toList());
+
+    result.addAll(nameMatchCase);
+    result.addAll(nameCapitalize);
+    result.addAll(descMatchCase);
+    result.addAll(descCapitalize);
+
+    return result;
+  }
 
   Future<List<PublicationResponse>> fetchExplorePublications() => _firestore
       .collection(FirebaseCollections.explorePublications)

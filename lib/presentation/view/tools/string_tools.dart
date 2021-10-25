@@ -1,9 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 extension StringExtension on String {
-  String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1)}";
-  }
+  String capitalize() =>
+      this.length > 0 ? "${this[0].toUpperCase()}${this.substring(1)}" : '';
 
   String get overflow => Characters(this)
       .replaceAll(Characters(''), Characters('\u{200B}'))
