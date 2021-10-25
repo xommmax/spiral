@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
@@ -33,15 +35,18 @@ class EditHubViewContent extends ViewModelWidget<EditHubViewModel> {
                       aspectRatio:
                           Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
                       child: Container(
-                        child: viewModel.viewData.pictureUrl == null
-                            ? Image.asset(
-                                'assets/images/default_hub_cover.png',
-                                fit: BoxFit.cover,
-                              )
-                            : CachedNetworkImage(
-                                imageUrl: viewModel.viewData.pictureUrl!,
-                                fit: BoxFit.cover,
-                              ),
+                        child: viewModel.viewData.newPictureUrl != null
+                            ? Image.file(
+                                File(viewModel.viewData.newPictureUrl!))
+                            : viewModel.viewData.pictureUrl == null
+                                ? Image.asset(
+                                    'assets/images/default_hub_cover.png',
+                                    fit: BoxFit.cover,
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl: viewModel.viewData.pictureUrl!,
+                                    fit: BoxFit.cover,
+                                  ),
                         color: AppColors.white,
                         foregroundDecoration: BoxDecoration(
                           gradient: LinearGradient(

@@ -40,4 +40,7 @@ abstract class HubRepository {
   Future<HubDiscussion> getHubDiscussion(String hubId);
 
   Future<void> reorderHubs(List<Hub> hubs);
+
+  Future<void> updateHub(
+      String hubId, String name, String description, String? newPictureUrl);
 }

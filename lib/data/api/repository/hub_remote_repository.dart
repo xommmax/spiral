@@ -194,4 +194,24 @@ class HubRemoteRepository {
           .collection(FirebaseCollections.userHubs)
           .doc(hub.id)
           .update({'orderIndex': hub.orderIndex})));
+
+  Future<HubResponse> updateHub(String hubId, String name, String description,
+      String? newPictureUrl) async {
+    var data = {'name': name, 'description': description};
+    if (newPictureUrl != null) {
+      data['pictureUrl'] = await uploadHubPicture(File(newPictureUrl));
+    }
+
+    await _firestore
+        .collection(FirebaseCollections.userHubs)
+        .doc(hubId)
+        .update(data);
+
+    return _firestore
+        .collection(FirebaseCollections.userHubs)
+        .doc(hubId)
+        .get()
+        .then((value) =>
+            HubResponse.fromJson(value.data()!, id: value.id, isFollow: false));
+  }
 }
