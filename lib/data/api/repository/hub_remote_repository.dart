@@ -28,7 +28,7 @@ class HubRemoteRepository {
   Future<HubResponse> createHub(HubRequest hubRequest) async {
     var requestJson = hubRequest.toJson();
     requestJson['followersCount'] = 0;
-    requestJson['orderIndex'] = 0;
+    requestJson['orderIndex'] = -1;
 
     final snapshot = await _firestore
         .collection(FirebaseCollections.userHubs)

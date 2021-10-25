@@ -66,7 +66,10 @@ class HubRepositoryImpl implements HubRepository {
     var hubs = hubResponses
         .map((e) => Hub.fromItemData(HubItemData.fromResponse(e)))
         .toList();
-    hubs.forEach((hub) => hub.orderIndex++);
+    hubs.sort((h1, h2) => h1.orderIndex - h2.orderIndex);
+    for (int i = 0; i < hubs.length; i++) {
+      hubs[i].orderIndex = i;
+    }
     await reorderHubs(hubs);
   }
 
@@ -183,6 +186,7 @@ class HubRepositoryImpl implements HubRepository {
     var hubs = hubResponses
         .map((e) => Hub.fromItemData(HubItemData.fromResponse(e)))
         .toList();
+    hubs.sort((h1, h2) => h1.orderIndex - h2.orderIndex);
     for (int i = 0; i < hubs.length; i++) {
       hubs[i].orderIndex = i;
     }
