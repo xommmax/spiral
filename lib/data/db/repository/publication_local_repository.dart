@@ -45,6 +45,9 @@ class PublicationLocalRepository {
       _database.commentDao.getCommentReplies(parentCommentId);
 
   Future<void> updateCommentReplies(
-      List<CommentItemData> comments, String parentCommentId) =>
+          List<CommentItemData> comments, String parentCommentId) =>
       _database.commentDao.updateCommentReplies(comments, parentCommentId);
+
+  Future<void> deletePublication(PublicationItemData publication) =>
+      _database.publicationDao.deletePublication(publication);
 }

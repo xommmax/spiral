@@ -22,26 +22,28 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
             : Expanded(
                 child: ListView.separated(
                   padding: EdgeInsets.only(top: 8),
-                  itemBuilder: (context, position) => WidgetHubPublication(
-                    key:
-                        ValueKey(viewModel.viewData.publications[position]!.id),
-                    publication: viewModel.viewData.publications[position]!,
-                    onPublicationLikeClicked:
-                        viewModel.onPublicationLikeClicked,
-                    onUsersLikedScreenClicked:
-                        viewModel.onUsersLikedScreenClicked,
-                    onPublicationDetailsClicked:
-                        viewModel.onPublicationDetailsClicked,
-                    user: viewModel.viewData.users[
-                        viewModel.viewData.publications[position]!.userId],
-                    hub: viewModel.viewData
-                        .hubs[viewModel.viewData.publications[position]!.hubId],
-                    onUserClicked: viewModel.onUserClicked,
-                    onHubClicked: viewModel.onHubClicked,
-                    onReport: viewModel.onReport,
-                    textController:
-                        viewModel.viewData.textControllers[position],
-                  ),
+                  itemBuilder: (context, position) {
+                    final publication =
+                        viewModel.viewData.publications[position]!;
+                    return WidgetHubPublication(
+                      key: ValueKey(publication.id),
+                      publication: publication,
+                      onPublicationLikeClicked:
+                          viewModel.onPublicationLikeClicked,
+                      onUsersLikedScreenClicked:
+                          viewModel.onUsersLikedScreenClicked,
+                      onPublicationDetailsClicked:
+                          viewModel.onPublicationDetailsClicked,
+                      user: viewModel.viewData.users[publication.userId],
+                      hub: viewModel.viewData.hubs[publication.hubId],
+                      onUserClicked: viewModel.onUserClicked,
+                      onHubClicked: viewModel.onHubClicked,
+                      onReport: viewModel.onReport,
+                      onDelete: null,
+                      textController:
+                          viewModel.viewData.textControllers[position],
+                    );
+                  },
                   separatorBuilder: (context, position) => Divider(
                     height: 14,
                   ),

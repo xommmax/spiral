@@ -20,7 +20,8 @@ class WidgetHubPublications extends ViewModelWidget<HubViewModel> {
           hub: viewModel.viewData.hub,
           onUserClicked: viewModel.onUserClicked,
           onHubClicked: viewModel.onHubClicked,
-          onReport: viewModel.onReport,
+          onReport: viewModel.isCurrentUser() ? null : viewModel.onReport,
+          onDelete: viewModel.isCurrentUser() ? viewModel.onDelete : null,
           textController: viewModel.viewData.textControllers[position],
         ),
         separatorBuilder: (context, position) => Divider(

@@ -42,4 +42,6 @@ abstract class PublicationRepository {
     required String publicationId,
     required String parentCommentId,
   });
+
+  Future<void> deletePublication({required String publicationId});
 }

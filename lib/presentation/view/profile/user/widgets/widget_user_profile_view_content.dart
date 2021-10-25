@@ -40,7 +40,7 @@ class WidgetUserProfileViewContent
                             onPressed: () => showCupertinoModalPopup(
                                 context: context,
                                 builder: (context) => OptionsBottomSheet(
-                                      viewModel.onReport,
+                                      onReport: viewModel.onReport,
                                       onBlock: viewModel.onBlock,
                                     )),
                           ),

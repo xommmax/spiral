@@ -26,7 +26,8 @@ class WidgetHubPublication extends StatelessWidget {
   final Function(Publication publication) onPublicationDetailsClicked;
   final Function(User? user) onUserClicked;
   final Function(Hub? hub) onHubClicked;
-  final Function(Publication publication) onReport;
+  final Function(Publication publication)? onReport;
+  final Function(Publication publication)? onDelete;
   final quill.QuillController textController;
 
   const WidgetHubPublication({
@@ -38,6 +39,7 @@ class WidgetHubPublication extends StatelessWidget {
     required this.onUsersLikedScreenClicked,
     required this.onPublicationDetailsClicked,
     required this.onReport,
+    required this.onDelete,
     required this.onUserClicked,
     required this.onHubClicked,
     required this.textController,
@@ -114,8 +116,14 @@ class WidgetHubPublication extends StatelessWidget {
                     ),
                     onTap: () => showCupertinoModalPopup(
                         context: context,
-                        builder: (context) =>
-                            OptionsBottomSheet(() => onReport(publication))),
+                        builder: (context) => OptionsBottomSheet(
+                              onReport: (onReport == null)
+                                  ? null
+                                  : () => onReport!(publication),
+                              onDelete: (onDelete == null)
+                                  ? null
+                                  : () => onDelete!(publication),
+                            )),
                   ),
                 ],
               ),

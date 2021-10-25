@@ -485,6 +485,26 @@ class _$PublicationDao extends PublicationDao {
                   'link': item.link,
                   'attachedFileUrl': item.attachedFileUrl
                 },
+            changeListener),
+        _publicationItemDataDeletionAdapter = DeletionAdapter(
+            database,
+            'publication',
+            ['id'],
+            (PublicationItemData item) => <String, Object?>{
+                  'id': item.id,
+                  'hubId': item.hubId,
+                  'userId': item.userId,
+                  'text': item.text,
+                  'mediaUrls': item.mediaUrls,
+                  'previewUrls': item.previewUrls,
+                  'isLiked': item.isLiked ? 1 : 0,
+                  'likesCount': item.likesCount,
+                  'commentsCount': item.commentsCount,
+                  'createdAt': item.createdAt,
+                  'viewType': item.viewType,
+                  'link': item.link,
+                  'attachedFileUrl': item.attachedFileUrl
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -495,6 +515,9 @@ class _$PublicationDao extends PublicationDao {
 
   final InsertionAdapter<PublicationItemData>
       _publicationItemDataInsertionAdapter;
+
+  final DeletionAdapter<PublicationItemData>
+      _publicationItemDataDeletionAdapter;
 
   @override
   Stream<List<PublicationItemData>> getPublications(String hubId) {
@@ -578,7 +601,7 @@ class _$PublicationDao extends PublicationDao {
   }
 
   @override
-  Future<void> deletePublication(String id) async {
+  Future<void> deletePublicationById(String id) async {
     await _queryAdapter.queryNoReturn('DELETE FROM publication WHERE id = ?1',
         arguments: [id]);
   }
@@ -594,6 +617,11 @@ class _$PublicationDao extends PublicationDao {
       List<PublicationItemData> publications) async {
     await _publicationItemDataInsertionAdapter.insertList(
         publications, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deletePublication(PublicationItemData publication) async {
+    await _publicationItemDataDeletionAdapter.delete(publication);
   }
 
   @override

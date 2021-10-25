@@ -140,11 +140,16 @@ class PublicationViewModel extends MultipleStreamViewModel {
     }
   }
 
-  void onReport() async {
+  void onReport() {
     _supportRepository.reportPublication(
         publicationId: publicationId, reason: "TODO");
     AppDialog.showInformDialog(
         title: Strings.reported, description: Strings.reportedPublicationDesc);
+  }
+
+  void onDelete() {
+    _publicationRepository.deletePublication(publicationId: publicationId);
+    navigationService.back();
   }
 
   String getAttachedFileName() =>
@@ -167,4 +172,6 @@ class PublicationViewModel extends MultipleStreamViewModel {
     commentsTextController.dispose();
     super.dispose();
   }
+
+  bool isCurrentUserPublication() => _userRepository.isCurrentUser(userId);
 }

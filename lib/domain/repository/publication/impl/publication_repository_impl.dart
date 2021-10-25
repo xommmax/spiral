@@ -270,4 +270,10 @@ class PublicationRepositoryImpl implements PublicationRepository {
           AnalyticsEventPropertiesKeys.commentId: commentId,
         },
       );
+
+  @override
+  Future<void> deletePublication({required String publicationId}) async {
+    final response = await _remote.deletePublication(publicationId);
+    await _local.deletePublication(PublicationItemData.fromResponse(response));
+  }
 }

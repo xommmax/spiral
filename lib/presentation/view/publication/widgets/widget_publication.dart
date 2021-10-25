@@ -137,7 +137,14 @@ class WidgetPublicationHeader extends ViewModelWidget<PublicationViewModel> {
             ),
             onTap: () => showCupertinoModalPopup(
                 context: context,
-                builder: (context) => OptionsBottomSheet(viewModel.onReport)),
+                builder: (context) => OptionsBottomSheet(
+                      onReport: viewModel.isCurrentUserPublication()
+                          ? null
+                          : () => viewModel.onReport(),
+                      onDelete: viewModel.isCurrentUserPublication()
+                          ? () => viewModel.onDelete()
+                          : null,
+                    )),
           ),
         ],
       ),

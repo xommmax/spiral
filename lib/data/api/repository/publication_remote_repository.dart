@@ -254,4 +254,15 @@ class PublicationRemoteRepository {
               ),
             ),
           );
+
+  Future<PublicationResponse> deletePublication(String publicationId) async {
+    final ref = _firestore
+        .collection(FirebaseCollections.hubPublications)
+        .doc(publicationId);
+    final snap = await ref.get();
+    final response =
+        PublicationResponse.fromJson(snap.data()!, id: snap.id, isLiked: false);
+    await ref.delete();
+    return response;
+  }
 }

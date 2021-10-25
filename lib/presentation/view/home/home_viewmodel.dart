@@ -121,11 +121,15 @@ class HomeViewModel extends MultipleStreamViewModel {
         arguments: HubViewArguments(hubId: hub.id, userId: hub.userId));
   }
 
-  onReport(Publication publication) async {
+  void onReport(Publication publication) {
     _supportRepository.reportPublication(
         publicationId: publication.id, reason: "TODO");
     AppDialog.showInformDialog(
         title: Strings.reported, description: Strings.reportedPublicationDesc);
+  }
+
+  void onDelete(Publication publication) {
+    _publicationRepository.deletePublication(publicationId: publication.id);
   }
 
   void onMessageIconClicked() =>
@@ -136,4 +140,7 @@ class HomeViewModel extends MultipleStreamViewModel {
     viewData.textControllers.forEach((controller) => controller.dispose());
     super.dispose();
   }
+
+  bool isCurrentUserPublication(Publication publication) =>
+      _userRepository.isCurrentUser(publication.userId);
 }

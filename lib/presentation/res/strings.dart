@@ -238,5 +238,7 @@ class Strings {
 
   static const deleteAccount = 'Delete Account';
 
+  static const delete = 'Delete';
+
 /* Uncategorized */
 }

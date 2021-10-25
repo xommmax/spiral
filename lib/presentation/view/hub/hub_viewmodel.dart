@@ -166,11 +166,15 @@ class HubViewModel extends MultipleStreamViewModel {
         arguments: HubViewArguments(hubId: hub.id, userId: hub.userId));
   }
 
-  onReport(Publication publication) async {
+  void onReport(Publication publication) {
     _supportRepository.reportPublication(
         publicationId: publication.id, reason: "TODO");
     AppDialog.showInformDialog(
         title: Strings.reported, description: Strings.reportedPublicationDesc);
+  }
+
+  void onDelete(Publication publication) {
+    _publicationRepository.deletePublication(publicationId: publication.id);
   }
 
   void openDiscussion() {

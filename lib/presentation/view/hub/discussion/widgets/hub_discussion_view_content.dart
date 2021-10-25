@@ -62,8 +62,8 @@ class HubDiscussionViewContent extends ViewModelWidget<HubDiscussionViewModel> {
                 child: Chat(
                   onMessageLongPress: (m) => showCupertinoModalPopup(
                       context: context,
-                      builder: (context) =>
-                          OptionsBottomSheet(() => viewModel.onReport(m))),
+                      builder: (context) => OptionsBottomSheet(
+                          onReport: () => viewModel.onReport(m))),
                   onAvatarPressed: viewModel.onAvatarPressed,
                   theme: DefaultChatTheme(
                     backgroundColor: AppColors.darkAccentColor,

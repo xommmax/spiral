@@ -24,11 +24,14 @@ abstract class PublicationDao {
   Future<void> deletePublications(String hubId);
 
   @Query('DELETE FROM publication WHERE id = :id')
-  Future<void> deletePublication(String id);
+  Future<void> deletePublicationById(String id);
+
+  @delete
+  Future<void> deletePublication(PublicationItemData publication);
 
   @transaction
   Future<void> updatePublication(PublicationItemData publication) async {
-    await deletePublication(publication.id);
+    await deletePublicationById(publication.id);
     await insertPublication(publication);
   }
 
