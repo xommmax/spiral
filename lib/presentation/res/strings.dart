@@ -241,5 +241,8 @@ class Strings {
 
   static const delete = 'Delete';
 
+  static const inviteFriendsDesc =
+      'Check out Spiral new social platform: https://spiralapp.site/';
+
 /* Uncategorized */
 }

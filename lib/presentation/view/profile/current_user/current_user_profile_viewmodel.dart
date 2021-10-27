@@ -5,6 +5,7 @@ import 'package:dairo/domain/model/user/user.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/profile/base/base_profile_viewmodel.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class CurrentUserProfileViewModel extends BaseProfileViewModel {
@@ -35,5 +36,9 @@ class CurrentUserProfileViewModel extends BaseProfileViewModel {
     }
     hubRepository.reorderHubs(viewData.hubs);
     notifyListeners();
+  }
+
+  void onInviteFriendsClicked() {
+    Share.share(Strings.inviteFriendsDesc);
   }
 }

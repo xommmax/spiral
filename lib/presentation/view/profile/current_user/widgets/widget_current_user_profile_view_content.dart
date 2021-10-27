@@ -80,19 +80,38 @@ class WidgetCurrentUserProfileViewContent
                             textAlign: TextAlign.center,
                           ),
                         ),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(10),
-                        onTap: viewModel.onUserHubsFollowingClicked,
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            '${viewModel.viewData.user?.followingsCount ?? 0} followings',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w700,
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: viewModel.onUserHubsFollowingClicked,
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                '${viewModel.viewData.user?.followingsCount ?? 0} followings',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: viewModel.onInviteFriendsClicked,
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                'Invite Friends',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
