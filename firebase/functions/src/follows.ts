@@ -24,13 +24,9 @@ export const onUnfollowHub = functions
 
 export async function updateFollowersCount(isFollow: boolean, hubId: string): Promise<any> {
   const snap = admin.firestore().doc(`userHubs/${hubId}`);
-  const doc = await snap.get();
-  const count = await doc.get("followersCount");
   if (isFollow) {
     return snap.update({"followersCount": admin.firestore.FieldValue.increment(1)});
-  } else if (count > 0) {
-    return snap.update({"followersCount": admin.firestore.FieldValue.increment(-1)});
   } else {
-    return "Cannot decrement the value";
+    return snap.update({"followersCount": admin.firestore.FieldValue.increment(-1)});
   }
 }
