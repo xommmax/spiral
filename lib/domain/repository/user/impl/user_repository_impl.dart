@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/data/api/firebase_storage_folder.dart';
@@ -96,7 +97,6 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> saveUser({
     required String id,
     required String name,
-    required String username,
     required int age,
     String? photoURL,
     String? defaultPhotoUrl,
@@ -121,9 +121,10 @@ class UserRepositoryImpl implements UserRepository {
         photoURL: remoteUrl,
         phoneNumber: phoneNumber,
         email: email,
-        username: username,
         description: description,
         age: age,
+        username: _generateUsername(name),
+        createdAt: DateTime.now().millisecondsSinceEpoch,
       ),
     );
     await _local.addUser(UserItemData.fromResponse(response));
@@ -157,6 +158,8 @@ class UserRepositoryImpl implements UserRepository {
           name: name ?? user.name,
           username: username ?? user.username,
           description: description ?? user.description,
+          age: user.age,
+          createdAt: user.createdAt,
         ),
       );
       await _local.updateUser(UserItemData.fromResponse(response));
@@ -177,4 +180,8 @@ class UserRepositoryImpl implements UserRepository {
     await _local.deleteUserById(currentUserId);
     await _auth.currentUser!.delete().catchError((onError) {});
   }
+
+  String _generateUsername(String name) =>
+      name.toLowerCase().replaceAll(' ', '_') +
+      Random().nextInt(1000).toString();
 }

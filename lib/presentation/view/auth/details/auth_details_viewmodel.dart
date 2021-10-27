@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
@@ -123,7 +122,6 @@ class AuthDetailsViewModel extends BaseViewModel {
       phoneNumber: user!.phoneNumber,
       email: user!.email,
       description: viewData.bio,
-      username: generateUsername(viewData.name!),
     )
         .then((value) {
       setBusy(false);
@@ -132,10 +130,6 @@ class AuthDetailsViewModel extends BaseViewModel {
       setBusy(false);
     });
   }
-
-  String generateUsername(String name) =>
-      name.toLowerCase().replaceAll(' ', '_') +
-      Random().nextInt(1000).toString();
 
   @override
   void dispose() {

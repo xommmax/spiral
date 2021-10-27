@@ -13,6 +13,7 @@ class UserItemData {
   final String? photoURL;
   final int? followingsCount;
   final int? age;
+  final int? createdAt;
 
   UserItemData({
     required this.id,
@@ -24,6 +25,7 @@ class UserItemData {
     required this.photoURL,
     required this.followingsCount,
     required this.age,
+    required this.createdAt,
   });
 
   factory UserItemData.fromResponse(UserResponse response) => UserItemData(
@@ -36,11 +38,12 @@ class UserItemData {
         photoURL: response.photoURL,
         followingsCount: response.followingsCount,
         age: response.age,
+        createdAt: response.createdAt,
       );
 
   @override
   String toString() {
-    return 'UserItemData{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, followingsCount: $followingsCount, age: $age}';
+    return 'UserItemData{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, followingsCount: $followingsCount, age: $age, createdAt: $createdAt}';
   }
 
   @override
@@ -56,7 +59,8 @@ class UserItemData {
           phoneNumber == other.phoneNumber &&
           photoURL == other.photoURL &&
           followingsCount == other.followingsCount &&
-          age == other.age;
+          age == other.age &&
+          createdAt == other.createdAt;
 
   @override
   int get hashCode =>
@@ -68,5 +72,6 @@ class UserItemData {
       phoneNumber.hashCode ^
       photoURL.hashCode ^
       followingsCount.hashCode ^
-      age.hashCode;
+      age.hashCode ^
+      createdAt.hashCode;
 }

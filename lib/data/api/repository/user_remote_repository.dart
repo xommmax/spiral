@@ -54,19 +54,17 @@ class UserRemoteRepository {
     return UserResponse.fromJson(snapshot.data(), id: snapshot.id);
   }
 
-  Future<UserRequest> loginWithSocial(SocialAuthRequest request) async {
-    User firebaseUser;
+  Future<void> loginWithSocial(SocialAuthRequest request) async {
     switch (request.type) {
       case SocialAuthType.Google:
-        firebaseUser = await _loginWithGoogle();
+        await _loginWithGoogle();
         break;
       case SocialAuthType.Apple:
-        firebaseUser = await _loginWithApple();
+        await _loginWithApple();
         break;
       default:
         throw ArgumentError.value(request);
     }
-    return UserRequest.fromFirebase(firebaseUser);
   }
 
   Future<User> _loginWithGoogle() async {
@@ -118,19 +116,15 @@ class UserRemoteRepository {
         codeAutoRetrievalTimeout: (id) => codeVerificationId = id,
       );
 
-  Future<UserRequest> verifySmsCode(String code) async {
+  Future<void> verifySmsCode(String code) async {
     if (codeVerificationId == null) {
       throw SocialAuthException(
           message: Strings.errorVerificationCodeIsInvalid);
     }
-    User firebaseUser = await _signInWithCredentials(
-      PhoneAuthProvider.credential(
-        verificationId: codeVerificationId!,
-        smsCode: code,
-      ),
-    );
-
-    return UserRequest.fromFirebase(firebaseUser);
+    await _signInWithCredentials(PhoneAuthProvider.credential(
+      verificationId: codeVerificationId!,
+      smsCode: code,
+    ));
   }
 
   Stream<UserResponse> fetchUserStream(

@@ -39,16 +39,16 @@ class AuthMethodViewModel extends BaseViewModel {
             '1';
   }
 
-  onGoogleSignUpClicked() =>
+  void onGoogleSignUpClicked() =>
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Google));
 
-  onAppleSignUpClicked() =>
+  void onAppleSignUpClicked() =>
       _loginWithSocial(SocialAuthRequest(SocialAuthType.Apple));
 
   void _loginWithSocial(SocialAuthRequest request) =>
       _userRepository.loginWithSocial(request);
 
-  onPhoneNextClicked() async {
+  void onPhoneNextClicked() async {
     String number = phoneNumberController.text;
     if (number.isEmpty) {
       AppSnackBar.showSnackBarError(Strings.errorPhoneNumberIsEmpty);

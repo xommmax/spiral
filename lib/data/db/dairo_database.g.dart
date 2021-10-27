@@ -72,7 +72,7 @@ class _$DairoDatabase extends DairoDatabase {
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 3,
+      version: 4,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -88,7 +88,7 @@ class _$DairoDatabase extends DairoDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, `followingsCount` INTEGER, `age` INTEGER, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` TEXT NOT NULL, `name` TEXT, `username` TEXT, `description` TEXT, `email` TEXT, `phoneNumber` TEXT, `photoURL` TEXT, `followingsCount` INTEGER, `age` INTEGER, `createdAt` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hub` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `pictureUrl` TEXT, `createdAt` INTEGER NOT NULL, `followersCount` INTEGER NOT NULL, `isFollow` INTEGER NOT NULL, `isPrivate` INTEGER NOT NULL, `isDiscussionEnabled` INTEGER NOT NULL, `orderIndex` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -139,7 +139,8 @@ class _$UserDao extends UserDao {
                   'phoneNumber': item.phoneNumber,
                   'photoURL': item.photoURL,
                   'followingsCount': item.followingsCount,
-                  'age': item.age
+                  'age': item.age,
+                  'createdAt': item.createdAt
                 },
             changeListener),
         _userItemDataDeletionAdapter = DeletionAdapter(
@@ -155,7 +156,8 @@ class _$UserDao extends UserDao {
                   'phoneNumber': item.phoneNumber,
                   'photoURL': item.photoURL,
                   'followingsCount': item.followingsCount,
-                  'age': item.age
+                  'age': item.age,
+                  'createdAt': item.createdAt
                 },
             changeListener);
 
@@ -181,7 +183,8 @@ class _$UserDao extends UserDao {
             phoneNumber: row['phoneNumber'] as String?,
             photoURL: row['photoURL'] as String?,
             followingsCount: row['followingsCount'] as int?,
-            age: row['age'] as int?),
+            age: row['age'] as int?,
+            createdAt: row['createdAt'] as int?),
         arguments: [userId],
         queryableName: 'user',
         isView: false);
@@ -204,7 +207,8 @@ class _$UserDao extends UserDao {
             phoneNumber: row['phoneNumber'] as String?,
             photoURL: row['photoURL'] as String?,
             followingsCount: row['followingsCount'] as int?,
-            age: row['age'] as int?),
+            age: row['age'] as int?,
+            createdAt: row['createdAt'] as int?),
         arguments: [...userIds],
         queryableName: 'user',
         isView: false);
@@ -222,7 +226,8 @@ class _$UserDao extends UserDao {
             phoneNumber: row['phoneNumber'] as String?,
             photoURL: row['photoURL'] as String?,
             followingsCount: row['followingsCount'] as int?,
-            age: row['age'] as int?),
+            age: row['age'] as int?,
+            createdAt: row['createdAt'] as int?),
         arguments: [userId]);
   }
 

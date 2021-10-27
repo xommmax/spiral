@@ -24,7 +24,6 @@ abstract class UserRepository {
   Future<void> saveUser({
     required String id,
     required String name,
-    required String username,
     required int age,
     String? photoURL,
     String? defaultPhotoUrl,

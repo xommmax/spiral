@@ -16,6 +16,7 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       photoURL: json['photoURL'] as String?,
       followingsCount: json['followingsCount'] as int?,
       age: json['age'] as int?,
+      createdAt: json['createdAt'] as int?,
     );
 
 Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
@@ -29,4 +30,5 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'photoURL': instance.photoURL,
       'followingsCount': instance.followingsCount,
       'age': instance.age,
+      'createdAt': instance.createdAt,
     };

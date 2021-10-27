@@ -13,6 +13,7 @@ class UserResponse {
   final String? photoURL;
   final int? followingsCount;
   final int? age;
+  final int? createdAt;
 
   UserResponse({
     required this.id,
@@ -24,6 +25,7 @@ class UserResponse {
     required this.photoURL,
     required this.followingsCount,
     required this.age,
+    required this.createdAt,
   });
 
   factory UserResponse.fromJson(
@@ -41,7 +43,7 @@ class UserResponse {
 
   @override
   String toString() {
-    return 'UserResponse{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, followingsCount: $followingsCount, age: $age}';
+    return 'UserResponse{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, followingsCount: $followingsCount, age: $age, createdAt: $createdAt}';
   }
 
   @override
@@ -57,7 +59,8 @@ class UserResponse {
           phoneNumber == other.phoneNumber &&
           photoURL == other.photoURL &&
           followingsCount == other.followingsCount &&
-          age == other.age;
+          age == other.age &&
+          createdAt == other.createdAt;
 
   @override
   int get hashCode =>
@@ -69,5 +72,6 @@ class UserResponse {
       phoneNumber.hashCode ^
       photoURL.hashCode ^
       followingsCount.hashCode ^
-      age.hashCode;
+      age.hashCode ^
+      createdAt.hashCode;
 }

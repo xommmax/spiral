@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_request.g.dart';
@@ -13,6 +12,7 @@ class UserRequest {
   final String? phoneNumber;
   final String? photoURL;
   final int? age;
+  final int? createdAt;
 
   UserRequest({
     required this.id,
@@ -20,24 +20,17 @@ class UserRequest {
     required this.email,
     required this.phoneNumber,
     required this.photoURL,
-    this.username,
-    this.description,
-    this.age,
+    required this.username,
+    required this.description,
+    required this.age,
+    required this.createdAt,
   });
-
-  factory UserRequest.fromFirebase(firebase.User firebaseUser) => UserRequest(
-        id: firebaseUser.uid,
-        name: firebaseUser.displayName,
-        email: firebaseUser.email,
-        phoneNumber: firebaseUser.phoneNumber,
-        photoURL: firebaseUser.photoURL,
-      );
 
   Map<String, dynamic> toJson() => _$UserRequestToJson(this);
 
   @override
   String toString() {
-    return 'UserRequest{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, age: $age}';
+    return 'UserRequest{id: $id, name: $name, username: $username, description: $description, email: $email, phoneNumber: $phoneNumber, photoURL: $photoURL, age: $age, createdAt: $createdAt}';
   }
 
   @override
@@ -52,7 +45,8 @@ class UserRequest {
           email == other.email &&
           phoneNumber == other.phoneNumber &&
           photoURL == other.photoURL &&
-          age == other.age;
+          age == other.age &&
+          createdAt == other.createdAt;
 
   @override
   int get hashCode =>
@@ -63,5 +57,6 @@ class UserRequest {
       email.hashCode ^
       phoneNumber.hashCode ^
       photoURL.hashCode ^
-      age.hashCode;
+      age.hashCode ^
+      createdAt.hashCode;
 }
