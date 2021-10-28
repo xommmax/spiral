@@ -73,7 +73,7 @@ abstract class BaseProfileViewModel extends MultipleStreamViewModel {
   void onUserHubsFollowingClicked() async {
     if (viewData.user == null) return;
     List<String> userIds =
-        await hubRepository.getUserFollowsHubsIds(viewData.user!.id);
+        await hubRepository.getUserFollowingHubIds(viewData.user!.id);
     _navigationService.navigateTo(
       Routes.followingsView,
       arguments: FollowingsViewArguments(userIds: userIds),

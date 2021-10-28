@@ -1,7 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:dairo/presentation/view/hub/widgets/widget_hub_header.dart';
-import 'package:dairo/presentation/view/hub/widgets/widget_hub_publications.dart';
+import 'package:dairo/presentation/view/publication/publication_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -12,11 +12,11 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
   Widget build(BuildContext context, HubViewModel viewModel) => Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
-            child: viewModel.viewData.hub != null
+            child: viewModel.isDataReady()
                 ? Column(
                     children: [
                       WidgetHubHeader(),
-                      WidgetHubPublications(),
+                      WidgetHubList(),
                     ],
                   )
                 : ProgressBar(
@@ -35,5 +35,23 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
                 backgroundColor: AppColors.darkestGray,
               )
             : null,
+      );
+}
+
+class WidgetHubList extends ViewModelWidget<HubViewModel> {
+  @override
+  Widget build(BuildContext context, HubViewModel viewModel) =>
+      ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, position) {
+          final publicationId = viewModel.viewData.publicationIds[position];
+          return PublicationView(
+            publicationId,
+            isPreview: true,
+          );
+        },
+        separatorBuilder: (context, position) => Divider(height: 14),
+        itemCount: viewModel.viewData.publicationIds.length,
       );
 }

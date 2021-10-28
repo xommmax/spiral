@@ -12,8 +12,8 @@ class PublicationItemData {
   final String? text;
   final String mediaUrls;
   final String previewUrls;
-  final bool isLiked;
-  final int likesCount;
+  bool isLiked;
+  int likesCount;
   final int commentsCount;
   final int createdAt;
   final String viewType;

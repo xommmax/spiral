@@ -140,8 +140,8 @@ class HubRepositoryImpl implements HubRepository {
       _remote.fetchHubFollowersIds(hubId);
 
   @override
-  Future<List<String>> getUserFollowsHubsIds(String userId) =>
-      _remote.fetchUserFollowsHubsIds(userId);
+  Future<List<String>> getUserFollowingHubIds(String userId) =>
+      _remote.getUserFollowingHubIds(userId);
 
   @override
   Stream<List<Hub>> getHubsByIds(List<String> hubIds) {
@@ -208,8 +208,14 @@ class HubRepositoryImpl implements HubRepository {
   }
 
   @override
-  Future<void> updateHub(String hubId, String name, String description, String? newPictureUrl) async {
-    final response = await _remote.updateHub(hubId, name, description, newPictureUrl);
+  Future<void> updateHub(
+    String hubId,
+    String name,
+    String description,
+    String? newPictureUrl,
+  ) async {
+    final response =
+        await _remote.updateHub(hubId, name, description, newPictureUrl);
     await _local.updateHub(HubItemData.fromResponse(response));
   }
 }

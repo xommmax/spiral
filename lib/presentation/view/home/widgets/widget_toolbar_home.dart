@@ -24,7 +24,7 @@ class AppBarHome extends ViewModelWidget<HomeViewModel> {
                   icon: Hero(
                     tag: 'profilePhoto',
                     child: WidgetProfilePhoto(
-                      photoUrl: viewModel.viewData.user?.photoURL,
+                      photoUrl: viewModel.viewData.currentUser?.photoURL,
                       radius: 15,
                     ),
                   ),

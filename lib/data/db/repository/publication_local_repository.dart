@@ -12,9 +12,6 @@ class PublicationLocalRepository {
   Stream<List<PublicationItemData>> getPublications(String hubId) =>
       _database.publicationDao.getPublications(hubId);
 
-  Stream<List<PublicationItemData>> getFeedPublications(List<String> hubIds) =>
-      _database.publicationDao.getFeedPublications(hubIds);
-
   Stream<PublicationItemData?> getPublication(String publicationId) =>
       _database.publicationDao.getPublication(publicationId);
 
@@ -50,4 +47,7 @@ class PublicationLocalRepository {
 
   Future<void> deletePublication(PublicationItemData publication) =>
       _database.publicationDao.deletePublication(publication);
+
+  Future<void> updateLikeStatus(String publicationId, bool isLiked) =>
+      _database.publicationDao.updateLikeStatus(publicationId, isLiked);
 }

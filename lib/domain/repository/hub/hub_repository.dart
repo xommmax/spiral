@@ -21,6 +21,8 @@ abstract class HubRepository {
 
   Stream<List<Hub>> getHubsByIds(List<String> hubIds);
 
+  Future<List<String>> getUserFollowingHubIds(String userId);
+
   Stream<Hub> getHub(String hubId);
 
   Stream<Hub> getOnboardingHub();
@@ -30,8 +32,6 @@ abstract class HubRepository {
   Future<void> onUnfollow(String hubId);
 
   Future<List<String>> getHubFollowersIds(String hubId);
-
-  Future<List<String>> getUserFollowsHubsIds(String userId);
 
   Future<Hub> setHubPrivate(Hub hub, bool private);
 

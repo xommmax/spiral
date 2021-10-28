@@ -64,8 +64,6 @@ class Strings {
   static const unableToGetFollowers = 'Unable to get followers';
   static const unableToGetSearchResults = 'Unable to get search results';
   static const errorLoadingPublication = 'Error loading publication';
-  static const unableToGetPublication =
-      'Cannot get publication, please contact us';
   static const unableToGetRepliesForTheComment =
       'Unable to get replies for the comment, please contact us';
   static const subjectCannotBeEmpty = 'Subject cannot be empty';

@@ -43,11 +43,7 @@ class ExploreViewModel extends BaseViewModel {
   void onPublicationClicked(Publication publication) {
     _navigationService.navigateTo(
       Routes.publicationView,
-      arguments: PublicationViewArguments(
-        publicationId: publication.id,
-        userId: publication.userId,
-        hubId: publication.hubId,
-      ),
+      arguments: PublicationViewArguments(publicationId: publication.id),
     );
   }
 

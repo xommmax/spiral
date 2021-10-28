@@ -3,6 +3,7 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
+import 'package:dairo/presentation/view/tools/file_helper.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,7 @@ class FileBlock extends ViewModelWidget<PublicationViewModel> {
             ),
             Expanded(
               child: Text(
-                viewModel.getAttachedFileName(),
+                getAttachedFileName(viewModel.publication!),
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: AppColors.white,

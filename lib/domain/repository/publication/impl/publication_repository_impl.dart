@@ -18,7 +18,6 @@ import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/media.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
-import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -31,7 +30,6 @@ class PublicationRepositoryImpl implements PublicationRepository {
   final PublicationLocalRepository _local =
       locator<PublicationLocalRepository>();
   final UserRepository _userRepository = locator<UserRepository>();
-  final HubRepository _hubRepository = locator<HubRepository>();
   final AnalyticsRepository _analyticsRepository =
       locator<AnalyticsRepository>();
 
@@ -64,15 +62,16 @@ class PublicationRepositoryImpl implements PublicationRepository {
     );
   }
 
-  Stream<List<Publication>> getPublications(String hubId) {
+  Stream<List<String>> getPublications(String hubId) {
     _remote.fetchPublications(hubId).then((response) {
       final itemData =
           response.map((e) => PublicationItemData.fromResponse(e)).toList();
       _local.updatePublications(itemData, hubId);
     });
 
-    return _local.getPublications(hubId).map((itemData) =>
-        itemData.map((e) => Publication.fromItemData(e)).toList());
+    return _local
+        .getPublications(hubId)
+        .map((itemData) => itemData.map((e) => e.id).toList());
   }
 
   @override
@@ -89,30 +88,13 @@ class PublicationRepositoryImpl implements PublicationRepository {
   }
 
   @override
-  Stream<List<Publication>> getFeedPublications() async* {
-    final userId = _userRepository.getCurrentUserId();
-    final hubIds = await _hubRepository.getUserFollowsHubsIds(userId);
-
-    _remote.fetchFeedPublications(userId).then((remotePublications) {
-      final localPublications = remotePublications
-          .map((e) => PublicationItemData.fromResponse(e))
-          .toList();
-      _local.addPublications(localPublications);
-    });
-
-    yield* _local.getFeedPublications(hubIds).map(
-          (itemData) =>
-              itemData.map((e) => Publication.fromItemData(e)).toList(),
-        );
-  }
+  Stream<List<String>> getFeedPublicationIds() =>
+      _remote.getFeedPublicationIds(_userRepository.getCurrentUserId());
 
   Stream<Publication?> getPublication(String publicationId) {
-    _remote.fetchPublicationStream(publicationId).listen(
-          (future) => future.then(
-            (response) => _local.updatePublication(
-              PublicationItemData.fromResponse(response),
-            ),
-          ),
+    _remote.fetchPublication(publicationId).then(
+          (response) => _local
+              .updatePublication(PublicationItemData.fromResponse(response)),
         );
     return _local.getPublication(publicationId).map((itemData) {
       if (itemData == null) return null;
@@ -124,23 +106,19 @@ class PublicationRepositoryImpl implements PublicationRepository {
   Future<void> sendLike({
     required String publicationId,
     required bool isLiked,
-  }) =>
-      _remote
-          .sendLike(
-        publicationId: publicationId,
-        userId: _userRepository.getCurrentUserId(),
-        isLiked: isLiked,
-      )
-          .then(
-        (value) {
-          getPublication(publicationId);
-          _sendUserLikedEvent(
-            publicationId: publicationId,
-            userId: _userRepository.getCurrentUserId(),
-            isLiked: isLiked,
-          );
-        },
-      );
+  }) async {
+    _local.updateLikeStatus(publicationId, isLiked);
+    await _remote.sendLike(
+      publicationId: publicationId,
+      userId: _userRepository.getCurrentUserId(),
+      isLiked: isLiked,
+    );
+    _sendUserLikedEvent(
+      publicationId: publicationId,
+      userId: _userRepository.getCurrentUserId(),
+      isLiked: isLiked,
+    );
+  }
 
   @override
   Future<void> sendComment({

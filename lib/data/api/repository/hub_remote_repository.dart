@@ -142,7 +142,7 @@ class HubRemoteRepository {
       .get()
       .then((result) => result.docs.map((doc) => doc.id).toList());
 
-  Future<List<String>> fetchUserFollowsHubsIds(String userId) => _firestore
+  Future<List<String>> getUserFollowingHubIds(String userId) => _firestore
       .collection(
           '${FirebaseCollections.usersFollowHubs}/$userId/${FirestoreKeys.hubs}')
       .get()

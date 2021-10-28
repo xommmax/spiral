@@ -548,35 +548,6 @@ class _$PublicationDao extends PublicationDao {
   }
 
   @override
-  Stream<List<PublicationItemData>> getFeedPublications(List<String> hubIds) {
-    const offset = 1;
-    final _sqliteVariablesForHubIds =
-        Iterable<String>.generate(hubIds.length, (i) => '?${i + offset}')
-            .join(',');
-    return _queryAdapter.queryListStream(
-        'SELECT * FROM publication WHERE hubId IN (' +
-            _sqliteVariablesForHubIds +
-            ') ORDER BY createdAt DESC',
-        mapper: (Map<String, Object?> row) => PublicationItemData(
-            id: row['id'] as String,
-            hubId: row['hubId'] as String,
-            userId: row['userId'] as String,
-            text: row['text'] as String?,
-            mediaUrls: row['mediaUrls'] as String,
-            previewUrls: row['previewUrls'] as String,
-            isLiked: (row['isLiked'] as int) != 0,
-            likesCount: row['likesCount'] as int,
-            commentsCount: row['commentsCount'] as int,
-            createdAt: row['createdAt'] as int,
-            viewType: row['viewType'] as String,
-            link: row['link'] as String?,
-            attachedFileUrl: row['attachedFileUrl'] as String?),
-        arguments: [...hubIds],
-        queryableName: 'publication',
-        isView: false);
-  }
-
-  @override
   Stream<PublicationItemData?> getPublication(String publicationId) {
     return _queryAdapter.queryStream('SELECT * FROM publication WHERE id = ?1',
         mapper: (Map<String, Object?> row) => PublicationItemData(
@@ -596,6 +567,26 @@ class _$PublicationDao extends PublicationDao {
         arguments: [publicationId],
         queryableName: 'publication',
         isView: false);
+  }
+
+  @override
+  Future<PublicationItemData?> getPublicationById(String publicationId) async {
+    return _queryAdapter.query('SELECT * FROM publication WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => PublicationItemData(
+            id: row['id'] as String,
+            hubId: row['hubId'] as String,
+            userId: row['userId'] as String,
+            text: row['text'] as String?,
+            mediaUrls: row['mediaUrls'] as String,
+            previewUrls: row['previewUrls'] as String,
+            isLiked: (row['isLiked'] as int) != 0,
+            likesCount: row['likesCount'] as int,
+            commentsCount: row['commentsCount'] as int,
+            createdAt: row['createdAt'] as int,
+            viewType: row['viewType'] as String,
+            link: row['link'] as String?,
+            attachedFileUrl: row['attachedFileUrl'] as String?),
+        arguments: [publicationId]);
   }
 
   @override
@@ -655,6 +646,21 @@ class _$PublicationDao extends PublicationDao {
           ..database = transaction;
         await transactionDatabase.publicationDao
             .updatePublications(publications, hubId);
+      });
+    }
+  }
+
+  @override
+  Future<void> updateLikeStatus(String publicationId, bool isLiked) async {
+    if (database is sqflite.Transaction) {
+      await super.updateLikeStatus(publicationId, isLiked);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$DairoDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.publicationDao
+            .updateLikeStatus(publicationId, isLiked);
       });
     }
   }

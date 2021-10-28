@@ -114,23 +114,12 @@ class PublicationRemoteRepository {
             ),
           );
 
-  Future<
-      List<
-          PublicationResponse>> fetchFeedPublications(String userId) => _firestore
+  Stream<List<String>> getFeedPublicationIds(String userId) => _firestore
       .collection(
           '${FirebaseCollections.userFeeds}/$userId/${FirebaseCollections.publications}')
-      .get()
-      .then(
-        (snap) => Future.wait(
-          snap.docs.map(
-            (doc) async => PublicationResponse.fromJson(
-              doc.data(),
-              id: doc.id,
-              isLiked: await isCurrentUserLiked(doc.id),
-            ),
-          ),
-        ),
-      );
+      .orderBy(FirestoreKeys.createdAt, descending: true)
+      .snapshots()
+      .map((snap) => snap.docs.map((doc) => doc.id).toList());
 
   Future<List<PublicationResponse>> fetchOnboardingPublications() => _firestore
       .collection('${FirebaseCollections.hubPublications}')
@@ -148,12 +137,11 @@ class PublicationRemoteRepository {
             .toList(),
       );
 
-  Stream<Future<PublicationResponse>> fetchPublicationStream(
-          String publicationId) =>
+  Future<PublicationResponse> fetchPublication(String publicationId) =>
       _firestore
           .doc('${FirebaseCollections.hubPublications}/$publicationId')
-          .snapshots()
-          .map(
+          .get()
+          .then(
             (doc) async => PublicationResponse.fromJson(
               doc.data(),
               id: doc.id,

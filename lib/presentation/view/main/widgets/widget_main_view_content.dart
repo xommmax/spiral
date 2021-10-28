@@ -13,7 +13,6 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
   Widget build(BuildContext context, MainViewModel viewModel) => Scaffold(
         extendBody: true,
         body: SafeArea(
-          bottom: false,
           child: IndexedStack(
             index: viewModel.currentIndex,
             children: [

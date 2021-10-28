@@ -1,7 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/home/home_viewmodel.dart';
-import 'package:dairo/presentation/view/hub/widgets/widget_hub_publication.dart';
+import 'package:dairo/presentation/view/publication/publication_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -13,46 +13,29 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
   WidgetHomeViewContent(this.goToExplore);
 
   @override
-  Widget build(BuildContext context, viewModel) {
-    return Column(
-      children: [
-        AppBarHome(),
-        (viewModel.viewData.publications.length == 0)
-            ? _buildEmptyState()
-            : Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.only(top: 8),
-                  itemBuilder: (context, position) {
-                    final publication =
-                        viewModel.viewData.publications[position]!;
-                    return WidgetHubPublication(
-                      key: ValueKey(publication.id),
-                      publication: publication,
-                      onPublicationLikeClicked:
-                          viewModel.onPublicationLikeClicked,
-                      onUsersLikedScreenClicked:
-                          viewModel.onUsersLikedScreenClicked,
-                      onPublicationDetailsClicked:
-                          viewModel.onPublicationDetailsClicked,
-                      user: viewModel.viewData.users[publication.userId],
-                      hub: viewModel.viewData.hubs[publication.hubId],
-                      onUserClicked: viewModel.onUserClicked,
-                      onHubClicked: viewModel.onHubClicked,
-                      onReport: viewModel.onReport,
-                      onDelete: null,
-                      textController:
-                          viewModel.viewData.textControllers[position],
-                    );
-                  },
-                  separatorBuilder: (context, position) => Divider(
-                    height: 14,
+  Widget build(BuildContext context, viewModel) => Column(
+        children: [
+          AppBarHome(),
+          (viewModel.viewData.publicationIds.length == 0)
+              ? _buildEmptyState()
+              : Expanded(
+                  child: ListView.separated(
+                    padding: EdgeInsets.only(top: 8),
+                    itemBuilder: (context, position) {
+                      final publicationId =
+                          viewModel.viewData.publicationIds[position];
+                      return PublicationView(
+                        publicationId,
+                        isPreview: true,
+                      );
+                    },
+                    separatorBuilder: (context, position) =>
+                        Divider(height: 14),
+                    itemCount: viewModel.viewData.publicationIds.length,
                   ),
-                  itemCount: viewModel.viewData.publications.length,
                 ),
-              ),
-      ],
-    );
-  }
+        ],
+      );
 
   _buildEmptyState() => Expanded(
         child: Center(

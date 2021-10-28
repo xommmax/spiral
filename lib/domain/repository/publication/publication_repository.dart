@@ -14,9 +14,9 @@ abstract class PublicationRepository {
     required MediaViewType viewType,
   });
 
-  Stream<List<Publication>> getPublications(String hubId);
+  Stream<List<String>> getPublications(String hubId);
 
-  Stream<List<Publication>> getFeedPublications();
+  Stream<List<String>> getFeedPublicationIds();
 
   Stream<List<Publication>> getOnboardingPublications();
 

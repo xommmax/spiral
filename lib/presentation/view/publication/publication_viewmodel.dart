@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
-import 'package:dairo/data/api/repository/firebase_storage_repository.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/comment.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
@@ -11,6 +12,7 @@ import 'package:dairo/domain/repository/support/support_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
+import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,31 +24,28 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PublicationViewModel extends MultipleStreamViewModel {
-  static const PUBLICATION_STREAM_KEY = 'PUBLICATION_STREAM_KEY';
-  static const COMMENTS_STREAM_KEY = 'COMMENTS_STREAM_KEY';
-  static const USER_STREAM_KEY = 'USER_STREAM_KEY';
-  static const HUB_STREAM_KEY = 'HUB_STREAM_KEY';
-
-  final String publicationId;
-  final String userId;
-  final String hubId;
-  quill.QuillController? textController;
-
-  PublicationViewModel({
-    required this.publicationId,
-    required this.userId,
-    required this.hubId,
-  });
+  static const publicationStreamKey = 'PUBLICATION_STREAM_KEY';
+  static const commentsStreamKey = 'COMMENTS_STREAM_KEY';
+  static const maxPreviewTextHeight = 300.0;
 
   final PublicationRepository _publicationRepository =
       locator<PublicationRepository>();
-  final TextEditingController commentsTextController = TextEditingController();
   final UserRepository _userRepository = locator<UserRepository>();
   final HubRepository _hubRepository = locator<HubRepository>();
   final NavigationService navigationService = locator<NavigationService>();
   final SupportRepository _supportRepository = locator<SupportRepository>();
-  final FirebaseStorageRepository _firebaseStorageRepository =
-      locator<FirebaseStorageRepository>();
+  final NavigationService _navigationService = locator<NavigationService>();
+  final TextEditingController commentsTextController = TextEditingController();
+
+  final String publicationId;
+  final bool isPreview;
+
+  final GlobalKey previewTextStickyKey = GlobalKey();
+
+  quill.QuillController? textController;
+  double? previewTextHeight;
+  StreamSubscription? hubStreamSubscription;
+  StreamSubscription? userStreamSubscription;
 
   Publication? publication;
   User? user;
@@ -54,52 +53,48 @@ class PublicationViewModel extends MultipleStreamViewModel {
   List<Comment>? comments;
   Comment? commentToReply;
 
+  PublicationViewModel({
+    required this.publicationId,
+    required this.isPreview,
+  }) {
+    // SchedulerBinding.instance?.addPostFrameCallback((_) {
+    //   var tempHeight = previewTextStickyKey.currentContext?.size?.height;
+    //   if (previewTextHeight != tempHeight) {
+    //     previewTextHeight = tempHeight;
+    //     notifyListeners();
+    //   }
+    // });
+  }
+
   @override
   Map<String, StreamData> get streamsMap => {
-        PUBLICATION_STREAM_KEY: StreamData<Publication?>(
-          publicationStream(),
-          onData: _onPublicationRetrieved,
+        publicationStreamKey: StreamData<Publication?>(
+          _publicationRepository.getPublication(publicationId),
+          onData: _onPublicationReceived,
         ),
-        COMMENTS_STREAM_KEY: StreamData<List<Comment>?>(
-          commentsStream(),
-          onData: _onCommentsRetrieved,
-        ),
-        USER_STREAM_KEY: StreamData<User?>(
-          userStream(),
-          onData: _onUserRetrieved,
-        ),
-        HUB_STREAM_KEY: StreamData<Hub?>(
-          hubStream(),
-          onData: _onHubRetrieved,
+        commentsStreamKey: StreamData<List<Comment>?>(
+          _publicationRepository.getComments(publicationId),
+          onData: (comments) => this.comments = comments,
         ),
       };
 
-  Stream<User?> userStream() => _userRepository.getUser(userId);
+  @override
+  void onError(String key, error) =>
+      AppSnackBar.showSnackBarError(Strings.errorLoadingPublication);
 
-  Stream<Hub?> hubStream() => _hubRepository.getHub(hubId);
-
-  void _onUserRetrieved(User? user) => this.user = user;
-
-  void _onHubRetrieved(Hub? hub) => this.hub = hub;
-
-  Stream<Publication?> publicationStream() =>
-      _publicationRepository.getPublication(publicationId);
-
-  Stream<List<Comment>?> commentsStream() =>
-      _publicationRepository.getComments(publicationId);
-
-  void _onPublicationRetrieved(Publication? publication) {
+  void _onPublicationReceived(Publication publication) {
     textController = initTextController(publication);
     this.publication = publication;
-  }
-
-  void _onCommentsRetrieved(List<Comment>? comments) =>
-      this.comments = comments;
-
-  @override
-  void onError(String key, error) {
-    print('Error: $error on key: $key');
-    AppSnackBar.showSnackBarError(Strings.unableToGetPublication);
+    if (hubStreamSubscription == null) {
+      hubStreamSubscription = _hubRepository
+          .getHub(publication.hubId)
+          .listen((hub) => this.hub = hub);
+    }
+    if (userStreamSubscription == null) {
+      userStreamSubscription = _userRepository
+          .getUser(publication.userId)
+          .listen((user) => this.user = user);
+    }
   }
 
   void onSendCommentClicked() {
@@ -149,11 +144,10 @@ class PublicationViewModel extends MultipleStreamViewModel {
 
   void onDelete() {
     _publicationRepository.deletePublication(publicationId: publicationId);
-    navigationService.back();
+    if (!isPreview) {
+      navigationService.back();
+    }
   }
-
-  String getAttachedFileName() =>
-      _firebaseStorageRepository.getFileName(publication!.attachedFileUrl!);
 
   void onLinkClicked() {
     launch(publication!.link!).catchError(
@@ -166,12 +160,39 @@ class PublicationViewModel extends MultipleStreamViewModel {
     await OpenFile.open(file.path);
   }
 
+  void onPublicationLikeClicked() => _publicationRepository.sendLike(
+        publicationId: publicationId,
+        isLiked: !(publication!.isLiked),
+      );
+
+  void onUsersLikedScreenClicked() async {
+    List<String> userIds =
+        await _publicationRepository.getUsersLiked(publicationId);
+    return _navigationService.navigateTo(
+      Routes.followersView,
+      arguments: FollowersViewArguments(
+        userIds: userIds,
+        type: FollowersType.Likes,
+      ),
+    );
+  }
+
+  void onPublicationPreviewClicked() {
+    if (publication == null) return;
+    _navigationService.navigateTo(
+      Routes.publicationView,
+      arguments: PublicationViewArguments(publicationId: publicationId),
+    );
+  }
+
+  bool isCurrentUserPublication() => _userRepository.isCurrentUser(user!.id);
+
   @override
   void dispose() {
     textController?.dispose();
     commentsTextController.dispose();
+    hubStreamSubscription?.cancel();
+    userStreamSubscription?.cancel();
     super.dispose();
   }
-
-  bool isCurrentUserPublication() => _userRepository.isCurrentUser(userId);
 }
