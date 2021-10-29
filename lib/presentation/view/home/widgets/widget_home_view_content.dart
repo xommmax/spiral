@@ -1,7 +1,8 @@
 import 'package:dairo/presentation/res/colors.dart';
+import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/home/home_viewmodel.dart';
-import 'package:dairo/presentation/view/publication/publication_view.dart';
+import 'package:dairo/presentation/view/publication/widgets/publication_list.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -13,31 +14,20 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
   WidgetHomeViewContent(this.goToExplore);
 
   @override
-  Widget build(BuildContext context, viewModel) => Column(
-        children: [
-          AppBarHome(),
+  Widget build(BuildContext context, viewModel) => CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: Dimens.toolBarHeight,
+            flexibleSpace: FlexibleSpaceBar(background: AppBarHome()),
+            pinned: true,
+          ),
           (viewModel.viewData.publicationIds.length == 0)
               ? _buildEmptyState()
-              : Expanded(
-                  child: ListView.separated(
-                    padding: EdgeInsets.only(top: 8),
-                    itemBuilder: (context, position) {
-                      final publicationId =
-                          viewModel.viewData.publicationIds[position];
-                      return PublicationView(
-                        publicationId,
-                        isPreview: true,
-                      );
-                    },
-                    separatorBuilder: (context, position) =>
-                        Divider(height: 14),
-                    itemCount: viewModel.viewData.publicationIds.length,
-                  ),
-                ),
+              : PublicationListView(viewModel.viewData.publicationIds),
         ],
       );
 
-  _buildEmptyState() => Expanded(
+  _buildEmptyState() => SliverFillRemaining(
         child: Center(
           child: Padding(
             padding: EdgeInsets.fromLTRB(30, 0, 30, 56),

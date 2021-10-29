@@ -11,7 +11,6 @@ import '../main_viewmodel.dart';
 class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
   @override
   Widget build(BuildContext context, MainViewModel viewModel) => Scaffold(
-        extendBody: true,
         body: SafeArea(
           child: IndexedStack(
             index: viewModel.currentIndex,

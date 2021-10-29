@@ -82,18 +82,23 @@ class PublicationViewModel extends MultipleStreamViewModel {
   void onError(String key, error) =>
       AppSnackBar.showSnackBarError(Strings.errorLoadingPublication);
 
-  void _onPublicationReceived(Publication publication) {
+  void _onPublicationReceived(Publication? publication) {
+    if (publication == null) return;
     textController = initTextController(publication);
     this.publication = publication;
     if (hubStreamSubscription == null) {
-      hubStreamSubscription = _hubRepository
-          .getHub(publication.hubId)
-          .listen((hub) => this.hub = hub);
+      hubStreamSubscription =
+          _hubRepository.getHub(publication.hubId).listen((hub) {
+        this.hub = hub;
+        notifyListeners();
+      });
     }
     if (userStreamSubscription == null) {
-      userStreamSubscription = _userRepository
-          .getUser(publication.userId)
-          .listen((user) => this.user = user);
+      userStreamSubscription =
+          _userRepository.getUser(publication.userId).listen((user) {
+        this.user = user;
+        notifyListeners();
+      });
     }
   }
 

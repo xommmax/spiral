@@ -6,20 +6,23 @@ import 'package:dairo/presentation/view/publication/widgets/publication_view_con
 import 'package:flutter/widgets.dart';
 
 class PublicationView extends StandardBaseView<PublicationViewModel> {
-  final bool isPreview;
-
-  PublicationView(
-    String publicationId, {
-    this.isPreview = false,
-  }) : super(
-          PublicationViewModel(
-              publicationId: publicationId, isPreview: isPreview),
+  PublicationView(String publicationId)
+      : super(
+          PublicationViewModel(publicationId: publicationId, isPreview: false),
           routeName: Routes.publicationView,
+        );
+
+  PublicationView.preview(PublicationViewModel viewModel)
+      : super(
+          viewModel,
+          routeName: Routes.publicationView,
+          disposeViewModel: false,
+          key: Key(viewModel.publicationId),
         );
 
   @override
   Widget getContent(BuildContext context) {
-    if (isPreview) {
+    if (viewModel.isPreview) {
       return PublicationPreviewWidget();
     } else {
       return PublicationViewContent();

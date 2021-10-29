@@ -29,12 +29,10 @@ class UserRemoteRepository {
         userIds.map(
           (userId) => _firestore
               .collection(FirebaseCollections.users)
-              .where(FieldPath.documentId, isEqualTo: userId)
+              .doc(userId)
               .get()
               .then(
-                (snapshots) => UserResponse.fromJson(
-                    snapshots.docs.first.data(),
-                    id: snapshots.docs.first.id),
+                (snap) => UserResponse.fromJson(snap.data(), id: snap.id),
               ),
         ),
       );

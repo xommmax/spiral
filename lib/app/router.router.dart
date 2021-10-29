@@ -219,10 +219,7 @@ class StackedRouter extends RouterBase {
     PublicationView: (data) {
       var args = data.getArgs<PublicationViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => PublicationView(
-          args.publicationId,
-          isPreview: args.isPreview,
-        ),
+        builder: (context) => PublicationView(args.publicationId),
         settings: data,
       );
     },
@@ -350,9 +347,7 @@ class FollowersViewArguments {
 /// PublicationView arguments holder class
 class PublicationViewArguments {
   final String publicationId;
-  final bool isPreview;
-  PublicationViewArguments(
-      {required this.publicationId, this.isPreview = false});
+  PublicationViewArguments({required this.publicationId});
 }
 
 /// FollowingsView arguments holder class

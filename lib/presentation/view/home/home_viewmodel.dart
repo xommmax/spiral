@@ -36,7 +36,9 @@ class HomeViewModel extends MultipleStreamViewModel {
   Stream<List<String>> _getFeedPublicationsStream() =>
       _publicationRepository.getFeedPublicationIds();
 
-  void _onUserRetrieved(User? user) => viewData.currentUser = user;
+  void _onUserRetrieved(User? user) {
+    viewData.currentUser = user;
+  }
 
   void _onFeedPublicationsRetrieved(List<String> data) {
     viewData.publicationIds = data;

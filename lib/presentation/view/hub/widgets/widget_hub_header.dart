@@ -9,180 +9,152 @@ import 'package:stacked/stacked.dart';
 
 class WidgetHubHeader extends ViewModelWidget<HubViewModel> {
   @override
-  Widget build(BuildContext context, HubViewModel viewModel) => Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+  Widget build(BuildContext context, HubViewModel viewModel) => Stack(
+        clipBehavior: Clip.none,
         children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              AspectRatio(
-                aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
-                child: Container(
-                  foregroundDecoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xAA000000),
-                        Color(0x60000000),
-                        Color(0x00000000),
-                      ],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      stops: [0, 0.25, 0.5],
+          AspectRatio(
+            aspectRatio: Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
+            child: Container(
+              foregroundDecoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xAA000000),
+                    Color(0x60000000),
+                    Color(0x00000000),
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: [0, 0.25, 0.5],
+                ),
+              ),
+              child: getHubImageWidget(viewModel.viewData.hub!),
+            ),
+          ),
+          Positioned(
+            top: 4,
+            left: 0,
+            child: ElevatedButton(
+              child: Icon(
+                Icons.arrow_back,
+                size: 24,
+                color: AppColors.white,
+              ),
+              onPressed: viewModel.onBackPressed,
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(8),
+                primary: AppColors.black.withOpacity(0.3),
+              ),
+            ),
+          ),
+          if (viewModel.isCurrentUser())
+            Positioned(
+              top: 4,
+              right: 0,
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    child: Icon(
+                      Icons.edit,
+                      size: 24,
+                      color: AppColors.white,
+                    ),
+                    onPressed: viewModel.onEditHubClicked,
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      primary: AppColors.black.withOpacity(0.3),
                     ),
                   ),
-                  child: getHubImageWidget(viewModel.viewData.hub!),
+                  ElevatedButton(
+                    child: Icon(
+                      Icons.settings,
+                      size: 24,
+                      color: AppColors.white,
+                    ),
+                    onPressed: viewModel.onSettingsPressed,
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      primary: AppColors.black.withOpacity(0.3),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if (!viewModel.isCurrentUser())
+            Positioned(
+              bottom: 12,
+              right: 16,
+              child: InkWell(
+                onTap: viewModel.onFollowClicked,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: viewModel.viewData.hub!.isFollow
+                      ? BoxDecoration(
+                          color: AppColors.lightAccentColor,
+                          border: Border.all(
+                            color: AppColors.darkGray,
+                            width: 0.5,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )
+                      : BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.white,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                  child: Text(
+                    viewModel.viewData.hub!.isFollow
+                        ? Strings.following
+                        : Strings.follow,
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ),
-              Positioned(
-                top: 4,
-                left: 0,
-                child: ElevatedButton(
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 24,
+            ),
+          Positioned(
+            left: 20,
+            bottom: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  viewModel.viewData.hub?.name ?? '',
+                  style: TextStyle(
                     color: AppColors.white,
-                  ),
-                  onPressed: viewModel.onBackPressed,
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(8),
-                    primary: AppColors.black.withOpacity(0.3),
-                  ),
-                ),
-              ),
-              if (viewModel.isCurrentUser())
-                Positioned(
-                  top: 4,
-                  right: 0,
-                  child: Row(
-                    children: [
-                      ElevatedButton(
-                        child: Icon(
-                          Icons.edit,
-                          size: 24,
-                          color: AppColors.white,
-                        ),
-                        onPressed: viewModel.onEditHubClicked,
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(8),
-                          primary: AppColors.black.withOpacity(0.3),
-                        ),
-                      ),
-                      ElevatedButton(
-                        child: Icon(
-                          Icons.settings,
-                          size: 24,
-                          color: AppColors.white,
-                        ),
-                        onPressed: viewModel.onSettingsPressed,
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(8),
-                          primary: AppColors.black.withOpacity(0.3),
-                        ),
+                    fontSize: 32,
+                    fontWeight: FontWeight.w900,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(0, 0),
+                        blurRadius: 12,
+                        color: AppColors.darkGray,
                       ),
                     ],
                   ),
                 ),
-              if (!viewModel.isCurrentUser())
-                Positioned(
-                  bottom: 12,
-                  right: 16,
-                  child: InkWell(
-                    onTap: viewModel.onFollowClicked,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: viewModel.viewData.hub!.isFollow
-                          ? BoxDecoration(
-                              color: AppColors.lightAccentColor,
-                              border: Border.all(
-                                color: AppColors.darkGray,
-                                width: 0.5,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            )
-                          : BoxDecoration(
-                              border: Border.all(
-                                color: AppColors.white,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                      child: Text(
-                        viewModel.viewData.hub!.isFollow
-                            ? Strings.following
-                            : Strings.follow,
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 16,
-                        ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: viewModel.onFollowersClicked,
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Text(
+                      '${viewModel.viewData.hub!.followersCount.toString()} followers',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                 ),
-              Positioned(
-                left: 20,
-                bottom: 16,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      viewModel.viewData.hub?.name ?? '',
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0, 0),
-                            blurRadius: 12,
-                            color: AppColors.darkGray,
-                          ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: viewModel.onFollowersClicked,
-                      child: Padding(
-                        padding: EdgeInsets.all(4),
-                        child: Text(
-                          '${viewModel.viewData.hub!.followersCount.toString()} followers',
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-          if (viewModel.viewData.hub!.description != null)
-            Padding(
-              padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Text(
-                viewModel.viewData.hub!.description!,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.lightGray,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          if (viewModel.viewData.hub!.description != null)
-            Divider(
-              height: 1,
-              indent: 8,
-              endIndent: 8,
-              color: AppColors.lightGray,
-            ),
-          SizedBox(height: 8),
         ],
       );
 }

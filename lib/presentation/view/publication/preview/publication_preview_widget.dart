@@ -1,5 +1,4 @@
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
 import 'package:dairo/presentation/view/publication/widgets/publication_blocks.dart';
 import 'package:dairo/presentation/view/publication/widgets/publication_header_widget.dart';
@@ -17,7 +16,7 @@ class PublicationPreviewWidget extends ViewModelWidget<PublicationViewModel> {
   @override
   Widget build(BuildContext context, PublicationViewModel viewModel) {
     if (!viewModel.isDataReady()) {
-      return ProgressBar(alignment: ProgressBarAlignment.Center);
+      return SizedBox.shrink();
     }
     return GestureDetector(
       behavior: HitTestBehavior.translucent,

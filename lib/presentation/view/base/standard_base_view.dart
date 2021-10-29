@@ -14,7 +14,8 @@ abstract class StandardBaseView<T extends BaseViewModel>
     this.viewModel, {
     required this.routeName,
     this.disposeViewModel = true,
-  });
+    Key? key,
+  }) : super(key: key);
 
   Widget getContent(BuildContext context);
 

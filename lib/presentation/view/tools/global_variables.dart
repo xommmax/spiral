@@ -1,11 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-getScreenHeight(BuildContext context) {
-  final height = MediaQuery.of(context).size.height;
-  final padding = MediaQuery.of(context).padding;
-  final realHeight = height - padding.top;
-  return realHeight - getBottomNavBarHeight(context);
-}
+getScreenHeight(BuildContext context) => MediaQuery.of(context).size.height;
 
-double getBottomNavBarHeight(BuildContext context) =>
-    63 + MediaQuery.of(context).padding.bottom;
+getScreenWidth(BuildContext context) => MediaQuery.of(context).size.width;
