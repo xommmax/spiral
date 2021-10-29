@@ -4,8 +4,11 @@ import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/repository/hub/hub_repository.dart';
 import 'package:dairo/domain/repository/publication/publication_repository.dart';
 import 'package:dairo/domain/repository/user/user_repository.dart';
+import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/hub/hub_viewdata.dart';
+import 'package:dairo/presentation/view/tools/global_variables.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -19,14 +22,36 @@ class HubViewModel extends MultipleStreamViewModel {
   final UserRepository _userRepository = locator<UserRepository>();
   final HubRepository _hubRepository = locator<HubRepository>();
   final HubViewData viewData = HubViewData();
+  final ScrollController scrollController = ScrollController();
 
   final String hubId;
   final String userId;
 
+  bool showAppBarTitle = false;
+
   HubViewModel({
     required this.hubId,
     required this.userId,
-  });
+  }) {
+    scrollController.addListener(() {
+      final context = Get.context;
+      if (context != null) {
+        if (scrollController.offset >=
+            getScreenWidth(context) / Dimens.hubPictureRatio -
+                Dimens.toolBarHeight) {
+          if (!showAppBarTitle) {
+            showAppBarTitle = true;
+            notifyListeners();
+          }
+        } else {
+          if (showAppBarTitle) {
+            showAppBarTitle = false;
+            notifyListeners();
+          }
+        }
+      }
+    });
+  }
 
   @override
   Map<String, StreamData> get streamsMap => {
@@ -97,4 +122,10 @@ class HubViewModel extends MultipleStreamViewModel {
   bool isDataReady() => viewData.hub != null;
 
   bool isCurrentUser() => _userRepository.isCurrentUser(userId);
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 }

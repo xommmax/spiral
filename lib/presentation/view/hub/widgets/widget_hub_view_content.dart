@@ -1,9 +1,7 @@
 import 'package:dairo/presentation/res/colors.dart';
-import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/view/base/loading_widget.dart';
 import 'package:dairo/presentation/view/hub/widgets/widget_hub_header.dart';
 import 'package:dairo/presentation/view/publication/widgets/publication_list.dart';
-import 'package:dairo/presentation/view/tools/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -19,12 +17,9 @@ class WidgetHubViewContent extends ViewModelWidget<HubViewModel> {
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
+          controller: viewModel.scrollController,
           slivers: [
-            SliverAppBar(
-              expandedHeight: getScreenWidth(context) / Dimens.hubPictureRatio,
-              flexibleSpace: FlexibleSpaceBar(background: WidgetHubHeader()),
-              pinned: true,
-            ),
+            WidgetHubHeader(),
             SliverToBoxAdapter(child: _HubDescriptionWidget()),
             PublicationListView(viewModel.viewData.publicationIds),
           ],
