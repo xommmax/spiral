@@ -40,7 +40,12 @@ class _PublicationPreviewTextWidget
   @override
   Widget build(BuildContext context, PublicationViewModel viewModel) {
     if (viewModel.textController == null ||
-        viewModel.textController!.document.isEmpty()) return SizedBox.shrink();
+        viewModel.textController!.document.isEmpty()) {
+      return SizedBox.shrink();
+    }
+    if (viewModel.previewTextHeight == null) {
+      viewModel.calcPreviewTextHeight();
+    }
     bool hasOverflow = (viewModel.previewTextHeight != null &&
         viewModel.previewTextHeight! >=
             PublicationViewModel.maxPreviewTextHeight);

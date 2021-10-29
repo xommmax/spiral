@@ -16,6 +16,7 @@ import 'package:dairo/presentation/view/followers/followers_viewdata.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:dairo/presentation/view/tools/snackbar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:open_file/open_file.dart';
@@ -56,15 +57,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
   PublicationViewModel({
     required this.publicationId,
     required this.isPreview,
-  }) {
-    // SchedulerBinding.instance?.addPostFrameCallback((_) {
-    //   var tempHeight = previewTextStickyKey.currentContext?.size?.height;
-    //   if (previewTextHeight != tempHeight) {
-    //     previewTextHeight = tempHeight;
-    //     notifyListeners();
-    //   }
-    // });
-  }
+  });
 
   @override
   Map<String, StreamData> get streamsMap => {
@@ -84,8 +77,8 @@ class PublicationViewModel extends MultipleStreamViewModel {
 
   void _onPublicationReceived(Publication? publication) {
     if (publication == null) return;
-    textController = initTextController(publication);
     this.publication = publication;
+    textController = initTextController(publication);
     if (hubStreamSubscription == null) {
       hubStreamSubscription =
           _hubRepository.getHub(publication.hubId).listen((hub) {
@@ -191,6 +184,16 @@ class PublicationViewModel extends MultipleStreamViewModel {
   }
 
   bool isCurrentUserPublication() => _userRepository.isCurrentUser(user!.id);
+
+  void calcPreviewTextHeight() {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      var tempHeight = previewTextStickyKey.currentContext?.size?.height;
+      if (previewTextHeight != tempHeight && tempHeight != null) {
+        previewTextHeight = tempHeight;
+        notifyListeners();
+      }
+    });
+  }
 
   @override
   void dispose() {
