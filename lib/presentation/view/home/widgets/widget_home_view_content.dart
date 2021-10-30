@@ -9,12 +9,11 @@ import 'package:stacked/stacked.dart';
 import 'widget_toolbar_home.dart';
 
 class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
-  final Function() goToExplore;
-
-  WidgetHomeViewContent(this.goToExplore);
+  WidgetHomeViewContent();
 
   @override
   Widget build(BuildContext context, viewModel) => CustomScrollView(
+        controller: viewModel.scrollController,
         slivers: [
           SliverAppBar(
             expandedHeight: Dimens.toolBarHeight,
@@ -22,12 +21,12 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
             pinned: true,
           ),
           (viewModel.viewData.publicationIds.length == 0)
-              ? _buildEmptyState()
+              ? _buildEmptyState(viewModel)
               : PublicationListView(viewModel.viewData.publicationIds),
         ],
       );
 
-  _buildEmptyState() => SliverFillRemaining(
+  _buildEmptyState(HomeViewModel viewModel) => SliverFillRemaining(
         child: Center(
           child: Padding(
             padding: EdgeInsets.fromLTRB(30, 0, 30, 56),
@@ -51,7 +50,7 @@ class WidgetHomeViewContent extends ViewModelWidget<HomeViewModel> {
               ),
               SizedBox(height: 24),
               TextButton(
-                onPressed: goToExplore,
+                onPressed: viewModel.goToExplore,
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(AppColors.lightAccentColor),

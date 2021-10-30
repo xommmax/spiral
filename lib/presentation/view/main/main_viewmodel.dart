@@ -3,20 +3,26 @@ import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/repository/analytics/analytics_repository.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
+import 'package:dairo/presentation/view/main/main_nav_service.dart';
 import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
+import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+@LazySingleton()
 class MainViewModel extends IndexTrackingViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final AnalyticsRepository _analyticsRepository =
       locator<AnalyticsRepository>();
+  final MainNavService mainNavService = locator<MainNavService>();
+
   int previousTab = -1;
 
   MainViewModel() {
     _checkIfShouldInviteFriends();
+    mainNavService.goToExploreCallback = () => setIndex(1);
   }
 
   void _checkIfShouldInviteFriends() async {
@@ -44,6 +50,9 @@ class MainViewModel extends IndexTrackingViewModel {
     if (previousTab == -1 || previousTab != value) {
       previousTab = value;
       _sendCurrentTabToAnalytics(value);
+    }
+    if (currentIndex == value && value == 0) {
+      mainNavService.onHomeDoubleClick();
     }
     super.setIndex(value);
   }
