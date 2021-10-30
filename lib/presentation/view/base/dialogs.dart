@@ -1,4 +1,6 @@
+import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
+import 'package:dairo/presentation/res/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -76,6 +78,85 @@ class AppDialog {
                 ),
               ],
             ));
+  }
+
+  static inviteFriends({
+    Function()? confirm,
+  }) =>
+      showDialog(
+        barrierDismissible: false,
+        context: StackedService.navigatorKey!.currentState!.context,
+        builder: (context) => _getInviteContent(confirm: confirm),
+      );
+
+  static _getInviteContent({
+    Function()? confirm,
+  }) {
+    return AlertDialog(
+      contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+      backgroundColor: AppColors.darkAccentColor,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: InkWell(
+              onTap: () => Get.back(),
+              child: Icon(
+                Icons.close,
+                size: 20,
+                color: AppColors.white.withOpacity(0.5),
+              ),
+            ),
+          ),
+          Text(
+            'Thank you',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              height: 1.3,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Text(
+            ' for being our early user',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              height: 1.6,
+              fontSize: 15,
+            ),
+          ),
+          SizedBox(height: 24),
+          Text(
+            'We will turn to private access soon. Hurry up and invite your friends to join our community!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              height: 1.4,
+              fontSize: 15,
+            ),
+          ),
+          SizedBox(height: 24),
+          InkWell(
+            onTap: () {
+              Get.back();
+              confirm?.call();
+            },
+            child: Container(
+              width: double.infinity,
+              height: 48,
+              alignment: Alignment.center,
+              color: AppColors.accentColor,
+              padding: const EdgeInsets.all(0.0),
+              child: Text(
+                Strings.inviteFriends,
+                style: TextStyles.black16Bold,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

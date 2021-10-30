@@ -240,7 +240,11 @@ class Strings {
   static const delete = 'Delete';
 
   static const inviteFriendsDesc =
-      'Check out Spiral new social platform: https://spiralapp.site/';
+      'Invite you to join Spiral: https://spiralapp.site/';
+
+  static const share = 'Share';
+  static const invite = 'Invite';
+  static const inviteFriends = 'Invite Friends';
 
 /* Uncategorized */
 }
