@@ -5,6 +5,7 @@ import 'package:dairo/presentation/view/explore/explore_view.dart';
 import 'package:dairo/presentation/view/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:upgrader/upgrader.dart';
 
 import '../main_viewmodel.dart';
 
@@ -12,12 +13,14 @@ class WidgetMainViewContent extends ViewModelWidget<MainViewModel> {
   @override
   Widget build(BuildContext context, MainViewModel viewModel) => Scaffold(
         body: SafeArea(
-          child: IndexedStack(
-            index: viewModel.currentIndex,
-            children: [
-              HomeView(),
-              ExploreView(),
-            ],
+          child: UpgradeAlert(
+            child: IndexedStack(
+              index: viewModel.currentIndex,
+              children: [
+                HomeView(),
+                ExploreView(),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: Container(

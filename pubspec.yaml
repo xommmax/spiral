@@ -107,6 +107,7 @@ dependencies:
   introduction_screen: ^2.1.0
   reorderable_grid_view: ^2.0.0-alpha.1
   share_plus: ^3.0.4
+  upgrader: ^3.6.0
 
 dev_dependencies:
   flutter_test:
