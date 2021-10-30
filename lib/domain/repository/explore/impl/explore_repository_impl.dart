@@ -59,6 +59,19 @@ class ExploreRepositoryImpl implements ExploreRepository {
   }
 
   @override
+  Future<List<Publication>> getRecentPublications() async {
+    List<PublicationResponse> responses =
+        await _exploreRemote.fetchRecentPublications();
+    List<PublicationItemData> itemData = responses
+        .map((response) => PublicationItemData.fromResponse(response))
+        .toList();
+    _publicationLocal.addPublications(itemData);
+    return itemData
+        .map((itemData) => Publication.fromItemData(itemData))
+        .toList();
+  }
+
+  @override
   Future<List<Hub>> getExploreHubs() async {
     List<HubResponse> responses = await _exploreRemote.fetchExploreHubs();
     List<HubItemData> itemData = responses

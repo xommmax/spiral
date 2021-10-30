@@ -3,8 +3,10 @@ import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class ExploreViewData {
-  List<Publication> explorePublications = [];
-  List<quill.QuillController> textControllers = [];
-  List<Hub> exploreHubs = [];
-  List<List<String>> exploreHubMediaPreviews = [];
+  List<Publication> popularPublications = [];
+  List<quill.QuillController> popularPublicationsTextControllers = [];
+  List<Publication> recentPublications = [];
+  List<quill.QuillController> recentPublicationsTextControllers = [];
+  List<Hub> popularHubs = [];
+  List<List<String>> popularHubsMediaPreviews = [];
 }

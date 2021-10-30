@@ -12,4 +12,6 @@ abstract class ExploreRepository {
   Future<List<Hub>> getExploreHubs();
 
   Future<List<String>> getExploreHubMediaPreviews(String hubId);
+
+  Future<List<Publication>> getRecentPublications();
 }

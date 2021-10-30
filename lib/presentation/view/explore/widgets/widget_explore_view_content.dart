@@ -30,29 +30,41 @@ class WidgetExploreViewContent extends ViewModelWidget<ExploreViewModel> {
           SliverList(
             delegate: SliverChildListDelegate([
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.fromLTRB(8, 32, 0, 16),
                 child: Text(
                   "Popular hubs",
                   style: TextStyle(
                     color: AppColors.white,
                     fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              WidgetExploreHubCarousel(),
+              ExplorePopularHubCarousel(),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.fromLTRB(8, 36, 0, 12),
                 child: Text(
                   "Popular publications",
                   style: TextStyle(
                     color: AppColors.white,
                     fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              WidgetExplorePublicationsGrid(),
+              ExplorePopularPublicationsGrid(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(8, 32, 0, 16),
+                child: Text(
+                  "Recent publications",
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              ExploreRecentPublicationsGrid(),
             ]),
           ),
         ],

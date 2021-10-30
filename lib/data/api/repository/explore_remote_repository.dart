@@ -144,6 +144,19 @@ class ExploreRemoteRepository {
     return responses;
   }
 
+  Future<List<PublicationResponse>> fetchRecentPublications() async {
+    final querySnapshot = await _firestore
+        .collection(FirebaseCollections.hubPublications)
+        .orderBy(FirestoreKeys.createdAt, descending: true)
+        .limit(18)
+        .get();
+
+    List<PublicationResponse> responses = await Future.wait(querySnapshot.docs
+        .map((snap) => _publicationRemoteRepository.fetchPublication(snap.id)));
+    responses.sort((p1, p2) => p2.createdAt - p1.createdAt);
+    return responses;
+  }
+
   Future<List<HubResponse>> fetchExploreHubs() async {
     final querySnapshot = await _firestore
         .collection(FirebaseCollections.exploreHubs)

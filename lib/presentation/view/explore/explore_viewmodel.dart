@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dairo/app/locator.dart';
 import 'package:dairo/app/router.router.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
@@ -14,29 +15,46 @@ class ExploreViewModel extends BaseViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final ExploreRepository _exploreRepository = locator<ExploreRepository>();
   final ExploreViewData viewData = ExploreViewData();
+  final CarouselController popularHubsCarouselController = CarouselController();
 
   ExploreViewModel() {
-    getExplorePublications();
-    getExploreHubs();
+    getPopularHubs();
+    getPopularPublications();
+    getRecentPublications();
   }
 
-  getExplorePublications() async {
-    viewData.explorePublications =
-        await _exploreRepository.getExplorePublications();
-    viewData.textControllers.forEach((controller) => controller.dispose());
-    viewData.textControllers = [];
-    viewData.explorePublications.forEach((publication) =>
-        viewData.textControllers.add(initTextController(publication)));
+  getPopularHubs() async {
+    viewData.popularHubs = await _exploreRepository.getExploreHubs();
+    for (int i = 0; i < viewData.popularHubs.length; i++) {
+      Hub hub = viewData.popularHubs[i];
+      viewData.popularHubsMediaPreviews
+          .add(await _exploreRepository.getExploreHubMediaPreviews(hub.id));
+    }
+    popularHubsCarouselController.jumpToPage(1);
     notifyListeners();
   }
 
-  getExploreHubs() async {
-    viewData.exploreHubs = await _exploreRepository.getExploreHubs();
-    for (int i = 0; i < viewData.exploreHubs.length; i++) {
-      Hub hub = viewData.exploreHubs[i];
-      viewData.exploreHubMediaPreviews
-          .add(await _exploreRepository.getExploreHubMediaPreviews(hub.id));
-    }
+  getPopularPublications() async {
+    viewData.popularPublications =
+        await _exploreRepository.getExplorePublications();
+    viewData.popularPublicationsTextControllers
+        .forEach((controller) => controller.dispose());
+    viewData.popularPublicationsTextControllers = [];
+    viewData.popularPublications.forEach((publication) => viewData
+        .popularPublicationsTextControllers
+        .add(initTextController(publication)));
+    notifyListeners();
+  }
+
+  getRecentPublications() async {
+    viewData.recentPublications =
+        await _exploreRepository.getRecentPublications();
+    viewData.recentPublicationsTextControllers
+        .forEach((controller) => controller.dispose());
+    viewData.recentPublicationsTextControllers = [];
+    viewData.recentPublications.forEach((publication) => viewData
+        .recentPublicationsTextControllers
+        .add(initTextController(publication)));
     notifyListeners();
   }
 
@@ -61,7 +79,10 @@ class ExploreViewModel extends BaseViewModel {
 
   @override
   void dispose() {
-    viewData.textControllers.forEach((controller) => controller.dispose());
+    viewData.popularPublicationsTextControllers
+        .forEach((controller) => controller.dispose());
+    viewData.recentPublicationsTextControllers
+        .forEach((controller) => controller.dispose());
     super.dispose();
   }
 }
