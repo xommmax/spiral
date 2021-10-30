@@ -35,11 +35,12 @@ dependencies:
 
   # firebase
   firebase_core: ^1.6.0
-  firebase_auth: ^3.1.1
+  firebase_auth: ^3.1.4
   cloud_firestore: ^2.5.2
   firebase_storage: ^10.0.3
   cloud_functions: ^3.0.3
   firebase_analytics: ^8.3.2
+  firebase_messaging: ^10.0.9
 
   # json serializing
   json_annotation: ^4.0.1

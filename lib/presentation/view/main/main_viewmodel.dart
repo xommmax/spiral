@@ -5,6 +5,7 @@ import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/base/dialogs.dart';
 import 'package:dairo/presentation/view/main/main_nav_service.dart';
 import 'package:dairo/presentation/view/tools/shared_pref_keys.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,7 @@ class MainViewModel extends IndexTrackingViewModel {
   MainViewModel() {
     _checkIfShouldInviteFriends();
     mainNavService.goToExploreCallback = () => setIndex(1);
+    FirebaseMessaging.instance.requestPermission();
   }
 
   void _checkIfShouldInviteFriends() async {
