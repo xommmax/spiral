@@ -1,38 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairo/domain/model/hub/hub.dart';
-import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/dimens.dart';
 import 'package:dairo/presentation/view/explore/explore_viewmodel.dart';
 import 'package:dairo/presentation/view/explore/widgets/widget_explore_items.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
-class WidgetExplorePage extends ViewModelWidget<ExploreViewModel> {
-  @override
-  Widget build(BuildContext context, ExploreViewModel viewModel) {
-    return ListView(
-      children: [
-        Text(
-          "Popular hubs",
-          style: TextStyle(
-            color: AppColors.white,
-          ),
-        ),
-        Container(
-          height: 100,
-          color: AppColors.gray,
-        ),
-        Text(
-          "Popular publications",
-          style: TextStyle(
-            color: AppColors.white,
-          ),
-        ),
-        WidgetExplorePublicationsGrid(),
-      ],
-    );
-  }
-}
 
 class WidgetExplorePublicationsGrid extends ViewModelWidget<ExploreViewModel> {
   @override
@@ -72,20 +44,17 @@ class WidgetExploreHubCarousel extends ViewModelWidget<ExploreViewModel> {
           onHubClicked: viewModel.onHubClicked));
     }
     double width = MediaQuery.of(context).size.width;
-    double cardWidth = width * 0.7;
-    double cardHeaderImageHeight =
-        cardWidth / Dimens.hubPictureRatioX * Dimens.hubPictureRatioY;
-    double description = 46;
+    final viewportFraction = 0.7;
+    final cardMargin = 16;
+    double cardWidth = width * viewportFraction - cardMargin;
+    double cardHeaderImageHeight = cardWidth / Dimens.hubPictureRatio;
+    double description = 50;
     double cardMediaPreviewHeight = cardWidth / 3;
-    double cardBottomPadding = 8;
     return CarouselSlider(
       items: items,
       options: CarouselOptions(
-        height: cardHeaderImageHeight +
-            description +
-            cardMediaPreviewHeight +
-            cardBottomPadding,
-        viewportFraction: 0.7,
+        height: cardHeaderImageHeight + description + cardMediaPreviewHeight,
+        viewportFraction: viewportFraction,
         initialPage: 0,
         enableInfiniteScroll: false,
         reverse: false,

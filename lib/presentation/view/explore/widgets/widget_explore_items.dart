@@ -94,71 +94,68 @@ class WidgetExploreHub extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => onHubClicked(hub),
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 8),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.darkGray, width: 0.3),
-            color: AppColors.darkAccentColor,
-          ),
-          clipBehavior: Clip.antiAlias,
-          margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  AspectRatio(
-                    aspectRatio:
-                        Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
-                    child: getHubImageWidget(hub),
-                  ),
-                  Positioned(
-                    left: 4,
-                    bottom: 4,
-                    child: Text(
-                      hub.name,
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              if (hub.description != null)
-                Padding(
-                  padding: EdgeInsets.all(16),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.darkGray, width: 0.3),
+          color: AppColors.darkAccentColor,
+        ),
+        clipBehavior: Clip.antiAlias,
+        margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio:
+                      Dimens.hubPictureRatioX / Dimens.hubPictureRatioY,
+                  child: getHubImageWidget(hub),
+                ),
+                Positioned(
+                  left: 4,
+                  bottom: 4,
                   child: Text(
-                    hub.description!,
-                    textAlign: TextAlign.center,
+                    hub.name,
                     style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
                       overflow: TextOverflow.ellipsis,
-                      color: AppColors.gray,
-                      fontSize: 14,
                     ),
                   ),
-                ),
-              AspectRatio(
-                aspectRatio: 3,
-                child: Row(
-                  children: mediaUrls
-                      .map(
-                        (url) => AspectRatio(
-                          aspectRatio: 1,
-                          child: CachedNetworkImage(
-                            imageUrl: url,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      )
-                      .toList(),
+                )
+              ],
+            ),
+            if (hub.description != null)
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  hub.description!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: AppColors.gray,
+                    fontSize: 14,
+                  ),
                 ),
               ),
-            ],
-          ),
+            AspectRatio(
+              aspectRatio: 3,
+              child: Row(
+                children: mediaUrls
+                    .map(
+                      (url) => AspectRatio(
+                        aspectRatio: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: url,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -126,38 +126,42 @@ class ExploreRemoteRepository {
     return result;
   }
 
-  Future<List<PublicationResponse>> fetchExplorePublications() => _firestore
-      .collection(FirebaseCollections.explorePublications)
-      .orderBy(FirestoreKeys.createdAt, descending: true)
-      .get()
-      .then(
-        (snapshot) => Future.wait(
-          snapshot.docs.map(
-            (doc) async => PublicationResponse.fromJson(
-              doc.data(),
-              id: doc.id,
-              isLiked:
-                  await _publicationRemoteRepository.isCurrentUserLiked(doc.id),
-            ),
-          ),
-        ),
-      );
+  Future<List<PublicationResponse>> fetchExplorePublications() async {
+    final querySnapshot = await _firestore
+        .collection(FirebaseCollections.explorePublications)
+        .orderBy(FirestoreKeys.createdAt, descending: true)
+        .get();
 
-  Future<List<HubResponse>> fetchExploreHubs() => _firestore
-      .collection(FirebaseCollections.exploreHubs)
-      .orderBy(FirestoreKeys.createdAt, descending: true)
-      .get()
-      .then(
-        (snapshot) => Future.wait(
-          snapshot.docs.map(
-            (doc) async => HubResponse.fromJson(
-              doc.data(),
-              id: doc.id,
-              isFollow: await _hubRemoteRepository.isCurrentUserFollows(doc.id),
-            ),
-          ),
-        ),
-      );
+    Map<String, int> customCreatedAt = {};
+    List<PublicationResponse> responses =
+        await Future.wait(querySnapshot.docs.map((snap) {
+      customCreatedAt[snap.id] = snap.data()[FirestoreKeys.createdAt];
+      return _publicationRemoteRepository.fetchPublication(snap.id);
+    }));
+    responses.sort((p1, p2) =>
+        (customCreatedAt[p2.id] ?? p2.createdAt) -
+        (customCreatedAt[p1.id] ?? p1.createdAt));
+    return responses;
+  }
+
+  Future<List<HubResponse>> fetchExploreHubs() async {
+    final querySnapshot = await _firestore
+        .collection(FirebaseCollections.exploreHubs)
+        .orderBy(FirestoreKeys.createdAt, descending: true)
+        .get();
+
+    Map<String, int> customCreatedAt = {};
+
+    List<HubResponse> responses =
+        await Future.wait(querySnapshot.docs.map((snap) {
+      customCreatedAt[snap.id] = snap.data()[FirestoreKeys.createdAt];
+      return _hubRemoteRepository.fetchHub(snap.id);
+    }));
+    responses.sort((p1, p2) =>
+        (customCreatedAt[p2.id] ?? p2.createdAt) -
+        (customCreatedAt[p1.id] ?? p1.createdAt));
+    return responses;
+  }
 
   Future<List<String>> getExploreHubMediaPreviews(String hubId) async {
     final snapshot = await _firestore

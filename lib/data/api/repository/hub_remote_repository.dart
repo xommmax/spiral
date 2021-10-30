@@ -73,6 +73,15 @@ class HubRemoteRepository {
         ),
       );
 
+  Future<HubResponse> fetchHub(String hubId) =>
+      _firestore.doc('${FirebaseCollections.userHubs}/$hubId').get().then(
+            (doc) async => HubResponse.fromJson(
+              doc.data(),
+              id: doc.id,
+              isFollow: await isCurrentUserFollows(doc.id),
+            ),
+          );
+
   Stream<Future<HubResponse>> fetchHubStream(String hubId) =>
       _firestore.doc('${FirebaseCollections.userHubs}/$hubId').snapshots().map(
             (snap) async => HubResponse.fromJson(
