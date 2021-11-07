@@ -5,6 +5,7 @@ import 'package:dairo/domain/model/hub/hub.dart';
 import 'package:dairo/domain/model/publication/publication.dart';
 import 'package:dairo/domain/repository/explore/explore_repository.dart';
 import 'package:dairo/presentation/view/explore/explore_viewdata.dart';
+import 'package:dairo/presentation/view/main/main_nav_service.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
@@ -16,8 +17,14 @@ class ExploreViewModel extends BaseViewModel {
   final ExploreRepository _exploreRepository = locator<ExploreRepository>();
   final ExploreViewData viewData = ExploreViewData();
   final CarouselController popularHubsCarouselController = CarouselController();
+  final MainNavService mainNavService = locator<MainNavService>();
 
   ExploreViewModel() {
+    mainNavService.exploreClickCallback = fetchExploreData;
+    fetchExploreData();
+  }
+
+  void fetchExploreData() {
     getPopularHubs();
     getPopularPublications();
     getRecentPublications();
@@ -30,7 +37,9 @@ class ExploreViewModel extends BaseViewModel {
       viewData.popularHubsMediaPreviews
           .add(await _exploreRepository.getExploreHubMediaPreviews(hub.id));
     }
-    popularHubsCarouselController.jumpToPage(1);
+    try {
+      popularHubsCarouselController.jumpToPage(1);
+    } catch (e) {}
     notifyListeners();
   }
 

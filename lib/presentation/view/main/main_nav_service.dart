@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 class MainNavService {
   VoidCallback? _goToExploreCallback;
   VoidCallback? _homeDoubleClickCallback;
+  VoidCallback? _exploreClickCallback;
 
   void goToExplore() {
     _goToExploreCallback?.call();
@@ -18,4 +19,10 @@ class MainNavService {
       _homeDoubleClickCallback = value;
 
   set goToExploreCallback(VoidCallback value) => _goToExploreCallback = value;
+
+  set exploreClickCallback(VoidCallback value) => _exploreClickCallback = value;
+
+  void onExploreClick() {
+    _exploreClickCallback?.call();
+  }
 }

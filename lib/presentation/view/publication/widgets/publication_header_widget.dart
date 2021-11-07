@@ -78,7 +78,8 @@ class PublicationHeaderWidget extends ViewModelWidget<PublicationViewModel> {
                       onReport: viewModel.isCurrentUserPublication()
                           ? null
                           : () => viewModel.onReport(),
-                      onDelete: viewModel.isCurrentUserPublication()
+                      onDelete: viewModel.isCurrentUserPublication() ||
+                              viewModel.isCurrentUserAdmin()
                           ? () => viewModel.onDelete()
                           : null,
                     )),

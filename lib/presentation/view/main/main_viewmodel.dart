@@ -63,6 +63,8 @@ class MainViewModel extends IndexTrackingViewModel {
     }
     if (currentIndex == value && value == 0) {
       mainNavService.onHomeDoubleClick();
+    } else if (value == 1) {
+      mainNavService.onExploreClick();
     }
     super.setIndex(value);
   }

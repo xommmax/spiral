@@ -185,6 +185,10 @@ class PublicationViewModel extends MultipleStreamViewModel {
 
   bool isCurrentUserPublication() => _userRepository.isCurrentUser(user!.id);
 
+  bool isCurrentUserAdmin() =>
+      _userRepository.isCurrentUser("sERzuCv3zogdEcwPbEUhqhh33HC2") ||
+      _userRepository.isCurrentUser("eDqjbQjGOoYt2VFWHrOMNqyjkxg2");
+
   void calcPreviewTextHeight() {
     SchedulerBinding.instance?.addPostFrameCallback((_) {
       var tempHeight = previewTextStickyKey.currentContext?.size?.height;
