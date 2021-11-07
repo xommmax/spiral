@@ -187,7 +187,7 @@ class PublicationViewModel extends MultipleStreamViewModel {
 
   bool isCurrentUserAdmin() =>
       _userRepository.isCurrentUser("sERzuCv3zogdEcwPbEUhqhh33HC2") ||
-      _userRepository.isCurrentUser("eDqjbQjGOoYt2VFWHrOMNqyjkxg2");
+      _userRepository.isCurrentUser("UvWoMSYF3OeoFEBb0bC0zpPLdaK2");
 
   void calcPreviewTextHeight() {
     SchedulerBinding.instance?.addPostFrameCallback((_) {
