@@ -124,6 +124,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/onboarding/
+    - assets/images/get_started/
     - .prod.env
     - .dev.env
   uses-material-design: true

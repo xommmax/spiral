@@ -22,19 +22,27 @@ class MainViewModel extends IndexTrackingViewModel {
   int previousTab = -1;
 
   MainViewModel() {
-    _checkIfShouldInviteFriends();
+    _checkLaunchCount();
     mainNavService.goToExploreCallback = () => setIndex(1);
     FirebaseMessaging.instance.requestPermission();
   }
 
-  void _checkIfShouldInviteFriends() async {
+  void _checkLaunchCount() async {
     final preferences = await SharedPreferences.getInstance();
     final launchCount =
         preferences.getInt(SharedPreferencesKeys.launchCount) ?? 1;
-    if (launchCount == 2) {
+    if (launchCount == 1) {
+      _showGetStartedPrompt();
+    } else if (launchCount == 3 || launchCount == 8) {
       _showInviteFriendsPrompt();
     }
     preferences.setInt(SharedPreferencesKeys.launchCount, launchCount + 1);
+  }
+
+  void _showGetStartedPrompt() {
+    AppDialog.getStarted(
+      confirm: onFabPressed,
+    );
   }
 
   void _showInviteFriendsPrompt() {
@@ -43,7 +51,7 @@ class MainViewModel extends IndexTrackingViewModel {
     );
   }
 
-  onFabPressed() async {
+  void onFabPressed() async {
     _navigationService.navigateTo(Routes.newPubHubSelectionView);
   }
 

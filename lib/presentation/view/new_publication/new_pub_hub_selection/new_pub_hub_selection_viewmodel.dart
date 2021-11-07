@@ -17,6 +17,14 @@ class NewPubHubSelectionViewModel extends StreamViewModel<List<Hub>> {
   @override
   Stream<List<Hub>> get stream => _hubRepository.getCurrentUserHubs();
 
+  @override
+  void onData(List<Hub>? data) {
+    super.onData(data);
+    if (data != null && data.length == 0) {
+      onCreateHub();
+    }
+  }
+
   void onCreateHub() {
     _navigationService.navigateTo(Routes.newHubView)?.then((result) {
       if (result != null && result is Hub) {

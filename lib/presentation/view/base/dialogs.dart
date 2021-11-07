@@ -158,6 +158,156 @@ class AppDialog {
       ),
     );
   }
+
+  static getStarted({
+    Function()? confirm,
+  }) =>
+      showGeneralDialog(
+        barrierDismissible: false,
+        context: StackedService.navigatorKey!.currentState!.context,
+        pageBuilder: (context, a1, a2) => _getStartedContent(confirm: confirm),
+      );
+
+  static _getStartedContent({
+    Function()? confirm,
+  }) {
+    return Scaffold(
+      backgroundColor: AppColors.transparent,
+      body: SafeArea(
+        child: Container(
+          margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+          color: AppColors.darkAccentColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Row(children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(24, 12, 24, 0),
+                    child: Column(children: [
+                      Image.asset(
+                        "assets/images/get_started/get_started_1.jpg",
+                      ),
+                      SizedBox(height: 16),
+                      Text('Music',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500)),
+                    ]),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(24, 12, 24, 0),
+                    child: Column(children: [
+                      Image.asset(
+                        "assets/images/get_started/get_started_2.jpg",
+                      ),
+                      SizedBox(height: 16),
+                      Text('Selfies',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500)),
+                    ]),
+                  ),
+                ),
+              ]),
+              Row(children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(24, 12, 24, 0),
+                    child: Column(children: [
+                      Image.asset(
+                        "assets/images/get_started/get_started_3.jpg",
+                      ),
+                      SizedBox(height: 16),
+                      Text('Sweets',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500)),
+                    ]),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(24, 12, 24, 0),
+                    child: Column(children: [
+                      Image.asset(
+                        "assets/images/get_started/get_started_4.jpg",
+                      ),
+                      SizedBox(height: 16),
+                      Text('Meditation',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500)),
+                    ]),
+                  ),
+                ),
+              ]),
+              SizedBox(height: 32),
+              Text(
+                "Showcase your life, hobbies and interests or whatever you like as themed columns",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  height: 1.4,
+                  fontSize: 19,
+                  fontFamily: 'Sofia-Pro',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                            confirm?.call();
+                          },
+                          child: Text(
+                            'Create first hub',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: AppColors.lightGray,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                AppColors.accentColor.withOpacity(0.8)),
+                            minimumSize: MaterialStateProperty.all(
+                                Size(double.infinity, 52)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(36.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Get.back(),
+                          child: Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Text(
+                              "Explore the app",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.gray,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class OptionsBottomSheet extends StatelessWidget {
