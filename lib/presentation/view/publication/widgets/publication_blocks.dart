@@ -3,6 +3,7 @@ import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/res/strings.dart';
 import 'package:dairo/presentation/view/publication/media/widget_publication_media.dart';
 import 'package:dairo/presentation/view/publication/publication_viewmodel.dart';
+import 'package:dairo/presentation/view/publication/widgets/publication_grid_media_block.dart';
 import 'package:dairo/presentation/view/tools/file_helper.dart';
 import 'package:dairo/presentation/view/tools/media_type_extractor.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';

@@ -60,24 +60,6 @@ class WidgetNewPublicationMediaPreview
   }
 }
 
-class WidgetNewPublicationMediaGridPreview
-    extends ViewModelWidget<NewPublicationViewModel> {
-  @override
-  Widget build(BuildContext context, NewPublicationViewModel viewModel) =>
-      GridView.count(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-        children: viewModel.viewData.mediaFiles.map((file) {
-          int position = viewModel.viewData.mediaFiles.indexOf(file);
-          return WidgetNewPublicationMediaPreview(position);
-        }).toList(),
-        crossAxisCount: 3,
-      );
-}
-
 class WidgetNewPublicationMediaCarouselPreview
     extends ViewModelWidget<NewPublicationViewModel> {
   @override

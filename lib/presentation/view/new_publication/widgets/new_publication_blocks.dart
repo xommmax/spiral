@@ -1,5 +1,6 @@
 import 'package:dairo/presentation/res/colors.dart';
 import 'package:dairo/presentation/view/new_publication/new_publication_viewmodel.dart';
+import 'package:dairo/presentation/view/new_publication/widgets/new_publication_grid_media_block.dart';
 import 'package:dairo/presentation/view/new_publication/widgets/new_publication_media_preview.dart';
 import 'package:dairo/presentation/view/tools/media_helper.dart';
 import 'package:dairo/presentation/view/tools/publication_helper.dart';

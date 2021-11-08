@@ -42,26 +42,6 @@ class WidgetPublicationMediaPreview extends StatelessWidget {
   }
 }
 
-class WidgetPublicationMediaGridPreview extends StatelessWidget {
-  final List<RemoteMediaFile> mediaFiles;
-
-  WidgetPublicationMediaGridPreview(this.mediaFiles);
-
-  @override
-  Widget build(BuildContext context) => GridView.count(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-        children: mediaFiles.map((file) {
-          int position = mediaFiles.indexOf(file);
-          return WidgetPublicationMediaPreview(mediaFiles, position);
-        }).toList(),
-        crossAxisCount: 3,
-      );
-}
-
 class WidgetPublicationMediaCarouselPreview extends StatefulWidget {
   final List<RemoteMediaFile> mediaFiles;
 
